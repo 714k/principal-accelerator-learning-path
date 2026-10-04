@@ -10,7 +10,8 @@
       "id": "objective",
       "title": "Objetivo",
       "paragraphs": [
-        "Relacionar propósito, estructura, calidad y evidencia para iniciar P0. Este capítulo es una síntesis editorial inicial de PA-S001; no acredita dominio ni sustituye la fase teórica completa de la conversación."
+        "Relacionar propósito, estructura, calidad y evidencia para iniciar P0. Este capítulo es una síntesis editorial inicial de PA-S001; no acredita dominio ni sustituye la fase teórica completa de la conversación.",
+        "Fase: F0 — Accelerator Platform. Áreas simultáneas: Frontend Platform Architecture, AI Product Engineering y Staff engineering, con introducción al alcance de Principal."
       ]
     },
     {
@@ -24,70 +25,88 @@
       "id": "concepts",
       "title": "Concepts",
       "paragraphs": [
-        "Ingeniería de software abarca desarrollo, operación y mantenimiento mediante un enfoque sistemático y disciplinado [R1]. Arquitectura permite razonar sobre estructura, comportamiento y cualidades del sistema [R2]. En este programa, una responsabilidad define de qué se hace cargo un elemento; un contrato expresa lo que sus consumidores pueden esperar. Son instrumentos para analizar cambios, no promesas de superioridad."
+        "Ingeniería de software abarca desarrollo, operación y mantenimiento mediante un enfoque sistemático y disciplinado [R1]. Arquitectura permite razonar sobre estructura, comportamiento y cualidades del sistema [R2]. En este programa, una responsabilidad define de qué se hace cargo un elemento; un contrato expresa lo que sus consumidores pueden esperar. Son instrumentos para analizar cambios, no promesas de superioridad.",
+        "ISO/IEC/IEEE 42010 distingue la arquitectura de una descripción de arquitectura: la segunda expresa la primera, pero no la reemplaza [R11]. Por tanto, un mapa de rutas o un ADR es evidencia de una descripción, no prueba de que la estructura descrita tenga la cualidad esperada."
       ]
     },
     {
       "id": "main-topic",
       "title": "Main Topic — Un sistema justificable",
       "paragraphs": [
-        "Síntesis: P0 conecta teoría, implementación y evidencia, pero esos objetos no significan lo mismo. Un capítulo puede existir antes de ejecutar su laboratorio. Una prueba puede pasar sin demostrar comprensión del alumno. La presentación debe conservar esas diferencias. site/ contiene el material público canónico; apps/book lo representa. artifacts/ y data/ no se copian automáticamente a la salida. Esta separación es una regla del Accelerator y debe comprobarse inspeccionando el resultado. Su coste es mantener un contrato editorial explícito; su beneficio esperado es limitar interpretaciones incompatibles. La hipótesis no demuestra por sí sola que el sistema sea más mantenible."
+        "Síntesis: P0 conecta teoría, implementación y evidencia, pero esos objetos no significan lo mismo. Un capítulo puede existir antes de ejecutar su laboratorio. Una prueba puede pasar sin demostrar comprensión del alumno. La presentación debe conservar esas diferencias. site/ contiene el material público canónico; apps/book lo representa. artifacts/ y data/ no se copian automáticamente a la salida. Esta separación es una regla del Accelerator y debe comprobarse inspeccionando el resultado. Su coste es mantener un contrato editorial explícito; su beneficio esperado es limitar interpretaciones incompatibles. La hipótesis no demuestra por sí sola que el sistema sea más mantenible.",
+        "Un cambio recorre elementos nombrados: un editor modifica site/en/sessions/PA-S001/page.json; ContentValidator comprueba forma e identificadores citados; SiteGenerator escribe dist/; SessionPage presenta los datos; SessionTOC enlaza a anclas de sección. Un tipo TypeScript expresa la forma de datos esperada, pero no puede probar por sí mismo que exista una traducción ni que ambos textos expresen el mismo significado. El build comprueba carga de archivos y correspondencia estructural; la revisión editorial bilingüe sigue siendo verificación humana."
       ]
     },
     {
       "id": "engineering-architecture",
       "title": "Subtopic 1 — Ingeniería y arquitectura",
+      "level": 3,
       "paragraphs": [
-        "La arquitectura enfoca decisiones de estructura y comportamiento global [R2]. Ejemplo hipotético: corregir un enlace es un cambio localizado; definir la identidad de una sesión entre idiomas condiciona múltiples consumidores. La relevancia no depende del número de líneas. Como heurística, analizar alcance, coste de cambio y cualidades afectadas. Elegir primero una tecnología puede ocultar alternativas; documentar toda decisión menor también tiene coste. El trabajo del alumno consiste en explicar por qué una decisión del Book merece tratamiento arquitectónico."
+        "La arquitectura enfoca decisiones de estructura y comportamiento global [R2]. Ejemplo hipotético: corregir un enlace es un cambio localizado; definir la identidad de una sesión entre idiomas condiciona múltiples consumidores. La relevancia no depende del número de líneas. Como heurística, analizar alcance, coste de cambio y cualidades afectadas. Elegir primero una tecnología puede ocultar alternativas; documentar toda decisión menor también tiene coste. El trabajo del alumno consiste en explicar por qué una decisión del Book merece tratamiento arquitectónico.",
+        "Mecanismo: una decisión estructural se vuelve consecuente cuando restringe o habilita cambios posteriores. Mover el renderer de un generador estático a un servidor, por ejemplo, modifica entrega, responsabilidad operativa y modos de fallo; la carpeta de un componente no. El contraste evita tratar cambios ordinarios de implementación como arquitectura y mantiene explícitas las restricciones que sí son arquitectónicas."
       ]
     },
     {
       "id": "system-platform",
       "title": "Subtopic 2 — Aplicación, sistema y plataforma",
+      "level": 3,
       "paragraphs": [
-        "Definiciones operativas: una aplicación ofrece una finalidad a usuarios; un sistema incluye los elementos y relaciones del alcance elegido; el ecosistema incluye participantes y proveedores. Una plataforma ofrece capacidades según las necesidades de consumidores [R5]. El Book es una aplicación. Al analizar publicación, el sistema incluye contenido, construcción y entrega. Un paquete compartido no demuestra una experiencia de plataforma: también deben considerarse contratos y soporte. Delimitar el alcance evita tanto ignorar dependencias como modelar innecesariamente todo el entorno."
+        "Definiciones operativas: una aplicación ofrece una finalidad a usuarios; un sistema incluye los elementos y relaciones del alcance elegido; el ecosistema incluye participantes y proveedores. Una plataforma ofrece capacidades según las necesidades de consumidores [R5]. El Book es una aplicación. Al analizar publicación, el sistema incluye contenido, construcción y entrega. Un paquete compartido no demuestra una experiencia de plataforma: también deben considerarse contratos y soporte. Delimitar el alcance evita tanto ignorar dependencias como modelar innecesariamente todo el entorno.",
+        "Por ejemplo, PortfolioPage y SessionPage pueden consumir una futura capacidad compartida de tema, pero ese único caso de uso no convierte lo actual en plataforma frontend. Política de compatibilidad, versionado, documentación, soporte y más de un consumidor significativo son preocupaciones separadas. Extraer demasiado pronto crea una API genérica cuyos supuestos quizá no encajen en ningún producto."
       ]
     },
     {
       "id": "quality",
       "title": "Subtopic 3 — Calidad y restricciones",
+      "level": 3,
       "paragraphs": [
-        "Los escenarios de calidad especifican fuente, estímulo, entorno, artefacto, respuesta y medida [R4]. Ejemplo propuesto: un autor añade una referencia ausente durante la construcción; el validador rechaza la publicación e identifica la referencia. Es un criterio, no una medición. La salida estática es una restricción del programa; una herramienta concreta es una opción. Publicación inmediata y revisión humana bilingüe pueden competir: resolver la tensión requiere una decisión de proceso, no solamente código."
+        "Los escenarios de calidad especifican fuente, estímulo, entorno, artefacto, respuesta y medida [R4]. Ejemplo propuesto: un autor añade una referencia ausente durante la construcción; el validador rechaza la publicación e identifica la referencia. Es un criterio, no una medición. La salida estática es una restricción del programa; una herramienta concreta es una opción. Publicación inmediata y revisión humana bilingüe pueden competir: resolver la tensión requiere una decisión de proceso, no solamente código.",
+        "El camino normal no es solo renderizar: valida las dos entradas de idioma y después reemplaza la salida generada. El camino de fallo se detiene antes de que una referencia malformada llegue a la salida. Esto ofrece una propiedad de integridad acotada, pero no mide latencia, prueba veracidad de fuentes ni certifica accesibilidad."
       ]
     },
     {
       "id": "boundaries",
       "title": "Subtopic 4 — Boundaries",
+      "level": 3,
       "paragraphs": [
-        "Parnas propone ocultar decisiones de diseño que otros módulos no necesitan conocer [R3]. Aplicación hipotética: el lector interpreta almacenamiento y la vista consume contenido interpretado. Cambiar formato debería preservar el contrato si la hipótesis de separación se cumple. Una carpeta no impide accesos ni constituye control de seguridad. Se debe comprobar quién lee cada entrada y qué termina publicado. En P0, la lista explícita de archivos públicos evita copiar indiscriminadamente datos; no sustituye la revisión de lo que se escribió dentro de esos archivos."
+        "Parnas propone ocultar decisiones de diseño que otros módulos no necesitan conocer [R3]. Aplicación hipotética: el lector interpreta almacenamiento y la vista consume contenido interpretado. Cambiar formato debería preservar el contrato si la hipótesis de separación se cumple. Una carpeta no impide accesos ni constituye control de seguridad. Se debe comprobar quién lee cada entrada y qué termina publicado. En P0, la lista explícita de archivos públicos evita copiar indiscriminadamente datos; no sustituye la revisión de lo que se escribió dentro de esos archivos.",
+        "P0 tiene límites de producto (portafolio frente a Learning Site), de módulo (validación de contenido frente a renderizado), de ejecución (preview local frente a host estático), de publicación (entradas explícitas a dist/) y de confianza (texto público revisado frente a artefactos privados). Tratar los cinco como carpetas ocultaría mecanismos de fallo distintos."
       ]
     },
     {
       "id": "coupling-cohesion",
       "title": "Subtopic 5 — Coupling y cohesion",
+      "level": 3,
       "paragraphs": [
-        "Coupling describe interdependencia; cohesion describe relación interna entre tareas o elementos [R10]. Ejemplo: duplicar referencias ES/EN obliga a coordinar cambios aunque no existan imports entre archivos. Compartir identificadores puede reducir divergencia, pero un error común puede afectar ambos idiomas. Menos duplicación no equivale automáticamente a menos acoplamiento. Agrupar todo en shared tampoco prueba cohesión. El alumno debe estudiar un cambio concreto, observar su propagación y explicar por qué las responsabilidades permanecen juntas o separadas."
+        "Coupling describe interdependencia; cohesion describe relación interna entre tareas o elementos [R10]. Ejemplo: duplicar referencias ES/EN obliga a coordinar cambios aunque no existan imports entre archivos. Compartir identificadores puede reducir divergencia, pero un error común puede afectar ambos idiomas. Menos duplicación no equivale automáticamente a menos acoplamiento. Agrupar todo en shared tampoco prueba cohesión. El alumno debe estudiar un cambio concreto, observar su propagación y explicar por qué las responsabilidades permanecen juntas o separadas.",
+        "ContentValidator es cohesivo cuando posee parsing e invariantes de entrada, mientras SessionPage lo es cuando posee presentación. Permitir que SessionPage lea directamente el sistema de archivos acoplaría el layout HTML al almacenamiento. Un contrato tipado reduce desajustes accidentales de forma, pero no elimina acoplamiento a nombres de rutas, convenciones de referencias u orden de build. Esas dependencias requieren pruebas y documentación deliberadas."
       ]
     },
     {
       "id": "fpa",
       "title": "Subtopic 6 — Frontend Platform Architecture",
+      "level": 3,
       "paragraphs": [
-        "Definición curricular: FPA diseña capacidades frontend compartidas, contratos y experiencia de adopción. Se aplica a frontend el principio de plataforma orientada al consumidor [R5]. Un tema reutilizable necesita una interfaz comprensible y compatibilidad; la regla para aprobar una sesión pertenece al producto, no necesariamente a un componente genérico. Generalizar con un solo caso puede incorporar supuestos prematuros. PA-S001 inicia un consumidor real y conserva las futuras extracciones como decisiones abiertas. No se afirma ahorro de tiempo sin medir adopción y mantenimiento."
+        "Definición curricular: FPA diseña capacidades frontend compartidas, contratos y experiencia de adopción. Se aplica a frontend el principio de plataforma orientada al consumidor [R5]. Un tema reutilizable necesita una interfaz comprensible y compatibilidad; la regla para aprobar una sesión pertenece al producto, no necesariamente a un componente genérico. Generalizar con un solo caso puede incorporar supuestos prematuros. PA-S001 inicia un consumidor real y conserva las futuras extracciones como decisiones abiertas. No se afirma ahorro de tiempo sin medir adopción y mantenimiento.",
+        "En esta porción, el shell semántico, CSS responsivo, enlaces de idioma y TOC desplegable son mecanismos compartidos de entrega, no un design system declarado. El portafolio tiene navegación propia y no representa el capítulo. Una extracción futura debe justificarse por consumidores compatibles y contrato de adopción, no por preferencia de una carpeta shared."
       ]
     },
     {
       "id": "aipe",
       "title": "Subtopic 7 — AI Product Engineering",
+      "level": 3,
       "paragraphs": [
-        "Definición curricular: AIPE integra, evalúa y opera IA como capacidad de producto. Usar Codex para escribir código no añade IA al producto. NIST documenta confabulación: contenido falso presentado con confianza [R6]. Ejemplo hipotético: un asistente recomienda sesiones, pero una recomendación no constituye evidencia de dominio. Deben distinguirse resultados útiles, abstención y fallos. Evaluar exige casos y criterios relacionados con el propósito. Añadir revisión tiene coste y no elimina todos los errores. Este scaffold no llama modelos ni introduce credenciales."
+        "Definición curricular: AIPE integra, evalúa y opera IA como capacidad de producto. Usar Codex para escribir código no añade IA al producto. NIST documenta confabulación: contenido falso presentado con confianza [R6]. Ejemplo hipotético: un asistente recomienda sesiones, pero una recomendación no constituye evidencia de dominio. Deben distinguirse resultados útiles, abstención y fallos. Evaluar exige casos y criterios relacionados con el propósito. Añadir revisión tiene coste y no elimina todos los errores. Este scaffold no llama modelos ni introduce credenciales.",
+        "Una respuesta JSON válida de un modelo solo es un resultado de formato. La corrección factual exige una afirmación fundamentada separada, revisión de fuente y conjunto de evaluación. Un producto seguro puede abstenerse cuando no hay evidencia y mostrar incertidumbre en vez de fabricar un nivel o métrica. P0 modela ese límite al no presentar función IA y conservar mastery como null hasta que exista evidencia."
       ]
     },
     {
       "id": "scope",
       "title": "Subtopic 8 — Staff y Principal",
+      "level": 3,
       "paragraphs": [
-        "GitLab ofrece un ejemplo particular: Staff opera generalmente en dominios de un equipo y Principal en un ámbito organizacional [R8] [R9]. No es equivalencia universal de títulos. Síntesis para el programa: pasar de coordinar decisiones de un sistema a dirección técnica entre sistemas. Ejemplo Staff: acordar el contrato de evidencia del Book. Ejemplo Principal: proponer compatibilidad, propietarios y excepciones para varios consumidores. Imponer uniformidad puede transferir costes a otros equipos; permitir divergencia total también puede tener costes. Un ADR del laboratorio no demuestra liderazgo organizacional real."
+        "GitLab ofrece un ejemplo particular: Staff opera generalmente en dominios de un equipo y Principal en un ámbito organizacional [R8] [R9]. No es equivalencia universal de títulos. Síntesis para el programa: pasar de coordinar decisiones de un sistema a dirección técnica entre sistemas. Ejemplo Staff: acordar el contrato de evidencia del Book. Ejemplo Principal: proponer compatibilidad, propietarios y excepciones para varios consumidores. Imponer uniformidad puede transferir costes a otros equipos; permitir divergencia total también puede tener costes. Un ADR del laboratorio no demuestra liderazgo organizacional real.",
+        "Las etiquetas L1 Explain, L2 Implement, L3 Operate, L4 Decide y L5 Lead son vocabulario propio de evidencia del programa, no estándar industrial ni escala porcentual. Ayudan a distinguir recibir una explicación de operar un sistema o liderar una decisión. En este capítulo no se asigna nivel alguno; la prueba debe adjuntarse a trabajo real."
       ]
     },
     {
@@ -95,6 +114,22 @@
       "title": "Theory → Practice Map",
       "paragraphs": [
         "Contenido canónico → site/. Presentación → apps/book/src/render.ts. Contrato editorial → content.ts. Publicación → build.ts. Evidencia del alumno → data/mastery/PA-S001.json, inicialmente vacía. Las pruebas del scaffold verifican casos delimitados de estructura, referencias y salida HTML; no establecen accesibilidad integral ni dominio."
+      ],
+      "table": {
+        "headers": ["Concepto", "Elemento P0", "Verificación propuesta"],
+        "rows": [
+          ["Límite de publicación", "Lista explícita de rutas en build.ts", "Inspeccionar rutas generadas; confirmar ausencia de data/ y artifacts/."],
+          ["Correspondencia bilingüe", "assertPair(es, en)", "Eliminar o cambiar una entrada requerida en copia temporal; el build debe fallar."],
+          ["Mejora progresiva", "Enlaces nativos, details TOC, botón de tema", "Sigue pendiente revisión manual con teclado y sin JavaScript."],
+          ["Integridad de evidencia", "data/mastery/PA-S001.json", "Confirmar not assessed/null hasta que exista evidencia del learner."]
+        ]
+      }
+    },
+    {
+      "id": "time",
+      "title": "Time Breakdown",
+      "paragraphs": [
+        "Las siguientes son estimaciones de estudio, no tiempos observados del learner: 45–60 minutos para Concepts y Main Topic; 60–90 minutos para los Subtopics desarrollados; 30–45 minutos para ejemplos y revisión de fuentes; y 30–60 minutos para ejercicios y preparación de evidencia. Una duración real posterior no debe sobrescribir estas estimaciones sin una fuente."
       ]
     },
     {
@@ -108,8 +143,15 @@
       "id": "production",
       "title": "Production-Ready Example — propuesto",
       "paragraphs": [
-        "Contrato ilustrativo: ante referencia inexistente, detener construcción antes de reemplazar salida; ante falta de evidencia, mostrar sin evaluar; ante incompatibilidad estructural ES/EN, solicitar revisión. Probar estos comportamientos no certifica producción. La revisión semántica, validación manual de accesibilidad y configuración del alojamiento siguen pendientes."
-      ]
+        "Contexto: un editor publica PA-S001 en español e inglés. SessionCatalog nombra las rutas esperadas, ContentValidator carga y valida cada página, SiteGenerator escribe dist/, SessionPage produce HTML semántico y SessionTOC enlaza a las secciones nombradas. El camino normal valida todas las fuentes antes de reemplazar la salida anterior.",
+        "Camino de fallo: un párrafo contiene el marcador ausente R999, pero references no lo declara. ContentValidator rechaza la página antes de limpiar la salida. La falta de archivo ES o EN también detiene la carga. Una interfaz TypeScript Page no detecta ninguna condición por sí sola porque describe un valor en memoria después de leer el filesystem; el generador debe realizar comprobaciones de archivo y de par.",
+        "Contrato ilustrativo: ante referencia inexistente, detener construcción antes de reemplazar salida; ante falta de evidencia, mostrar sin evaluar; ante incompatibilidad estructural ES/EN, solicitar revisión. Probar estos comportamientos no certifica producción. La revisión semántica, validación manual de accesibilidad, configuración del alojamiento, disponibilidad de fuentes y preservación de salida siguen pendientes."
+      ],
+      "diagram": {
+        "text": "editor -> SessionCatalog -> ContentValidator -> SiteGenerator -> dist/\n                              | fallo: traducción ausente / marcador R999\n                              +-> error identificable; no se reemplaza la salida previa",
+        "description": "Topología hipotética de publicación. Representa componentes actuales y política de fallo propuesta; no ha sido operada en producción."
+      },
+      "code": "for (const pair of pairs) assertPair(pair.es, pair.en);\n// Las entradas se validan antes de eliminar dist/.\n// No juzga significado de traducción ni veracidad de referencias."
     },
     {
       "id": "exercises",
@@ -130,6 +172,13 @@
       "title": "Knowledge Mastery Checklist",
       "paragraphs": [
         "Pendiente: explicar arquitectura frente a implementación; formular una calidad verificable; analizar acoplamiento; defender una frontera; distinguir uso de IA para programar de AIPE. L1 Explain, L2 Implement, L3 Operate, L4 Decide y L5 Lead son niveles del Accelerator. Ninguno se asigna por recibir código generado."
+      ],
+      "checklist": [
+        "L1 Explain: distinguir arquitectura de su descripción y de implementación.",
+        "L2 Implement: realizar un cambio acotado de contenido o rendering y preservar el contrato de validación.",
+        "L3 Operate: interpretar un build real o fallo de validación controlado.",
+        "L4 Decide: defender un límite P0 y sus trade-offs de calidad en el ADR.",
+        "L5 Lead: formular consecuencias compatibles para múltiples consumidores sin inventar evidencia organizacional."
       ]
     },
     {
@@ -137,6 +186,19 @@
       "title": "End-of-Session Success Criteria",
       "paragraphs": [
         "Primera app ejecutable; páginas ES/EN revisadas; pruebas reales documentadas; fallo controlado diagnosticado por el alumno; ADR razonado; evidencia y limitaciones registradas. Un scaffold funcional no completa la sesión ni reemplaza el capítulo teórico íntegro."
+      ],
+      "checklist": [
+        "El portafolio y Learning Site son rutas públicas separadas sin información profesional fabricada.",
+        "Páginas ES y EN, índices, breadcrumbs, enlaces de idioma, control de tema y generación estática han sido comprobados mecánicamente.",
+        "El learner ha aportado evidencia real antes de registrar dominio o estado Completed.",
+        "Revisiones manuales de accesibilidad y responsive se registran como realizadas, no se infieren de un build."
+      ]
+    },
+    {
+      "id": "reliability",
+      "title": "Resumen de confiabilidad",
+      "paragraphs": [
+        "Conclusión: P0 tiene un scaffold estático verificado mecánicamente, no un sistema de aprendizaje o producción completado. Los hechos con fuente se identifican por [R1]–[R11]; el mapeo de P0 y el escenario de producción son síntesis didáctica y ejemplo hipotético. Los supuestos incluyen la baseline estática elegida y entradas públicas revisadas. Limitaciones: no hay revisión de accesibilidad en navegador, host desplegado, evidencia del learner ni evaluación semántica de traducción. La confianza es alta solo para comprobaciones ejecutadas del repositorio y limitada para revisiones no realizadas."
       ]
     },
     {
@@ -197,6 +259,11 @@
       "id": "R10",
       "title": "ISO/IEC/IEEE 24765:2017 — Vocabulary, coupling/cohesion",
       "url": "https://swehb.nasa.gov/download/attachments/16450104/c071952_ISO_IEC_IEEE_24765_2017.pdf?api=v2"
+    },
+    {
+      "id": "R11",
+      "title": "ISO/IEC/IEEE 42010:2022 — Registro público de descripción de arquitectura",
+      "url": "https://www.iso.org/standard/74393.html"
     }
   ]
 }
