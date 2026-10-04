@@ -1,0 +1,53 @@
+{
+  "id": "P0",
+  "lang": "en",
+  "kind": "project",
+  "title": "P0 — Portfolio + Principal Accelerator Learning Site",
+  "description": "A deliberately separated public portfolio and bilingual learning site.",
+  "status": "editorial-draft",
+  "sections": [
+    {
+      "id": "theory",
+      "title": "Theory",
+      "paragraphs": [
+        "P0 applies the PA-S001 distinction between a product boundary and a publication boundary. The portfolio is a concise professional surface; the Learning Site is the canonical location for complete theory, exercises, references, and public-safe learning evidence. This is an instructional synthesis, not an accepted architecture decision.",
+        "The separation makes different audiences and publication risks visible. A portfolio card must not imply an unverified outcome, while a chapter can identify its editorial status and sources. A directory name alone is not a security boundary; the build allowlist, content review, and hosting configuration must also be examined."
+      ],
+      "diagram": {
+        "text": "apps/portfolio  ──renders──>  /portfolio/\nsite/es|en/*   ──validates/renders──>  /es|en/...\ndata/ + artifacts/  ──not copied automatically──>  dist/",
+        "description": "Proposed publication flow. Arrows describe the current static build, not a security guarantee."
+      }
+    },
+    {
+      "id": "implementation",
+      "title": "Implementation",
+      "paragraphs": [
+        "apps/portfolio/src/portfolio.ts renders a separate draft portfolio route with its own navigation. apps/book loads only listed bilingual page.json files, validates their matching structure and reference identifiers, and writes explicit static routes. The Book remains a compatible legacy renderer while P0 adds the required portfolio surface.",
+        "The theme control is progressive enhancement: the published HTML is readable without JavaScript, then a small TypeScript-generated script chooses the system preference when no choice is stored and persists a Light/Dark selection when localStorage is available. Storage failure is caught so reading and switching remain possible."
+      ],
+      "code": "const routes = ['sessions/PA-S001', 'projects/p0'];\n// Each route must have ES and EN page.json files.\n// loadPage() validates input before dist/ is replaced."
+    },
+    {
+      "id": "evidence",
+      "title": "Evidence",
+      "paragraphs": [
+        "Automated evidence is limited to the repository checks recorded in artifacts/PA-S001/verification.md. Those checks exercise content validation, static generation, subpath links, progressive theme markup, and selected safety properties. They do not establish learner mastery, semantic translation equivalence, accessibility conformance, or production hosting readiness.",
+        "data/mastery/PA-S001.json remains not assessed with null levels. Learner-owned evidence, rationale, and controlled-failure diagnosis are intentionally pending."
+      ]
+    },
+    {
+      "id": "pending",
+      "title": "Pending learner work",
+      "paragraphs": [
+        "The final framework decision, ownership model, quality scenarios, ADR acceptance, professional portfolio details, and evidence interpretation remain learner-owned. No employer material, contact endpoint, metric, testimonial, or deployment target has been supplied for publication."
+      ],
+      "checklist": [
+        "Review the proposed P0 boundary and record an ADR decision.",
+        "Add confirmed portfolio content only after publication review.",
+        "Perform and record manual keyboard, focus, mobile, and color-scheme checks.",
+        "Run the controlled validation failure in a temporary copy and record the learner diagnosis."
+      ]
+    }
+  ],
+  "references": []
+}

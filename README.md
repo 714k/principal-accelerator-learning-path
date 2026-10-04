@@ -1,8 +1,19 @@
-# Principal Engineer Accelerator — P0
+# Principal Accelerator Learning Path — P0
 
-PA-S001: Engineering foundations + baseline evidence.
-Node.js 24.12+ (24.x), npm, Git; Bash for the bootstrap.
-On Windows use Git Bash or WSL, not PowerShell for the .sh command.
+PA-S001 provides an executable, static first slice of two separate public products:
+
+- `apps/portfolio/`: a concise professional portfolio draft. Confirmed identity, work,
+  contact details, metrics, testimonials, and employer information remain learner-owned.
+- `site/`: bilingual PA-S001 learning content rendered by the inherited `apps/book/`
+  static generator.
+
+The renderer is an experimental Node 24 + TypeScript baseline, not a final framework
+decision. `site/` is the public content source; `data/`, `artifacts/`, and
+`project-sources/` are never copied automatically into `dist/`.
+
+## Install and run
+
+Requires Node 24.12+ (24.x) and npm.
 
 ```bash
 npm ci
@@ -10,17 +21,50 @@ npm run check
 npm run dev
 ```
 
-If no package-lock.json exists yet, use npm install once, inspect the lockfile,
-then commit it together with the sources. npm ci is for subsequent installs.
-Local URL: http://localhost:4173/ . Changes require rebuilding/restarting npm run dev;
-this first slice intentionally has no hot reload.
+`npm run dev` builds first and starts a loopback-only local preview at:
 
-Canonical public sources: site/{es,en}/{sessions/PA-S001,projects/engineering-book}/page.json.
-App: apps/book/. Generated deployment artifact: dist/ (never edit by hand).
-The build refuses to replace an unmanaged nonempty dist/ directory.
-The local server binds only to loopback and is not a production server.
+- http://localhost:4173/
+- http://localhost:4173/es/sessions/
+- http://localhost:4173/es/sessions/PA-S001/
+- http://localhost:4173/en/sessions/PA-S001/
+- http://localhost:4173/es/projects/p0/
+- http://localhost:4173/portfolio/
 
-No learner mastery, benchmark, accessibility certification, or deployment is claimed.
-Read docs/PA-S001-BUILD.md and complete the learner-owned ADR and failure experiment.
-Initial ES/EN chapters are labeled editorial syntheses; full theory publication remains
-an explicit Codex task. Light/dark follow system settings; manual selection belongs to PA-S006.
+There is intentionally no hot reload; rebuild or restart after changes. `npm run preview`
+serves an existing `dist/` directory. It is not a production server.
+
+## Commands
+
+```bash
+npm run lint
+npm run typecheck
+npm test
+npm run build
+npm run check
+BASE_PATH=/accelerator/ npm run build
+BASE_PATH=/accelerator/ npm run preview
+bash generators/verify-p0-scaffold.sh
+```
+
+`npm run check` runs lint, TypeScript checking, Node tests, and the static build. The
+tests cover bounded content validation, bilingual structural correspondence, HTML
+escaping, subpath links, and rendered navigation/theme markup. They do not certify
+accessibility, semantic translation equivalence, production readiness, or learner mastery.
+
+## Static publication
+
+Publish only the generated `dist/` directory after review. Under a subdirectory host,
+build and preview with `BASE_PATH=/accelerator/` and serve `dist/` below that exact
+prefix. The build refuses to replace a nonempty unmanaged `dist/` and refuses a
+symlinked `dist/`. It neither deploys, pushes, nor creates a commit.
+
+The legacy `/es/projects/engineering-book/` and `/en/projects/engineering-book/` routes
+remain generated for compatibility; P0’s current public project route is `/projects/p0/`.
+
+## Pending learner work
+
+The learner owns the ADR decision, quality scenarios, controlled-failure diagnosis,
+professional portfolio details, evidence interpretation, and mastery responses.
+`data/mastery/PA-S001.json` remains `not-assessed` with null levels. See
+`artifacts/PA-S001/ADR-001-template.md`, `artifacts/PA-S001/verification.md`, and
+`docs/PA-S001-progress-proposal.md` before recording progress.

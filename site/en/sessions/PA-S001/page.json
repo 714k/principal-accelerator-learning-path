@@ -10,7 +10,8 @@
       "id": "objective",
       "title": "Objective",
       "paragraphs": [
-        "Connect purpose, structure, quality, and evidence to initialize P0. This chapter is an initial editorial synthesis of PA-S001; it neither establishes mastery nor replaces the full Theory Phase in the conversation."
+        "Connect purpose, structure, quality, and evidence to initialize P0. This chapter is an initial editorial synthesis of PA-S001; it neither establishes mastery nor replaces the full Theory Phase in the conversation.",
+        "Phase: F0 — Accelerator Platform. Simultaneous areas: Frontend Platform Architecture, AI Product Engineering, and Staff engineering, with an introduction to Principal-level scope."
       ]
     },
     {
@@ -24,70 +25,88 @@
       "id": "concepts",
       "title": "Concepts",
       "paragraphs": [
-        "Software engineering covers development, operation, and maintenance through a systematic, disciplined approach [R1]. Architecture supports reasoning about system structure, behavior, and qualities [R2]. In this program, a responsibility defines what an element owns; a contract states what consumers can expect. These are tools for analyzing changes, not promises of superiority."
+        "Software engineering covers development, operation, and maintenance through a systematic, disciplined approach [R1]. Architecture supports reasoning about system structure, behavior, and qualities [R2]. In this program, a responsibility defines what an element owns; a contract states what consumers can expect. These are tools for analyzing changes, not promises of superiority.",
+        "ISO/IEC/IEEE 42010 distinguishes an architecture from an architecture description: the latter expresses the former rather than replacing it [R11]. A route map or an ADR is therefore evidence of a description, not proof that the described structure has the intended quality."
       ]
     },
     {
       "id": "main-topic",
       "title": "Main Topic — A justifiable system",
       "paragraphs": [
-        "Synthesis: P0 connects theory, implementation, and evidence, but these objects do not mean the same thing. A chapter may exist before its lab runs. A test may pass without demonstrating learner understanding. Presentation must preserve these differences. site/ holds canonical public material; apps/book renders it. artifacts/ and data/ are not automatically copied to the output. This is an Accelerator rule that must be checked against generated output. Its cost is maintaining an explicit editorial contract; its expected benefit is limiting incompatible interpretations. The hypothesis alone does not demonstrate greater maintainability."
+        "Synthesis: P0 connects theory, implementation, and evidence, but these objects do not mean the same thing. A chapter may exist before its lab runs. A test may pass without demonstrating learner understanding. Presentation must preserve these differences. site/ holds canonical public material; apps/book renders it. artifacts/ and data/ are not automatically copied to the output. This is an Accelerator rule that must be checked against generated output. Its cost is maintaining an explicit editorial contract; its expected benefit is limiting incompatible interpretations. The hypothesis alone does not demonstrate greater maintainability.",
+        "A change travels through named elements: an editor changes site/en/sessions/PA-S001/page.json; ContentValidator checks shape and cited identifiers; SiteGenerator writes dist/; SessionPage presents the data; SessionTOC links to section anchors. A TypeScript type can state the expected data shape, but it cannot by itself prove that a translation file exists or that the two texts express the same meaning. The build checks file loading and structural correspondence; bilingual editorial review remains a human verification."
       ]
     },
     {
       "id": "engineering-architecture",
       "title": "Subtopic 1 — Engineering and architecture",
+      "level": 3,
       "paragraphs": [
-        "Architecture focuses on decisions about overall structure and behavior [R2]. Hypothetical example: fixing a link is localized; defining session identity across languages constrains multiple consumers. Significance does not depend on line count. As a heuristic, examine scope, change cost, and affected qualities. Choosing technology first may hide alternatives; documenting every minor decision also has a cost. The learner must explain why a Book decision deserves architectural treatment."
+        "Architecture focuses on decisions about overall structure and behavior [R2]. Hypothetical example: fixing a link is localized; defining session identity across languages constrains multiple consumers. Significance does not depend on line count. As a heuristic, examine scope, change cost, and affected qualities. Choosing technology first may hide alternatives; documenting every minor decision also has a cost. The learner must explain why a Book decision deserves architectural treatment.",
+        "Mechanism: a structural decision becomes consequential when it narrows or enables later changes. Moving the renderer from a static generator to a server, for example, changes delivery, operational responsibility, and failure modes. A component’s folder location does not. The contrast prevents treating ordinary implementation edits as architecture while still making actual architectural constraints explicit."
       ]
     },
     {
       "id": "system-platform",
       "title": "Subtopic 2 — Application, system, and platform",
+      "level": 3,
       "paragraphs": [
-        "Operational definitions: an application serves a user purpose; a system includes elements and relationships within a chosen scope; an ecosystem includes participants and providers. A platform provides capabilities around consumer needs [R5]. The Book is an application. For publication analysis, its system includes content, building, and delivery. A shared package does not establish a platform experience: contracts and support also matter. Scope avoids both ignoring dependencies and unnecessarily modeling the entire environment."
+        "Operational definitions: an application serves a user purpose; a system includes elements and relationships within a chosen scope; an ecosystem includes participants and providers. A platform provides capabilities around consumer needs [R5]. The Book is an application. For publication analysis, its system includes content, building, and delivery. A shared package does not establish a platform experience: contracts and support also matter. Scope avoids both ignoring dependencies and unnecessarily modeling the entire environment.",
+        "For example, PortfolioPage and SessionPage may consume a future shared theme capability, but that does not make the current two-page use case a frontend platform. Compatibility policy, versioning, documentation, support, and at least more than one meaningful consumer are separate concerns. Extracting too soon creates a generic API whose assumptions may not fit either product."
       ]
     },
     {
       "id": "quality",
       "title": "Subtopic 3 — Quality and constraints",
+      "level": 3,
       "paragraphs": [
-        "Quality scenarios specify source, stimulus, environment, artifact, response, and measure [R4]. Proposed example: an author adds a missing reference during a build; the validator rejects publication and identifies that reference. This is a criterion, not a measurement. Static output is a program constraint; a particular tool is an option. Immediate publication and bilingual human review may conflict: resolving that tension requires a process decision, not just code."
+        "Quality scenarios specify source, stimulus, environment, artifact, response, and measure [R4]. Proposed example: an author adds a missing reference during a build; the validator rejects publication and identifies that reference. This is a criterion, not a measurement. Static output is a program constraint; a particular tool is an option. Immediate publication and bilingual human review may conflict: resolving that tension requires a process decision, not just code.",
+        "The normal path is therefore not only rendering: it is validate both language inputs, then replace generated output. The failure path stops before a malformed reference enters the output. This gives a bounded integrity property, but it does not measure latency, prove source truthfulness, or certify accessibility."
       ]
     },
     {
       "id": "boundaries",
       "title": "Subtopic 4 — Boundaries",
+      "level": 3,
       "paragraphs": [
-        "Parnas proposes hiding design decisions other modules need not know [R3]. Hypothetical application: a reader interprets storage while a view consumes interpreted content. Changing format should preserve the contract if the separation hypothesis holds. A folder does not prevent access or provide a security control. Check who reads each input and what is published. In P0, an explicit public-file list avoids indiscriminate data copying; it does not replace review of content written inside those files."
+        "Parnas proposes hiding design decisions other modules need not know [R3]. Hypothetical application: a reader interprets storage while a view consumes interpreted content. Changing format should preserve the contract if the separation hypothesis holds. A folder does not prevent access or provide a security control. Check who reads each input and what is published. In P0, an explicit public-file list avoids indiscriminate data copying; it does not replace review of content written inside those files.",
+        "P0 has product boundaries (portfolio versus learning site), module boundaries (content validation versus rendering), execution boundaries (local preview versus static host), publication boundaries (explicit inputs to dist/), and trust boundaries (reviewed public text versus private artifacts). Treating all five as folders would hide different failure mechanisms."
       ]
     },
     {
       "id": "coupling-cohesion",
       "title": "Subtopic 5 — Coupling and cohesion",
+      "level": 3,
       "paragraphs": [
-        "Coupling describes interdependence; cohesion describes internal relationships among tasks or elements [R10]. Example: duplicating ES/EN references requires coordinated changes even without imports between files. Shared identifiers may reduce divergence, but a shared error may affect both languages. Less duplication does not automatically mean less coupling. Grouping everything in shared does not prove cohesion either. The learner should study a concrete change, observe propagation, and explain why responsibilities belong together or apart."
+        "Coupling describes interdependence; cohesion describes internal relationships among tasks or elements [R10]. Example: duplicating ES/EN references requires coordinated changes even without imports between files. Shared identifiers may reduce divergence, but a shared error may affect both languages. Less duplication does not automatically mean less coupling. Grouping everything in shared does not prove cohesion either. The learner should study a concrete change, observe propagation, and explain why responsibilities belong together or apart.",
+        "ContentValidator is cohesive when it owns parsing and input invariants, while SessionPage is cohesive when it owns presentation. Giving SessionPage direct filesystem reads would couple HTML layout to storage. A typed contract reduces accidental shape mismatch, but it does not remove coupling to route names, reference conventions, or the build order. Those dependencies require deliberate tests and documentation."
       ]
     },
     {
       "id": "fpa",
       "title": "Subtopic 6 — Frontend Platform Architecture",
+      "level": 3,
       "paragraphs": [
-        "Curricular definition: FPA designs shared frontend capabilities, contracts, and adoption experience. It applies the consumer-oriented platform principle to frontend work [R5]. A reusable theme needs an understandable interface and compatibility; a rule approving a session belongs to the product, not necessarily a generic component. Generalizing from one case can embed premature assumptions. PA-S001 starts a real consumer and leaves future extractions as open decisions. No time savings are claimed without measuring adoption and maintenance."
+        "Curricular definition: FPA designs shared frontend capabilities, contracts, and adoption experience. It applies the consumer-oriented platform principle to frontend work [R5]. A reusable theme needs an understandable interface and compatibility; a rule approving a session belongs to the product, not necessarily a generic component. Generalizing from one case can embed premature assumptions. PA-S001 starts a real consumer and leaves future extractions as open decisions. No time savings are claimed without measuring adoption and maintenance.",
+        "In this slice, the semantic shell, responsive CSS, language links, and disclosure TOC are shared delivery mechanisms, not a declared design system. The portfolio has its own navigation and deliberately does not render the chapter. Future extraction must be justified by compatible consumers and an adoption contract, not by a preference for a shared folder."
       ]
     },
     {
       "id": "aipe",
       "title": "Subtopic 7 — AI Product Engineering",
+      "level": 3,
       "paragraphs": [
-        "Curricular definition: AIPE integrates, evaluates, and operates AI as a product capability. Using Codex to write code does not add AI to the product. NIST documents confabulation: false content presented confidently [R6]. Hypothetical example: an assistant recommends sessions, but a recommendation is not mastery evidence. Useful results, abstention, and failures must be distinguished. Evaluation needs cases and criteria tied to purpose. Review costs effort and does not eliminate all errors. This scaffold neither calls models nor introduces credentials."
+        "Curricular definition: AIPE integrates, evaluates, and operates AI as a product capability. Using Codex to write code does not add AI to the product. NIST documents confabulation: false content presented confidently [R6]. Hypothetical example: an assistant recommends sessions, but a recommendation is not mastery evidence. Useful results, abstention, and failures must be distinguished. Evaluation needs cases and criteria tied to purpose. Review costs effort and does not eliminate all errors. This scaffold neither calls models nor introduces credentials.",
+        "A valid JSON response from a model is only a format result. Factual correctness requires a separate grounded claim, source review, and evaluation set. A safe product can abstain when evidence is unavailable and can expose uncertainty rather than manufacture a level or metric. P0 models that boundary by rendering no AI feature and keeping mastery null until evidence exists."
       ]
     },
     {
       "id": "scope",
       "title": "Subtopic 8 — Staff and Principal",
+      "level": 3,
       "paragraphs": [
-        "GitLab provides one specific example: Staff generally operates within team domains and Principal at organizational scope [R8] [R9]. This is not a universal title mapping. Program synthesis: progress from coordinating system decisions to technical direction across systems. Staff example: agree on the Book evidence contract. Principal example: propose compatibility, ownership, and exceptions for multiple consumers. Enforced uniformity may transfer costs to other teams; total divergence also has costs. A lab ADR does not demonstrate real organizational leadership."
+        "GitLab provides one specific example: Staff generally operates within team domains and Principal at organizational scope [R8] [R9]. This is not a universal title mapping. Program synthesis: progress from coordinating system decisions to technical direction across systems. Staff example: agree on the Book evidence contract. Principal example: propose compatibility, ownership, and exceptions for multiple consumers. Enforced uniformity may transfer costs to other teams; total divergence also has costs. A lab ADR does not demonstrate real organizational leadership.",
+        "The programme labels L1 Explain, L2 Implement, L3 Operate, L4 Decide, and L5 Lead are its own evidence vocabulary, not an industry standard or percentage scale. They help separate receiving an explanation from operating a system or leading a decision. No level is assigned in this chapter; proof must be attached to actual work."
       ]
     },
     {
@@ -95,6 +114,22 @@
       "title": "Theory → Practice Map",
       "paragraphs": [
         "Canonical content → site/. Presentation → apps/book/src/render.ts. Editorial contract → content.ts. Publication → build.ts. Learner evidence → data/mastery/PA-S001.json, initially empty. Scaffold tests check bounded cases of structure, references, and HTML output; they establish neither comprehensive accessibility nor mastery."
+      ],
+      "table": {
+        "headers": ["Concept", "P0 element", "Proposed verification"],
+        "rows": [
+          ["Publication boundary", "Explicit route allowlist in build.ts", "Inspect generated paths; verify data/ and artifacts/ are absent."],
+          ["Bilingual correspondence", "assertPair(es, en)", "Remove or change a required input in a temporary copy; build must fail."],
+          ["Progressive enhancement", "Native links, details TOC, theme button", "Manual keyboard and no-JavaScript review remains pending."],
+          ["Evidence integrity", "data/mastery/PA-S001.json", "Verify it remains not assessed/null until learner evidence exists."]
+        ]
+      }
+    },
+    {
+      "id": "time",
+      "title": "Time Breakdown",
+      "paragraphs": [
+        "The following are study estimates, not observed learner times: 45–60 minutes for concepts and main topic; 60–90 minutes for the developed subtopics; 30–45 minutes for the examples and source review; and 30–60 minutes for exercises and evidence preparation. Actual duration, if later recorded, must not overwrite these estimates without a source."
       ]
     },
     {
@@ -108,8 +143,15 @@
       "id": "production",
       "title": "Production-Ready Example — proposed",
       "paragraphs": [
-        "Illustrative contract: on a missing reference, stop building before replacing output; with no evidence, show not assessed; on structural ES/EN mismatch, require review. Testing these behaviors does not certify production readiness. Semantic review, manual accessibility validation, and hosting configuration remain pending."
-      ]
+        "Context: an editor publishes PA-S001 in Spanish and English. SessionCatalog names the expected paths, ContentValidator loads and validates each page, SiteGenerator writes dist/, SessionPage produces semantic HTML, and SessionTOC links to the named sections. The normal path validates every source before replacing the old generated output.",
+        "Failure path: a paragraph contains the missing marker R999 but references do not declare it. ContentValidator rejects the page before output cleanup. A missing ES or EN file also stops loading. A TypeScript Page interface alone cannot detect either condition because types describe an in-memory value after the filesystem read; the generator must perform the file and pair checks.",
+        "Illustrative contract: on a missing reference, stop building before replacing output; with no evidence, show not assessed; on structural ES/EN mismatch, require review. Testing these behaviors does not certify production readiness. Semantic review, manual accessibility validation, hosting configuration, source availability, and output preservation behavior remain pending."
+      ],
+      "diagram": {
+        "text": "editor -> SessionCatalog -> ContentValidator -> SiteGenerator -> dist/\n                              | failure: missing translation / marker R999\n                              +-> identifiable build error; existing output not replaced",
+        "description": "Hypothetical publication topology. It represents current components and proposed failure policy; it has not been operated in production."
+      },
+      "code": "for (const pair of pairs) assertPair(pair.es, pair.en);\n// Inputs are validated before dist/ is removed.\n// This does not judge translation meaning or reference truthfulness."
     },
     {
       "id": "exercises",
@@ -130,6 +172,13 @@
       "title": "Knowledge Mastery Checklist",
       "paragraphs": [
         "Pending: explain architecture versus implementation; formulate verifiable quality; analyze coupling; defend a boundary; distinguish AI-assisted coding from AIPE. L1 Explain, L2 Implement, L3 Operate, L4 Decide, and L5 Lead are Accelerator levels. None is awarded for receiving generated code."
+      ],
+      "checklist": [
+        "L1 Explain: distinguish architecture from its description and from implementation.",
+        "L2 Implement: make a bounded content or rendering change and preserve the validation contract.",
+        "L3 Operate: interpret an actual build or controlled validation failure.",
+        "L4 Decide: defend a P0 boundary and its quality trade-offs in the ADR.",
+        "L5 Lead: frame compatible consequences for multiple consumers without inventing organizational evidence."
       ]
     },
     {
@@ -137,6 +186,19 @@
       "title": "End-of-Session Success Criteria",
       "paragraphs": [
         "First runnable app; reviewed ES/EN pages; documented actual tests; controlled failure diagnosed by the learner; reasoned ADR; recorded evidence and limitations. A functioning scaffold neither completes the session nor replaces the full theory chapter."
+      ],
+      "checklist": [
+        "The portfolio and Learning Site are separate public routes with no fabricated professional information.",
+        "ES and EN pages, indexes, breadcrumbs, language links, theme control, and static generation have been mechanically checked.",
+        "The learner has supplied actual evidence before any mastery or Completed status is recorded.",
+        "Manual accessibility and responsive reviews are recorded as performed rather than inferred from a build."
+      ]
+    },
+    {
+      "id": "reliability",
+      "title": "Reliability summary",
+      "paragraphs": [
+        "Conclusion: P0 has a mechanically verified static scaffold, not a completed learning or production system. Sourced facts are identified by [R1]–[R11]; the P0 mapping and production scenario are instructional synthesis and hypothetical example. Assumptions include the selected static baseline and reviewed public inputs. Limitations include no browser-based accessibility review, no deployed host, no learner evidence, and no semantic translation assessment. Confidence is high only for the executed repository checks and limited for the unperformed reviews."
       ]
     },
     {
@@ -197,6 +259,11 @@
       "id": "R10",
       "title": "ISO/IEC/IEEE 24765:2017 — Vocabulary, coupling/cohesion",
       "url": "https://swehb.nasa.gov/download/attachments/16450104/c071952_ISO_IEC_IEEE_24765_2017.pdf?api=v2"
+    },
+    {
+      "id": "R11",
+      "title": "ISO/IEC/IEEE 42010:2022 — Architecture description public record",
+      "url": "https://www.iso.org/standard/74393.html"
     }
   ]
 }

@@ -1,0 +1,53 @@
+{
+  "id": "P0",
+  "lang": "es",
+  "kind": "project",
+  "title": "P0 — Portafolio + Principal Accelerator Learning Site",
+  "description": "Un portafolio público y un sitio bilingüe de aprendizaje, separados deliberadamente.",
+  "status": "editorial-draft",
+  "sections": [
+    {
+      "id": "theory",
+      "title": "Teoría",
+      "paragraphs": [
+        "P0 aplica la distinción de PA-S001 entre límite de producto y límite de publicación. El portafolio es una superficie profesional concisa; el Learning Site es la ubicación canónica de teoría completa, ejercicios, referencias y evidencia de aprendizaje segura para publicar. Es una síntesis didáctica, no una decisión de arquitectura aceptada.",
+        "La separación hace visibles audiencias y riesgos de publicación distintos. Una tarjeta de portafolio no debe insinuar un resultado no verificado, mientras que un capítulo puede identificar su estado editorial y sus fuentes. El nombre de una carpeta no es un límite de seguridad; también deben revisarse la lista permitida del build, el contenido y la configuración de hosting."
+      ],
+      "diagram": {
+        "text": "apps/portfolio  ──renderiza──>  /portfolio/\nsite/es|en/*   ──valida/renderiza──>  /es|en/...\ndata/ + artifacts/  ──no se copian automáticamente──>  dist/",
+        "description": "Flujo de publicación propuesto. Las flechas describen el build estático actual, no una garantía de seguridad."
+      }
+    },
+    {
+      "id": "implementation",
+      "title": "Implementación",
+      "paragraphs": [
+        "apps/portfolio/src/portfolio.ts representa una ruta de portafolio separada con navegación propia. apps/book carga solo los archivos page.json bilingües enumerados, valida su estructura y sus identificadores de referencias coincidentes, y escribe rutas estáticas explícitas. El Book se conserva como renderer heredado compatible mientras P0 incorpora la superficie requerida de portafolio.",
+        "El control de tema es mejora progresiva: el HTML publicado es legible sin JavaScript; después, un script generado desde TypeScript elige la preferencia del sistema si no hay selección guardada y persiste una elección Light/Dark cuando localStorage está disponible. Un fallo de almacenamiento se captura para que lectura y cambio sigan funcionando."
+      ],
+      "code": "const routes = ['sessions/PA-S001', 'projects/p0'];\n// Cada ruta debe tener page.json en ES y EN.\n// loadPage() valida entradas antes de reemplazar dist/."
+    },
+    {
+      "id": "evidence",
+      "title": "Evidencia",
+      "paragraphs": [
+        "La evidencia automatizada se limita a las comprobaciones del repositorio registradas en artifacts/PA-S001/verification.md. Esas comprobaciones ejercitan validación de contenido, generación estática, enlaces bajo prefijo, markup del tema progresivo y propiedades de seguridad seleccionadas. No establecen dominio del learner, equivalencia semántica de traducciones, conformidad de accesibilidad ni preparación de hosting de producción.",
+        "data/mastery/PA-S001.json permanece sin evaluar y con niveles null. La evidencia, el razonamiento y el diagnóstico de fallo controlado que pertenecen al learner se dejan pendientes intencionalmente."
+      ]
+    },
+    {
+      "id": "pending",
+      "title": "Trabajo pendiente del learner",
+      "paragraphs": [
+        "La decisión final de framework, modelo de ownership, escenarios de calidad, aceptación de ADR, detalles profesionales del portafolio e interpretación de evidencia siguen siendo del learner. No se proporcionó material de empleador, endpoint de contacto, métrica, testimonio ni destino de despliegue para publicar."
+      ],
+      "checklist": [
+        "Revisar el límite propuesto de P0 y registrar una decisión ADR.",
+        "Añadir contenido confirmado al portafolio solo tras revisión de publicación.",
+        "Realizar y registrar comprobaciones manuales de teclado, foco, móvil y esquema de color.",
+        "Ejecutar el fallo de validación controlado en una copia temporal y registrar el diagnóstico del learner."
+      ]
+    }
+  ],
+  "references": []
+}

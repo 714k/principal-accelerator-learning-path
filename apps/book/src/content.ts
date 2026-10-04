@@ -1,5 +1,10 @@
 import { readFileSync } from 'node:fs';
-export interface Section { id: string; title: string; paragraphs: string[] }
+export interface Table { headers: string[]; rows: string[][] }
+export interface Diagram { text: string; description: string }
+export interface Section {
+  id: string; title: string; paragraphs: string[]; level?: 2 | 3;
+  checklist?: string[]; table?: Table; diagram?: Diagram; code?: string;
+}
 export interface Reference { id: string; title: string; url: string }
 export interface Page {
   id: string; lang: 'es' | 'en'; kind: 'session' | 'project'; title: string;
@@ -7,6 +12,13 @@ export interface Page {
 }
 function record(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+function validTable(value: unknown): boolean {
+  if (!record(value)) return false;
+  const headers = value.headers;
+  const rows = value.rows;
+  if (!Array.isArray(headers) || !Array.isArray(rows) || !headers.every(x => typeof x === 'string')) return false;
+  return rows.every(row => Array.isArray(row) && row.length === headers.length && row.every(x => typeof x === 'string'));
 }
 export function validatePage(value: unknown): asserts value is Page {
   if (!record(value) || !['es','en'].includes(String(value.lang)) ||
@@ -19,7 +31,14 @@ export function validatePage(value: unknown): asserts value is Page {
   for (const s of value.sections) {
     if (!record(s) || typeof s.id !== 'string' || !/^[a-z0-9-]+$/.test(s.id) || ids.has(s.id) ||
         typeof s.title !== 'string' || !Array.isArray(s.paragraphs) || !s.paragraphs.length ||
-        !s.paragraphs.every(p => typeof p === 'string' && p.length > 0)) throw new Error('Invalid section');
+        !s.paragraphs.every(p => typeof p === 'string' && p.length > 0) ||
+        (s.level !== undefined && s.level !== 2 && s.level !== 3) ||
+        (s.checklist !== undefined && (!Array.isArray(s.checklist) || !s.checklist.every(x => typeof x === 'string' && x.length > 0))) ||
+        (s.code !== undefined && typeof s.code !== 'string') ||
+        (s.diagram !== undefined && (!record(s.diagram) || typeof s.diagram.text !== 'string' || typeof s.diagram.description !== 'string')) ||
+        (s.table !== undefined && !validTable(s.table))) {
+      throw new Error('Invalid section');
+    }
     ids.add(s.id);
   }
   const refs = new Set<string>();
