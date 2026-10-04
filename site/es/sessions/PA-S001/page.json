@@ -1,0 +1,202 @@
+{
+  "id": "PA-S001",
+  "lang": "es",
+  "kind": "session",
+  "title": "Fundamentos de ingeniería",
+  "description": "Teoría → implementación → evidencia.",
+  "status": "editorial-draft",
+  "sections": [
+    {
+      "id": "objective",
+      "title": "Objetivo",
+      "paragraphs": [
+        "Relacionar propósito, estructura, calidad y evidencia para iniciar P0. Este capítulo es una síntesis editorial inicial de PA-S001; no acredita dominio ni sustituye la fase teórica completa de la conversación."
+      ]
+    },
+    {
+      "id": "preview",
+      "title": "Learning Preview",
+      "paragraphs": [
+        "El alcance incluye ingeniería y arquitectura; aplicación, sistema, plataforma y ecosistema; calidad y restricciones; fronteras; acoplamiento y cohesión; FPA; AIPE; alcance Staff/Principal. Se aplicarán al Book, sin añadir una funcionalidad de IA artificialmente."
+      ]
+    },
+    {
+      "id": "concepts",
+      "title": "Concepts",
+      "paragraphs": [
+        "Ingeniería de software abarca desarrollo, operación y mantenimiento mediante un enfoque sistemático y disciplinado [R1]. Arquitectura permite razonar sobre estructura, comportamiento y cualidades del sistema [R2]. En este programa, una responsabilidad define de qué se hace cargo un elemento; un contrato expresa lo que sus consumidores pueden esperar. Son instrumentos para analizar cambios, no promesas de superioridad."
+      ]
+    },
+    {
+      "id": "main-topic",
+      "title": "Main Topic — Un sistema justificable",
+      "paragraphs": [
+        "Síntesis: P0 conecta teoría, implementación y evidencia, pero esos objetos no significan lo mismo. Un capítulo puede existir antes de ejecutar su laboratorio. Una prueba puede pasar sin demostrar comprensión del alumno. La presentación debe conservar esas diferencias. site/ contiene el material público canónico; apps/book lo representa. artifacts/ y data/ no se copian automáticamente a la salida. Esta separación es una regla del Accelerator y debe comprobarse inspeccionando el resultado. Su coste es mantener un contrato editorial explícito; su beneficio esperado es limitar interpretaciones incompatibles. La hipótesis no demuestra por sí sola que el sistema sea más mantenible."
+      ]
+    },
+    {
+      "id": "engineering-architecture",
+      "title": "Subtopic 1 — Ingeniería y arquitectura",
+      "paragraphs": [
+        "La arquitectura enfoca decisiones de estructura y comportamiento global [R2]. Ejemplo hipotético: corregir un enlace es un cambio localizado; definir la identidad de una sesión entre idiomas condiciona múltiples consumidores. La relevancia no depende del número de líneas. Como heurística, analizar alcance, coste de cambio y cualidades afectadas. Elegir primero una tecnología puede ocultar alternativas; documentar toda decisión menor también tiene coste. El trabajo del alumno consiste en explicar por qué una decisión del Book merece tratamiento arquitectónico."
+      ]
+    },
+    {
+      "id": "system-platform",
+      "title": "Subtopic 2 — Aplicación, sistema y plataforma",
+      "paragraphs": [
+        "Definiciones operativas: una aplicación ofrece una finalidad a usuarios; un sistema incluye los elementos y relaciones del alcance elegido; el ecosistema incluye participantes y proveedores. Una plataforma ofrece capacidades según las necesidades de consumidores [R5]. El Book es una aplicación. Al analizar publicación, el sistema incluye contenido, construcción y entrega. Un paquete compartido no demuestra una experiencia de plataforma: también deben considerarse contratos y soporte. Delimitar el alcance evita tanto ignorar dependencias como modelar innecesariamente todo el entorno."
+      ]
+    },
+    {
+      "id": "quality",
+      "title": "Subtopic 3 — Calidad y restricciones",
+      "paragraphs": [
+        "Los escenarios de calidad especifican fuente, estímulo, entorno, artefacto, respuesta y medida [R4]. Ejemplo propuesto: un autor añade una referencia ausente durante la construcción; el validador rechaza la publicación e identifica la referencia. Es un criterio, no una medición. La salida estática es una restricción del programa; una herramienta concreta es una opción. Publicación inmediata y revisión humana bilingüe pueden competir: resolver la tensión requiere una decisión de proceso, no solamente código."
+      ]
+    },
+    {
+      "id": "boundaries",
+      "title": "Subtopic 4 — Boundaries",
+      "paragraphs": [
+        "Parnas propone ocultar decisiones de diseño que otros módulos no necesitan conocer [R3]. Aplicación hipotética: el lector interpreta almacenamiento y la vista consume contenido interpretado. Cambiar formato debería preservar el contrato si la hipótesis de separación se cumple. Una carpeta no impide accesos ni constituye control de seguridad. Se debe comprobar quién lee cada entrada y qué termina publicado. En P0, la lista explícita de archivos públicos evita copiar indiscriminadamente datos; no sustituye la revisión de lo que se escribió dentro de esos archivos."
+      ]
+    },
+    {
+      "id": "coupling-cohesion",
+      "title": "Subtopic 5 — Coupling y cohesion",
+      "paragraphs": [
+        "Coupling describe interdependencia; cohesion describe relación interna entre tareas o elementos [R10]. Ejemplo: duplicar referencias ES/EN obliga a coordinar cambios aunque no existan imports entre archivos. Compartir identificadores puede reducir divergencia, pero un error común puede afectar ambos idiomas. Menos duplicación no equivale automáticamente a menos acoplamiento. Agrupar todo en shared tampoco prueba cohesión. El alumno debe estudiar un cambio concreto, observar su propagación y explicar por qué las responsabilidades permanecen juntas o separadas."
+      ]
+    },
+    {
+      "id": "fpa",
+      "title": "Subtopic 6 — Frontend Platform Architecture",
+      "paragraphs": [
+        "Definición curricular: FPA diseña capacidades frontend compartidas, contratos y experiencia de adopción. Se aplica a frontend el principio de plataforma orientada al consumidor [R5]. Un tema reutilizable necesita una interfaz comprensible y compatibilidad; la regla para aprobar una sesión pertenece al producto, no necesariamente a un componente genérico. Generalizar con un solo caso puede incorporar supuestos prematuros. PA-S001 inicia un consumidor real y conserva las futuras extracciones como decisiones abiertas. No se afirma ahorro de tiempo sin medir adopción y mantenimiento."
+      ]
+    },
+    {
+      "id": "aipe",
+      "title": "Subtopic 7 — AI Product Engineering",
+      "paragraphs": [
+        "Definición curricular: AIPE integra, evalúa y opera IA como capacidad de producto. Usar Codex para escribir código no añade IA al producto. NIST documenta confabulación: contenido falso presentado con confianza [R6]. Ejemplo hipotético: un asistente recomienda sesiones, pero una recomendación no constituye evidencia de dominio. Deben distinguirse resultados útiles, abstención y fallos. Evaluar exige casos y criterios relacionados con el propósito. Añadir revisión tiene coste y no elimina todos los errores. Este scaffold no llama modelos ni introduce credenciales."
+      ]
+    },
+    {
+      "id": "scope",
+      "title": "Subtopic 8 — Staff y Principal",
+      "paragraphs": [
+        "GitLab ofrece un ejemplo particular: Staff opera generalmente en dominios de un equipo y Principal en un ámbito organizacional [R8] [R9]. No es equivalencia universal de títulos. Síntesis para el programa: pasar de coordinar decisiones de un sistema a dirección técnica entre sistemas. Ejemplo Staff: acordar el contrato de evidencia del Book. Ejemplo Principal: proponer compatibilidad, propietarios y excepciones para varios consumidores. Imponer uniformidad puede transferir costes a otros equipos; permitir divergencia total también puede tener costes. Un ADR del laboratorio no demuestra liderazgo organizacional real."
+      ]
+    },
+    {
+      "id": "practice",
+      "title": "Theory → Practice Map",
+      "paragraphs": [
+        "Contenido canónico → site/. Presentación → apps/book/src/render.ts. Contrato editorial → content.ts. Publicación → build.ts. Evidencia del alumno → data/mastery/PA-S001.json, inicialmente vacía. Las pruebas del scaffold verifican casos delimitados de estructura, referencias y salida HTML; no establecen accesibilidad integral ni dominio."
+      ]
+    },
+    {
+      "id": "real-world",
+      "title": "Real-World Example",
+      "paragraphs": [
+        "GOV.UK revisa utilidad y singularidad de propuestas, y usabilidad, consistencia y versatilidad antes de publicar componentes [R7]. Análisis: código existente y pertinencia para múltiples servicios son cuestiones distintas. El ejemplo respalda estudiar gobernanza además de implementación; no permite atribuir cifras de ahorro o reducción de defectos."
+      ]
+    },
+    {
+      "id": "production",
+      "title": "Production-Ready Example — propuesto",
+      "paragraphs": [
+        "Contrato ilustrativo: ante referencia inexistente, detener construcción antes de reemplazar salida; ante falta de evidencia, mostrar sin evaluar; ante incompatibilidad estructural ES/EN, solicitar revisión. Probar estos comportamientos no certifica producción. La revisión semántica, validación manual de accesibilidad y configuración del alojamiento siguen pendientes."
+      ]
+    },
+    {
+      "id": "exercises",
+      "title": "Exercises — trabajo del alumno",
+      "paragraphs": [
+        "1. Justificar una frontera de P0. 2. Redactar un escenario de calidad. 3. Cambiar temporalmente una referencia por R999 (marcador inexistente), observar el fallo y restaurarla. 4. Analizar una alternativa de almacenamiento. 5. Identificar una capacidad que debe permanecer local. 6. Explicar qué demuestra y qué no demuestra npm run check. Registrar respuestas y resultados reales sin que Codex los resuelva."
+      ]
+    },
+    {
+      "id": "resources",
+      "title": "Resources",
+      "paragraphs": [
+        "Lectura prioritaria: Parnas, The Criteria [R3]; SEI, escenarios de seis partes [R4]; CNCF, definición y atributos de plataforma [R5]; NIST, sección 2.2 [R6]. Contrastar el vocabulario y diferenciar lo que dicen las fuentes de las propuestas del ejemplo."
+      ]
+    },
+    {
+      "id": "mastery",
+      "title": "Knowledge Mastery Checklist",
+      "paragraphs": [
+        "Pendiente: explicar arquitectura frente a implementación; formular una calidad verificable; analizar acoplamiento; defender una frontera; distinguir uso de IA para programar de AIPE. L1 Explain, L2 Implement, L3 Operate, L4 Decide y L5 Lead son niveles del Accelerator. Ninguno se asigna por recibir código generado."
+      ]
+    },
+    {
+      "id": "success",
+      "title": "End-of-Session Success Criteria",
+      "paragraphs": [
+        "Primera app ejecutable; páginas ES/EN revisadas; pruebas reales documentadas; fallo controlado diagnosticado por el alumno; ADR razonado; evidencia y limitaciones registradas. Un scaffold funcional no completa la sesión ni reemplaza el capítulo teórico íntegro."
+      ]
+    },
+    {
+      "id": "bridge",
+      "title": "Bridge to PA-S002",
+      "paragraphs": [
+        "PA-S002 desarrolla el mismo repositorio hacia monorepo y estándares: workspace/app/package, dependencias, APIs públicas y quality gates. Los pendientes se registran como Revisit y nunca bloquean el inicio de otra sesión."
+      ]
+    }
+  ],
+  "references": [
+    {
+      "id": "R1",
+      "title": "IEEE Computer Society — Software Engineering",
+      "url": "https://www.computer.org/publications/tech-news/trends/software-engineering-as-a-layered-technology"
+    },
+    {
+      "id": "R2",
+      "title": "CMU SEI — Software Architecture",
+      "url": "https://www.sei.cmu.edu/software-architecture/"
+    },
+    {
+      "id": "R3",
+      "title": "D. L. Parnas (1972) — On the Criteria To Be Used in Decomposing Systems into Modules",
+      "url": "https://doi.org/10.1145/361598.361623"
+    },
+    {
+      "id": "R4",
+      "title": "CMU SEI — Integrating Software-Architecture-Centric Methods into the Rational Unified Process, §2.2.1",
+      "url": "https://sei.cmu.edu/documents/734/2004_005_001_14396.pdf"
+    },
+    {
+      "id": "R5",
+      "title": "CNCF — Platforms White Paper",
+      "url": "https://tag-app-delivery.cncf.io/whitepapers/platforms/"
+    },
+    {
+      "id": "R6",
+      "title": "NIST AI 600-1 — Generative Artificial Intelligence Profile, §2.2",
+      "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf"
+    },
+    {
+      "id": "R7",
+      "title": "GOV.UK Design System — Contribution criteria",
+      "url": "https://design-system.service.gov.uk/community/contribution-criteria/"
+    },
+    {
+      "id": "R8",
+      "title": "GitLab — Staff Career Framework",
+      "url": "https://handbook.gitlab.com/handbook/engineering/careers/matrix/staff/"
+    },
+    {
+      "id": "R9",
+      "title": "GitLab — Principal Career Framework",
+      "url": "https://handbook.gitlab.com/handbook/engineering/careers/matrix/principal/"
+    },
+    {
+      "id": "R10",
+      "title": "ISO/IEC/IEEE 24765:2017 — Vocabulary, coupling/cohesion",
+      "url": "https://swehb.nasa.gov/download/attachments/16450104/c071952_ISO_IEC_IEEE_24765_2017.pdf?api=v2"
+    }
+  ]
+}

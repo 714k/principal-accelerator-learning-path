@@ -1,0 +1,46 @@
+{
+  "id": "P0",
+  "lang": "es",
+  "kind": "project",
+  "title": "P0 — Engineering Book",
+  "description": "Primera porción estática bilingüe del Accelerator.",
+  "status": "editorial-draft",
+  "sections": [
+    {
+      "id": "purpose",
+      "title": "Propósito",
+      "paragraphs": [
+        "Publicar teoría y conectar decisiones con evidencia real, sin inventar niveles de aprendizaje."
+      ]
+    },
+    {
+      "id": "architecture",
+      "title": "Arquitectura provisional",
+      "paragraphs": [
+        "TypeScript y generación estática mínima para iniciar P0. site/ es canónico; apps/book valida y representa. No es una decisión final de framework. Comparar alternativas es trabajo del alumno."
+      ]
+    },
+    {
+      "id": "implementation",
+      "title": "Implementación",
+      "paragraphs": [
+        "Código: apps/book/src/. Pruebas: apps/book/test/. Comandos: npm run check y npm run dev. No se conoce aún la URL del repositorio remoto; no se inventa un enlace."
+      ]
+    },
+    {
+      "id": "evidence",
+      "title": "Evidencia",
+      "paragraphs": [
+        "No hay evidencia del alumno registrada. Registrar resultados reales en artifacts/experiments/PA-S001.md y enlazar únicamente material público revisado."
+      ]
+    },
+    {
+      "id": "scope",
+      "title": "Alcance y pendientes",
+      "paragraphs": [
+        "Incluye navegación ES/EN, tema según sistema y salida estática. Selector manual de temas, dashboard y plataforma compartida se desarrollan en sesiones posteriores. El capítulo inicial es síntesis editorial; Codex debe ampliarlo con el contrato de teoría completa."
+      ]
+    }
+  ],
+  "references": []
+}

@@ -1,0 +1,27 @@
+{
+  "name": "principal-engineer-accelerator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.12.0 <25"
+  },
+  "workspaces": [
+    "apps/book"
+  ],
+  "scripts": {
+    "dev": "npm run build && node apps/book/src/serve.ts",
+    "preview": "node apps/book/src/serve.ts",
+    "build": "node apps/book/src/build.ts",
+    "lint": "eslint apps/book/src apps/book/test",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test apps/book/test/*.test.ts",
+    "check": "npm run lint && npm run typecheck && npm test && npm run build"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "@types/node": "24.10.1",
+    "eslint": "10.12.0",
+    "typescript-eslint": "8.71.0"
+  }
+}

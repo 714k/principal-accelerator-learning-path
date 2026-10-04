@@ -1,0 +1,202 @@
+{
+  "id": "PA-S001",
+  "lang": "en",
+  "kind": "session",
+  "title": "Engineering foundations",
+  "description": "Theory → implementation → evidence.",
+  "status": "editorial-draft",
+  "sections": [
+    {
+      "id": "objective",
+      "title": "Objective",
+      "paragraphs": [
+        "Connect purpose, structure, quality, and evidence to initialize P0. This chapter is an initial editorial synthesis of PA-S001; it neither establishes mastery nor replaces the full Theory Phase in the conversation."
+      ]
+    },
+    {
+      "id": "preview",
+      "title": "Learning Preview",
+      "paragraphs": [
+        "Scope includes engineering and architecture; application, system, platform, and ecosystem; quality and constraints; boundaries; coupling and cohesion; FPA; AIPE; and Staff/Principal scope. These concepts apply to the Book without forcing an AI feature into it."
+      ]
+    },
+    {
+      "id": "concepts",
+      "title": "Concepts",
+      "paragraphs": [
+        "Software engineering covers development, operation, and maintenance through a systematic, disciplined approach [R1]. Architecture supports reasoning about system structure, behavior, and qualities [R2]. In this program, a responsibility defines what an element owns; a contract states what consumers can expect. These are tools for analyzing changes, not promises of superiority."
+      ]
+    },
+    {
+      "id": "main-topic",
+      "title": "Main Topic — A justifiable system",
+      "paragraphs": [
+        "Synthesis: P0 connects theory, implementation, and evidence, but these objects do not mean the same thing. A chapter may exist before its lab runs. A test may pass without demonstrating learner understanding. Presentation must preserve these differences. site/ holds canonical public material; apps/book renders it. artifacts/ and data/ are not automatically copied to the output. This is an Accelerator rule that must be checked against generated output. Its cost is maintaining an explicit editorial contract; its expected benefit is limiting incompatible interpretations. The hypothesis alone does not demonstrate greater maintainability."
+      ]
+    },
+    {
+      "id": "engineering-architecture",
+      "title": "Subtopic 1 — Engineering and architecture",
+      "paragraphs": [
+        "Architecture focuses on decisions about overall structure and behavior [R2]. Hypothetical example: fixing a link is localized; defining session identity across languages constrains multiple consumers. Significance does not depend on line count. As a heuristic, examine scope, change cost, and affected qualities. Choosing technology first may hide alternatives; documenting every minor decision also has a cost. The learner must explain why a Book decision deserves architectural treatment."
+      ]
+    },
+    {
+      "id": "system-platform",
+      "title": "Subtopic 2 — Application, system, and platform",
+      "paragraphs": [
+        "Operational definitions: an application serves a user purpose; a system includes elements and relationships within a chosen scope; an ecosystem includes participants and providers. A platform provides capabilities around consumer needs [R5]. The Book is an application. For publication analysis, its system includes content, building, and delivery. A shared package does not establish a platform experience: contracts and support also matter. Scope avoids both ignoring dependencies and unnecessarily modeling the entire environment."
+      ]
+    },
+    {
+      "id": "quality",
+      "title": "Subtopic 3 — Quality and constraints",
+      "paragraphs": [
+        "Quality scenarios specify source, stimulus, environment, artifact, response, and measure [R4]. Proposed example: an author adds a missing reference during a build; the validator rejects publication and identifies that reference. This is a criterion, not a measurement. Static output is a program constraint; a particular tool is an option. Immediate publication and bilingual human review may conflict: resolving that tension requires a process decision, not just code."
+      ]
+    },
+    {
+      "id": "boundaries",
+      "title": "Subtopic 4 — Boundaries",
+      "paragraphs": [
+        "Parnas proposes hiding design decisions other modules need not know [R3]. Hypothetical application: a reader interprets storage while a view consumes interpreted content. Changing format should preserve the contract if the separation hypothesis holds. A folder does not prevent access or provide a security control. Check who reads each input and what is published. In P0, an explicit public-file list avoids indiscriminate data copying; it does not replace review of content written inside those files."
+      ]
+    },
+    {
+      "id": "coupling-cohesion",
+      "title": "Subtopic 5 — Coupling and cohesion",
+      "paragraphs": [
+        "Coupling describes interdependence; cohesion describes internal relationships among tasks or elements [R10]. Example: duplicating ES/EN references requires coordinated changes even without imports between files. Shared identifiers may reduce divergence, but a shared error may affect both languages. Less duplication does not automatically mean less coupling. Grouping everything in shared does not prove cohesion either. The learner should study a concrete change, observe propagation, and explain why responsibilities belong together or apart."
+      ]
+    },
+    {
+      "id": "fpa",
+      "title": "Subtopic 6 — Frontend Platform Architecture",
+      "paragraphs": [
+        "Curricular definition: FPA designs shared frontend capabilities, contracts, and adoption experience. It applies the consumer-oriented platform principle to frontend work [R5]. A reusable theme needs an understandable interface and compatibility; a rule approving a session belongs to the product, not necessarily a generic component. Generalizing from one case can embed premature assumptions. PA-S001 starts a real consumer and leaves future extractions as open decisions. No time savings are claimed without measuring adoption and maintenance."
+      ]
+    },
+    {
+      "id": "aipe",
+      "title": "Subtopic 7 — AI Product Engineering",
+      "paragraphs": [
+        "Curricular definition: AIPE integrates, evaluates, and operates AI as a product capability. Using Codex to write code does not add AI to the product. NIST documents confabulation: false content presented confidently [R6]. Hypothetical example: an assistant recommends sessions, but a recommendation is not mastery evidence. Useful results, abstention, and failures must be distinguished. Evaluation needs cases and criteria tied to purpose. Review costs effort and does not eliminate all errors. This scaffold neither calls models nor introduces credentials."
+      ]
+    },
+    {
+      "id": "scope",
+      "title": "Subtopic 8 — Staff and Principal",
+      "paragraphs": [
+        "GitLab provides one specific example: Staff generally operates within team domains and Principal at organizational scope [R8] [R9]. This is not a universal title mapping. Program synthesis: progress from coordinating system decisions to technical direction across systems. Staff example: agree on the Book evidence contract. Principal example: propose compatibility, ownership, and exceptions for multiple consumers. Enforced uniformity may transfer costs to other teams; total divergence also has costs. A lab ADR does not demonstrate real organizational leadership."
+      ]
+    },
+    {
+      "id": "practice",
+      "title": "Theory → Practice Map",
+      "paragraphs": [
+        "Canonical content → site/. Presentation → apps/book/src/render.ts. Editorial contract → content.ts. Publication → build.ts. Learner evidence → data/mastery/PA-S001.json, initially empty. Scaffold tests check bounded cases of structure, references, and HTML output; they establish neither comprehensive accessibility nor mastery."
+      ]
+    },
+    {
+      "id": "real-world",
+      "title": "Real-World Example",
+      "paragraphs": [
+        "GOV.UK reviews proposal usefulness and uniqueness, then usability, consistency, and versatility before publishing components [R7]. Analysis: existing code and suitability across services are different questions. This supports studying governance alongside implementation; it does not establish savings or defect-reduction figures."
+      ]
+    },
+    {
+      "id": "production",
+      "title": "Production-Ready Example — proposed",
+      "paragraphs": [
+        "Illustrative contract: on a missing reference, stop building before replacing output; with no evidence, show not assessed; on structural ES/EN mismatch, require review. Testing these behaviors does not certify production readiness. Semantic review, manual accessibility validation, and hosting configuration remain pending."
+      ]
+    },
+    {
+      "id": "exercises",
+      "title": "Exercises — learner-owned work",
+      "paragraphs": [
+        "1. Justify a P0 boundary. 2. Write a quality scenario. 3. Temporarily change a reference to R999 (missing marker), observe failure, and restore it. 4. Analyze an alternative storage approach. 5. Identify a capability that should remain local. 6. Explain what npm run check does and does not establish. Record actual answers and outcomes without having Codex solve them."
+      ]
+    },
+    {
+      "id": "resources",
+      "title": "Resources",
+      "paragraphs": [
+        "Priority reading: Parnas, The Criteria [R3]; SEI, six-part scenarios [R4]; CNCF, platform definition and attributes [R5]; NIST, section 2.2 [R6]. Compare terminology and distinguish sourced statements from proposed examples."
+      ]
+    },
+    {
+      "id": "mastery",
+      "title": "Knowledge Mastery Checklist",
+      "paragraphs": [
+        "Pending: explain architecture versus implementation; formulate verifiable quality; analyze coupling; defend a boundary; distinguish AI-assisted coding from AIPE. L1 Explain, L2 Implement, L3 Operate, L4 Decide, and L5 Lead are Accelerator levels. None is awarded for receiving generated code."
+      ]
+    },
+    {
+      "id": "success",
+      "title": "End-of-Session Success Criteria",
+      "paragraphs": [
+        "First runnable app; reviewed ES/EN pages; documented actual tests; controlled failure diagnosed by the learner; reasoned ADR; recorded evidence and limitations. A functioning scaffold neither completes the session nor replaces the full theory chapter."
+      ]
+    },
+    {
+      "id": "bridge",
+      "title": "Bridge to PA-S002",
+      "paragraphs": [
+        "PA-S002 evolves the same repository through monorepo and engineering standards: workspace/app/package, dependencies, public APIs, and quality gates. Pending work becomes Revisit and never blocks another session."
+      ]
+    }
+  ],
+  "references": [
+    {
+      "id": "R1",
+      "title": "IEEE Computer Society — Software Engineering",
+      "url": "https://www.computer.org/publications/tech-news/trends/software-engineering-as-a-layered-technology"
+    },
+    {
+      "id": "R2",
+      "title": "CMU SEI — Software Architecture",
+      "url": "https://www.sei.cmu.edu/software-architecture/"
+    },
+    {
+      "id": "R3",
+      "title": "D. L. Parnas (1972) — On the Criteria To Be Used in Decomposing Systems into Modules",
+      "url": "https://doi.org/10.1145/361598.361623"
+    },
+    {
+      "id": "R4",
+      "title": "CMU SEI — Integrating Software-Architecture-Centric Methods into the Rational Unified Process, §2.2.1",
+      "url": "https://sei.cmu.edu/documents/734/2004_005_001_14396.pdf"
+    },
+    {
+      "id": "R5",
+      "title": "CNCF — Platforms White Paper",
+      "url": "https://tag-app-delivery.cncf.io/whitepapers/platforms/"
+    },
+    {
+      "id": "R6",
+      "title": "NIST AI 600-1 — Generative Artificial Intelligence Profile, §2.2",
+      "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf"
+    },
+    {
+      "id": "R7",
+      "title": "GOV.UK Design System — Contribution criteria",
+      "url": "https://design-system.service.gov.uk/community/contribution-criteria/"
+    },
+    {
+      "id": "R8",
+      "title": "GitLab — Staff Career Framework",
+      "url": "https://handbook.gitlab.com/handbook/engineering/careers/matrix/staff/"
+    },
+    {
+      "id": "R9",
+      "title": "GitLab — Principal Career Framework",
+      "url": "https://handbook.gitlab.com/handbook/engineering/careers/matrix/principal/"
+    },
+    {
+      "id": "R10",
+      "title": "ISO/IEC/IEEE 24765:2017 — Vocabulary, coupling/cohesion",
+      "url": "https://swehb.nasa.gov/download/attachments/16450104/c071952_ISO_IEC_IEEE_24765_2017.pdf?api=v2"
+    }
+  ]
+}
