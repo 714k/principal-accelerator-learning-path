@@ -27,6 +27,7 @@ npm run dev
 - http://localhost:4173/es/sessions/
 - http://localhost:4173/es/sessions/PA-S001/
 - http://localhost:4173/en/sessions/PA-S001/
+- http://localhost:4173/es/projects/
 - http://localhost:4173/es/projects/p0/
 - http://localhost:4173/portfolio/
 
