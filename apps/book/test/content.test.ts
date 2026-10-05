@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { validatePage, assertPair, loadPage } from '../src/content.ts';
-import { escapeHtml, renderPage, basePath, sessionsIndex } from '../src/render.ts';
+import { escapeHtml, renderPage, basePath, sessionsIndex, projectsIndex } from '../src/render.ts';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../../..');
@@ -32,5 +32,9 @@ test('session navigation and progressive theme control are present',()=>{
   assert.ok(html.includes('data-theme-toggle'));
   assert.ok(html.includes('localStorage.setItem'));
   assert.ok(html.includes('href="/es/sessions/"'));
+  assert.ok(!html.includes('>Sessions</a>'));
+  assert.ok(html.includes('>☀</button>'));
+  assert.ok(html.includes('Principal Accelerator<br /><span>LEARNING PATH</span>'));
   assert.ok(sessionsIndex('en','/').includes('PA-S001'));
+  assert.ok(projectsIndex('en','/').includes('projects/p0/'));
 });

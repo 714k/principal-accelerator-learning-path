@@ -2,7 +2,7 @@ import { mkdirSync, writeFileSync, readFileSync, existsSync, rmSync, readdirSync
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadPage, assertPair } from './content.ts';
-import { basePath, renderPage, home, sessionsIndex } from './render.ts';
+import { basePath, renderPage, home, sessionsIndex, projectsIndex } from './render.ts';
 import { renderPortfolio } from '../../portfolio/src/portfolio.ts';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../../..');
 const output=resolve(root,'dist');
@@ -28,6 +28,7 @@ emit('portfolio/index.html',renderPortfolio(base));
 for (const lang of ['es','en'] as const) {
   emit(`${lang}/index.html`,home(lang,base));
   emit(`${lang}/sessions/index.html`,sessionsIndex(lang,base));
+  emit(`${lang}/projects/index.html`,projectsIndex(lang,base));
   for (const p of pairs) emit(`${lang}/${p.route}/index.html`,renderPage(p[lang],base));
 }
-console.log(`Built 12 HTML pages in ${output}; BASE_PATH=${base}. No mastery assessed.`);
+console.log(`Built 14 HTML pages in ${output}; BASE_PATH=${base}. No mastery assessed.`);
