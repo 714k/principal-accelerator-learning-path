@@ -33,7 +33,8 @@ test('session navigation and progressive theme control are present',()=>{
   assert.ok(html.includes('localStorage.setItem'));
   assert.ok(html.includes('href="/es/sessions/"'));
   assert.ok(!html.includes('>Sessions</a>'));
-  assert.ok(html.includes('>☀</button>'));
+  assert.ok(html.includes('>☾</button>'));
+  assert.ok(html.includes("r.dataset.theme=v;b.textContent=v==='dark'?'☀':'☾'"));
   assert.ok(html.includes('Principal Accelerator<br /><span>LEARNING PATH</span>'));
   assert.ok(sessionsIndex('en','/').includes('PA-S001'));
   assert.ok(projectsIndex('en','/').includes('projects/p0/'));

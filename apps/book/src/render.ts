@@ -7,10 +7,10 @@ export function basePath(raw = '/'): string {
   return raw;
 }
 function themeControl(): string {
-  return '<button class="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false" data-theme-toggle>☀</button>';
+  return '<button class="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false" data-theme-toggle>☾</button>';
 }
 function themeScript(): string {
-  return `<script>(()=>{const r=document.documentElement,b=document.querySelector('[data-theme-toggle]');if(!b)return;let t;try{t=localStorage.getItem('pa-theme')}catch{}if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';const set=(v,p)=>{r.dataset.theme=v;b.textContent=v==='dark'?'☾':'☀';b.setAttribute('aria-pressed',String(v==='dark'));b.setAttribute('aria-label',v==='dark'?'Switch to light theme':'Switch to dark theme');if(p)try{localStorage.setItem('pa-theme',v)}catch{}};set(t,false);b.addEventListener('click',()=>set(r.dataset.theme==='dark'?'light':'dark',true))})()</script>`;
+  return `<script>(()=>{const r=document.documentElement,b=document.querySelector('[data-theme-toggle]');if(!b)return;let t;try{t=localStorage.getItem('pa-theme')}catch{}if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';const set=(v,p)=>{r.dataset.theme=v;b.textContent=v==='dark'?'☀':'☾';b.setAttribute('aria-pressed',String(v==='dark'));b.setAttribute('aria-label',v==='dark'?'Switch to light theme':'Switch to dark theme');if(p)try{localStorage.setItem('pa-theme',v)}catch{}};set(t,false);b.addEventListener('click',()=>set(r.dataset.theme==='dark'?'light':'dark',true))})()</script>`;
 }
 export function shell(lang: 'es'|'en', title: string, body: string, base: string, other: string): string {
   const es=lang==='es';
