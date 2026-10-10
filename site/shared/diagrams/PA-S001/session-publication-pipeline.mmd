@@ -1,0 +1,7 @@
+flowchart LR
+  editor["Editor"] --> catalog["SessionCatalog"]
+  catalog --> validator["ContentValidator"]
+  validator --> generator["SiteGenerator"]
+  generator --> output["dist/"]
+  validator -. "missing translation or R999" .-> failure["Identifiable build error"]
+  failure -. "do not replace output" .-> output

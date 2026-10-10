@@ -140,6 +140,155 @@ The first teaching response must use this exact theory-phase structure:
 
 ## Production-Ready Example
 
+
+
+## UI Reference application rule
+
+For every theory-bearing session that publishes or regenerates Learning Site content:
+
+1. inspect `/ui-reference/` before defining the page presentation;
+2. identify the relevant reference patterns for the session content;
+3. map the session's theory hierarchy to those patterns;
+4. preserve the reference look-and-feel and interaction model where appropriate;
+5. adapt rather than copy when accessibility, responsiveness or content semantics require it.
+
+The Theory Phase content remains academically governed by the Project Sources. `/ui-reference/` governs how that content is **presented and interacted with**, not what factual/theoretical claims are made.
+
+The Visual Learning Guide should use `/ui-reference/` as the primary UI inspiration for cards, diagrams, comparisons, progressive disclosure, code callouts and rapid-learning patterns.
+
+## Visual Learning Guide — mandatory second representation
+
+After the complete academic theory, and before `## Exercises`, add:
+
+```text
+## Visual Learning Guide
+```
+
+This section is a **second representation of theory already taught**. It does not replace or shorten `Concepts`, `Main Topic`, `Subtopics`, Real-World Example or Production-Ready Example.
+
+Its purpose is rapid comprehension and review.
+
+### Required content
+
+Adapt the visual guide to the session, but normally include:
+
+#### 1. At a glance
+A compact visual summary of:
+- the central problem;
+- the main concepts;
+- the relationship between them;
+- the production consequence.
+
+Prefer a diagram or compact card layout rather than a paragraph.
+
+#### 2. Concept cards
+Create one concise visual card for each major concept/subtopic.
+
+Each card should answer, in plain technical language:
+
+```text
+WHAT IS IT?
+WHY DOES IT MATTER?
+WHERE DOES IT EXIST IN SOFTWARE?
+HOW DOES IT WORK?
+WHAT BREAKS / WHAT CHANGES?
+```
+
+Use named software elements, not abstract nouns.
+
+Example:
+
+```text
+COUPLING
+
+What:
+How strongly module A depends on module B.
+
+In software:
+CheckoutComponent → PaymentService
+
+Change consequence:
+If CheckoutComponent depends on Stripe-specific methods,
+changing payment provider also changes CheckoutComponent.
+```
+
+#### 3. Visual mechanism
+Show the important flow, dependency, lifecycle, state or interaction.
+
+Examples:
+- dependency graph;
+- request/data flow;
+- sequence;
+- before/after boundary;
+- event flow;
+- render pipeline;
+- RAG/agent pipeline.
+
+Use Mermaid as source when appropriate, but the published Learning Site must render the generated responsive SVG according to the Mermaid → SVG publishing standard.
+
+#### 4. Compare / contrast
+When useful, use a compact comparison:
+
+```text
+Tightly coupled            Lower coupled
+--------------             -------------
+A knows B internals        A depends on interface
+change B → change A        change B adapter only
+simple initially           extra abstraction
+```
+
+Do not imply that one option is universally superior.
+
+#### 5. See it in code
+Include a minimal code/config/schema excerpt when code makes the mechanism clearer.
+
+The snippet must be small enough to scan quickly and must illustrate the exact concept already taught.
+
+#### 6. Failure / consequence
+Show one concrete failure or change scenario visually:
+
+```text
+Change / failure
+      ↓
+affected element
+      ↓
+propagation
+      ↓
+user/runtime/developer consequence
+```
+
+#### 7. Fast recall
+End with 3–7 short statements the learner should be able to recall quickly.
+
+These are not new claims. They must be faithful summaries of the academic theory above.
+
+### Visual design rules
+
+The Learning Site presentation should favor:
+
+- short labeled blocks/cards;
+- clear hierarchy;
+- diagrams;
+- arrows/relationships;
+- comparison blocks;
+- concise code;
+- whitespace;
+- progressive disclosure when the visual guide is large.
+
+Do not turn this section into another long prose chapter.
+
+Do not use decorative visuals that do not teach something.
+
+### Epistemic integrity
+
+The Visual Learning Guide must not:
+- introduce unsupported facts;
+- omit a critical limitation in a way that changes meaning;
+- turn a contextual recommendation into a universal rule;
+- replace citations for factual claims.
+
+Where the visual summary contains a non-obvious factual or normative claim, preserve an appropriate citation/reference link back to the sourced theory.
+
 ## Exercises
 
 ## Curated Sources and References

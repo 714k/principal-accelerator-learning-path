@@ -14,7 +14,8 @@
         "La separación hace visibles audiencias y riesgos de publicación distintos. Una tarjeta de portafolio no debe insinuar un resultado no verificado, mientras que un capítulo puede identificar su estado editorial y sus fuentes. El nombre de una carpeta no es un límite de seguridad; también deben revisarse la lista permitida del build, el contenido y la configuración de hosting."
       ],
       "diagram": {
-        "text": "apps/portfolio  ──renderiza──>  /portfolio/\nsite/es|en/*   ──valida/renderiza──>  /es|en/...\ndata/ + artifacts/  ──no se copian automáticamente──>  dist/",
+        "source": "PA-S001/p0-publication-flow.mmd",
+        "title": "Flujo de publicación de P0",
         "description": "Flujo de publicación propuesto. Las flechas describen el build estático actual, no una garantía de seguridad."
       }
     },

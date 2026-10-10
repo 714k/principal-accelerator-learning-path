@@ -1,0 +1,47 @@
+{
+  "id": "portfolio",
+  "lang": "en",
+  "kind": "project",
+  "title": "P0 — Professional Portfolio",
+  "description": "A concise professional surface, separate from the Learning Site and awaiting learner-approved details.",
+  "status": "editorial-draft",
+  "sections": [
+    {
+      "id": "purpose",
+      "title": "Purpose",
+      "paragraphs": [
+        "The professional portfolio is a distinct public product under apps/portfolio/. It is intended to communicate professional positioning, systems-thinking, and selected work only after the learner has reviewed that material for accuracy and publication safety.",
+        "It links to the Principal Accelerator Learning Site for the public PA-S001 chapter. It does not duplicate the chapter, portray editorial content as professional achievement, or include employer-confidential material."
+      ]
+    },
+    {
+      "id": "current-slice",
+      "title": "Current P0 slice",
+      "paragraphs": [
+        "The generated /portfolio/ route has its own navigation and contains only a draft professional position, selected-work placeholders, a systems and architecture direction placeholder, and a Learning Site link. The portfolio and Learning Site intentionally do not share one navigation surface.",
+        "This is a static-hosting scaffold. It does not establish a final framework, professional narrative, contact endpoint, outcome, or deployment target."
+      ]
+    },
+    {
+      "id": "evidence-status",
+      "title": "Evidence status",
+      "paragraphs": [
+        "No portfolio accomplishments, metrics, testimonials, employer details, mastery results, or production evidence are asserted here. Repository checks can verify bounded rendering behavior; they cannot verify professional claims or learner mastery."
+      ]
+    },
+    {
+      "id": "learner-todos",
+      "title": "Learner TODOs",
+      "paragraphs": [
+        "Publication-ready content requires learner review and approval. The following placeholders remain intentionally unresolved."
+      ],
+      "checklist": [
+        "TODO LEARNER: approve professional positioning.",
+        "TODO LEARNER: add only reviewed, public-safe selected-work narratives and evidence.",
+        "TODO LEARNER: approve any contact channel and public hosting destination.",
+        "TODO LEARNER: record architecture rationale separately in an ADR if the P0 boundary is accepted."
+      ]
+    }
+  ],
+  "references": []
+}

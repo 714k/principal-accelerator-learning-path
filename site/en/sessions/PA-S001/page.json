@@ -148,10 +148,23 @@
         "Illustrative contract: on a missing reference, stop building before replacing output; with no evidence, show not assessed; on structural ES/EN mismatch, require review. Testing these behaviors does not certify production readiness. Semantic review, manual accessibility validation, hosting configuration, source availability, and output preservation behavior remain pending."
       ],
       "diagram": {
-        "text": "editor -> SessionCatalog -> ContentValidator -> SiteGenerator -> dist/\n                              | failure: missing translation / marker R999\n                              +-> identifiable build error; existing output not replaced",
+        "source": "PA-S001/session-publication-pipeline.mmd",
+        "title": "Session publication pipeline",
         "description": "Hypothetical publication topology. It represents current components and proposed failure policy; it has not been operated in production."
       },
       "code": "for (const pair of pairs) assertPair(pair.es, pair.en);\n// Inputs are validated before dist/ is removed.\n// This does not judge translation meaning or reference truthfulness."
+    },
+    {
+      "id": "visual-learning-guide",
+      "title": "Visual Learning Guide",
+      "paragraphs": [
+        "Read the P0 flow from left to right: the portfolio application produces its own public route; explicit bilingual site content passes through the legacy static renderer into Learning Site routes; and data plus artifacts are excluded from the public output. This visual is a teaching synthesis of the publication boundary, not a security guarantee or evidence of production operation."
+      ],
+      "diagram": {
+        "source": "PA-S001/p0-publication-flow.mmd",
+        "title": "P0 public publication boundary",
+        "description": "A visual guide to the P0 publication boundary: the separate portfolio route, bilingual Learning Site routes, and private data and artifacts excluded from generated output."
+      }
     },
     {
       "id": "exercises",
@@ -162,7 +175,7 @@
     },
     {
       "id": "resources",
-      "title": "Resources",
+      "title": "Curated Sources and References",
       "paragraphs": [
         "Priority reading: Parnas, The Criteria [R3]; SEI, six-part scenarios [R4]; CNCF, platform definition and attributes [R5]; NIST, section 2.2 [R6]. Compare terminology and distinguish sourced statements from proposed examples."
       ]
@@ -196,7 +209,7 @@
     },
     {
       "id": "reliability",
-      "title": "Reliability summary",
+      "title": "Evidence status",
       "paragraphs": [
         "Conclusion: P0 has a mechanically verified static scaffold, not a completed learning or production system. Sourced facts are identified by [R1]–[R11]; the P0 mapping and production scenario are instructional synthesis and hypothetical example. Assumptions include the selected static baseline and reviewed public inputs. Limitations include no browser-based accessibility review, no deployed host, no learner evidence, and no semantic translation assessment. Confidence is high only for the executed repository checks and limited for the unperformed reviews."
       ]

@@ -181,6 +181,117 @@ The ES and EN versions must cite the same underlying sources for equivalent clai
 
 Do not publish a model-generated paraphrase as if it were a formal industry definition.
 
+
+
+## Canonical UI Reference publishing contract
+
+All public Learning Site pages under `site/` should use `/ui-reference/` as the canonical reference for their visual and interactive presentation.
+
+This applies to session indexes, theory pages, Concepts/Main Topic/Subtopics, Visual Learning Guides, project-learning pages, code examples, diagrams, comparisons, references/resources, navigation and reading interactions.
+
+The reference governs **presentation**; Project Sources govern **content truth and required structure**.
+
+Published ES and EN pages should share the same design language and equivalent interaction model.
+
+### Reference fidelity
+
+Aim for recognizable consistency with `/ui-reference/` in hierarchy, spacing, typography, component shapes, content grouping, interaction affordances, reading flow and visual explanation patterns.
+
+Exact pixel cloning is not required when doing so would harm responsiveness, accessibility, maintainability or content clarity.
+
+### Reusable primitives
+
+When a reference pattern recurs, promote it into reusable site primitives/tokens instead of duplicating markup/CSS across sessions:
+
+```text
+Reference pattern
+      ↓
+reusable primitive
+      ↓
+PA-S001 ... PA-S120
+```
+
+## Visual Learning Guide publishing standard
+
+Every published theory-bearing session under `site/` must include a visual-summary section after the full theory/examples and before exercises or equivalent practice content.
+
+Routes remain:
+
+```text
+site/es/sessions/PA-Sxxx/
+site/en/sessions/PA-Sxxx/
+```
+
+Use headings:
+
+```text
+## Guía Visual de Aprendizaje
+```
+
+for Spanish and:
+
+```text
+## Visual Learning Guide
+```
+
+for English.
+
+The ES/EN visual guides must be semantically equivalent.
+
+### Purpose
+
+This section provides a fast visual representation of the academic theory already published on the same page.
+
+It is not:
+- a replacement for theory;
+- a separate set of claims;
+- an infographic with unsupported slogans;
+- a transcript summary.
+
+### Presentation components
+
+Use reusable site components/patterns where appropriate, for example:
+
+```text
+VisualLearningGuide
+ConceptCard
+CompareCard
+MechanismDiagram
+CodeCallout
+FailureFlow
+FastRecall
+```
+
+Component names are illustrative; architecture may choose equivalents.
+
+The content model should allow the same pattern to scale across PA-S001 … PA-S120 without hard-coding each session.
+
+### Responsive behavior
+
+- mobile-first;
+- one-column cards on narrow screens;
+- progressively wider grids when space permits;
+- diagrams width: 100% of content container;
+- diagram height: auto;
+- no fixed diagram viewport;
+- no pan/zoom viewer for normal diagrams;
+- no essential hover-only content;
+- code/tables must not break viewport width.
+
+All Mermaid-authored diagrams follow the existing build-time Mermaid → responsive SVG rule.
+
+### Accessibility
+
+Visual explanations must remain understandable with:
+- semantic headings;
+- textual labels;
+- captions/adjacent explanations;
+- accessible SVG descriptions where applicable;
+- sufficient contrast in Light and Dark themes;
+- keyboard-accessible disclosure components.
+
+Never encode meaning using color alone.
+
 ## Public web publishing contract
 
 Every applicable theory-bearing session must produce a public-ready bilingual web representation under `site/`.

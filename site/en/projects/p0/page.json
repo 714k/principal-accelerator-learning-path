@@ -14,7 +14,8 @@
         "The separation makes different audiences and publication risks visible. A portfolio card must not imply an unverified outcome, while a chapter can identify its editorial status and sources. A directory name alone is not a security boundary; the build allowlist, content review, and hosting configuration must also be examined."
       ],
       "diagram": {
-        "text": "apps/portfolio  ──renders──>  /portfolio/\nsite/es|en/*   ──validates/renders──>  /es|en/...\ndata/ + artifacts/  ──not copied automatically──>  dist/",
+        "source": "PA-S001/p0-publication-flow.mmd",
+        "title": "P0 publication flow",
         "description": "Proposed publication flow. Arrows describe the current static build, not a security guarantee."
       }
     },

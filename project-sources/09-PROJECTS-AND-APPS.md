@@ -63,6 +63,23 @@ Every session page includes breadcrumb, compact/collapsible TOC and Previous/Nex
 
 Baseline/mastery evidence belongs in normal evidence/data artifacts and may be linked from the Learning Site when public-safe. It is not a separate diagnostic application.
 
+
+## Canonical UI Reference — `/ui-reference/`
+
+`/ui-reference/` is a repository-level reference surface used to define the intended UI/UX of the Principal Accelerator Learning Site.
+
+It is not another production app and is not the canonical location for theory.
+
+```text
+/ui-reference/   → canonical look/feel + interaction reference
+site/            → actual bilingual Learning Site implementation/content
+apps/portfolio/  → separate professional portfolio
+```
+
+When P0 creates or evolves `site/`, use `/ui-reference/` to guide overall visual language, session/content layouts, concept presentation, Visual Learning Guides, interactive disclosure, responsive behavior, navigation and reading experience.
+
+Do not force unrelated applications/labs to copy the Learning Site UI unless the relevant session deliberately adopts the same design language.
+
 ## P1 --- Architecture Laboratory
 
 A collection of preserved, independently runnable applications/labs demonstrating materially different structural architectures.

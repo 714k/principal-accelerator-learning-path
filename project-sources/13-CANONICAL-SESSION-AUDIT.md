@@ -185,6 +185,46 @@ When an app/lab/system is involved:
 - [ ] TOC is compact/collapsed on small screens.
 - [ ] TOC control is keyboard accessible and exposes expanded/collapsed state.
 
+
+
+## Canonical UI Reference audit
+
+For every Learning Site implementation/regeneration:
+
+- [ ] `/ui-reference/` was inspected before UI work.
+- [ ] Relevant visual patterns were identified.
+- [ ] Theory/content structure was mapped into the reference UI rather than an unrelated generic template.
+- [ ] Look and feel is recognizably derived from the reference.
+- [ ] Relevant interaction patterns are preserved or deliberately adapted.
+- [ ] Repeated patterns were considered for reusable components/tokens.
+- [ ] No dependency was introduced solely because the reference uses it.
+- [ ] Accessibility and semantic HTML were preserved.
+- [ ] Mobile/tablet responsiveness was preserved or improved.
+- [ ] Mermaid diagrams still publish as responsive SVG.
+- [ ] ES/EN pages preserve equivalent presentation and interaction.
+- [ ] Content accuracy/academic requirements were not weakened.
+- [ ] Material deviations from the reference are documented.
+
+## Visual Learning Guide audit
+
+For every theory-bearing session:
+
+- [ ] `Visual Learning Guide` / `Guía Visual de Aprendizaje` exists.
+- [ ] It appears after the full theory/examples and before Exercises.
+- [ ] It derives only from theory already taught.
+- [ ] It does not replace Concepts/Main Topic/Subtopics.
+- [ ] Major concepts are represented visually or as concise cards.
+- [ ] At least one meaningful relationship/flow/dependency visual is present when applicable.
+- [ ] Concrete software elements are named.
+- [ ] A compare/contrast block exists when useful.
+- [ ] A small code/schema/config example appears when it improves understanding.
+- [ ] A concrete failure/change consequence is shown when applicable.
+- [ ] Fast-recall points preserve theory meaning and limitations.
+- [ ] Mermaid-authored diagrams are published as responsive SVG.
+- [ ] Layout works on phone/tablet without requiring diagram pan/zoom.
+- [ ] Visual content remains accessible in Light/Dark themes.
+- [ ] No unsupported facts, invented evidence or uncited non-obvious claims are introduced.
+
 ## 10. Evidence/mastery integrity
 
 - [ ] No invented tests, metrics, benchmarks, AI evals or mastery.
