@@ -5,6 +5,136 @@
   "title": "Fundamentos de ingeniería",
   "description": "Teoría → implementación → evidencia.",
   "status": "editorial-draft",
+  "visualLearning": {
+    "intro": "Cinco vistas complementarias comprimen para repaso la teoría de PA-S001 ya publicada. Distinguen la mecánica de publicación de P0 de la evidencia del learner; no evalúan dominio ni afirman operación en producción.",
+    "modes": [
+      {
+        "id": "mental-model",
+        "kind": "modelo mental",
+        "label": "Panorama",
+        "title": "P0 conecta tres objetos diferentes",
+        "rationale": "La sesión es fundacional y estructural: un mapa compacto hace visibles las relaciones entre teoría, implementación, evidencia, alcance, calidad y límites antes de examinar módulos individuales.",
+        "sourceSections": ["concepts", "main-topic", "engineering-architecture", "system-platform", "quality", "boundaries", "coupling-cohesion", "fpa", "aipe", "scope"],
+        "blocks": [
+          {
+            "type": "diagram",
+            "diagram": {
+              "source": "PA-S001/engineering-foundations-map.mmd",
+              "title": "Mapa mental de fundamentos de ingeniería PA-S001",
+              "description": "Un mapa mental de PA-S001 que conecta teoría, implementación, evidencia, arquitectura, calidad, límites, acoplamiento, frontend platform architecture, AI product engineering y alcance Staff a Principal."
+            }
+          },
+          {
+            "type": "cards",
+            "cards": [
+              { "eyebrow": "Teoría", "title": "El capítulo público", "body": "site/ contiene el material canónico de aprendizaje público. Un capítulo puede existir antes de ejecutar su laboratorio; eso es publicación, no prueba de aprendizaje." },
+              { "eyebrow": "Implementación", "title": "El renderer", "body": "apps/book lee contenido bilingüe explícito, valida su contrato acotado y escribe rutas estáticas. Representa el material, no se convierte en el material mismo." },
+              { "eyebrow": "Evidencia", "title": "Lo que aún debe observarse", "body": "Una comprobación exitosa del scaffold no demuestra comprensión del learner, calidad semántica de la traducción, accesibilidad ni operación en producción." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "boundary-map",
+        "kind": "mapa de límites",
+        "label": "Límite de publicación",
+        "title": "Qué llega a la salida pública",
+        "rationale": "Los límites de publicación y confianza son centrales en la sesión, por lo que la topología Mermaid existente es la forma más directa de mostrar productos públicos distintos y entradas excluidas.",
+        "sourceSections": ["boundaries", "production", "visual-learning-guide"],
+        "blocks": [
+          {
+            "type": "diagram",
+            "diagram": {
+              "source": "PA-S001/p0-publication-flow.mmd",
+              "title": "Límite de publicación público de P0",
+              "description": "La ruta separada del portafolio y las rutas bilingües del Learning Site se generan desde fuentes explícitas; data y artifacts no se copian automáticamente."
+            }
+          },
+          {
+            "type": "cards",
+            "cards": [
+              { "eyebrow": "Producto", "title": "Portafolio ≠ Learning Site", "body": "El portafolio es una superficie profesional. El Learning Site es el hogar canónico de la teoría completa de la sesión." },
+              { "eyebrow": "Confianza", "title": "Las entradas explícitas no son un control de seguridad", "body": "La allowlist limita la copia automática, pero el contenido público todavía requiere revisión; una carpeta por sí sola no impone acceso ni veracidad." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "scope-compare",
+        "kind": "comparar y contrastar",
+        "label": "Comparar alcance",
+        "title": "Aplicación, sistema y plataforma responden preguntas distintas",
+        "rationale": "PA-S001 distingue explícitamente niveles de alcance. Una vista lado a lado evita tratar una carpeta compartida o dos consumidores como evidencia automática de una plataforma.",
+        "sourceSections": ["system-platform", "fpa", "scope"],
+        "blocks": [
+          {
+            "type": "comparison",
+            "table": {
+              "headers": ["Vista", "Qué está en alcance", "Pregunta útil", "Límite"],
+              "rows": [
+                ["Aplicación", "Una finalidad para usuarios, como el Book", "¿Qué resultado ofrece este producto?", "Puede ocultar las dependencias de construcción y entrega necesarias para publicarlo."],
+                ["Sistema", "Elementos y relaciones elegidos: contenido, construcción y entrega", "¿Qué dependencias y rutas de fallo importan aquí?", "Su límite debe elegirse; no es automáticamente todo el ecosistema."],
+                ["Plataforma", "Capacidades, contratos y soporte para consumidores", "¿Pueden adoptarla de forma segura más de un consumidor significativo?", "Un paquete compartido o un caso de uso no establece por sí solo una experiencia de plataforma."]
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "change-journey",
+        "kind": "flujo de cambio y fallo",
+        "label": "Recorrido del cambio",
+        "title": "Un cambio de contenido atraviesa una ruta de publicación acotada",
+        "rationale": "La teoría explica cómo se propaga un cambio editorial nombrado y dónde lo detiene una referencia inexistente. Una secuencia hace más fácil razonar sobre las rutas normal y de fallo que una descripción solo en prosa.",
+        "sourceSections": ["main-topic", "quality", "production"],
+        "blocks": [
+          {
+            "type": "diagram",
+            "diagram": {
+              "source": "PA-S001/session-publication-pipeline.mmd",
+              "title": "Flujo de cambio de publicación de sesión",
+              "description": "Un cambio de contenido se cataloga, valida y genera; una traducción ausente o R999 produce un error identificable antes de reemplazar la salida."
+            }
+          },
+          {
+            "type": "flow",
+            "steps": [
+              { "title": "Editar una fuente explícita", "body": "Un editor cambia una página de sesión bilingüe bajo site/." },
+              { "title": "Cargar el par esperado", "body": "La construcción lee las rutas ES y EN conocidas en vez de copiar datos arbitrarios del repositorio." },
+              { "title": "Validar el contrato editorial", "body": "Se comprueban forma, identificadores citados y correspondencia estructural; la equivalencia semántica aún requiere revisión humana." },
+              { "title": "Generar rutas públicas", "body": "Solo después de validar, el renderer escribe dist/ para el host estático." },
+              { "title": "Detener una publicación malformada", "body": "Una R999 o traducción ausente produce un fallo identificable, en vez de publicar silenciosamente Mermaid o una página malformada." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "recall-cards",
+        "kind": "tarjetas de repaso",
+        "label": "Repaso",
+        "title": "Comprobar distinciones, no solo vocabulario",
+        "rationale": "Varios términos de PA-S001 se confunden fácilmente. Estas preguntas piden el límite o consecuencia que los distingue, sin informar una puntuación ni nivel de dominio.",
+        "sourceSections": ["concepts", "main-topic", "engineering-architecture", "system-platform", "quality", "boundaries", "coupling-cohesion", "fpa", "aipe", "scope"],
+        "blocks": [
+          {
+            "type": "flashcards",
+            "cards": [
+              { "category": "Concepto", "question": "¿Por qué una descripción de arquitectura no es la arquitectura misma?", "answer": "Una descripción expresa la arquitectura; no reemplaza la estructura, comportamiento y cualidades reales que describe.", "explanation": "Un ADR o mapa de rutas es evidencia de una descripción, no prueba de que se haya logrado un atributo de calidad.", "sourceSections": ["concepts"] },
+              { "category": "Modelo mental", "question": "¿Por qué P0 debe mantener distintas teoría, implementación y evidencia?", "answer": "Un capítulo público, el renderer que lo presenta y la evidencia de comportamiento del learner o del sistema son objetos diferentes.", "explanation": "Una prueba puede pasar sin demostrar comprensión del learner, y un capítulo puede publicarse antes de ejecutar un laboratorio.", "sourceSections": ["main-topic"] },
+              { "category": "Arquitectura", "question": "¿Qué hace arquitectónica una decisión del Book en lugar de una edición local de implementación?", "answer": "Que restringe o habilita cambios posteriores en estructura, comportamiento, entrega o modos de fallo del sistema.", "explanation": "El número de líneas o la ubicación de un componente en una carpeta no determina por sí solo la importancia arquitectónica.", "sourceSections": ["engineering-architecture"] },
+              { "category": "Alcance de sistema", "question": "¿Por qué un paquete compartido no es automáticamente una plataforma frontend?", "answer": "Una plataforma también necesita capacidades orientadas a consumidores, contratos, soporte, compatibilidad y adopción significativa.", "explanation": "El Book es una aplicación; su sistema de publicación incluye contenido, construcción y entrega dentro de un alcance elegido deliberadamente.", "sourceSections": ["system-platform"] },
+              { "category": "Calidad", "question": "¿Qué establece y qué no establece el escenario de construcción con R999 ausente?", "answer": "Establece un criterio acotado de integridad de publicación: el validador rechaza un identificador citado inexistente antes de reemplazar la salida.", "explanation": "No mide latencia, prueba veracidad de fuentes ni certifica accesibilidad.", "sourceSections": ["quality"] },
+              { "category": "Límite", "question": "¿Qué protege la regla de entradas públicas explícitas de P0 y qué no prueba?", "answer": "Limita la copia automática hacia la salida generada.", "explanation": "No aplica por sí sola seguridad, no verifica el texto público ni establece que el material excluido sea seguro en todo contexto.", "sourceSections": ["boundaries"] },
+              { "category": "Acoplamiento", "question": "¿Por qué un tipo TypeScript puede reducir una incompatibilidad sin eliminar todo el acoplamiento?", "answer": "Puede restringir la forma de datos en memoria, pero nombres de ruta, convenciones de referencias, entradas del sistema de archivos y orden de construcción siguen siendo dependencias.", "explanation": "Esas dependencias necesitan pruebas deliberadas, documentación y revisión.", "sourceSections": ["coupling-cohesion"] },
+              { "category": "FPA", "question": "¿Qué evidencia justificaría extraer una capacidad frontend compartida?", "answer": "Consumidores significativos compatibles y un contrato de adopción deberían justificarlo, no solo preferir una carpeta compartida.", "explanation": "Compatibilidad, versionado, documentación y soporte son preocupaciones de plataforma separadas.", "sourceSections": ["fpa"] },
+              { "category": "AIPE", "question": "¿Por qué usar Codex no equivale a añadir AI Product Engineering a P0?", "answer": "El desarrollo asistido por IA es una herramienta para crear software; AIPE trata capacidades de producto, su evaluación, operación, riesgos y efectos para usuarios.", "explanation": "Este slice de P0 deliberadamente no introduce llamadas a modelos, credenciales, resultados de evaluación ni afirmaciones de producto de IA.", "sourceSections": ["aipe"] },
+              { "category": "Alcance", "question": "¿Qué revelaría que una capacidad de tema compartido se convirtió en una preocupación de plataforma?", "answer": "Habría que demostrar consumidores significativos compatibles más un contrato de adopción, soporte, compatibilidad y versionado.", "explanation": "Una carpeta compartida o un solo caso de uso actual no es evidencia suficiente.", "sourceSections": ["scope"] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "sections": [
     {
       "id": "objective",

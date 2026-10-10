@@ -34,8 +34,14 @@ export function outputForDiagram(source: string): string {
 
 export function diagramMetadata(pages: Page[]): Map<string, DiagramMetadata> {
   const metadata = new Map<string, DiagramMetadata>();
-  for (const page of pages) for (const section of page.sections) if (section.diagram && !metadata.has(section.diagram.source)) {
-    metadata.set(section.diagram.source, section.diagram);
+  const add = (diagram: DiagramMetadata | undefined): void => {
+    if (diagram && !metadata.has(diagram.source)) metadata.set(diagram.source, diagram);
+  };
+  for (const page of pages) {
+    for (const section of page.sections) add(section.diagram);
+    for (const mode of page.visualLearning?.modes ?? []) for (const block of mode.blocks) {
+      if (block.type === 'diagram') add(block.diagram);
+    }
   }
   return metadata;
 }
