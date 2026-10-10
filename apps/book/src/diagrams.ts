@@ -34,8 +34,14 @@ export function outputForDiagram(source: string): string {
 
 export function diagramMetadata(pages: Page[]): Map<string, DiagramMetadata> {
   const metadata = new Map<string, DiagramMetadata>();
-  for (const page of pages) for (const section of page.sections) if (section.diagram && !metadata.has(section.diagram.source)) {
-    metadata.set(section.diagram.source, section.diagram);
+  const add = (diagram: DiagramMetadata | undefined): void => {
+    if (diagram && !metadata.has(diagram.source)) metadata.set(diagram.source, diagram);
+  };
+  for (const page of pages) {
+    for (const section of page.sections) add(section.diagram);
+    for (const mode of page.visualLearning?.modes ?? []) for (const block of mode.blocks) {
+      if (block.type === 'diagram') add(block.diagram);
+    }
   }
   return metadata;
 }
@@ -49,13 +55,15 @@ export function generateDiagrams(root: string, metadata: Map<string, DiagramMeta
   for (const source of metadata.keys()) if (!sources.has(source)) throw new Error(`Diagram source is missing: site/shared/diagrams/${source}`);
   const cli = resolve(root, 'node_modules/.bin/mmdc');
   if (!existsSync(cli)) throw new Error('Mermaid CLI is unavailable. Install dependencies before building diagrams.');
+  const puppeteerConfig = resolve(root, 'apps/book/puppeteer.config.json');
+  if (!existsSync(puppeteerConfig)) throw new Error('Mermaid Puppeteer configuration is missing.');
   for (const input of sourceFiles) {
     const source = relative(diagramsRoot, input).split(sep).join('/');
     const output = input.replace(/\.mmd$/, '.svg');
     const temporary = `${output}.tmp.svg`;
     const detail = metadata.get(source) ?? { source, title: 'Mermaid diagram', description: 'A diagram generated from the preserved Mermaid source.' };
     rmSync(temporary, { force: true });
-    const result = spawnSync(cli, ['--quiet', '--input', input, '--output', temporary, '--backgroundColor', 'transparent'], { cwd: root, encoding: 'utf8' });
+    const result = spawnSync(cli, ['--quiet', '--puppeteerConfigFile', puppeteerConfig, '--input', input, '--output', temporary, '--backgroundColor', 'transparent'], { cwd: root, encoding: 'utf8' });
     if (result.status !== 0 || !existsSync(temporary)) {
       rmSync(temporary, { force: true });
       throw new Error(`Mermaid conversion failed for site/shared/diagrams/${source}: ${result.stderr || result.stdout || `exit ${result.status}`}`);

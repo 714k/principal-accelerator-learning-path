@@ -5,6 +5,136 @@
   "title": "Engineering foundations",
   "description": "Theory → implementation → evidence.",
   "status": "editorial-draft",
+  "visualLearning": {
+    "intro": "Five complementary views compress the already-published PA-S001 theory for review. They distinguish P0's publication mechanics from learner evidence; they do not assess mastery or claim production operation.",
+    "modes": [
+      {
+        "id": "mental-model",
+        "kind": "mental model",
+        "label": "Big picture",
+        "title": "P0 connects three different objects",
+        "rationale": "The session is foundational and structural: a compact map makes the relationships among theory, implementation, evidence, scope, quality, and boundaries visible before examining individual modules.",
+        "sourceSections": ["concepts", "main-topic", "engineering-architecture", "system-platform", "quality", "boundaries", "coupling-cohesion", "fpa", "aipe", "scope"],
+        "blocks": [
+          {
+            "type": "diagram",
+            "diagram": {
+              "source": "PA-S001/engineering-foundations-map.mmd",
+              "title": "PA-S001 engineering foundations mental map",
+              "description": "A mental map of PA-S001 connecting theory, implementation, evidence, architecture, quality, boundaries, coupling, frontend platform architecture, AI product engineering, and Staff-to-Principal scope."
+            }
+          },
+          {
+            "type": "cards",
+            "cards": [
+              { "eyebrow": "Theory", "title": "The public chapter", "body": "site/ holds the canonical public learning material. A chapter can exist before its lab runs; that is publication, not proof of learning." },
+              { "eyebrow": "Implementation", "title": "The renderer", "body": "apps/book reads explicit bilingual content, validates its bounded contract, and writes static routes. It represents the material rather than becoming the material itself." },
+              { "eyebrow": "Evidence", "title": "What still needs observation", "body": "A successful scaffold check does not demonstrate learner understanding, semantic translation quality, accessibility, or production operation." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "boundary-map",
+        "kind": "boundary map",
+        "label": "Publication boundary",
+        "title": "What reaches the public output",
+        "rationale": "Publication and trust boundaries are central to the session, so the existing Mermaid topology is the most direct way to show distinct public products and excluded inputs.",
+        "sourceSections": ["boundaries", "production", "visual-learning-guide"],
+        "blocks": [
+          {
+            "type": "diagram",
+            "diagram": {
+              "source": "PA-S001/p0-publication-flow.mmd",
+              "title": "P0 public publication boundary",
+              "description": "The separate portfolio route and bilingual Learning Site routes are generated from explicit sources; data and artifacts are not copied automatically."
+            }
+          },
+          {
+            "type": "cards",
+            "cards": [
+              { "eyebrow": "Product", "title": "Portfolio ≠ Learning Site", "body": "The portfolio is a professional surface. The Learning Site is the canonical home for the complete session theory." },
+              { "eyebrow": "Trust", "title": "Explicit inputs are not a security control", "body": "The allowlist limits automatic copying, but public content still requires review; a folder alone does not enforce access or truthfulness." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "scope-compare",
+        "kind": "compare and contrast",
+        "label": "Scope comparison",
+        "title": "Application, system, and platform answer different questions",
+        "rationale": "PA-S001 explicitly distinguishes levels of scope. A side-by-side representation prevents treating a shared folder or two consumers as automatic evidence of a platform.",
+        "sourceSections": ["system-platform", "fpa", "scope"],
+        "blocks": [
+          {
+            "type": "comparison",
+            "table": {
+              "headers": ["View", "What is in scope", "Useful question", "Limit"],
+              "rows": [
+                ["Application", "A user-facing purpose such as the Book", "What outcome does this product provide?", "It can hide the build and delivery dependencies needed to publish it."],
+                ["System", "Chosen elements and relationships: content, build, and delivery", "Which dependencies and failure paths matter here?", "Its boundary must be chosen; it is not automatically the whole ecosystem."],
+                ["Platform", "Capabilities, contracts, and support for consumers", "Can more than one meaningful consumer adopt this safely?", "A shared package or one use case does not alone establish a platform experience."]
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "change-journey",
+        "kind": "change and failure flow",
+        "label": "Change journey",
+        "title": "A content change crosses a bounded publication path",
+        "rationale": "The theory explains how a named editorial change propagates and where a missing reference stops it. A sequence makes the normal and failure paths easier to reason about than a prose-only description.",
+        "sourceSections": ["main-topic", "quality", "production"],
+        "blocks": [
+          {
+            "type": "diagram",
+            "diagram": {
+              "source": "PA-S001/session-publication-pipeline.mmd",
+              "title": "Session publication change flow",
+              "description": "A content change is catalogued, validated, and generated; a missing translation or R999 causes an identifiable build error before the output is replaced."
+            }
+          },
+          {
+            "type": "flow",
+            "steps": [
+              { "title": "Edit an explicit source", "body": "An editor changes a bilingual session page under site/." },
+              { "title": "Load the expected pair", "body": "The build reads the known ES and EN paths rather than copying arbitrary repository data." },
+              { "title": "Validate the editorial contract", "body": "Shape, cited identifiers, and structural correspondence are checked; semantic equivalence still needs human review." },
+              { "title": "Generate public routes", "body": "Only after validation does the renderer write dist/ for the static host." },
+              { "title": "Stop a malformed publication", "body": "A missing R999 or translation produces an identifiable failure rather than a silently published Mermaid or malformed page." }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "recall-cards",
+        "kind": "recall cards",
+        "label": "Recall",
+        "title": "Test distinctions, not vocabulary alone",
+        "rationale": "Several PA-S001 terms are easy to collapse into each other. These prompts ask for the boundary or consequence that distinguishes them, without reporting a score or mastery level.",
+        "sourceSections": ["concepts", "main-topic", "engineering-architecture", "system-platform", "quality", "boundaries", "coupling-cohesion", "fpa", "aipe", "scope"],
+        "blocks": [
+          {
+            "type": "flashcards",
+            "cards": [
+              { "category": "Concept", "question": "Why is an architecture description not the architecture itself?", "answer": "A description expresses the architecture; it does not replace the actual structure, behavior, and qualities it describes.", "explanation": "An ADR or route map is evidence of a description, not proof that a quality attribute has been achieved.", "sourceSections": ["concepts"] },
+              { "category": "Mental model", "question": "Why must P0 keep theory, implementation, and evidence distinct?", "answer": "A public chapter, the renderer that presents it, and evidence of learner or system behavior are different objects.", "explanation": "A test can pass without demonstrating learner understanding, and a chapter can be published before a lab runs.", "sourceSections": ["main-topic"] },
+              { "category": "Architecture", "question": "What makes a Book decision architectural rather than merely a local implementation edit?", "answer": "It constrains or enables later changes across the system's structure, behavior, delivery, or failure modes.", "explanation": "Line count or a component's folder location does not by itself determine architectural significance.", "sourceSections": ["engineering-architecture"] },
+              { "category": "System scope", "question": "Why is a shared package not automatically a frontend platform?", "answer": "A platform also needs consumer-oriented capabilities, contracts, support, compatibility, and meaningful adoption.", "explanation": "The Book is an application; its publication system includes content, build, and delivery within a deliberately chosen scope.", "sourceSections": ["system-platform"] },
+              { "category": "Quality", "question": "What does the missing-R999 build scenario establish, and what does it not establish?", "answer": "It establishes a bounded publication-integrity criterion: the validator rejects a missing cited identifier before output replacement.", "explanation": "It does not measure latency, prove source truthfulness, or certify accessibility.", "sourceSections": ["quality"] },
+              { "category": "Boundary", "question": "What does the P0 explicit-public-input rule protect, and what does it not prove?", "answer": "It limits automatic copying into generated output.", "explanation": "It does not by itself enforce security, verify public text, or establish that excluded material is safe in every context.", "sourceSections": ["boundaries"] },
+              { "category": "Coupling", "question": "Why can a TypeScript type reduce one mismatch without removing all coupling?", "answer": "It can constrain in-memory data shape, but routes, reference conventions, filesystem inputs, and build order remain dependencies.", "explanation": "Those dependencies need deliberate tests, documentation, and review.", "sourceSections": ["coupling-cohesion"] },
+              { "category": "FPA", "question": "What evidence would justify extracting a shared frontend capability?", "answer": "Compatible meaningful consumers and an adoption contract should justify it, not merely a preference for a shared folder.", "explanation": "Compatibility, versioning, documentation, and support are separate platform concerns.", "sourceSections": ["fpa"] },
+              { "category": "AIPE", "question": "Why is using Codex not the same as adding AI Product Engineering to P0?", "answer": "AI-assisted development is a tool used to create software; AIPE concerns product capabilities, their evaluation, operation, risks, and user effects.", "explanation": "This P0 slice deliberately introduces no model call, credential, evaluation result, or AI product claim.", "sourceSections": ["aipe"] },
+              { "category": "Scope", "question": "What would reveal that a shared theme capability has become a platform concern?", "answer": "Compatible meaningful consumers plus an adoption contract, support, compatibility, and versioning concerns would need to be demonstrated.", "explanation": "A shared folder or one current use case is not sufficient evidence.", "sourceSections": ["scope"] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "sections": [
     {
       "id": "objective",
