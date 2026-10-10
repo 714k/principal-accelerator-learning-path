@@ -32,6 +32,11 @@ jobs:
       - name: Install locked dependencies
         run: npm ci --ignore-scripts --no-audit --no-fund
 
+      - name: Install Mermaid browser
+        # npm ci intentionally skips lifecycle scripts; Mermaid CLI still needs the
+        # matching Puppeteer browser to convert source diagrams during the build.
+        run: npx --no-install puppeteer browsers install chrome-headless-shell
+
       - name: Validate and build
         env:
           # configure-pages returns '/repository' or '' for a root/custom domain.
