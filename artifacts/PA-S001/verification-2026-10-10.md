@@ -114,3 +114,25 @@ dashboard displayed 1/5 exercises and 0/8 review criteria while mastery remained
 4173 was occupied; preview succeeded on port 4174. No package or Project Source
 was changed for this follow-up. Accessibility and ES/EN semantic review remain
 pending with the learner.
+
+## Four chart views follow-up
+
+The dashboard now presents four explicit views of learner-controlled local study:
+bars compare marked exercises and review criteria; a pie shows marked/remaining
+exercises; a donut shows marked/remaining review criteria; and a line charts the
+marked total after each saved change. The line stores up to 30 actual local
+change records in order, with no synthetic backfill. Before two records exist it
+shows an honest empty or single-observation state. None of these views represents
+L1–L5 mastery or changes canonical progress.
+
+The Node 24 `npm run check` gate passed with 18 tests and 16 built HTML pages.
+Chromium found all four views and two tables at 320, 820 and 1440 px without page
+overflow. After two real study marks, EN showed 1/5 exercises, 1/8 review
+criteria, two line points and a total of 2/13; mastery remained `Not assessed`
+and overall status remained `Not started`. When local storage was blocked, counts
+stayed indeterminate and an unavailable state appeared. With JavaScript disabled,
+the four chart frames remained visible with loading/enable-JavaScript text. No
+dependency or Project Source was added or changed for this follow-up.
+The `BASE_PATH=/accelerator/ npm run build` preview also passed at 390 px: two
+real marks produced 1/5 and 1/8 bars, both circular distributions and two line
+points without page errors or overflow. The default `/` build was restored.

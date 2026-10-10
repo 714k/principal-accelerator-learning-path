@@ -117,11 +117,18 @@ test('dashboard separates local study, canonical status, mastery, and artifacts'
   assert.ok(html.includes('Editorial draft'));
   assert.ok(html.includes('data-study-summary'));
   assert.ok(html.includes('data-study-chart'));
+  assert.ok(html.includes('data-session-id="PA-S001"'));
   assert.ok(html.includes(`data-exercise-ids="${en.dashboard!.exerciseIds.join('|')}"`));
   assert.ok(html.includes(`data-criteria-ids="${en.dashboard!.checklistIds.join('|')}"`));
   assert.equal((html.match(/<table class="dashboard-table">/g) ?? []).length,2);
   assert.ok(html.includes('<progress id="study-exercises"'));
   assert.ok(!html.includes('<progress id="study-exercises" data-study-progress="exercise" max="5" value='));
+  assert.ok(html.includes('data-share-chart="exercise"'));
+  assert.ok(html.includes('data-share-chart="criteria"'));
+  assert.ok(html.includes('Pie · Exercises'));
+  assert.ok(html.includes('Donut · Review criteria'));
+  assert.ok(html.includes('data-study-line'));
+  assert.ok(html.includes('Enable JavaScript to view local history.'));
   assert.ok(html.includes('PA-S001 editorial chapter'));
   const spanish=home('es','/accelerator/',es,'Not started','not-assessed','Not started');
   assert.ok(spanish.includes('No iniciado'));

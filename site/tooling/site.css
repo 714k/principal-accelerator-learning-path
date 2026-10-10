@@ -26,3 +26,29 @@
 .toc-sublist li{padding:.2rem 0}
 .toc-list li::marker{color:var(--muted)}
 .toc-list a{display:inline-block;line-height:1.45;padding:.1rem 0}
+:root{--chart-rest:#bfd0d8}
+:root[data-theme=dark]{--chart-rest:#536a76}
+.chart-gallery{display:grid;grid-template-columns:minmax(0,1fr);gap:.8rem;margin:1rem 0}
+.share-chart,.line-chart{min-width:0;margin:0;padding:1rem;border:1px solid var(--line);border-radius:.8rem;background:var(--soft)}
+.share-chart figcaption,.line-chart figcaption{font-weight:700}
+.share-visual{position:relative;display:grid;place-items:center;width:min(100%,10.5rem);aspect-ratio:1;margin:.8rem auto;border-radius:50%;background:var(--chart-rest)}
+.share-visual.is-ready{background:conic-gradient(var(--accent) 0 var(--chart-share),var(--chart-rest) var(--chart-share) 100%)}
+.share-visual.donut::after{content:"";position:absolute;inset:25%;border-radius:50%;background:var(--soft)}
+.share-visual.donut [data-share-center]{position:relative;z-index:1;font-size:1.1rem;font-weight:800;font-variant-numeric:tabular-nums}
+.share-visual.pie [data-share-center]{display:none}
+.share-caption{text-align:center;font-variant-numeric:tabular-nums;margin:.6rem 0}
+.share-legend{display:flex;flex-wrap:wrap;justify-content:center;gap:.35rem 1rem;list-style:none;padding:0;margin:.5rem 0 0;font-size:.8rem}
+.share-legend li{display:inline-flex;align-items:center;gap:.35rem}
+.legend-swatch{display:inline-block;width:.75rem;height:.75rem;border-radius:.15rem}
+.legend-marked{background:var(--accent)}
+.legend-remaining{background:var(--chart-rest);border:1px solid var(--muted)}
+.line-chart svg{display:block;width:100%;height:auto;margin:.8rem 0;border:1px solid var(--line);border-radius:.5rem;background:var(--surface)}
+.line-grid{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:3 4}
+.line-axis{fill:none;stroke:var(--muted);stroke-width:1.5}
+.line-series{fill:none;stroke:var(--accent);stroke-width:3;vector-effect:non-scaling-stroke}
+.line-point{fill:var(--accent);stroke:var(--surface);stroke-width:2}
+.line-chart text{fill:var(--muted);font-size:12px}
+.line-state{font-weight:600;margin:.5rem 0}
+.line-time{display:flex;justify-content:space-between;gap:.5rem;color:var(--muted);font-size:.8rem}
+.line-chart .muted{font-size:.8rem;margin:.6rem 0 0}
+@media(min-width:42rem){.chart-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}.line-chart{grid-column:span 2}}
