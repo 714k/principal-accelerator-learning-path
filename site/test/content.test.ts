@@ -99,12 +99,24 @@ test('study IDs match across languages and controls are enabled',()=>{
   assert.throws(()=>assertPair(es,changed),/ES\/EN structure/);
 });
 test('dashboard separates local study, canonical status, mastery, and artifacts',()=>{
-  const html=home('en','/','Not started','not-assessed');
+  const html=home('en','/',en,'Not started','not-assessed','Not started');
   for (const id of ['roadmap','study','status','mastery','artifacts','revisit','projects','activity']) assert.ok(html.includes(`id="${id}"`));
   assert.ok(html.includes('Not started'));
   assert.ok(html.includes('Not assessed'));
+  assert.ok(html.includes('Overall program status'));
+  assert.ok(html.includes('Editorial draft'));
   assert.ok(html.includes('data-study-summary'));
+  assert.ok(html.includes('data-study-chart'));
+  assert.ok(html.includes(`data-exercise-ids="${en.dashboard!.exerciseIds.join('|')}"`));
+  assert.ok(html.includes(`data-criteria-ids="${en.dashboard!.checklistIds.join('|')}"`));
+  assert.equal((html.match(/<table class="dashboard-table">/g) ?? []).length,2);
+  assert.ok(html.includes('<progress id="study-exercises"'));
+  assert.ok(!html.includes('<progress id="study-exercises" data-study-progress="exercise" max="5" value='));
   assert.ok(html.includes('PA-S001 editorial chapter'));
+  const spanish=home('es','/accelerator/',es,'Not started','not-assessed','Not started');
+  assert.ok(spanish.includes('No iniciado'));
+  assert.ok(spanish.includes('href="/accelerator/es/sessions/PA-S001/"'));
+  assert.throws(()=>home('en','/',es,'Not started','not-assessed','Not started'),/matching session source/);
 });
 test('missing Mermaid source fails before publication',()=>{
   assert.throws(()=>generateDiagrams(root,new Map([['PA-S001/missing.mmd',{source:'PA-S001/missing.mmd',title:'Missing',description:'Missing'}]]),'/tmp/pa-missing-diagram-test'),/Diagram source is missing/);
