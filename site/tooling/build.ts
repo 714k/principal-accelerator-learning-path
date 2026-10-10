@@ -13,10 +13,14 @@ const base=basePath(process.env.BASE_PATH);
 const routes=['sessions/PA-S001','projects/portfolio','projects/p0','projects/engineering-book'];
 const pairs=routes.map(route=>({route,es:loadPage(resolve(root,`site/es/${route}/page.json`)),en:loadPage(resolve(root,`site/en/${route}/page.json`))}));
 for (const p of pairs) assertPair(p.es,p.en);
+const sessionPair=pairs.find(pair=>pair.route==='sessions/PA-S001');
+if (!sessionPair) throw new Error('PA-S001 session source is missing');
 const pages=pairs.flatMap(pair=>[pair.es,pair.en]);
 const progress=readFileSync(resolve(root,'project-sources/07-PROGRESS.md'),'utf8');
 const status=progress.match(/Current overall status:\s*(Not started|Partial|Completed|Revisit)/)?.[1];
 if (!status) throw new Error('Cannot read canonical status from 07-PROGRESS.md');
+const systemsStatus=progress.match(/Engineering Book \/ Portfolio:\s*(Not started|Partial|Completed|Revisit)/)?.[1];
+if (!systemsStatus) throw new Error('Cannot read P0 systems status from 07-PROGRESS.md');
 const mastery: unknown=JSON.parse(readFileSync(resolve(root,'data/mastery/PA-S001.json'),'utf8'));
 if (typeof mastery !== 'object' || mastery === null || !('status' in mastery) || typeof mastery.status !== 'string') throw new Error('Invalid mastery source');
 const generatedRoot=mkdtempSync(resolve(tmpdir(),'pa-s001-diagrams-'));
@@ -36,10 +40,10 @@ emit('assets/site.css',readFileSync(resolve(root,'site/tooling/site.css'),'utf8'
 emit('assets/study.js',readFileSync(resolve(root,'site/shared/assets/study.js'),'utf8'));
 copyDiagrams(generatedRoot,output,generatedDiagrams,pages);
 emit('.nojekyll','');
-emit('index.html',home('es',base,status,mastery.status));
+emit('index.html',home('es',base,sessionPair.es,status,mastery.status,systemsStatus));
 emit('portfolio/index.html',renderPortfolio(base));
 for (const lang of ['es','en'] as const) {
-  emit(`${lang}/index.html`,home(lang,base,status,mastery.status));
+  emit(`${lang}/index.html`,home(lang,base,sessionPair[lang],status,mastery.status,systemsStatus));
   emit(`${lang}/sessions/index.html`,sessionsIndex(lang,base));
   emit(`${lang}/projects/index.html`,projectsIndex(lang,base));
   for (const p of pairs) emit(`${lang}/${p.route}/index.html`,renderPage(p[lang],base,p.route));
