@@ -52,6 +52,15 @@ function renderSectionHeading(title: string, level: number): string {
 function renderDiagram(diagram: { source: string; description: string }, base: string, lang: 'es'|'en'): string {
   return `<figure class="diagram-card"><img class="session-diagram" src="${base}${lang}/${outputForDiagram(diagram.source)}" alt="${escapeHtml(diagram.description)}"><figcaption>${escapeHtml(diagram.description)}</figcaption></figure>`;
 }
+function renderToc(sections: Page['sections'], lang: 'es'|'en'): string {
+  const groups: {parent: Page['sections'][number]; children: Page['sections']}[]=[];
+  for (const section of sections) {
+    if (section.level===3 && groups.length) groups[groups.length-1]!.children.push(section);
+    else groups.push({parent:section,children:[]});
+  }
+  const link=(section: Page['sections'][number])=>`<a href="#${escapeHtml(section.id)}">${escapeHtml(section.title)}</a>`;
+  return `<details class="toc"><summary>${lang==='es'?'Contenido':'Contents'}</summary><nav aria-label="${lang==='es'?'Contenido':'Contents'}"><ol class="toc-list">${groups.map(group=>`<li>${link(group.parent)}${group.children.length?`<ol class="toc-sublist">${group.children.map(child=>`<li>${link(child)}</li>`).join('')}</ol>`:''}</li>`).join('')}</ol></nav></details>`;
+}
 function renderVisualLearning(page: Page, base: string): string {
   if (!page.visualLearning) return '';
   const es=page.lang==='es';
@@ -73,7 +82,7 @@ export function renderPage(page: Page, base: string, route = page.kind==='sessio
     ? `<nav class="breadcrumb" aria-label="Breadcrumb"><a href="${base}${page.lang}/">${es?'Inicio':'Home'}</a><span aria-hidden="true">/</span><a href="${base}${page.lang}/sessions/">${es?'Sesiones':'Sessions'}</a><span aria-hidden="true">/</span><span>PA-S001</span></nav>`
     : `<nav class="breadcrumb" aria-label="Breadcrumb"><a href="${base}${page.lang}/">${es?'Inicio':'Home'}</a><span aria-hidden="true">/</span><a href="${base}${page.lang}/projects/">${es?'Proyectos':'Projects'}</a><span aria-hidden="true">/</span><span>${escapeHtml(page.title)}</span></nav>`;
   const intro=`${crumb}<div class="page-intro"><p class="eyebrow">${page.kind==='session'?'F0 / PA-S001':'P0 / PORTFOLIO + LEARNING SITE'}</p><h1>${escapeHtml(page.title)}</h1><p class="lead">${escapeHtml(page.description)}</p><p class="notice">${es?'Borrador editorial · Dominio sin evaluar · Sin mediciones del alumno':'Editorial draft · Mastery not assessed · No learner measurements'}</p></div>`;
-  const toc=`<details class="toc"><summary>${es?'Contenido':'Contents'}</summary><nav aria-label="${es?'Contenido':'Contents'}">${page.sections.map(s=>`<a href="#${s.id}">${escapeHtml(s.title)}</a>`).join('')}</nav></details>`;
+  const toc=renderToc(page.sections,page.lang);
   const referencesList=`<ol class="references">${page.references.map(r=>`<li id="ref-${r.id}"><a href="${escapeHtml(r.url)}">[${r.id}] ${escapeHtml(r.title)}</a></li>`).join('')}</ol>`;
   const body=page.sections.map(s=>{
     const heading=s.level===3?3:2;

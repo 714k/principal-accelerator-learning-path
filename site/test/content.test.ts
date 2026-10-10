@@ -61,6 +61,16 @@ test('session navigation and progressive theme control are present',()=>{
   assert.ok(sessionsIndex('en','/').includes('PA-S001'));
   assert.ok(projectsIndex('en','/').includes('projects/portfolio/'));
 });
+test('session contents are a vertical semantic list with nested subtopics',()=>{
+  for (const page of [es,en]) {
+    const toc=renderPage(page,'/').match(/<details class="toc">([\s\S]*?)<\/details>/)?.[1];
+    assert.ok(toc);
+    assert.ok(toc.includes('<ol class="toc-list">'));
+    assert.ok(toc.includes('<ol class="toc-sublist"><li><a href="#c1">'));
+    assert.ok(toc.includes('<ol class="toc-sublist"><li><a href="#s1">'));
+    assert.equal((toc.match(/<a href="#/g) ?? []).length,page.sections.length);
+  }
+});
 test('project language switching preserves an explicit project route',()=>{
   const html=renderPage(es,'/','projects/portfolio');
   assert.ok(html.includes('href="/en/projects/portfolio/"'));
