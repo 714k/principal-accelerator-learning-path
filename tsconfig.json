@@ -14,7 +14,7 @@
     ]
   },
   "include": [
-    "apps/book/**/*.ts",
+    "site/**/*.ts",
     "apps/portfolio/**/*.ts"
   ]
 }

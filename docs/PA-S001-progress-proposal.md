@@ -1,28 +1,31 @@
 # Proposed update for `project-sources/07-PROGRESS.md`
 
-Do not overwrite history automatically. If the learner accepts this proposal after review,
-add the following entry under Session history and update the stated current system only with
-evidence that remains public-safe.
+This is a review proposal, not a change to canonical progress. The learner decides
+whether the mechanical artifact is enough to record `Partial`; mastery remains
+unassessed and the session must not be marked `Completed`.
+
+If accepted, change `Current overall status` to `Partial`, keep `Last completed
+session: None`, and add this entry to Session history:
 
 ```md
 ### PA-S001 — Engineering foundations + baseline evidence
 
 - Status: Partial
-- Date: TODO LEARNER: record actual date
+- Date: 2026-10-10
 - Phase: F0 — Accelerator Platform
-- Simultaneous areas: FPA + AIPE + Staff; introduction to Principal scope
-- App/Lab/System: P0 — Portfolio + Principal Accelerator Learning Site
-- Mastery: Not assessed; `data/mastery/PA-S001.json` has null levels.
-- Artifact(s): runnable static scaffold; bilingual PA-S001 editorial draft; P0 pages; ADR template; mechanical verification record.
-- Implemented: separate `/portfolio/` route; ES/EN session index and P0 routes; static build, content validation, responsive shell, language links, native disclosure TOC, and progressive Light/Dark control.
-- Evidence: `artifacts/PA-S001/verification.md` records mechanical checks only.
-- Measurements: No learner or production measurements recorded.
-- Strengths: TODO LEARNER: add only observed strengths.
-- Needs reinforcement: quality scenarios, boundary rationale, coupling/change propagation, AIPE evaluation reasoning, and Staff/Principal trade-offs.
-- Decisions: ADR-001 remains Proposed; no framework decision accepted.
-- Revisit in: PA-S002 and after manual accessibility review.
-- Next: PA-S002 — Accelerator monorepo + engineering standards; non-blocking.
+- Simultaneous areas: Frontend Platform Architecture (FPA), AI Product Engineering (AIPE), Staff; Principal scope introduced
+- App/Lab/System: P0 — professional portfolio and bilingual Principal Accelerator Learning Site
+- Mastery: Not assessed; `data/mastery/PA-S001.json` retains null levels.
+- Artifact(s): generated bilingual PA-S001 chapter; P0 project pages; portfolio draft; Mermaid sources and localized SVG; mechanical verification record.
+- Implemented: static build from `site/tooling/`, learning dashboards, curriculum navigation, enabled study controls with local persistence, Visual Learning Studio, separate portfolio route.
+- Evidence: `artifacts/PA-S001/verification-2026-10-10.md` records only commands and observable mechanical behavior.
+- Measurements: no learner or production measurements recorded.
+- Strengths: not assessed for learner mastery.
+- Needs reinforcement: not assessed; learner reasoning and review remain pending.
+- Decisions: ADR-001 pending learner decision; React/Astro remain TRIAL candidates.
+- Revisit in: learner ADR, controlled-failure diagnosis, semantic ES/EN review, full accessibility review, and stack decision.
+- Next: PA-S002 may proceed without a completion gate.
 ```
 
-Keep overall status as `Partial`, not `Completed`, until learner-owned reasoning and actual
-evidence are recorded.
+If the learner does not accept `Partial`, keep the current `Not started` status and
+record the code artifact in a separate implementation note until review.

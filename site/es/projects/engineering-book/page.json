@@ -17,14 +17,14 @@
       "id": "architecture",
       "title": "Arquitectura provisional",
       "paragraphs": [
-        "TypeScript y generación estática mínima para iniciar P0. site/ es canónico; apps/book valida y representa. No es una decisión final de framework. Comparar alternativas es trabajo del alumno."
+        "TypeScript y generación estática mínima para iniciar P0. site/ es canónico; site/tooling valida y representa. No es una decisión final de framework. Comparar alternativas es trabajo del alumno."
       ]
     },
     {
       "id": "implementation",
       "title": "Implementación",
       "paragraphs": [
-        "Código: apps/book/src/. Pruebas: apps/book/test/. Comandos: npm run check y npm run dev. No se conoce aún la URL del repositorio remoto; no se inventa un enlace."
+        "Código: site/tooling/. Pruebas: site/test/. Comandos: npm run check y npm run dev. No se conoce aún la URL del repositorio remoto; no se inventa un enlace."
       ]
     },
     {

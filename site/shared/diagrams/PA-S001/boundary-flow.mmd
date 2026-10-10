@@ -1,0 +1,7 @@
+flowchart LR
+  Contract[Session content contract] --> Site[Learning Site]
+  Site --> Dashboard[Learning dashboard]
+  Evidence[Canonical evidence] --> Dashboard
+  Study[Local study state] -. does not modify .-> Evidence
+  Portfolio[Professional portfolio] -. public link only .-> Site
+  Site --> Public[Public static output]

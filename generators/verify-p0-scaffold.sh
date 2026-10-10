@@ -7,7 +7,7 @@ repository_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repository_root"
 
 required=(
-  "apps/book/src/build.ts"
+  "site/tooling/build.ts"
   "apps/portfolio/src/portfolio.ts"
   "site/es/sessions/PA-S001/page.json"
   "site/en/sessions/PA-S001/page.json"

@@ -3,7 +3,7 @@ import { readFileSync, realpathSync, statSync } from 'node:fs';
 import { dirname, resolve, extname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { basePath } from './render.ts';
-const root=realpathSync(resolve(dirname(fileURLToPath(import.meta.url)),'../../../dist'));
+const root=realpathSync(resolve(dirname(fileURLToPath(import.meta.url)),'../../dist'));
 const base=basePath(process.env.BASE_PATH);
 const port=Number(process.env.PORT??4173);
 if (!Number.isInteger(port)||port<1||port>65535) throw new Error('Invalid PORT');
@@ -22,9 +22,9 @@ const server=createServer((req,res)=>{
     file=realpathSync(file);
     if (!file.startsWith(root+sep)) {res.writeHead(404).end();return;}
     const content=readFileSync(file);
-    const type=extname(file)==='.css'?'text/css':extname(file)==='.svg'?'image/svg+xml':'text/html';
+    const type=extname(file)==='.css'?'text/css':extname(file)==='.svg'?'image/svg+xml':extname(file)==='.js'?'text/javascript':'text/html';
     res.writeHead(200,{'Content-Type':type+'; charset=utf-8','X-Content-Type-Options':'nosniff','Cache-Control':'no-store'});
     res.end(req.method==='HEAD'?undefined:content);
   } catch {res.writeHead(404).end('Not found');}
 });
-server.listen(port,'127.0.0.1',()=>console.log(`Book: http://localhost:${port}${base} — local preview, not a production server`));
+server.listen(port,'127.0.0.1',()=>console.log(`Learning Site: http://localhost:${port}${base} — local preview`));

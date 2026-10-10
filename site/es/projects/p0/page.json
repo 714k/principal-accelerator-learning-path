@@ -23,7 +23,7 @@
       "id": "implementation",
       "title": "Implementación",
       "paragraphs": [
-        "apps/portfolio/src/portfolio.ts representa una ruta de portafolio separada con navegación propia. apps/book carga solo los archivos page.json bilingües enumerados, valida su estructura y sus identificadores de referencias coincidentes, y escribe rutas estáticas explícitas. El Book se conserva como renderer heredado compatible mientras P0 incorpora la superficie requerida de portafolio.",
+        "apps/portfolio/src/portfolio.ts representa una ruta de portafolio separada con navegación propia. site/tooling carga solo los archivos page.json bilingües enumerados, valida su estructura y sus identificadores de referencias coincidentes, y escribe rutas estáticas explícitas. El Book se conserva como renderer heredado compatible mientras P0 incorpora la superficie requerida de portafolio.",
         "El control de tema es mejora progresiva: el HTML publicado es legible sin JavaScript; después, un script generado desde TypeScript elige la preferencia del sistema si no hay selección guardada y persiste una elección Light/Dark cuando localStorage está disponible. Un fallo de almacenamiento se captura para que lectura y cambio sigan funcionando."
       ],
       "code": "const routes = ['sessions/PA-S001', 'projects/p0'];\n// Cada ruta debe tener page.json en ES y EN.\n// loadPage() valida entradas antes de reemplazar dist/."
