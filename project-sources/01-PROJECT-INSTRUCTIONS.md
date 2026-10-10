@@ -701,6 +701,40 @@ The learning site must include:
 The session index is the scalable navigation surface for PA-S001 … PA-S120.
 The per-session TOC should default to a compact/collapsed presentation on small screens and be expandable with an accessible control (`aria-expanded` or equivalent behavior).
 
+
+## Canonical UI Reference for the Learning Site
+
+The repository may contain a top-level:
+
+```text
+/ui-reference/
+```
+
+This directory is the **Canonical UI Reference** for the Principal Accelerator Learning Site.
+
+When creating or regenerating `site/`, session pages, project-learning pages, Visual Learning Guides or reusable Learning Site UI, inspect `/ui-reference/` first and derive the target:
+
+- look and feel;
+- visual hierarchy;
+- typography treatment;
+- spacing/rhythm;
+- content density;
+- cards/callouts;
+- section composition;
+- navigation behavior;
+- interaction patterns;
+- code/example presentation;
+- diagrams/visual explanation treatment;
+- responsive behavior;
+- Light/Dark treatment where represented;
+- content-presentation patterns.
+
+`/ui-reference/` is authoritative for intended **UI/UX presentation**, but is not automatically authoritative for framework choice, repository architecture, backend/data architecture, package boundaries, implementation libraries, security or reliability.
+
+Reuse the reference's design language and interaction intent. Do not blindly copy obsolete, inaccessible, framework-specific or technically inappropriate implementation details.
+
+If the reference conflicts with explicit Principal Accelerator requirements (accessibility, responsiveness, ES/EN, Mermaid → SVG, static hosting, semantic HTML, or later accepted ADRs), preserve the Accelerator requirement and adapt the reference pattern.
+
 ## Public Site contract
 
 Every theory-bearing session must create or extend a **publishable bilingual web surface** in the repository.

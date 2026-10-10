@@ -148,10 +148,23 @@
         "Contrato ilustrativo: ante referencia inexistente, detener construcción antes de reemplazar salida; ante falta de evidencia, mostrar sin evaluar; ante incompatibilidad estructural ES/EN, solicitar revisión. Probar estos comportamientos no certifica producción. La revisión semántica, validación manual de accesibilidad, configuración del alojamiento, disponibilidad de fuentes y preservación de salida siguen pendientes."
       ],
       "diagram": {
-        "text": "editor -> SessionCatalog -> ContentValidator -> SiteGenerator -> dist/\n                              | fallo: traducción ausente / marcador R999\n                              +-> error identificable; no se reemplaza la salida previa",
+        "source": "PA-S001/session-publication-pipeline.mmd",
+        "title": "Canal de publicación de la sesión",
         "description": "Topología hipotética de publicación. Representa componentes actuales y política de fallo propuesta; no ha sido operada en producción."
       },
       "code": "for (const pair of pairs) assertPair(pair.es, pair.en);\n// Las entradas se validan antes de eliminar dist/.\n// No juzga significado de traducción ni veracidad de referencias."
+    },
+    {
+      "id": "visual-learning-guide",
+      "title": "Guía Visual de Aprendizaje",
+      "paragraphs": [
+        "Leer el flujo P0 de izquierda a derecha: la aplicación de portafolio produce su propia ruta pública; el contenido bilingüe explícito de site/ pasa por el renderer estático heredado hacia las rutas del Learning Site; y data más artifacts se excluyen de la salida pública. Este visual es una síntesis didáctica del límite de publicación, no una garantía de seguridad ni evidencia de operación en producción."
+      ],
+      "diagram": {
+        "source": "PA-S001/p0-publication-flow.mmd",
+        "title": "Límite de publicación público de P0",
+        "description": "Guía visual del límite de publicación P0: la ruta separada del portafolio, las rutas bilingües del Learning Site y data y artifacts privados excluidos de la salida generada."
+      }
     },
     {
       "id": "exercises",
@@ -162,7 +175,7 @@
     },
     {
       "id": "resources",
-      "title": "Resources",
+      "title": "Fuentes y referencias seleccionadas",
       "paragraphs": [
         "Lectura prioritaria: Parnas, The Criteria [R3]; SEI, escenarios de seis partes [R4]; CNCF, definición y atributos de plataforma [R5]; NIST, sección 2.2 [R6]. Contrastar el vocabulario y diferenciar lo que dicen las fuentes de las propuestas del ejemplo."
       ]
@@ -196,7 +209,7 @@
     },
     {
       "id": "reliability",
-      "title": "Resumen de confiabilidad",
+      "title": "Estado de evidencia",
       "paragraphs": [
         "Conclusión: P0 tiene un scaffold estático verificado mecánicamente, no un sistema de aprendizaje o producción completado. Los hechos con fuente se identifican por [R1]–[R11]; el mapeo de P0 y el escenario de producción son síntesis didáctica y ejemplo hipotético. Los supuestos incluyen la baseline estática elegida y entradas públicas revisadas. Limitaciones: no hay revisión de accesibilidad en navegador, host desplegado, evidencia del learner ni evaluación semántica de traducción. La confianza es alta solo para comprobaciones ejecutadas del repositorio y limitada para revisiones no realizadas."
       ]

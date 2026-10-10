@@ -332,6 +332,113 @@ Mastery requires evidence.
 Familiarity with a technology, prior usage or self-reported confidence
 is not sufficient evidence of mastery.
 
+
+
+## Reference-driven UI learning surface
+
+The Learning Site uses `/ui-reference/` as its canonical presentation model.
+
+```text
+Project Sources
+      ↓
+academic/theoretical truth
+
+/ui-reference/
+      ↓
+UI/UX presentation model
+
+site/
+      ↓
+implemented learning experience
+```
+
+The reference should influence how the learner scans, compares, expands, navigates and visually relates concepts.
+
+Do not allow reference-driven styling to compress or omit theory. The site must still preserve the full academic layer plus the Visual Learning Guide.
+
+When the reference contains an interaction pattern, reproduce its **purpose and user experience** rather than mechanically copying source code.
+
+## Dual-representation learning
+
+Every theory-bearing session uses two complementary representations:
+
+```text
+Academic Theory
+      ↓
+Visual Learning Guide
+      ↓
+Exercises / application
+```
+
+### Academic Theory
+
+Optimized for:
+- correctness;
+- source traceability;
+- complete explanation;
+- mechanism;
+- trade-offs;
+- production depth.
+
+### Visual Learning Guide
+
+Optimized for:
+- rapid comprehension;
+- mental-model formation;
+- relationship recognition;
+- recall;
+- later review.
+
+The visual layer must be derived from the academic layer. It must not become a second independent source of truth.
+
+### Compression without distortion
+
+Visual summaries may reduce words but must preserve:
+- the concept's meaning;
+- important distinctions;
+- causal direction;
+- relevant limitation/trade-off;
+- production consequence where important.
+
+If a concept cannot be simplified without becoming misleading, prefer a larger visual block rather than an inaccurate slogan.
+
+### Preferred visual patterns
+
+Use, according to the topic:
+
+- concept cards;
+- annotated diagrams;
+- dependency maps;
+- before/after comparisons;
+- timelines/lifecycles;
+- request/data flows;
+- state transitions;
+- sequence diagrams;
+- architecture layers/boundaries;
+- code-to-concept callouts;
+- failure propagation maps;
+- decision/trade-off matrices.
+
+A visual is useful only when it helps answer:
+- What is this?
+- Where is it in software?
+- How does it work?
+- What depends on what?
+- What changes or fails?
+- Why should an engineer care?
+
+### Responsive visual learning
+
+Design the Visual Learning Guide mobile-first.
+
+On phone/tablet:
+- cards stack vertically;
+- diagrams use available content width;
+- SVG height remains proportional;
+- code can scroll horizontally only when unavoidable;
+- tables should become responsive cards or otherwise remain readable;
+- no essential explanation depends on hover.
+
 ## Theory → Practice
 
 Every important concept should be connected to a concrete manifestation

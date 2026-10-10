@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 export interface Table { headers: string[]; rows: string[][] }
-export interface Diagram { text: string; description: string }
+/** A Mermaid source file that is rendered to SVG before publication. */
+export interface Diagram { source: string; title: string; description: string }
 export interface Section {
   id: string; title: string; paragraphs: string[]; level?: 2 | 3;
   checklist?: string[]; table?: Table; diagram?: Diagram; code?: string;
@@ -35,7 +36,10 @@ export function validatePage(value: unknown): asserts value is Page {
         (s.level !== undefined && s.level !== 2 && s.level !== 3) ||
         (s.checklist !== undefined && (!Array.isArray(s.checklist) || !s.checklist.every(x => typeof x === 'string' && x.length > 0))) ||
         (s.code !== undefined && typeof s.code !== 'string') ||
-        (s.diagram !== undefined && (!record(s.diagram) || typeof s.diagram.text !== 'string' || typeof s.diagram.description !== 'string')) ||
+        (s.diagram !== undefined && (!record(s.diagram) ||
+          typeof s.diagram.source !== 'string' || !/^[A-Za-z0-9][A-Za-z0-9/_-]*\.mmd$/.test(s.diagram.source) ||
+          typeof s.diagram.title !== 'string' || !s.diagram.title.length ||
+          typeof s.diagram.description !== 'string' || !s.diagram.description.length)) ||
         (s.table !== undefined && !validTable(s.table))) {
       throw new Error('Invalid section');
     }

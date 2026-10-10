@@ -1,0 +1,5 @@
+flowchart LR
+  portfolio["apps/portfolio"] --> portfolioRoute["/portfolio/"]
+  content["site/es|en/*"] --> book["apps/book"]
+  book --> learningRoutes["/es|en/..."]
+  private["data/ + artifacts/"] -. "not copied automatically" .-> excluded["dist/ exclusion"]

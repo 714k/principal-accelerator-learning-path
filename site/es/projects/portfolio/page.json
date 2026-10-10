@@ -1,0 +1,47 @@
+{
+  "id": "portfolio",
+  "lang": "es",
+  "kind": "project",
+  "title": "P0 — Portafolio profesional",
+  "description": "Una superficie profesional concisa, separada del Learning Site y a la espera de detalles aprobados por el learner.",
+  "status": "editorial-draft",
+  "sections": [
+    {
+      "id": "purpose",
+      "title": "Propósito",
+      "paragraphs": [
+        "El portafolio profesional es un producto público distinto bajo apps/portfolio/. Su propósito es comunicar posicionamiento profesional, pensamiento sistémico y trabajo seleccionado solo después de que el learner revise ese material por exactitud y seguridad de publicación.",
+        "Enlaza al Principal Accelerator Learning Site para el capítulo público PA-S001. No duplica el capítulo, no presenta el contenido editorial como logro profesional y no incluye material confidencial de empleadores."
+      ]
+    },
+    {
+      "id": "current-slice",
+      "title": "Porción P0 actual",
+      "paragraphs": [
+        "La ruta generada /portfolio/ tiene navegación propia y contiene solo un posicionamiento profesional borrador, marcadores de trabajo seleccionado, un marcador de dirección de sistemas y arquitectura, y un enlace al Learning Site. El portafolio y el Learning Site no comparten intencionalmente una única superficie de navegación.",
+        "Este es un scaffold para hosting estático. No establece un framework final, narrativa profesional, endpoint de contacto, resultado ni destino de despliegue."
+      ]
+    },
+    {
+      "id": "evidence-status",
+      "title": "Estado de evidencia",
+      "paragraphs": [
+        "Aquí no se afirman logros de portafolio, métricas, testimonios, detalles de empleadores, resultados de dominio ni evidencia de producción. Las comprobaciones del repositorio pueden verificar comportamiento acotado de rendering; no pueden verificar afirmaciones profesionales ni dominio del learner."
+      ]
+    },
+    {
+      "id": "learner-todos",
+      "title": "TODOs del learner",
+      "paragraphs": [
+        "El contenido listo para publicación requiere revisión y aprobación del learner. Los siguientes marcadores quedan pendientes intencionalmente."
+      ],
+      "checklist": [
+        "TODO LEARNER: aprobar el posicionamiento profesional.",
+        "TODO LEARNER: añadir solo narrativas y evidencia de trabajo seleccionado, revisadas y seguras para publicar.",
+        "TODO LEARNER: aprobar cualquier canal de contacto y destino público de hosting.",
+        "TODO LEARNER: registrar el razonamiento de arquitectura por separado en un ADR si se acepta el límite de P0."
+      ]
+    }
+  ],
+  "references": []
+}

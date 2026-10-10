@@ -21,6 +21,15 @@ test('HTML-shaped content is displayed as text',()=>{
   const html=renderPage(changed,'/'); assert.ok(!html.includes('<script>alert(1)</script>')); assert.ok(html.includes('&lt;script&gt;alert(1)&lt;/script&gt;'));
   assert.equal(escapeHtml('"&'), '&quot;&amp;');
 });
+test('diagram fields require a Mermaid source and render a responsive SVG image',()=>{
+  const changed=structuredClone(es); changed.sections[0]!.diagram={source:'PA-S001/example.mmd',title:'Example',description:'Example diagram'};
+  assert.doesNotThrow(()=>validatePage(changed));
+  assert.throws(()=>validatePage({...changed,sections:[{...changed.sections[0]!,diagram:{source:'PA-S001/example.svg',title:'Example',description:'Example diagram'}},...changed.sections.slice(1)]}),/Invalid section/);
+  const html=renderPage(changed,'/accelerator/');
+  assert.ok(html.includes('class="session-diagram"'));
+  assert.ok(html.includes('src="/accelerator/shared/diagrams/PA-S001/example.svg"'));
+  assert.ok(!html.includes('<pre class="diagram">'));
+});
 test('subpath hosting has prefixed links and assets',()=>{
   const html=renderPage(es,'/accelerator/'); assert.ok(html.includes('href="/accelerator/assets/book.css"'));
   assert.ok(html.includes('href="/accelerator/en/sessions/PA-S001/"'));
@@ -37,5 +46,9 @@ test('session navigation and progressive theme control are present',()=>{
   assert.ok(html.includes("r.dataset.theme=v;b.textContent=v==='dark'?'☀':'☾'"));
   assert.ok(html.includes('Principal Accelerator<br /><span>LEARNING PATH</span>'));
   assert.ok(sessionsIndex('en','/').includes('PA-S001'));
-  assert.ok(projectsIndex('en','/').includes('projects/p0/'));
+  assert.ok(projectsIndex('en','/').includes('projects/portfolio/'));
+});
+test('project language switching preserves an explicit project route',()=>{
+  const html=renderPage(es,'/','projects/portfolio');
+  assert.ok(html.includes('href="/en/projects/portfolio/"'));
 });
