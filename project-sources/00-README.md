@@ -44,7 +44,7 @@ The learner may start later sessions while earlier sessions are Partial, Revisit
 
 When Build begins, implementation-capable sessions provide the executable scaffold automatically.
 
-PA-S001 must provide both `.sh` and Codex prompt for the real Accelerator repository, `apps/book`, and bilingual `site/` surface.
+PA-S001 must provide both `.sh` and Codex prompt for the real Accelerator repository, `apps/portfolio/`, and bilingual `site/` surface.
 
 ## Main Topic / Subtopics invariant
 
@@ -64,7 +64,7 @@ The Theory Phase cannot end until every roadmap-required and session-introduced 
 
 For theory-bearing sessions, complete the full Theory Phase before asking the learner to answer anything:
 
-**Learning Preview → Concepts → Main Topic → Subtopics → Theory → Practice Map → Time Breakdown → Real-World Example → Production-Ready Example → Exercises → Resources → Knowledge Mastery Checklist → End-of-Session Success Criteria → Bridge**
+**Learning Preview → Concepts → Main Topic → Subtopics → Theory → Practice Map → Time Breakdown → Real-World Example → Production-Ready Example → Visual Learning Guide / Studio → Exercises → Resources → Knowledge Mastery Checklist → End-of-Session Success Criteria → Bridge**
 
 Then stop. Design/Build begins only after learner continuation.
 
@@ -75,6 +75,26 @@ Every theory-bearing session must create/update a public ES/EN session section u
 
 The public surface must be hostable on GitHub Pages or another static hosting service and must never require access to private chat context.
 
+
+## Learning Site experience invariant
+
+The Principal Accelerator Learning Site is a learning product, not a generic documentation renderer.
+
+Every current and future theory-bearing session must publish:
+- complete academic theory;
+- a concept-first Main Topic and concept-first Subtopics;
+- an adaptive Visual Learning Studio derived from that theory;
+- a session mind map authored in Mermaid and published as responsive SVG;
+- flashcards covering Concepts, Main Topic and every theoretical Subtopic;
+- additional visual modes only when supported by the session content;
+- bilingual ES/EN parity;
+- mobile-first presentation following `/ui-reference/`.
+
+The Learning Site home is a dashboard that summarizes learner activity and evidence-backed progress using accessible cards, tables and appropriate charts. Interactive checklist/exercise completion is learner-tracked study state; it must never be misrepresented as demonstrated L1–L5 mastery.
+
+Every acronym/initialism used on a published page must be expanded at least once on that page using `Full Term (ACRONYM)` or the semantically appropriate localized equivalent.
+
+Default visual palettes across generated Accelerator applications should avoid pink, purple and rainbow/multi-hue decorative palettes unless a product/domain/brand explicitly calls for them. Prefer restrained neutral, blue, cyan/teal, green, amber/orange and red semantic accents with accessible contrast.
 
 ## Important architecture rule
 
@@ -137,3 +157,18 @@ requiring the learner to restate the program.
 - When a session creates or extends an app/lab/system, the session must provide the executable scaffold path automatically: a shell script and/or complete Codex prompt appropriate to the task.
 - Theory comes before applying new concepts. `## Concepts` must teach the engineering topic, not merely explain the learning process or assessment model.
 
+## P0 implementation baseline — effective from PA-S001
+
+The Learning Site capabilities below are **platform baseline**, not future optional enhancements. PA-S001 initializes them and every later session preserves/extends them:
+
+- mobile-first bilingual dashboard home (`/es/`, `/en/`);
+- useful global curriculum navigation grouped by phase plus projects/systems;
+- interactive learner study tracking for Exercises and Knowledge Mastery Checklist items using stable ES/EN-shared IDs;
+- strict separation of study tracking from evidence-backed L1–L5 mastery;
+- concept-first academically rigorous session content;
+- adaptive Visual Learning Studio with mandatory mind map + comprehensive flashcards;
+- responsive Mermaid → SVG pipeline;
+- `/ui-reference/`-derived look/feel and interaction patterns;
+- accessible Light/Dark UI and responsive phone → tablet/iPad → desktop behavior.
+
+PA-S006 deepens theme/chart/mastery-visualization architecture; it does **not** defer initial dashboard/theme/tracking capability until PA-S006.

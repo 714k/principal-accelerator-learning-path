@@ -17,14 +17,14 @@
       "id": "architecture",
       "title": "Provisional architecture",
       "paragraphs": [
-        "TypeScript and minimal static generation initialize P0. site/ is canonical; apps/book validates and renders. This is not a final framework decision. Comparing alternatives belongs to the learner."
+        "TypeScript and minimal static generation initialize P0. site/ is canonical; site/tooling validates and renders. This is not a final framework decision. Comparing alternatives belongs to the learner."
       ]
     },
     {
       "id": "implementation",
       "title": "Implementation",
       "paragraphs": [
-        "Code: apps/book/src/. Tests: apps/book/test/. Commands: npm run check and npm run dev. The remote repository URL is not yet known; no link is invented."
+        "Code: site/tooling/. Tests: site/test/. Commands: npm run check and npm run dev. The remote repository URL is not yet known; no link is invented."
       ]
     },
     {

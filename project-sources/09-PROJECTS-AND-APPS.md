@@ -54,15 +54,32 @@ Every session page includes breadcrumb, compact/collapsible TOC and Previous/Nex
 ### F0 mapping
 | Session | Primary P0 outcome |
 |---|---|
-| PA-S001 | Initialize Accelerator repository + first runnable `apps/portfolio/` slice + first bilingual `site/` Learning Site shell. |
+| PA-S001 | Initialize Accelerator repository + first runnable `apps/portfolio/` slice + current bilingual `site/` baseline: dashboard home, global curriculum nav, Light/Dark, interactive study tracking, Visual Learning Studio, Mermaid→SVG and responsive publishing. |
 | PA-S002 | Evolve repository into Accelerator monorepo; add engineering standards, workspace/package boundaries and quality gates. |
 | PA-S003 | Deepen portfolio architecture and Learning Site content/information architecture without conflating the two surfaces. |
 | PA-S004 | Add design-system/token/accessibility foundations reusable by portfolio and Learning Site where appropriate. |
 | PA-S005 | Deepen ES/EN content architecture and i18n for Learning Site and applicable portfolio surfaces. |
-| PA-S006 | Add theme and learning/mastery visualization where appropriate; maintain clear Portfolio vs Learning Site boundaries. |
+| PA-S006 | Deepen/refactor theme, chart and learning/mastery visualization architecture already present since PA-S001; do not introduce the dashboard for the first time here. |
 
 Baseline/mastery evidence belongs in normal evidence/data artifacts and may be linked from the Learning Site when public-safe. It is not a separate diagnostic application.
 
+
+## Learning Site home/dashboard
+
+`site/` home is the Accelerator learning dashboard, not a marketing landing page.
+
+It should summarize available, non-invented data through appropriate cards, tables and charts, including where available:
+- roadmap/session progress;
+- learner-tracked checklist and exercise completion;
+- evidence-backed mastery separately;
+- artifacts/evidence;
+- revisit queue;
+- longitudinal project/system progress;
+- recent activity/next work.
+
+Global navigation is a scalable curriculum navigator. On desktop it should expose sessions grouped by phase plus projects/systems and principal site destinations. The current-page TOC belongs below global navigation or above article content rather than occupying a separate mostly-empty rail.
+
+Every session page contributes data/content required for this dashboard and the adaptive Visual Learning Studio.
 
 ## Canonical UI Reference — `/ui-reference/`
 
@@ -188,6 +205,7 @@ Primary use: F8--F10, especially capstone synthesis.
 
 ```text
 principal-engineer-accelerator/
+  ui-reference/
   apps/
     portfolio/
     architecture-labs/
@@ -237,3 +255,14 @@ principal-engineer-accelerator/
 
 Do not duplicate full theory inside the portfolio.
 If a repository already contains `apps/book/`, treat it as legacy structure and migrate non-destructively toward `apps/portfolio/` in an applicable Build. Preserve user work and history.
+
+## P0 dashboard data contract
+
+Every published session contributes stable dashboard-addressable data where applicable:
+- session ID/phase/status context;
+- exercise IDs and learner study state;
+- Knowledge Mastery Checklist IDs and learner study state;
+- evidence/mastery references separately;
+- artifacts/revisits/project association.
+
+The dashboard may show zero/empty states honestly. Empty evidence is preferable to invented mastery.

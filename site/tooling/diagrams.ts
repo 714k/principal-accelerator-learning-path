@@ -47,7 +47,7 @@ export function diagramMetadata(pages: Page[]): Map<string, DiagramMetadata> {
 }
 
 /** Regenerates every checked-in Mermaid asset before the public output is replaced. */
-export function generateDiagrams(root: string, metadata: Map<string, DiagramMetadata>): string[] {
+export function generateDiagrams(root: string, metadata: Map<string, DiagramMetadata>, generatedRoot: string): string[] {
   const diagramsRoot = resolve(root, 'site/shared/diagrams');
   if (!existsSync(diagramsRoot)) return [];
   const sourceFiles = walk(diagramsRoot);
@@ -55,13 +55,14 @@ export function generateDiagrams(root: string, metadata: Map<string, DiagramMeta
   for (const source of metadata.keys()) if (!sources.has(source)) throw new Error(`Diagram source is missing: site/shared/diagrams/${source}`);
   const cli = resolve(root, 'node_modules/.bin/mmdc');
   if (!existsSync(cli)) throw new Error('Mermaid CLI is unavailable. Install dependencies before building diagrams.');
-  const puppeteerConfig = resolve(root, 'apps/book/puppeteer.config.json');
+  const puppeteerConfig = resolve(root, 'site/tooling/puppeteer.config.json');
   if (!existsSync(puppeteerConfig)) throw new Error('Mermaid Puppeteer configuration is missing.');
   for (const input of sourceFiles) {
     const source = relative(diagramsRoot, input).split(sep).join('/');
-    const output = input.replace(/\.mmd$/, '.svg');
+    const output = resolve(generatedRoot, source.replace(/\.mmd$/, '.svg'));
     const temporary = `${output}.tmp.svg`;
     const detail = metadata.get(source) ?? { source, title: 'Mermaid diagram', description: 'A diagram generated from the preserved Mermaid source.' };
+    mkdirSync(dirname(output),{recursive:true});
     rmSync(temporary, { force: true });
     const result = spawnSync(cli, ['--quiet', '--puppeteerConfigFile', puppeteerConfig, '--input', input, '--output', temporary, '--backgroundColor', 'transparent'], { cwd: root, encoding: 'utf8' });
     if (result.status !== 0 || !existsSync(temporary)) {
@@ -80,13 +81,19 @@ export function generateDiagrams(root: string, metadata: Map<string, DiagramMeta
   return sourceFiles.map(file => relative(diagramsRoot, file).replace(/\.mmd$/, '.svg').split(sep).join('/'));
 }
 
-export function copyDiagrams(root: string, output: string, generated: string[]): void {
-  const publicRoot = resolve(output, 'shared/diagrams');
-  for (const file of generated) {
-    const source = resolve(root, 'site/shared/diagrams', file);
-    const destination = resolve(publicRoot, file);
-    if (!destination.startsWith(publicRoot + sep)) throw new Error(`Invalid diagram output: ${file}`);
-    mkdirSync(dirname(destination), { recursive: true });
-    writeFileSync(destination, readFileSync(source));
+export function copyDiagrams(generatedRoot: string, output: string, generated: string[], pages: Page[]): void {
+  for (const lang of ['es','en'] as const) {
+    const metadata=diagramMetadata(pages.filter(page=>page.lang===lang));
+    const publicRoot = resolve(output, lang, 'shared/diagrams');
+    for (const file of generated) {
+      const source = resolve(generatedRoot, file);
+      const destination = resolve(publicRoot, file);
+      if (!destination.startsWith(publicRoot + sep)) throw new Error(`Invalid diagram output: ${file}`);
+      mkdirSync(dirname(destination), { recursive: true });
+      let svg=readFileSync(source,'utf8');
+      const detail=metadata.get(file.replace(/\.svg$/,'.mmd'));
+      if (detail) svg=svg.replace(/(<title\b[^>]*>).*?(<\/title>)/s,`$1${escapeXml(detail.title)}$2`).replace(/(<desc\b[^>]*>).*?(<\/desc>)/s,`$1${escapeXml(detail.description)}$2`);
+      writeFileSync(destination,svg);
+    }
   }
 }

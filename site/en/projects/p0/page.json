@@ -23,7 +23,7 @@
       "id": "implementation",
       "title": "Implementation",
       "paragraphs": [
-        "apps/portfolio/src/portfolio.ts renders a separate draft portfolio route with its own navigation. apps/book loads only listed bilingual page.json files, validates their matching structure and reference identifiers, and writes explicit static routes. The Book remains a compatible legacy renderer while P0 adds the required portfolio surface.",
+        "apps/portfolio/src/portfolio.ts renders a separate draft portfolio route with its own navigation. site/tooling loads only listed bilingual page.json files, validates their matching structure and reference identifiers, and writes explicit static routes. The Book remains a compatible legacy renderer while P0 adds the required portfolio surface.",
         "The theme control is progressive enhancement: the published HTML is readable without JavaScript, then a small TypeScript-generated script chooses the system preference when no choice is stored and persists a Light/Dark selection when localStorage is available. Storage failure is caught so reading and switching remain possible."
       ],
       "code": "const routes = ['sessions/PA-S001', 'projects/p0'];\n// Each route must have ES and EN page.json files.\n// loadPage() validates input before dist/ is replaced."

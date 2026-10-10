@@ -2,18 +2,28 @@
 
 PA-S001 provides an executable, static first slice of two separate public products:
 
-- `apps/portfolio/`: a concise professional portfolio draft. Confirmed identity, work,
-  contact details, metrics, testimonials, and employer information remain learner-owned.
-- `site/`: bilingual PA-S001 learning content rendered by the inherited `apps/book/`
-  static generator.
+- `apps/portfolio/`: a concise professional portfolio draft. Its Staff role and
+  focus areas come from learner-supplied context; public claims await learner review.
+- `site/`: bilingual PA-S001 learning content and its static generator in `site/tooling/`.
 
 The renderer is an experimental Node 24 + TypeScript baseline, not a final framework
 decision. `site/` is the public content source; `data/`, `artifacts/`, and
 `project-sources/` are never copied automatically into `dist/`.
+The retired `apps/book/` package remains in repository history but is outside the
+active workspace and public architecture.
 
 ## Install and run
 
 Requires Node 24.12+ (24.x) and npm.
+
+To initialize a separate empty checkout from this verified scaffold, use:
+
+```bash
+bash generators/bootstrap-pa-s001.sh ../principal-engineer-accelerator
+```
+
+The companion [Codex handoff](docs/CODEX-PA-S001.md) is intentionally bounded
+to mechanical P0 work; it does not make learner-owned architecture decisions.
 
 ```bash
 npm ci
@@ -28,6 +38,7 @@ npm run dev
 - http://localhost:4173/es/sessions/PA-S001/
 - http://localhost:4173/en/sessions/PA-S001/
 - http://localhost:4173/es/projects/
+- http://localhost:4173/es/projects/engineering-book/
 - http://localhost:4173/es/projects/p0/
 - http://localhost:4173/portfolio/
 
@@ -48,8 +59,8 @@ bash generators/verify-p0-scaffold.sh
 ```
 
 `npm run check` runs lint, TypeScript checking, Node tests, and the static build. The
-tests cover bounded content validation, bilingual structural correspondence, HTML
-escaping, subpath links, and rendered navigation/theme markup. They do not certify
+tests cover bounded content validation, bilingual structural correspondence, Mermaid
+failure paths, study IDs, HTML escaping, subpath links, and rendered navigation/theme markup. They do not certify
 accessibility, semantic translation equivalence, production readiness, or learner mastery.
 
 ## Static publication
@@ -59,8 +70,8 @@ build and preview with `BASE_PATH=/accelerator/` and serve `dist/` below that ex
 prefix. The build refuses to replace a nonempty unmanaged `dist/` and refuses a
 symlinked `dist/`. It neither deploys, pushes, nor creates a commit.
 
-The legacy `/es/projects/engineering-book/` and `/en/projects/engineering-book/` routes
-remain generated for compatibility; P0’s current public project route is `/projects/p0/`.
+`/es/projects/engineering-book/` and `/en/projects/engineering-book/` are active
+P0 learning-project routes. `/projects/p0/` remains as a broader P0 overview.
 
 ## Pending learner work
 

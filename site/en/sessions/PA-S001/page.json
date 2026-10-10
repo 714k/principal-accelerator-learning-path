@@ -5,21 +5,62 @@
   "title": "Engineering foundations",
   "description": "Theory → implementation → evidence.",
   "status": "editorial-draft",
+  "dashboard": {
+    "sessionId": "PA-S001",
+    "projectId": "P0",
+    "checklistIds": [
+      "PA-S001:mastery:engineering-architecture",
+      "PA-S001:mastery:product-scales",
+      "PA-S001:mastery:quality-scenario",
+      "PA-S001:mastery:boundaries",
+      "PA-S001:mastery:coupling-cohesion",
+      "PA-S001:mastery:fpa",
+      "PA-S001:mastery:aipe",
+      "PA-S001:mastery:scope-evidence"
+    ],
+    "exerciseIds": [
+      "PA-S001:exercise:product-boundaries",
+      "PA-S001:exercise:quality-scenario",
+      "PA-S001:exercise:change-propagation",
+      "PA-S001:exercise:ai-boundary",
+      "PA-S001:exercise:staff-principal"
+    ],
+    "studyState": "learner-controlled",
+    "evidenceState": "not-assessed"
+  },
   "visualLearning": {
     "intro": "Five complementary views compress the already-published PA-S001 theory for review. They distinguish P0's publication mechanics from learner evidence; they do not assess mastery or claim production operation.",
     "modes": [
       {
         "id": "mental-model",
         "kind": "mental model",
-        "label": "Big picture",
+        "label": "Mind map",
         "title": "P0 connects three different objects",
         "rationale": "The session is foundational and structural: a compact map makes the relationships among theory, implementation, evidence, scope, quality, and boundaries visible before examining individual modules.",
-        "sourceSections": ["concepts", "main-topic", "engineering-architecture", "system-platform", "quality", "boundaries", "coupling-cohesion", "fpa", "aipe", "scope"],
+        "sourceSections": [
+          "c1",
+          "c2",
+          "c3",
+          "c4",
+          "c5",
+          "c6",
+          "c7",
+          "c8",
+          "main-topic",
+          "s1",
+          "s2",
+          "s3",
+          "s4",
+          "s5",
+          "s6",
+          "s7",
+          "s8"
+        ],
         "blocks": [
           {
             "type": "diagram",
             "diagram": {
-              "source": "PA-S001/engineering-foundations-map.mmd",
+              "source": "PA-S001/foundations.mmd",
               "title": "PA-S001 engineering foundations mental map",
               "description": "A mental map of PA-S001 connecting theory, implementation, evidence, architecture, quality, boundaries, coupling, frontend platform architecture, AI product engineering, and Staff-to-Principal scope."
             }
@@ -27,9 +68,21 @@
           {
             "type": "cards",
             "cards": [
-              { "eyebrow": "Theory", "title": "The public chapter", "body": "site/ holds the canonical public learning material. A chapter can exist before its lab runs; that is publication, not proof of learning." },
-              { "eyebrow": "Implementation", "title": "The renderer", "body": "apps/book reads explicit bilingual content, validates its bounded contract, and writes static routes. It represents the material rather than becoming the material itself." },
-              { "eyebrow": "Evidence", "title": "What still needs observation", "body": "A successful scaffold check does not demonstrate learner understanding, semantic translation quality, accessibility, or production operation." }
+              {
+                "eyebrow": "Theory",
+                "title": "The public chapter",
+                "body": "site/ holds the canonical public learning material. A chapter can exist before its lab runs; that is publication, not proof of learning."
+              },
+              {
+                "eyebrow": "Implementation",
+                "title": "The renderer",
+                "body": "site/tooling reads explicit bilingual content, validates its bounded contract, and writes static routes. It represents the material rather than becoming the material itself."
+              },
+              {
+                "eyebrow": "Evidence",
+                "title": "What still needs observation",
+                "body": "A successful scaffold check does not demonstrate learner understanding, semantic translation quality, accessibility, or production operation."
+              }
             ]
           }
         ]
@@ -37,15 +90,19 @@
       {
         "id": "boundary-map",
         "kind": "boundary map",
-        "label": "Publication boundary",
+        "label": "Boundary flow",
         "title": "What reaches the public output",
         "rationale": "Publication and trust boundaries are central to the session, so the existing Mermaid topology is the most direct way to show distinct public products and excluded inputs.",
-        "sourceSections": ["boundaries", "production", "visual-learning-guide"],
+        "sourceSections": [
+          "s4",
+          "production",
+          "visual-learning-guide"
+        ],
         "blocks": [
           {
             "type": "diagram",
             "diagram": {
-              "source": "PA-S001/p0-publication-flow.mmd",
+              "source": "PA-S001/boundary-flow.mmd",
               "title": "P0 public publication boundary",
               "description": "The separate portfolio route and bilingual Learning Site routes are generated from explicit sources; data and artifacts are not copied automatically."
             }
@@ -53,8 +110,16 @@
           {
             "type": "cards",
             "cards": [
-              { "eyebrow": "Product", "title": "Portfolio ≠ Learning Site", "body": "The portfolio is a professional surface. The Learning Site is the canonical home for the complete session theory." },
-              { "eyebrow": "Trust", "title": "Explicit inputs are not a security control", "body": "The allowlist limits automatic copying, but public content still requires review; a folder alone does not enforce access or truthfulness." }
+              {
+                "eyebrow": "Product",
+                "title": "Portfolio ≠ Learning Site",
+                "body": "The portfolio is a professional surface. The Learning Site is the canonical home for the complete session theory."
+              },
+              {
+                "eyebrow": "Trust",
+                "title": "Explicit inputs are not a security control",
+                "body": "The allowlist limits automatic copying, but public content still requires review; a folder alone does not enforce access or truthfulness."
+              }
             ]
           }
         ]
@@ -62,19 +127,43 @@
       {
         "id": "scope-compare",
         "kind": "compare and contrast",
-        "label": "Scope comparison",
+        "label": "Scope matrix",
         "title": "Application, system, and platform answer different questions",
         "rationale": "PA-S001 explicitly distinguishes levels of scope. A side-by-side representation prevents treating a shared folder or two consumers as automatic evidence of a platform.",
-        "sourceSections": ["system-platform", "fpa", "scope"],
+        "sourceSections": [
+          "s2",
+          "s6",
+          "s8"
+        ],
         "blocks": [
           {
             "type": "comparison",
             "table": {
-              "headers": ["View", "What is in scope", "Useful question", "Limit"],
+              "headers": [
+                "View",
+                "What is in scope",
+                "Useful question",
+                "Limit"
+              ],
               "rows": [
-                ["Application", "A user-facing purpose such as the Book", "What outcome does this product provide?", "It can hide the build and delivery dependencies needed to publish it."],
-                ["System", "Chosen elements and relationships: content, build, and delivery", "Which dependencies and failure paths matter here?", "Its boundary must be chosen; it is not automatically the whole ecosystem."],
-                ["Platform", "Capabilities, contracts, and support for consumers", "Can more than one meaningful consumer adopt this safely?", "A shared package or one use case does not alone establish a platform experience."]
+                [
+                  "Application",
+                  "A user-facing purpose such as the Book",
+                  "What outcome does this product provide?",
+                  "It can hide the build and delivery dependencies needed to publish it."
+                ],
+                [
+                  "System",
+                  "Chosen elements and relationships: content, build, and delivery",
+                  "Which dependencies and failure paths matter here?",
+                  "Its boundary must be chosen; it is not automatically the whole ecosystem."
+                ],
+                [
+                  "Platform",
+                  "Capabilities, contracts, and support for consumers",
+                  "Can more than one meaningful consumer adopt this safely?",
+                  "A shared package or one use case does not alone establish a platform experience."
+                ]
               ]
             }
           }
@@ -86,7 +175,11 @@
         "label": "Change journey",
         "title": "A content change crosses a bounded publication path",
         "rationale": "The theory explains how a named editorial change propagates and where a missing reference stops it. A sequence makes the normal and failure paths easier to reason about than a prose-only description.",
-        "sourceSections": ["main-topic", "quality", "production"],
+        "sourceSections": [
+          "main-topic",
+          "s3",
+          "production"
+        ],
         "blocks": [
           {
             "type": "diagram",
@@ -99,11 +192,26 @@
           {
             "type": "flow",
             "steps": [
-              { "title": "Edit an explicit source", "body": "An editor changes a bilingual session page under site/." },
-              { "title": "Load the expected pair", "body": "The build reads the known ES and EN paths rather than copying arbitrary repository data." },
-              { "title": "Validate the editorial contract", "body": "Shape, cited identifiers, and structural correspondence are checked; semantic equivalence still needs human review." },
-              { "title": "Generate public routes", "body": "Only after validation does the renderer write dist/ for the static host." },
-              { "title": "Stop a malformed publication", "body": "A missing R999 or translation produces an identifiable failure rather than a silently published Mermaid or malformed page." }
+              {
+                "title": "Edit an explicit source",
+                "body": "An editor changes a bilingual session page under site/."
+              },
+              {
+                "title": "Load the expected pair",
+                "body": "The build reads the known ES and EN paths rather than copying arbitrary repository data."
+              },
+              {
+                "title": "Validate the editorial contract",
+                "body": "Shape, cited identifiers, and structural correspondence are checked; semantic equivalence still needs human review."
+              },
+              {
+                "title": "Generate public routes",
+                "body": "Only after validation does the renderer write dist/ for the static host."
+              },
+              {
+                "title": "Stop a malformed publication",
+                "body": "A missing R999 or translation produces an identifiable failure rather than a silently published Mermaid or malformed page."
+              }
             ]
           }
         ]
@@ -111,24 +219,130 @@
       {
         "id": "recall-cards",
         "kind": "recall cards",
-        "label": "Recall",
+        "label": "Flashcards",
         "title": "Test distinctions, not vocabulary alone",
         "rationale": "Several PA-S001 terms are easy to collapse into each other. These prompts ask for the boundary or consequence that distinguishes them, without reporting a score or mastery level.",
-        "sourceSections": ["concepts", "main-topic", "engineering-architecture", "system-platform", "quality", "boundaries", "coupling-cohesion", "fpa", "aipe", "scope"],
+        "sourceSections": [
+          "c1",
+          "c2",
+          "c3",
+          "c4",
+          "c5",
+          "c6",
+          "c7",
+          "c8",
+          "main-topic",
+          "s1",
+          "s2",
+          "s3",
+          "s4",
+          "s5",
+          "s6",
+          "s7",
+          "s8"
+        ],
         "blocks": [
           {
             "type": "flashcards",
             "cards": [
-              { "category": "Concept", "question": "Why is an architecture description not the architecture itself?", "answer": "A description expresses the architecture; it does not replace the actual structure, behavior, and qualities it describes.", "explanation": "An ADR or route map is evidence of a description, not proof that a quality attribute has been achieved.", "sourceSections": ["concepts"] },
-              { "category": "Mental model", "question": "Why must P0 keep theory, implementation, and evidence distinct?", "answer": "A public chapter, the renderer that presents it, and evidence of learner or system behavior are different objects.", "explanation": "A test can pass without demonstrating learner understanding, and a chapter can be published before a lab runs.", "sourceSections": ["main-topic"] },
-              { "category": "Architecture", "question": "What makes a Book decision architectural rather than merely a local implementation edit?", "answer": "It constrains or enables later changes across the system's structure, behavior, delivery, or failure modes.", "explanation": "Line count or a component's folder location does not by itself determine architectural significance.", "sourceSections": ["engineering-architecture"] },
-              { "category": "System scope", "question": "Why is a shared package not automatically a frontend platform?", "answer": "A platform also needs consumer-oriented capabilities, contracts, support, compatibility, and meaningful adoption.", "explanation": "The Book is an application; its publication system includes content, build, and delivery within a deliberately chosen scope.", "sourceSections": ["system-platform"] },
-              { "category": "Quality", "question": "What does the missing-R999 build scenario establish, and what does it not establish?", "answer": "It establishes a bounded publication-integrity criterion: the validator rejects a missing cited identifier before output replacement.", "explanation": "It does not measure latency, prove source truthfulness, or certify accessibility.", "sourceSections": ["quality"] },
-              { "category": "Boundary", "question": "What does the P0 explicit-public-input rule protect, and what does it not prove?", "answer": "It limits automatic copying into generated output.", "explanation": "It does not by itself enforce security, verify public text, or establish that excluded material is safe in every context.", "sourceSections": ["boundaries"] },
-              { "category": "Coupling", "question": "Why can a TypeScript type reduce one mismatch without removing all coupling?", "answer": "It can constrain in-memory data shape, but routes, reference conventions, filesystem inputs, and build order remain dependencies.", "explanation": "Those dependencies need deliberate tests, documentation, and review.", "sourceSections": ["coupling-cohesion"] },
-              { "category": "FPA", "question": "What evidence would justify extracting a shared frontend capability?", "answer": "Compatible meaningful consumers and an adoption contract should justify it, not merely a preference for a shared folder.", "explanation": "Compatibility, versioning, documentation, and support are separate platform concerns.", "sourceSections": ["fpa"] },
-              { "category": "AIPE", "question": "Why is using Codex not the same as adding AI Product Engineering to P0?", "answer": "AI-assisted development is a tool used to create software; AIPE concerns product capabilities, their evaluation, operation, risks, and user effects.", "explanation": "This P0 slice deliberately introduces no model call, credential, evaluation result, or AI product claim.", "sourceSections": ["aipe"] },
-              { "category": "Scope", "question": "What would reveal that a shared theme capability has become a platform concern?", "answer": "Compatible meaningful consumers plus an adoption contract, support, compatibility, and versioning concerns would need to be demonstrated.", "explanation": "A shared folder or one current use case is not sufficient evidence.", "sourceSections": ["scope"] }
+              {
+                "id": "F01",
+                "category": "C1 / S1",
+                "question": "What distinguishes engineering and architecture, and what change would test it?",
+                "answer": "Software engineering is the discipline of specifying, building, verifying, operating, and maintaining software. Architecture concerns an entity’s fundamental concepts and properties in its environment; an architecture description is the artifact expressing them. This distinction keeps ordinary code edits and diagrams from being mislabeled as architecture [R1] [R2].",
+                "explanation": "Model: intended outcome → responsibilities → contracts → change → verification. Constructed example: publishing a bilingual chapter requires content, validator, generator, and routes; changing a button color affects presentation, while moving content validation changes responsibilities and failure modes. Counterexample: a correct diagram does not prove that the produced site respects its boundaries. Documenting decisions costs time and is useful when a change affects consumers or qualities; in production, compare the description with tests and output rather than treating intent as behavior.",
+                "sourceSections": [
+                  "c1",
+                  "s1"
+                ]
+              },
+              {
+                "id": "F02",
+                "category": "C2 / S2",
+                "question": "What distinguishes application, system, platform, and ecosystem, and what change would test it?",
+                "answer": "An application serves a user goal. A system is the elements and relationships within a chosen boundary. A platform offers capabilities to consumers through interfaces, support, and adoption rules; an ecosystem includes surrounding participants and providers [R5] [R13].",
+                "explanation": "Model: the Learning Site is an application; content, compiler, host, and browser form the publication system under analysis. A shared theme package may be a system component, but it is not automatically a platform: consumer compatibility, adoption, and operations contracts are still needed [R13]. Counterexample: calling two pages with shared CSS a platform overstates the capability. Widening the boundary reveals host or supplier failures but increases analysis cost; in production, choose scope according to the decision and dependencies that can fail.",
+                "sourceSections": [
+                  "c2",
+                  "s2"
+                ]
+              },
+              {
+                "id": "F03",
+                "category": "C3 / S3",
+                "question": "What distinguishes quality attributes and constraints, and what change would test it?",
+                "answer": "A quality attribute is an evaluable product property, such as accessibility, maintainability, or security; a constraint limits allowed solutions. ISO/IEC 25010:2023 offers a product quality model, not a measurement of this site [R3].",
+                "explanation": "A verifiable scenario identifies source, stimulus, environment, artifact, response, and measure. Proposed example: when a section translation is missing during build, validation fails before replacing output and names the section. “Must be accessible” does not specify a testable response [R4] [R15]. Strict validation costs schema maintenance as content changes; its expected benefit is detecting structural drift. A schema test does not certify semantic translation or Web Content Accessibility Guidelines (WCAG) 2.2 conformance; manual review remains necessary [R15].",
+                "sourceSections": [
+                  "c3",
+                  "s3"
+                ]
+              },
+              {
+                "id": "F04",
+                "category": "C4 / S4",
+                "question": "What distinguishes boundaries and contracts, and what change would test it?",
+                "answer": "A boundary assigns responsibility to an element and determines what information crosses to another. A contract defines observable inputs, outputs, errors, and compatibility; a directory alone enforces none of these. Parnas proposes decomposing modules around decisions likely to change [R12].",
+                "explanation": "Constructed example: `site/` stores public content; validation accepts pages with valid sections and citations; generation publishes declared routes only. A missing reference stops the build. That publication boundary does not establish that every public sentence is true. Counterexample: recursively copying the repository into `dist/` could cross the publication boundary and include private data. An explicit allowlist costs maintenance; production review must inspect both the list and the included text.",
+                "sourceSections": [
+                  "c4",
+                  "s4"
+                ]
+              },
+              {
+                "id": "F05",
+                "category": "C5 / S5",
+                "question": "What distinguishes coupling and cohesion, and what change would test it?",
+                "answer": "Coupling is dependence between elements: changing one can require changes elsewhere. Cohesion asks whether responsibilities inside a module serve a related purpose. Separating likely change decisions, as Parnas recommends, lets both properties be examined through concrete elements [R12].",
+                "explanation": "Constructed example: the generator depends on the `Page` contract, not on every Spanish sentence. Changing section IDs also affects links, cards, and map: coupling exists even without imports between files. A cohesive validator concentrates editorial invariants. Counterexample: moving every function into `shared/` does not prove cohesion and may add cross-dependencies. Lower coupling costs interfaces and coordination; in production, observe change propagation, failures, and compatibility before claiming improvement.",
+                "sourceSections": [
+                  "c5",
+                  "s5"
+                ]
+              },
+              {
+                "id": "F06",
+                "category": "C6 / S6",
+                "question": "What distinguishes frontend platform architecture, and what change would test it?",
+                "answer": "Frontend Platform Architecture (FPA) designs reusable frontend capabilities and their consumer experience: interfaces, documentation, compatibility, support, and adoption. It relates to platform engineering; the Cloud Native Computing Foundation (CNCF) model considers investment, adoption, interfaces, operations, and measurement [R13].",
+                "explanation": "Constructed example: a theme capability consumed by site and portfolio would need tokens, a change contract, and tests for both consumers. Sharing CSS or one function today does not prove that such a platform exists. Reading layout and progress rules remain product responsibilities. Counterexample: extracting a generic design from one use case fixes assumptions too early. A platform costs maintenance and support; in production, justify it through actual consumers and repeated changes, not folder preference.",
+                "sourceSections": [
+                  "c6",
+                  "s6"
+                ]
+              },
+              {
+                "id": "F07",
+                "category": "C7 / S7",
+                "question": "What distinguishes ai product engineering, and what change would test it?",
+                "answer": "AI Product Engineering (AIPE) integrates artificial intelligence (AI) as a product capability with evaluation, operations, and risk management. Using AI to write code does not by itself add an AI product feature. The National Institute of Standards and Technology (NIST) AI Risk Management Framework (AI RMF) addresses AI-system risk [R6].",
+                "explanation": "Hypothetical example: a session recommender retrieves evidence, generates a proposal, checks citations, and abstains when data is missing. A well-formed response does not prove accuracy. Sculley and coauthors describe technical debt caused by dependencies and coupling in machine-learning systems [R14]. Counterexample: assigning L1–L5 from a recommendation without evidence turns a suggestion into certification. Evaluation, observability, and human review cost effort; production requires failure and escalation criteria before relying on the capability. P0 does not integrate a model.",
+                "sourceSections": [
+                  "c7",
+                  "s7"
+                ]
+              },
+              {
+                "id": "F08",
+                "category": "C8 / S8",
+                "question": "What distinguishes staff and principal scope, and what change would test it?",
+                "answer": "Staff and Principal name responsibility scopes that vary by organization, not universal skill levels. GitLab provides a contextual example that distinguishes group technical leadership from a wider Principal framework [R7] [R9]. A documented decision does not prove actual influence.",
+                "explanation": "Hypothetical example: Staff agrees on the Book evidence contract with one team; Principal proposes compatibility and exception policy across systems and teams. The mechanism is a wider coordination radius and ownership of cross-system consequences, while decision owners remain clear. Counterexample: enforcing one pattern without adoption-cost evidence can transfer work to other teams. Coordinating more systems costs time and requires observed outcomes; production consequences cannot be inferred from a title or an Architecture Decision Record (ADR).",
+                "sourceSections": [
+                  "c8",
+                  "s8"
+                ]
+              },
+              {
+                "id": "F09",
+                "category": "Main Topic",
+                "question": "How does the model connect outcome, responsibility, change, and verification?",
+                "answer": "Concept and scope: the central model of this session connects outcome → responsibility → change → verification. The outcome is observable behavior; responsibility assigns who produces it; change exposes dependencies; verification compares actual behavior with the contract. This is a teaching synthesis grounded in engineering and architecture description, not a new standard [R1] [R2].",
+                "explanation": "Mechanism: in P0, a reader requests a route; the generator has transformed validated content into HTML; the browser shows theory and stores local study marks. The publication contract limits what enters `dist/`; canonical progress and mastery levels remain outside. Review compares routes, citations, controls, and empty states with output.",
+                "sourceSections": [
+                  "main-topic"
+                ]
+              }
             ]
           }
         ]
@@ -160,98 +374,232 @@
       ]
     },
     {
+      "id": "c1",
+      "title": "C1 — Engineering and architecture",
+      "level": 3,
+      "paragraphs": [
+        "Software engineering is the discipline of specifying, building, verifying, operating, and maintaining software. Architecture concerns an entity’s fundamental concepts and properties in its environment; an architecture description is the artifact expressing them. This distinction keeps ordinary code edits and diagrams from being mislabeled as architecture [R1] [R2].",
+        "Model: intended outcome → responsibilities → contracts → change → verification. Constructed example: publishing a bilingual chapter requires content, validator, generator, and routes; changing a button color affects presentation, while moving content validation changes responsibilities and failure modes.",
+        "Counterexample: a correct diagram does not prove that the produced site respects its boundaries. Documenting decisions costs time and is useful when a change affects consumers or qualities; in production, compare the description with tests and output rather than treating intent as behavior."
+      ]
+    },
+    {
+      "id": "c2",
+      "title": "C2 — Application, system, platform, and ecosystem",
+      "level": 3,
+      "paragraphs": [
+        "An application serves a user goal. A system is the elements and relationships within a chosen boundary. A platform offers capabilities to consumers through interfaces, support, and adoption rules; an ecosystem includes surrounding participants and providers [R5] [R13].",
+        "Model: the Learning Site is an application; content, compiler, host, and browser form the publication system under analysis. A shared theme package may be a system component, but it is not automatically a platform: consumer compatibility, adoption, and operations contracts are still needed [R13].",
+        "Counterexample: calling two pages with shared CSS a platform overstates the capability. Widening the boundary reveals host or supplier failures but increases analysis cost; in production, choose scope according to the decision and dependencies that can fail."
+      ]
+    },
+    {
+      "id": "c3",
+      "title": "C3 — Quality attributes and constraints",
+      "level": 3,
+      "paragraphs": [
+        "A quality attribute is an evaluable product property, such as accessibility, maintainability, or security; a constraint limits allowed solutions. ISO/IEC 25010:2023 offers a product quality model, not a measurement of this site [R3].",
+        "A verifiable scenario identifies source, stimulus, environment, artifact, response, and measure. Proposed example: when a section translation is missing during build, validation fails before replacing output and names the section. “Must be accessible” does not specify a testable response [R4] [R15].",
+        "Strict validation costs schema maintenance as content changes; its expected benefit is detecting structural drift. A schema test does not certify semantic translation or Web Content Accessibility Guidelines (WCAG) 2.2 conformance; manual review remains necessary [R15]."
+      ]
+    },
+    {
+      "id": "c4",
+      "title": "C4 — Boundaries and contracts",
+      "level": 3,
+      "paragraphs": [
+        "A boundary assigns responsibility to an element and determines what information crosses to another. A contract defines observable inputs, outputs, errors, and compatibility; a directory alone enforces none of these. Parnas proposes decomposing modules around decisions likely to change [R12].",
+        "Constructed example: `site/` stores public content; validation accepts pages with valid sections and citations; generation publishes declared routes only. A missing reference stops the build. That publication boundary does not establish that every public sentence is true.",
+        "Counterexample: recursively copying the repository into `dist/` could cross the publication boundary and include private data. An explicit allowlist costs maintenance; production review must inspect both the list and the included text."
+      ]
+    },
+    {
+      "id": "c5",
+      "title": "C5 — Coupling and cohesion",
+      "level": 3,
+      "paragraphs": [
+        "Coupling is dependence between elements: changing one can require changes elsewhere. Cohesion asks whether responsibilities inside a module serve a related purpose. Separating likely change decisions, as Parnas recommends, lets both properties be examined through concrete elements [R12].",
+        "Constructed example: the generator depends on the `Page` contract, not on every Spanish sentence. Changing section IDs also affects links, cards, and map: coupling exists even without imports between files. A cohesive validator concentrates editorial invariants.",
+        "Counterexample: moving every function into `shared/` does not prove cohesion and may add cross-dependencies. Lower coupling costs interfaces and coordination; in production, observe change propagation, failures, and compatibility before claiming improvement."
+      ]
+    },
+    {
+      "id": "c6",
+      "title": "C6 — Frontend platform architecture",
+      "level": 3,
+      "paragraphs": [
+        "Frontend Platform Architecture (FPA) designs reusable frontend capabilities and their consumer experience: interfaces, documentation, compatibility, support, and adoption. It relates to platform engineering; the Cloud Native Computing Foundation (CNCF) model considers investment, adoption, interfaces, operations, and measurement [R13].",
+        "Constructed example: a theme capability consumed by site and portfolio would need tokens, a change contract, and tests for both consumers. Sharing CSS or one function today does not prove that such a platform exists. Reading layout and progress rules remain product responsibilities.",
+        "Counterexample: extracting a generic design from one use case fixes assumptions too early. A platform costs maintenance and support; in production, justify it through actual consumers and repeated changes, not folder preference."
+      ]
+    },
+    {
+      "id": "c7",
+      "title": "C7 — AI product engineering",
+      "level": 3,
+      "paragraphs": [
+        "AI Product Engineering (AIPE) integrates artificial intelligence (AI) as a product capability with evaluation, operations, and risk management. Using AI to write code does not by itself add an AI product feature. The National Institute of Standards and Technology (NIST) AI Risk Management Framework (AI RMF) addresses AI-system risk [R6].",
+        "Hypothetical example: a session recommender retrieves evidence, generates a proposal, checks citations, and abstains when data is missing. A well-formed response does not prove accuracy. Sculley and coauthors describe technical debt caused by dependencies and coupling in machine-learning systems [R14].",
+        "Counterexample: assigning L1–L5 from a recommendation without evidence turns a suggestion into certification. Evaluation, observability, and human review cost effort; production requires failure and escalation criteria before relying on the capability. P0 does not integrate a model."
+      ]
+    },
+    {
+      "id": "c8",
+      "title": "C8 — Staff and Principal scope",
+      "level": 3,
+      "paragraphs": [
+        "Staff and Principal name responsibility scopes that vary by organization, not universal skill levels. GitLab provides a contextual example that distinguishes group technical leadership from a wider Principal framework [R7] [R9]. A documented decision does not prove actual influence.",
+        "Hypothetical example: Staff agrees on the Book evidence contract with one team; Principal proposes compatibility and exception policy across systems and teams. The mechanism is a wider coordination radius and ownership of cross-system consequences, while decision owners remain clear.",
+        "Counterexample: enforcing one pattern without adoption-cost evidence can transfer work to other teams. Coordinating more systems costs time and requires observed outcomes; production consequences cannot be inferred from a title or an Architecture Decision Record (ADR)."
+      ]
+    },
+    {
       "id": "main-topic",
       "title": "Main Topic — A justifiable system",
       "paragraphs": [
-        "Synthesis: P0 connects theory, implementation, and evidence, but these objects do not mean the same thing. A chapter may exist before its lab runs. A test may pass without demonstrating learner understanding. Presentation must preserve these differences. site/ holds canonical public material; apps/book renders it. artifacts/ and data/ are not automatically copied to the output. This is an Accelerator rule that must be checked against generated output. Its cost is maintaining an explicit editorial contract; its expected benefit is limiting incompatible interpretations. The hypothesis alone does not demonstrate greater maintainability.",
-        "A change travels through named elements: an editor changes site/en/sessions/PA-S001/page.json; ContentValidator checks shape and cited identifiers; SiteGenerator writes dist/; SessionPage presents the data; SessionTOC links to section anchors. A TypeScript type can state the expected data shape, but it cannot by itself prove that a translation file exists or that the two texts express the same meaning. The build checks file loading and structural correspondence; bilingual editorial review remains a human verification."
+        "Concept and scope: the central model of this session connects outcome → responsibility → change → verification. The outcome is observable behavior; responsibility assigns who produces it; change exposes dependencies; verification compares actual behavior with the contract. This is a teaching synthesis grounded in engineering and architecture description, not a new standard [R1] [R2].",
+        "Mechanism: in P0, a reader requests a route; the generator has transformed validated content into HTML; the browser shows theory and stores local study marks. The publication contract limits what enters `dist/`; canonical progress and mastery levels remain outside. Review compares routes, citations, controls, and empty states with output.",
+        "Synthesis: P0 connects theory, implementation, and evidence, but these objects do not mean the same thing. A chapter may exist before its lab runs. A test may pass without demonstrating learner understanding. Presentation must preserve these differences. site/ holds canonical public material; site/tooling renders it. artifacts/ and data/ are not automatically copied to the output. This is an Accelerator rule that must be checked against generated output. Its cost is maintaining an explicit editorial contract; its expected benefit is limiting incompatible interpretations. The hypothesis alone does not demonstrate greater maintainability.",
+        "A change travels through named elements: an editor changes site/en/sessions/PA-S001/page.json; ContentValidator checks shape and cited identifiers; SiteGenerator writes dist/; SessionPage presents the data; SessionTOC links to section anchors. A TypeScript type can state the expected data shape, but it cannot by itself prove that a translation file exists or that the two texts express the same meaning. The build checks file loading and structural correspondence; bilingual editorial review remains a human verification.",
+        "Counterexample: a folder list that calls shared code a “platform”, or a green test used to declare mastery, breaks the verification chain. The model requires naming the changed outcome, its owner, the contract protecting consumers, and the observation that confirms behavior. It costs editorial coordination and correspondence checks; its limits include semantic translation and human assessment. In production, those gaps need review before publication or decision acceptance [R2] [R12]."
       ]
     },
     {
-      "id": "engineering-architecture",
-      "title": "Subtopic 1 — Engineering and architecture",
+      "id": "subtopics",
+      "title": "Subtopics S1–S8",
+      "paragraphs": [
+        "Each subtopic develops one concept in the P0 context: definition and scope, mechanism, constructed example, counterexample, cost, limit, and production consequence."
+      ]
+    },
+    {
+      "id": "s1",
+      "title": "S1 — Engineering and architecture",
       "level": 3,
       "paragraphs": [
+        "Concept and scope: Software engineering is the discipline of specifying, building, verifying, operating, and maintaining software. Architecture concerns an entity’s fundamental concepts and properties in its environment; an architecture description is the artifact expressing them. This distinction keeps ordinary code edits and diagrams from being mislabeled as architecture [R1] [R2].",
+        "Mechanism: Model: intended outcome → responsibilities → contracts → change → verification. Constructed example: publishing a bilingual chapter requires content, validator, generator, and routes; changing a button color affects presentation, while moving content validation changes responsibilities and failure modes.",
         "Architecture focuses on decisions about overall structure and behavior [R2]. Hypothetical example: fixing a link is localized; defining session identity across languages constrains multiple consumers. Significance does not depend on line count. As a heuristic, examine scope, change cost, and affected qualities. Choosing technology first may hide alternatives; documenting every minor decision also has a cost. The learner must explain why a Book decision deserves architectural treatment.",
-        "Mechanism: a structural decision becomes consequential when it narrows or enables later changes. Moving the renderer from a static generator to a server, for example, changes delivery, operational responsibility, and failure modes. A component’s folder location does not. The contrast prevents treating ordinary implementation edits as architecture while still making actual architectural constraints explicit."
+        "Mechanism: a structural decision becomes consequential when it narrows or enables later changes. Moving the renderer from a static generator to a server, for example, changes delivery, operational responsibility, and failure modes. A component’s folder location does not. The contrast prevents treating ordinary implementation edits as architecture while still making actual architectural constraints explicit.",
+        "Counterexample: a correct diagram does not prove that the produced site respects its boundaries. Documenting decisions costs time and is useful when a change affects consumers or qualities; in production, compare the description with tests and output rather than treating intent as behavior."
       ]
     },
     {
-      "id": "system-platform",
-      "title": "Subtopic 2 — Application, system, and platform",
+      "id": "s2",
+      "title": "S2 — Application, system, platform, and ecosystem",
       "level": 3,
       "paragraphs": [
+        "Concept and scope: An application serves a user goal. A system is the elements and relationships within a chosen boundary. A platform offers capabilities to consumers through interfaces, support, and adoption rules; an ecosystem includes surrounding participants and providers [R5] [R13].",
+        "Mechanism: Model: the Learning Site is an application; content, compiler, host, and browser form the publication system under analysis. A shared theme package may be a system component, but it is not automatically a platform: consumer compatibility, adoption, and operations contracts are still needed [R13].",
         "Operational definitions: an application serves a user purpose; a system includes elements and relationships within a chosen scope; an ecosystem includes participants and providers. A platform provides capabilities around consumer needs [R5]. The Book is an application. For publication analysis, its system includes content, building, and delivery. A shared package does not establish a platform experience: contracts and support also matter. Scope avoids both ignoring dependencies and unnecessarily modeling the entire environment.",
-        "For example, PortfolioPage and SessionPage may consume a future shared theme capability, but that does not make the current two-page use case a frontend platform. Compatibility policy, versioning, documentation, support, and at least more than one meaningful consumer are separate concerns. Extracting too soon creates a generic API whose assumptions may not fit either product."
+        "For example, PortfolioPage and SessionPage may consume a future shared theme capability, but that does not make the current two-page use case a frontend platform. Compatibility policy, versioning, documentation, support, and at least more than one meaningful consumer are separate concerns. Extracting too soon creates a generic API whose assumptions may not fit either product.",
+        "Counterexample: calling two pages with shared CSS a platform overstates the capability. Widening the boundary reveals host or supplier failures but increases analysis cost; in production, choose scope according to the decision and dependencies that can fail."
       ]
     },
     {
-      "id": "quality",
-      "title": "Subtopic 3 — Quality and constraints",
+      "id": "s3",
+      "title": "S3 — Quality attributes and constraints",
       "level": 3,
       "paragraphs": [
+        "Concept and scope: A quality attribute is an evaluable product property, such as accessibility, maintainability, or security; a constraint limits allowed solutions. ISO/IEC 25010:2023 offers a product quality model, not a measurement of this site [R3].",
+        "Mechanism: A verifiable scenario identifies source, stimulus, environment, artifact, response, and measure. Proposed example: when a section translation is missing during build, validation fails before replacing output and names the section. “Must be accessible” does not specify a testable response [R4] [R15].",
         "Quality scenarios specify source, stimulus, environment, artifact, response, and measure [R4]. Proposed example: an author adds a missing reference during a build; the validator rejects publication and identifies that reference. This is a criterion, not a measurement. Static output is a program constraint; a particular tool is an option. Immediate publication and bilingual human review may conflict: resolving that tension requires a process decision, not just code.",
-        "The normal path is therefore not only rendering: it is validate both language inputs, then replace generated output. The failure path stops before a malformed reference enters the output. This gives a bounded integrity property, but it does not measure latency, prove source truthfulness, or certify accessibility."
+        "The normal path is therefore not only rendering: it is validate both language inputs, then replace generated output. The failure path stops before a malformed reference enters the output. This gives a bounded integrity property, but it does not measure latency, prove source truthfulness, or certify accessibility.",
+        "Strict validation costs schema maintenance as content changes; its expected benefit is detecting structural drift. A schema test does not certify semantic translation or Web Content Accessibility Guidelines (WCAG) 2.2 conformance; manual review remains necessary [R15]."
       ]
     },
     {
-      "id": "boundaries",
-      "title": "Subtopic 4 — Boundaries",
+      "id": "s4",
+      "title": "S4 — Boundaries and contracts",
       "level": 3,
       "paragraphs": [
-        "Parnas proposes hiding design decisions other modules need not know [R3]. Hypothetical application: a reader interprets storage while a view consumes interpreted content. Changing format should preserve the contract if the separation hypothesis holds. A folder does not prevent access or provide a security control. Check who reads each input and what is published. In P0, an explicit public-file list avoids indiscriminate data copying; it does not replace review of content written inside those files.",
-        "P0 has product boundaries (portfolio versus learning site), module boundaries (content validation versus rendering), execution boundaries (local preview versus static host), publication boundaries (explicit inputs to dist/), and trust boundaries (reviewed public text versus private artifacts). Treating all five as folders would hide different failure mechanisms."
+        "Concept and scope: A boundary assigns responsibility to an element and determines what information crosses to another. A contract defines observable inputs, outputs, errors, and compatibility; a directory alone enforces none of these. Parnas proposes decomposing modules around decisions likely to change [R12].",
+        "Mechanism: Constructed example: `site/` stores public content; validation accepts pages with valid sections and citations; generation publishes declared routes only. A missing reference stops the build. That publication boundary does not establish that every public sentence is true.",
+        "Software design separates responsibilities, architecture, components, and interfaces to satisfy functional and quality requirements [R1]. Hypothetical application: a reader interprets storage while a view consumes interpreted content. Changing format should preserve the contract if the separation hypothesis holds. A folder does not prevent access or provide a security control. Check who reads each input and what is published. In P0, an explicit public-file list avoids indiscriminate data copying; it does not replace review of content written inside those files.",
+        "P0 has product boundaries (portfolio versus learning site), module boundaries (content validation versus rendering), execution boundaries (local preview versus static host), publication boundaries (explicit inputs to dist/), and trust boundaries (reviewed public text versus private artifacts). Treating all five as folders would hide different failure mechanisms.",
+        "Counterexample: recursively copying the repository into `dist/` could cross the publication boundary and include private data. An explicit allowlist costs maintenance; production review must inspect both the list and the included text."
       ]
     },
     {
-      "id": "coupling-cohesion",
-      "title": "Subtopic 5 — Coupling and cohesion",
+      "id": "s5",
+      "title": "S5 — Coupling and cohesion",
       "level": 3,
       "paragraphs": [
+        "Concept and scope: Coupling is dependence between elements: changing one can require changes elsewhere. Cohesion asks whether responsibilities inside a module serve a related purpose. Separating likely change decisions, as Parnas recommends, lets both properties be examined through concrete elements [R12].",
+        "Mechanism: Constructed example: the generator depends on the `Page` contract, not on every Spanish sentence. Changing section IDs also affects links, cards, and map: coupling exists even without imports between files. A cohesive validator concentrates editorial invariants.",
         "Coupling describes interdependence; cohesion describes internal relationships among tasks or elements [R10]. Example: duplicating ES/EN references requires coordinated changes even without imports between files. Shared identifiers may reduce divergence, but a shared error may affect both languages. Less duplication does not automatically mean less coupling. Grouping everything in shared does not prove cohesion either. The learner should study a concrete change, observe propagation, and explain why responsibilities belong together or apart.",
-        "ContentValidator is cohesive when it owns parsing and input invariants, while SessionPage is cohesive when it owns presentation. Giving SessionPage direct filesystem reads would couple HTML layout to storage. A typed contract reduces accidental shape mismatch, but it does not remove coupling to route names, reference conventions, or the build order. Those dependencies require deliberate tests and documentation."
+        "ContentValidator is cohesive when it owns parsing and input invariants, while SessionPage is cohesive when it owns presentation. Giving SessionPage direct filesystem reads would couple HTML layout to storage. A typed contract reduces accidental shape mismatch, but it does not remove coupling to route names, reference conventions, or the build order. Those dependencies require deliberate tests and documentation.",
+        "Counterexample: moving every function into `shared/` does not prove cohesion and may add cross-dependencies. Lower coupling costs interfaces and coordination; in production, observe change propagation, failures, and compatibility before claiming improvement."
       ]
     },
     {
-      "id": "fpa",
-      "title": "Subtopic 6 — Frontend Platform Architecture",
+      "id": "s6",
+      "title": "S6 — Frontend platform architecture",
       "level": 3,
       "paragraphs": [
+        "Concept and scope: Frontend Platform Architecture (FPA) designs reusable frontend capabilities and their consumer experience: interfaces, documentation, compatibility, support, and adoption. It relates to platform engineering; the Cloud Native Computing Foundation (CNCF) model considers investment, adoption, interfaces, operations, and measurement [R13].",
+        "Mechanism: Constructed example: a theme capability consumed by site and portfolio would need tokens, a change contract, and tests for both consumers. Sharing CSS or one function today does not prove that such a platform exists. Reading layout and progress rules remain product responsibilities.",
         "Curricular definition: FPA designs shared frontend capabilities, contracts, and adoption experience. It applies the consumer-oriented platform principle to frontend work [R5]. A reusable theme needs an understandable interface and compatibility; a rule approving a session belongs to the product, not necessarily a generic component. Generalizing from one case can embed premature assumptions. PA-S001 starts a real consumer and leaves future extractions as open decisions. No time savings are claimed without measuring adoption and maintenance.",
-        "In this slice, the semantic shell, responsive CSS, language links, and disclosure TOC are shared delivery mechanisms, not a declared design system. The portfolio has its own navigation and deliberately does not render the chapter. Future extraction must be justified by compatible consumers and an adoption contract, not by a preference for a shared folder."
+        "In this slice, the semantic shell, responsive CSS, language links, and disclosure TOC are shared delivery mechanisms, not a declared design system. The portfolio has its own navigation and deliberately does not render the chapter. Future extraction must be justified by compatible consumers and an adoption contract, not by a preference for a shared folder.",
+        "Counterexample: extracting a generic design from one use case fixes assumptions too early. A platform costs maintenance and support; in production, justify it through actual consumers and repeated changes, not folder preference."
       ]
     },
     {
-      "id": "aipe",
-      "title": "Subtopic 7 — AI Product Engineering",
+      "id": "s7",
+      "title": "S7 — AI product engineering",
       "level": 3,
       "paragraphs": [
-        "Curricular definition: AIPE integrates, evaluates, and operates AI as a product capability. Using Codex to write code does not add AI to the product. NIST documents confabulation: false content presented confidently [R6]. Hypothetical example: an assistant recommends sessions, but a recommendation is not mastery evidence. Useful results, abstention, and failures must be distinguished. Evaluation needs cases and criteria tied to purpose. Review costs effort and does not eliminate all errors. This scaffold neither calls models nor introduces credentials.",
-        "A valid JSON response from a model is only a format result. Factual correctness requires a separate grounded claim, source review, and evaluation set. A safe product can abstain when evidence is unavailable and can expose uncertainty rather than manufacture a level or metric. P0 models that boundary by rendering no AI feature and keeping mastery null until evidence exists."
+        "Concept and scope: AI Product Engineering (AIPE) integrates artificial intelligence (AI) as a product capability with evaluation, operations, and risk management. Using AI to write code does not by itself add an AI product feature. The National Institute of Standards and Technology (NIST) AI Risk Management Framework (AI RMF) addresses AI-system risk [R6].",
+        "Mechanism: Hypothetical example: a session recommender retrieves evidence, generates a proposal, checks citations, and abstains when data is missing. A well-formed response does not prove accuracy. Sculley and coauthors describe technical debt caused by dependencies and coupling in machine-learning systems [R14].",
+        "Curricular definition: AIPE integrates, evaluates, and operates Artificial Intelligence (AI) as a product capability. Using Codex to write code does not add AI to the product. The National Institute of Standards and Technology (NIST) AI Risk Management Framework addresses AI-system risks and characteristics [R6]. Hypothetical example: an assistant recommends sessions, but a recommendation is not mastery evidence. Useful results, abstention, and failures must be distinguished. Evaluation needs cases and criteria tied to purpose. Review costs effort and does not eliminate all errors. This scaffold neither calls models nor introduces credentials.",
+        "A valid JSON response from a model is only a format result. Factual correctness requires a separate grounded claim, source review, and evaluation set. A safe product can abstain when evidence is unavailable and can expose uncertainty rather than manufacture a level or metric. P0 models that boundary by rendering no AI feature and keeping mastery null until evidence exists.",
+        "Counterexample: assigning L1–L5 from a recommendation without evidence turns a suggestion into certification. Evaluation, observability, and human review cost effort; production requires failure and escalation criteria before relying on the capability. P0 does not integrate a model."
       ]
     },
     {
-      "id": "scope",
-      "title": "Subtopic 8 — Staff and Principal",
+      "id": "s8",
+      "title": "S8 — Staff and Principal scope",
       "level": 3,
       "paragraphs": [
+        "Concept and scope: Staff and Principal name responsibility scopes that vary by organization, not universal skill levels. GitLab provides a contextual example that distinguishes group technical leadership from a wider Principal framework [R7] [R9]. A documented decision does not prove actual influence.",
+        "Mechanism: Hypothetical example: Staff agrees on the Book evidence contract with one team; Principal proposes compatibility and exception policy across systems and teams. The mechanism is a wider coordination radius and ownership of cross-system consequences, while decision owners remain clear.",
         "GitLab provides one specific example: Staff generally operates within team domains and Principal at organizational scope [R8] [R9]. This is not a universal title mapping. Program synthesis: progress from coordinating system decisions to technical direction across systems. Staff example: agree on the Book evidence contract. Principal example: propose compatibility, ownership, and exceptions for multiple consumers. Enforced uniformity may transfer costs to other teams; total divergence also has costs. A lab ADR does not demonstrate real organizational leadership.",
-        "The programme labels L1 Explain, L2 Implement, L3 Operate, L4 Decide, and L5 Lead are its own evidence vocabulary, not an industry standard or percentage scale. They help separate receiving an explanation from operating a system or leading a decision. No level is assigned in this chapter; proof must be attached to actual work."
+        "The programme labels L1 Explain, L2 Implement, L3 Operate, L4 Decide, and L5 Lead are its own evidence vocabulary, not an industry standard or percentage scale. They help separate receiving an explanation from operating a system or leading a decision. No level is assigned in this chapter; proof must be attached to actual work.",
+        "Counterexample: enforcing one pattern without adoption-cost evidence can transfer work to other teams. Coordinating more systems costs time and requires observed outcomes; production consequences cannot be inferred from a title or an Architecture Decision Record (ADR)."
       ]
     },
     {
       "id": "practice",
       "title": "Theory → Practice Map",
       "paragraphs": [
-        "Canonical content → site/. Presentation → apps/book/src/render.ts. Editorial contract → content.ts. Publication → build.ts. Learner evidence → data/mastery/PA-S001.json, initially empty. Scaffold tests check bounded cases of structure, references, and HTML output; they establish neither comprehensive accessibility nor mastery."
+        "Canonical content → site/. Presentation → site/tooling/render.ts. Editorial contract → content.ts. Publication → build.ts. Learner evidence → data/mastery/PA-S001.json, initially empty. Scaffold tests check bounded cases of structure, references, and HTML output; they establish neither comprehensive accessibility nor mastery."
       ],
       "table": {
-        "headers": ["Concept", "P0 element", "Proposed verification"],
+        "headers": [
+          "Concept",
+          "P0 element",
+          "Proposed verification"
+        ],
         "rows": [
-          ["Publication boundary", "Explicit route allowlist in build.ts", "Inspect generated paths; verify data/ and artifacts/ are absent."],
-          ["Bilingual correspondence", "assertPair(es, en)", "Remove or change a required input in a temporary copy; build must fail."],
-          ["Progressive enhancement", "Native links, details TOC, theme button", "Manual keyboard and no-JavaScript review remains pending."],
-          ["Evidence integrity", "data/mastery/PA-S001.json", "Verify it remains not assessed/null until learner evidence exists."]
+          [
+            "Publication boundary",
+            "Explicit route allowlist in build.ts",
+            "Inspect generated paths; verify data/ and artifacts/ are absent."
+          ],
+          [
+            "Bilingual correspondence",
+            "assertPair(es, en)",
+            "Remove or change a required input in a temporary copy; build must fail."
+          ],
+          [
+            "Progressive enhancement",
+            "Native links, details TOC, theme button",
+            "Manual keyboard and no-JavaScript review remains pending."
+          ],
+          [
+            "Evidence integrity",
+            "data/mastery/PA-S001.json",
+            "Verify it remains not assessed/null until learner evidence exists."
+          ]
         ]
       }
     },
@@ -266,62 +614,120 @@
       "id": "real-world",
       "title": "Real-World Example",
       "paragraphs": [
-        "GOV.UK reviews proposal usefulness and uniqueness, then usability, consistency, and versatility before publishing components [R7]. Analysis: existing code and suitability across services are different questions. This supports studying governance alongside implementation; it does not establish savings or defect-reduction figures."
+        "GitLab provides its own contextual career ladder: its Staff material addresses technical leadership within a group, while its Principal framework describes scope equivalent to a stage [R7] [R9]. This is not a universal title definition. The contrast is useful for reasoning about radius of influence, coordination, and cross-system consequences; it cannot establish the learner's capability, level, or outcomes.",
+        "External fact: the GOV.UK Design System publishes components with usage guidance and code examples [R16]. Inference for P0: documenting component contracts could help future adoption; this case does not prove P0 works or is accessible."
       ]
     },
     {
       "id": "production",
-      "title": "Production-Ready Example — proposed",
+      "title": "Production-Ready Example — constructed example",
       "paragraphs": [
-        "Context: an editor publishes PA-S001 in Spanish and English. SessionCatalog names the expected paths, ContentValidator loads and validates each page, SiteGenerator writes dist/, SessionPage produces semantic HTML, and SessionTOC links to the named sections. The normal path validates every source before replacing the old generated output.",
-        "Failure path: a paragraph contains the missing marker R999 but references do not declare it. ContentValidator rejects the page before output cleanup. A missing ES or EN file also stops loading. A TypeScript Page interface alone cannot detect either condition because types describe an in-memory value after the filesystem read; the generator must perform the file and pair checks.",
-        "Illustrative contract: on a missing reference, stop building before replacing output; with no evidence, show not assessed; on structural ES/EN mismatch, require review. Testing these behaviors does not certify production readiness. Semantic review, manual accessibility validation, hosting configuration, source availability, and output preservation behavior remain pending."
+        "Constructed example, not an existing system: an Artificial Intelligence (AI)-assisted tax-document review system receives a request, retrieves documents, calls an AI adapter, and validates that every suggestion cites retrieved evidence. The normal path sends a recommendation with evidence identifiers to a human reviewer; it also records telemetry and the applied policy version. The design treats traceability and human review as product controls aligned with AI risk management [R6].",
+        "Failure path: if retrieval fails, citations are absent, or validation rejects the result, the service degrades to insufficient-evidence and does not present a recommendation as supported. The human reviewer retains the decision and can request more documents. This degradation does not prove the policy is correct: it is proposed behavior that avoids turning a well-formed response into an unsupported tax conclusion.",
+        "Proposed future tests: simulate retrieval_failed, missing_citations, and validation_failed; assert that each evidenceId belongs to the retrieved set; verify that telemetry carries policy version without recording sensitive documents; and review the human flow for accessibility. Limitations: the contract does not evaluate legal correctness, retrieval coverage, bias, credential security, or cost. None of these tests exists in P0 yet."
       ],
       "diagram": {
-        "source": "PA-S001/session-publication-pipeline.mmd",
-        "title": "Session publication pipeline",
-        "description": "Hypothetical publication topology. It represents current components and proposed failure policy; it has not been operated in production."
+        "source": "PA-S001/boundary-flow.mmd",
+        "title": "Boundary and evidence flow",
+        "description": "A constructed flow separating the content contract, Learning Site, dashboard, canonical evidence, local study state, and linked portfolio."
       },
-      "code": "for (const pair of pairs) assertPair(pair.es, pair.en);\n// Inputs are validated before dist/ is removed.\n// This does not judge translation meaning or reference truthfulness."
+      "code": "type SupportedSuggestion =\n  | { kind: \"supported\"; recommendation: string; evidenceIds: readonly string[] }\n  | { kind: \"insufficient-evidence\"; reason: \"retrieval_failed\" | \"missing_citations\" | \"validation_failed\" };"
     },
     {
       "id": "visual-learning-guide",
       "title": "Visual Learning Guide",
       "paragraphs": [
-        "Read the P0 flow from left to right: the portfolio application produces its own public route; explicit bilingual site content passes through the legacy static renderer into Learning Site routes; and data plus artifacts are excluded from the public output. This visual is a teaching synthesis of the publication boundary, not a security guarantee or evidence of production operation."
+        "The Studio combines Scalable Vector Graphics (SVG) diagrams, flows, comparison, and recall cards. Read the boundary flow from left to right: the session contract feeds the Learning Site and dashboard; local study state does not modify canonical evidence; and the portfolio is only publicly linked. This is a teaching synthesis, not a security guarantee or evidence of production operation."
       ],
       "diagram": {
-        "source": "PA-S001/p0-publication-flow.mmd",
-        "title": "P0 public publication boundary",
-        "description": "A visual guide to the P0 publication boundary: the separate portfolio route, bilingual Learning Site routes, and private data and artifacts excluded from generated output."
+        "source": "PA-S001/boundary-flow.mmd",
+        "title": "P0 public boundary flow",
+        "description": "The content contract, Learning Site, dashboard, canonical evidence, and local study state remain distinct; the portfolio is a linked public route."
       }
     },
     {
       "id": "exercises",
       "title": "Exercises — learner-owned work",
       "paragraphs": [
-        "1. Justify a P0 boundary. 2. Write a quality scenario. 3. Temporarily change a reference to R999 (missing marker), observe failure, and restore it. 4. Analyze an alternative storage approach. 5. Identify a capability that should remain local. 6. Explain what npm run check does and does not establish. Record actual answers and outcomes without having Codex solve them."
+        "Learner work: these controls record local study activity only; answers and failure diagnosis belong to the learner."
+      ],
+      "studyItems": [
+        {
+          "id": "PA-S001:exercise:product-boundaries",
+          "label": "Bound the two P0 products and justify their contracts."
+        },
+        {
+          "id": "PA-S001:exercise:quality-scenario",
+          "label": "Write a quality scenario with stimulus, response, and measure."
+        },
+        {
+          "id": "PA-S001:exercise:change-propagation",
+          "label": "Trigger and diagnose a validation failure, then restore the file."
+        },
+        {
+          "id": "PA-S001:exercise:ai-boundary",
+          "label": "Distinguish an AI recommendation from mastery evidence."
+        },
+        {
+          "id": "PA-S001:exercise:staff-principal",
+          "label": "Compare consequences of a Staff and Principal decision."
+        }
       ]
     },
     {
       "id": "resources",
       "title": "Curated Sources and References",
       "paragraphs": [
-        "Priority reading: Parnas, The Criteria [R3]; SEI, six-part scenarios [R4]; CNCF, platform definition and attributes [R5]; NIST, section 2.2 [R6]. Compare terminology and distinguish sourced statements from proposed examples."
+        "The cited references support distinct technical claims: SWEBOK for engineering [R1], ISO/IEC/IEEE 42010 for architecture description [R2], ISO/IEC 25010 for quality [R3], NASA for scenarios [R4], Baldwin and Woodard and CNCF for platforms [R5] [R13], Parnas for modularity [R12], NIST and Sculley et al. for AI risk and technical debt [R6] [R14], GitLab as a contextual scope example [R7] [R9], W3C for accessibility [R15], and GOV.UK for component guidance [R16]. P0 examples remain constructed or local; those sources do not prove P0 outcomes."
+      ]
+    },
+    {
+      "id": "study-resources",
+      "title": "Resources",
+      "paragraphs": [
+        "For study, reread the cited source sections and turn one quality attribute into a scenario with source, stimulus, environment, artifact, response, and measure. A later Architecture Decision Record (ADR) must record learner reasoning rather than copy this editorial synthesis.",
+        "Abbreviations used: F0 = phase 0, P0 = project 0, PA-S001 = Principal Accelerator session 001, C1–C8 = concepts 1–8, S1–S8 = subtopics 1–8, L1–L5 = mastery levels 1–5; ES/EN = Spanish/English; FPA = Frontend Platform Architecture; AIPE = AI Product Engineering; AI = artificial intelligence; ADR = Architecture Decision Record; API = Application Programming Interface; CSS = Cascading Style Sheets; HTML = HyperText Markup Language; JSON = JavaScript Object Notation; SVG = Scalable Vector Graphics; TOC = Table of Contents; SWEBOK = Software Engineering Body of Knowledge; ISO = International Organization for Standardization; IEC = International Electrotechnical Commission; IEEE = Institute of Electrical and Electronics Engineers; NASA = National Aeronautics and Space Administration; NIST = National Institute of Standards and Technology; CNCF = Cloud Native Computing Foundation; RMF = Risk Management Framework; WCAG = Web Content Accessibility Guidelines; GOV.UK = United Kingdom government portal [R1] [R15] [R16]."
       ]
     },
     {
       "id": "mastery",
       "title": "Knowledge Mastery Checklist",
       "paragraphs": [
-        "Pending: explain architecture versus implementation; formulate verifiable quality; analyze coupling; defend a boundary; distinguish AI-assisted coding from AIPE. L1 Explain, L2 Implement, L3 Operate, L4 Decide, and L5 Lead are Accelerator levels. None is awarded for receiving generated code."
+        "Checking a criterion helps review; it grants no L1–L5 level, Completed status, or canonical evidence."
       ],
-      "checklist": [
-        "L1 Explain: distinguish architecture from its description and from implementation.",
-        "L2 Implement: make a bounded content or rendering change and preserve the validation contract.",
-        "L3 Operate: interpret an actual build or controlled validation failure.",
-        "L4 Decide: defend a P0 boundary and its quality trade-offs in the ADR.",
-        "L5 Lead: frame compatible consequences for multiple consumers without inventing organizational evidence."
+      "studyItems": [
+        {
+          "id": "PA-S001:mastery:engineering-architecture",
+          "label": "Explain engineering, architecture, and description."
+        },
+        {
+          "id": "PA-S001:mastery:product-scales",
+          "label": "Distinguish application, system, platform, and ecosystem."
+        },
+        {
+          "id": "PA-S001:mastery:quality-scenario",
+          "label": "Formulate a testable quality scenario."
+        },
+        {
+          "id": "PA-S001:mastery:boundaries",
+          "label": "Identify P0 boundaries and contracts."
+        },
+        {
+          "id": "PA-S001:mastery:coupling-cohesion",
+          "label": "Analyze change propagation and cohesion."
+        },
+        {
+          "id": "PA-S001:mastery:fpa",
+          "label": "Explain when a frontend capability becomes a platform."
+        },
+        {
+          "id": "PA-S001:mastery:aipe",
+          "label": "Explain the evidence boundary of an AI feature."
+        },
+        {
+          "id": "PA-S001:mastery:scope-evidence",
+          "label": "Distinguish Staff/Principal scope and real evidence."
+        }
       ]
     },
     {
@@ -338,75 +744,100 @@
       ]
     },
     {
-      "id": "reliability",
-      "title": "Evidence status",
-      "paragraphs": [
-        "Conclusion: P0 has a mechanically verified static scaffold, not a completed learning or production system. Sourced facts are identified by [R1]–[R11]; the P0 mapping and production scenario are instructional synthesis and hypothetical example. Assumptions include the selected static baseline and reviewed public inputs. Limitations include no browser-based accessibility review, no deployed host, no learner evidence, and no semantic translation assessment. Confidence is high only for the executed repository checks and limited for the unperformed reviews."
-      ]
-    },
-    {
       "id": "bridge",
       "title": "Bridge to PA-S002",
       "paragraphs": [
         "PA-S002 evolves the same repository through monorepo and engineering standards: workspace/app/package, dependencies, public APIs, and quality gates. Pending work becomes Revisit and never blocks another session."
+      ]
+    },
+    {
+      "id": "reliability",
+      "title": "Evidence and current status",
+      "paragraphs": [
+        "Current state: there is no learner-supplied implementation or learning evidence, and no L1–L5 level is assessed. Checklist and exercises are learner-controlled study state; session status may be Not started, Partial, Completed, or Revisit, whereas L1–L5 requires real evidence. Artifacts, tests, and measurements count only when they exist and are recorded. This page is editorial synthesis; its constructed examples are not P0 results."
       ]
     }
   ],
   "references": [
     {
       "id": "R1",
-      "title": "IEEE Computer Society — Software Engineering",
-      "url": "https://www.computer.org/publications/tech-news/trends/software-engineering-as-a-layered-technology"
+      "title": "IEEE Computer Society — SWEBOK Guide v4.0a",
+      "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering/resources/"
     },
     {
       "id": "R2",
-      "title": "CMU SEI — Software Architecture",
-      "url": "https://www.sei.cmu.edu/software-architecture/"
+      "title": "ISO/IEC/IEEE 42010:2022 — Architecture description",
+      "url": "https://www.iso.org/standard/74393.html"
     },
     {
       "id": "R3",
-      "title": "D. L. Parnas (1972) — On the Criteria To Be Used in Decomposing Systems into Modules",
-      "url": "https://doi.org/10.1145/361598.361623"
+      "title": "ISO/IEC 25010:2023 — Product Quality Model",
+      "url": "https://www.iso.org/standard/78176.html"
     },
     {
       "id": "R4",
-      "title": "CMU SEI — Integrating Software-Architecture-Centric Methods into the Rational Unified Process, §2.2.1",
-      "url": "https://sei.cmu.edu/documents/734/2004_005_001_14396.pdf"
+      "title": "NASA — Systems Engineering Handbook",
+      "url": "https://www.nasa.gov/wp-content/uploads/2018/09/nasa_systems_engineering_handbook_0.pdf"
     },
     {
       "id": "R5",
-      "title": "CNCF — Platforms White Paper",
-      "url": "https://tag-app-delivery.cncf.io/whitepapers/platforms/"
+      "title": "Baldwin and Woodard — The Architecture of Platforms",
+      "url": "https://www.hbs.edu/ris/Publication%20Files/09-034_149607b7-2b95-4316-b4b6-1df66dd34e83.pdf"
     },
     {
       "id": "R6",
-      "title": "NIST AI 600-1 — Generative Artificial Intelligence Profile, §2.2",
-      "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf"
+      "title": "NIST — Artificial Intelligence Risk Management Framework 1.0",
+      "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf"
     },
     {
       "id": "R7",
-      "title": "GOV.UK Design System — Contribution criteria",
-      "url": "https://design-system.service.gov.uk/community/contribution-criteria/"
+      "title": "GitLab — Staff Engineers",
+      "url": "https://handbook.gitlab.com/handbook/engineering/careers/training/staff-engineers/"
     },
     {
       "id": "R8",
-      "title": "GitLab — Staff Career Framework",
-      "url": "https://handbook.gitlab.com/handbook/engineering/careers/matrix/staff/"
+      "title": "GitLab — Staff Engineers",
+      "url": "https://handbook.gitlab.com/handbook/engineering/careers/training/staff-engineers/"
     },
     {
       "id": "R9",
       "title": "GitLab — Principal Career Framework",
-      "url": "https://handbook.gitlab.com/handbook/engineering/careers/matrix/principal/"
+      "url": "https://handbook.gitlab.com/handbook/engineering/careers/matrix/infrastructure/principal/"
     },
     {
       "id": "R10",
-      "title": "ISO/IEC/IEEE 24765:2017 — Vocabulary, coupling/cohesion",
-      "url": "https://swehb.nasa.gov/download/attachments/16450104/c071952_ISO_IEC_IEEE_24765_2017.pdf?api=v2"
+      "title": "IEEE Computer Society — SWEBOK Guide v4.0a",
+      "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering/resources/"
     },
     {
       "id": "R11",
-      "title": "ISO/IEC/IEEE 42010:2022 — Architecture description public record",
+      "title": "ISO/IEC/IEEE 42010:2022 — Architecture description",
       "url": "https://www.iso.org/standard/74393.html"
+    },
+    {
+      "id": "R12",
+      "title": "Parnas (1972) — On the Criteria To Be Used in Decomposing Systems into Modules, DOI 10.1145/361598.361623",
+      "url": "https://doi.org/10.1145/361598.361623"
+    },
+    {
+      "id": "R13",
+      "title": "CNCF — Platform Engineering Maturity Model",
+      "url": "https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/"
+    },
+    {
+      "id": "R14",
+      "title": "Sculley et al. (2015) — Hidden Technical Debt in Machine Learning Systems",
+      "url": "https://research.google/pubs/hidden-technical-debt-in-machine-learning-systems/"
+    },
+    {
+      "id": "R15",
+      "title": "W3C — Web Content Accessibility Guidelines (WCAG) 2.2",
+      "url": "https://www.w3.org/TR/WCAG22/"
+    },
+    {
+      "id": "R16",
+      "title": "GOV.UK Design System — Components",
+      "url": "https://design-system.service.gov.uk/components/"
     }
   ]
 }

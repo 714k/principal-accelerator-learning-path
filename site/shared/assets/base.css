@@ -1,0 +1,9 @@
+:root { color-scheme: light dark; font: 1rem/1.55 system-ui, sans-serif; }
+body { max-width: 78rem; margin: auto; padding: 1rem; overflow-wrap: anywhere; }
+nav a, main a { margin-inline-end: 1rem; }
+main { max-width: 72ch; }
+fieldset { margin-block: 1.5rem; }
+input, button { font: inherit; }
+:focus-visible { outline: 3px solid #078699; outline-offset: 3px; }
+.session-diagram { display: block; width: 100%; max-width: 100%; height: auto; }
+@media (min-width: 60rem) { body { padding: 2rem; } }

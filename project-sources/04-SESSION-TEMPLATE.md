@@ -125,182 +125,103 @@ The first teaching response must use this exact theory-phase structure:
 **Objective:** ...
 
 ## Learning Preview
-
 ## Concepts
-
 ## Main Topic
-
 ## Subtopics
-
 ## Theory → Practice Map
-
 ## Time Breakdown
-
 ## Real-World Example
-
 ## Production-Ready Example
+## Visual Learning Guide / Studio
+## Exercises
+## Curated Sources and References
+## Resources
+## Knowledge Mastery Checklist
+## End-of-Session Success Criteria
+## Bridge to PA-Sxxx
+```
 
+### Concept-first section opening
 
+For `## Main Topic` and every theoretical `### Subtopic`, begin with an explicit academic conceptual foundation before the integrated narrative.
 
-## UI Reference application rule
+Required opening pattern when applicable:
+
+```text
+### <Topic>
+
+#### Concept
+<source-backed definition, scope and distinctions>
+
+#### Mechanism / mental model
+<what concrete software elements participate and how the concept works>
+
+<then continue with deeper session-specific development, examples, evidence, quotations, trade-offs and implications>
+```
+
+The exact subheadings may vary for readable prose, but definition/scope must precede quotations, recommendations or consequences. Academic concepts must be sourced close to the claims they support.
+
+### UI Reference application rule
 
 For every theory-bearing session that publishes or regenerates Learning Site content:
+1. inspect `/ui-reference/` before defining page presentation;
+2. identify relevant reference patterns;
+3. map the session theory hierarchy to those patterns;
+4. preserve reference look-and-feel and interaction intent where appropriate;
+5. adapt rather than blindly copy when accessibility, responsiveness, content semantics or architecture require it.
 
-1. inspect `/ui-reference/` before defining the page presentation;
-2. identify the relevant reference patterns for the session content;
-3. map the session's theory hierarchy to those patterns;
-4. preserve the reference look-and-feel and interaction model where appropriate;
-5. adapt rather than copy when accessibility, responsiveness or content semantics require it.
+Project Sources govern theory truth. `/ui-reference/` governs presentation and interaction.
 
-The Theory Phase content remains academically governed by the Project Sources. `/ui-reference/` governs how that content is **presented and interacted with**, not what factual/theoretical claims are made.
+### Adaptive Visual Learning Studio — mandatory
 
-The Visual Learning Guide should use `/ui-reference/` as the primary UI inspiration for cards, diagrams, comparisons, progressive disclosure, code callouts and rapid-learning patterns.
+The Visual Learning Studio implements the visible `Visual Learning Guide` / `Guía Visual de Aprendizaje` as an adaptive multi-mode learning experience.
 
-## Visual Learning Guide — mandatory second representation
+After full Theory, Real-World Example and Production-Ready Example, and before Exercises, every theory-bearing session publishes this studio from theory already taught.
 
-After the complete academic theory, and before `## Exercises`, add:
+#### Required mode 1 — Mind Map
+- cover every major Concept, Main Topic and theoretical Subtopic;
+- author `site/shared/diagrams/<SESSION_ID>/<name>.mmd`;
+- generate responsive SVG at build time;
+- localized title + accessible description;
+- white primary diagram canvas by default;
+- restrained dark node fills with high-contrast white text, including the root;
+- avoid bright/rainbow decorative palettes.
 
-```text
-## Visual Learning Guide
-```
+#### Required mode 2 — Flashcards
+Create enough flashcards to cover every Concept, Main Topic and theoretical Subtopic. Each card declares source section(s) and provides:
+- question/front;
+- answer + explanation/back;
+- click/tap flip;
+- previous/next;
+- counter/progress indicator;
+- keyboard support;
+- readable no-JavaScript fallback;
+- `prefers-reduced-motion` support.
 
-This section is a **second representation of theory already taught**. It does not replace or shorten `Concepts`, `Main Topic`, `Subtopics`, Real-World Example or Production-Ready Example.
+Questions should test distinctions, mechanisms, consequences and reasoning rather than trivia.
 
-Its purpose is rapid comprehension and review.
+#### Additional adaptive modes
+Select only modes justified by existing content, such as analogy + software mapping + limits; comparison table; step flow; dependency/boundary map; sequence/lifecycle/timeline; decision/trade-off matrix; failure/change propagation; pipeline/journey; code/contract walkthrough; distinction/misconception cards; rapid recall/teach-back.
 
-### Required content
+Do not hard-code one global tab set for all sessions.
 
-Adapt the visual guide to the session, but normally include:
+#### Source linkage and validation
+Every visual mode declares canonical theory sections represented. A session is invalid if:
+- no Visual Learning Studio is declared;
+- mind map misses Concepts/Main Topic/theoretical Subtopics;
+- flashcards miss any of those sections;
+- ES/EN differ in mode identifiers or coverage structure;
+- a mode adds unsupported theory/evidence.
 
-#### 1. At a glance
-A compact visual summary of:
-- the central problem;
-- the main concepts;
-- the relationship between them;
-- the production consequence.
+The visual layer re-represents theory; it never replaces or silently summarizes away source content.
 
-Prefer a diagram or compact card layout rather than a paragraph.
+### Visual study composition
 
-#### 2. Concept cards
-Create one concise visual card for each major concept/subtopic.
-
-Each card should answer, in plain technical language:
-
-```text
-WHAT IS IT?
-WHY DOES IT MATTER?
-WHERE DOES IT EXIST IN SOFTWARE?
-HOW DOES IT WORK?
-WHAT BREAKS / WHAT CHANGES?
-```
-
-Use named software elements, not abstract nouns.
-
-Example:
-
-```text
-COUPLING
-
-What:
-How strongly module A depends on module B.
-
-In software:
-CheckoutComponent → PaymentService
-
-Change consequence:
-If CheckoutComponent depends on Stripe-specific methods,
-changing payment provider also changes CheckoutComponent.
-```
-
-#### 3. Visual mechanism
-Show the important flow, dependency, lifecycle, state or interaction.
-
-Examples:
-- dependency graph;
-- request/data flow;
-- sequence;
-- before/after boundary;
-- event flow;
-- render pipeline;
-- RAG/agent pipeline.
-
-Use Mermaid as source when appropriate, but the published Learning Site must render the generated responsive SVG according to the Mermaid → SVG publishing standard.
-
-#### 4. Compare / contrast
-When useful, use a compact comparison:
-
-```text
-Tightly coupled            Lower coupled
---------------             -------------
-A knows B internals        A depends on interface
-change B → change A        change B adapter only
-simple initially           extra abstraction
-```
-
-Do not imply that one option is universally superior.
-
-#### 5. See it in code
-Include a minimal code/config/schema excerpt when code makes the mechanism clearer.
-
-The snippet must be small enough to scan quickly and must illustrate the exact concept already taught.
-
-#### 6. Failure / consequence
-Show one concrete failure or change scenario visually:
-
-```text
-Change / failure
-      ↓
-affected element
-      ↓
-propagation
-      ↓
-user/runtime/developer consequence
-```
-
-#### 7. Fast recall
-End with 3–7 short statements the learner should be able to recall quickly.
-
-These are not new claims. They must be faithful summaries of the academic theory above.
-
-### Visual design rules
-
-The Learning Site presentation should favor:
-
-- short labeled blocks/cards;
-- clear hierarchy;
-- diagrams;
-- arrows/relationships;
-- comparison blocks;
-- concise code;
-- whitespace;
-- progressive disclosure when the visual guide is large.
-
-Do not turn this section into another long prose chapter.
-
-Do not use decorative visuals that do not teach something.
+The visible guide may use concept cards, comparisons, flows, diagrams, code callouts, failure/change consequences and fast-recall points, but must not become another long prose chapter or a page of decorative rounded rectangles. Use the representation that best teaches the material.
 
 ### Epistemic integrity
 
-The Visual Learning Guide must not:
-- introduce unsupported facts;
-- omit a critical limitation in a way that changes meaning;
-- turn a contextual recommendation into a universal rule;
-- replace citations for factual claims.
-
-Where the visual summary contains a non-obvious factual or normative claim, preserve an appropriate citation/reference link back to the sourced theory.
-
-## Exercises
-
-## Curated Sources and References
-
-## Resources
-
-## Knowledge Mastery Checklist
-
-## End-of-Session Success Criteria
-
-## Bridge to PA-Sxxx
-```
+The visual layer must not introduce unsupported facts, remove critical limitations, convert contextual recommendations into universal rules or replace citations required by factual/normative claims.
 
 Then stop.
 
@@ -531,6 +452,13 @@ Additional mandatory checks:
 - [ ] every subtopic heading contains substantive explanatory prose.
 - [ ] prior mention in `## Concepts` is not being used as a substitute for the required Subtopics development.
 
+## Acronym/initialism gate
+
+Before publishing either language page:
+- [ ] every acronym/initialism appearing on that page is expanded at least once as `Full Term (ACRONYM)` or a semantically appropriate localized equivalent;
+- [ ] later uses may use the acronym alone;
+- [ ] canonical technical acronyms remain recognizable across ES/EN.
+
 ## 8. Theory → Practice Map
 
 Mandatory table mapping important concepts to concrete code,
@@ -651,7 +579,7 @@ When PA-S001 enters Build, provide **both** artifacts immediately:
 2. A complete Codex prompt ready to paste into VS Code.
 
 The script/prompt must target the real Accelerator repository and initialize:
-- `apps/book`;
+- `apps/portfolio/`;
 - repository/workspace baseline;
 - public bilingual session routes/content under `site/es/sessions/PA-S001/` and `site/en/sessions/PA-S001/`;
 - public project pages for the Engineering Book;
@@ -947,3 +875,27 @@ Published theory must support both Spanish and English.
 The two versions must preserve the same concepts, technical meaning,
 evidence and decisions, while allowing idiomatic language in each
 version.
+
+## Learning Site executable-output gate
+
+When a session creates/regenerates public `site/` output, the published implementation must satisfy these observable requirements, not merely mention them in prose.
+
+### Dashboard home
+`/es/` and `/en/` are learning dashboards from PA-S001 onward. They may include an introductory heading, but must not be only a hero plus navigation cards. Render available real data/empty states for roadmap/session progress, study tracking, exercises, evidence-backed mastery, artifacts, revisits, projects/systems and recent/next activity. Use charts only when the available data relationship justifies them.
+
+### Interactive study tracking
+For every trackable Exercise and Knowledge Mastery Checklist criterion:
+- assign a stable machine ID shared by ES/EN;
+- render an enabled interactive checkbox/control in the published site;
+- allow toggling on/off;
+- persist state using the current static-site approach;
+- preserve a readable no-JavaScript representation;
+- never mutate/award canonical mastery or session completion from the toggle.
+
+A rendered `disabled` checkbox does **not** satisfy study tracking except for a deliberately read-only item explicitly labeled as such.
+
+### Navigation
+Desktop global navigation exposes curriculum phases/sessions, projects/systems and primary destinations. The current-page TOC goes below that navigation or above the article. Phone is priority 1; tablet/iPad priority 2; desktop priority 3.
+
+### Generated prompt handoff
+Any Codex prompt emitted by the session must repeat these executable gates directly so implementation cannot silently collapse them into a minimal scaffold.

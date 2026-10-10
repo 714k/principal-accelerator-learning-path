@@ -1,0 +1,13 @@
+%%{init: {"theme":"base","themeVariables":{"background":"#ffffff","primaryColor":"#18324a","primaryTextColor":"#ffffff","primaryBorderColor":"#18324a","lineColor":"#36536b","fontFamily":"Arial"},"flowchart":{"htmlLabels":false,"nodeSpacing":18,"rankSpacing":22}}}%%
+flowchart LR
+  root["PA-S001 Main Topic<br/>Outcome → responsibility<br/>Change → verification"]
+  root --> c1["C1 / S1<br/>Engineering / architecture"]
+  root --> c2["C2 / S2<br/>Application / system / platform / ecosystem"]
+  root --> c3["C3 / S3<br/>Quality / constraints"]
+  root --> c4["C4 / S4<br/>Boundaries / contracts"]
+  root --> c5["C5 / S5<br/>Coupling / cohesion"]
+  root --> c6["C6 / S6<br/>Frontend platform architecture"]
+  root --> c7["C7 / S7<br/>AI product engineering"]
+  root --> c8["C8 / S8<br/>Staff / Principal scope"]
+  classDef topic fill:#18324a,color:#ffffff,stroke:#18324a,stroke-width:2px;
+  class root,c1,c2,c3,c4,c5,c6,c7,c8 topic;
