@@ -65,12 +65,14 @@ Recommended structure:
 6.  Theory → Practice Map
 7.  Real-World Example
 8.  Production-Ready Example
-9.  Architecture/Design where applicable
-10. Exercises or reflection prompts where publishable
-11. Resources
-12. Knowledge Mastery / What I Learned
-13. Evidence / implementation links
-14. Related Topics / Bridge
+9.  Visual Learning Guide / Studio
+10. Architecture/Design where applicable
+11. Exercises or reflection prompts where publishable
+12. Curated Sources and References
+13. Resources
+14. Knowledge Mastery / What I Learned
+15. Evidence / implementation links
+16. Related Topics / Bridge
 
 The interactive session may contain additional operational sections such
 as Codex ownership, testing and progress updates. The published chapter
@@ -183,6 +185,16 @@ Do not publish a model-generated paraphrase as if it were a formal industry defi
 
 
 
+## Learning Site dashboard publishing contract
+
+The `site/` home route is a learning-progress dashboard generated from available public-safe data.
+
+Dashboard visualizations may include cards, tables, line/bar charts, donut/pie charts, timelines, matrices and project/session summaries when the data relationship justifies them.
+
+Never infer or fabricate mastery from study activity. Render learner-toggleable Knowledge Mastery Checklist and Exercise completion as **study tracking**. Render L1–L5 only from recorded evidence/mastery assessment. Clearly label the distinction.
+
+The dashboard must be useful on phone first, tablet second and desktop third, and must remain accessible with non-chart textual/table equivalents for essential information.
+
 ## Canonical UI Reference publishing contract
 
 All public Learning Site pages under `site/` should use `/ui-reference/` as the canonical reference for their visual and interactive presentation.
@@ -210,6 +222,29 @@ reusable primitive
       ↓
 PA-S001 ... PA-S120
 ```
+
+## Adaptive Visual Learning Studio publishing standard
+
+The Visual Learning Studio implements the existing `Visual Learning Guide` / `Guía Visual de Aprendizaje` section as an adaptive multi-mode learning experience; the visible section name may remain localized while the platform capability is called Visual Learning Studio.
+
+Every published theory-bearing session includes a Visual Learning Studio after full theory/examples and before Exercises.
+
+Required:
+- mind map with complete Concepts/Main Topic/Subtopics coverage;
+- flashcards with complete coverage;
+- explicit source-section linkage for every mode;
+- ES/EN same mode identifiers and structural coverage;
+- adaptive additional modes only when supported by source content.
+
+Mind-map source lives under `site/shared/diagrams/<SESSION_ID>/` and publishes as responsive SVG. The diagram visual baseline uses a white canvas, restrained dark nodes and high-contrast white node text unless `/ui-reference/` or accessibility requires an equivalent adaptation. Do not use bright/rainbow node palettes.
+
+Flashcards must remain readable without JavaScript and become interactive progressively. They are retrieval-practice tools, not mastery scores.
+
+### Academic-first content composition
+Every Main Topic/Subtopic begins with its academic concept definition/scope before integrated exposition. Publishable theory should use varied semantic structures—prose, descriptive subheadings, real lists, numbered mechanisms, tables, diagrams, code excerpts, examples/counterexamples and semantic callouts—without turning the page into card soup.
+
+### Acronym rule
+Every acronym/initialism on each page is expanded at least once using `Full Term (ACRONYM)` or equivalent localized expansion.
 
 ## Visual Learning Guide publishing standard
 
@@ -426,6 +461,21 @@ Shows professional positioning, selected work, concise case studies and evidence
 ### Learning Site (`site/`)
 Publishes the complete learning material for the Accelerator. Do not place full PA session theory inside the portfolio merely because both surfaces are public.
 
+## Learning Site navigation publishing contract
+
+Desktop:
+- global navigation occupies the main navigation region and includes sessions grouped by phase, projects/systems and principal destinations;
+- current-page TOC appears below global navigation or above the article;
+- avoid a separate mostly-empty rail solely for a few global controls plus another permanent TOC rail.
+
+Mobile/tablet:
+- prioritize the reading surface;
+- global navigation and TOC collapse accessibly;
+- no page-level horizontal overflow;
+- tabs/mode rails may use controlled local horizontal scrolling when needed.
+
+Global header remains compact and does not enumerate all 120 sessions.
+
 ## Learning Site information architecture
 
 Required global UI:
@@ -452,3 +502,26 @@ Required accessibility:
 ## Learning Site content clarity
 
 Published theory must preserve the same clarity bar as the teaching session: plain technical definitions, concrete software examples, diagrams/flows for architectural concepts, complete production-ready examples, no cryptic fragments, no editorial/meta language unrelated to software engineering, references and inline citations.
+
+
+### Interactive study-state publishing
+Trackable exercises and Knowledge Mastery Checklist criteria must expose stable IDs shared by ES/EN. Their toggle state is learner study activity and may be persisted by the static client implementation. Dashboard aggregations must not infer evidence-backed mastery from these toggles.
+
+## Dashboard + study tracking definition of done
+
+From PA-S001 onward, localized Learning Site home pages are dashboard pages. A marketing-style hero may be present, but does not satisfy the dashboard requirement by itself.
+
+The dashboard must render available public-safe information or honest empty states for the applicable categories: roadmap/session progress, study checklist/exercise state, evidence-backed mastery, artifacts/evidence, revisits, projects/systems, recent/next activity.
+
+Knowledge Mastery Checklist and trackable Exercise controls in published pages are learner-operable study controls:
+- enabled by default;
+- checkable/uncheckable;
+- stable ID shared across ES/EN;
+- persistable in the current static architecture;
+- never interpreted as proof of mastery.
+
+Do not publish disabled checkboxes merely to mimic Markdown checkboxes.
+
+## Preserve current site capability on regeneration
+
+Regenerating an old session means applying new content/contract to the current site platform. Preserve current dashboard, navigation, Visual Learning Studio, responsive behavior, accessibility and tracking capabilities. Do not roll the platform back to an earlier minimal shell.

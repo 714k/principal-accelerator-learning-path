@@ -78,6 +78,41 @@ pass. Deviations must be reported and justified.
 
 
 
+## Dashboard aggregation identifiers
+
+To support bilingual interactive study tracking without confusing it with mastery, published session content should expose stable identifiers for dashboard-tracked items:
+- session ID;
+- exercise ID for each trackable exercise;
+- checklist item ID for each learner-toggleable Knowledge Mastery criterion;
+- project/system ID where applicable;
+- evidence/mastery references separately.
+
+ES and EN counterparts use the same stable IDs even when display text differs. Client-side study state keys must be based on stable IDs, not translated labels. Canonical evidence/mastery data remains separate from learner-toggle state.
+
+## Learning Site interaction/data standard
+
+The Learning Site home is an evidence-safe dashboard. Its data model must distinguish at least:
+- learner-tracked study completion (checklist/exercise toggles);
+- session status;
+- evidence-backed mastery L1–L5;
+- artifacts/evidence actually produced;
+- projects/systems and revisit state.
+
+Interactive checklist and exercise state may persist client-side under the static architecture. It must not mutate canonical evidence/mastery records merely because the learner toggles a checkbox.
+
+Charts must be selected according to the data relationship. Avoid decorative visualization. Never render invented percentages or mastery scores.
+
+### Navigation architecture
+Desktop default: global learning navigation + main article. Global navigation should expose phases/sessions, projects/systems and principal destinations. Place the current-page TOC below the global navigation or at the top of the article; avoid an additional permanent TOC rail unless an accepted design decision justifies it.
+
+Mobile-first is mandatory: phone first, then tablet/iPad, then desktop enhancement.
+
+### Palette baseline
+Across Accelerator-generated UIs, the default design system must avoid pink, purple and rainbow/multi-hue decorative palettes unless explicitly required by product/domain/brand context. Prefer neutral surfaces and restrained semantic accents (blue, cyan/teal, green, amber/orange, red) with accessible contrast. Do not encode meaning by color alone.
+
+### Acronym rendering
+Published content tooling/validation should enforce or test that each acronym/initialism is expanded at least once per page.
+
 ## Canonical UI Reference technical rule
 
 `/ui-reference/` is the UI/UX reference source for the Learning Site.
@@ -174,6 +209,20 @@ Before adding a new runtime dependency, determine:
 Do not install architecture-significant libraries merely because they shorten implementation.
 
 
+## Visual Learning Studio technical contract
+
+Session `page.json` (or the current equivalent content schema) must declare a visual learning configuration with stable mode identifiers and explicit source-section coverage.
+
+Validation must reject theory-bearing `session` pages that lack:
+- visual guide/studio declaration;
+- mind-map mode covering Concepts, Main Topic and all theoretical Subtopics;
+- flashcard coverage for the same set;
+- ES/EN structural parity of visual mode identifiers/coverage.
+
+Mind maps are Mermaid-authored and participate in the same diagram discovery/build pipeline as section diagrams. Preserve Puppeteer/browser configuration required by the current Mermaid build unless deliberately replaced through an accepted technology/architecture decision.
+
+Progressive enhancement: core theory and readable flashcard answers remain available without JavaScript. Interactive tabs/flips enhance, not gate, learning content.
+
 ## Diagram publishing standard: Mermaid source → responsive SVG
 
 Mermaid is an authoring/source format for diagrams, not the required browser-rendering format for the Learning Site.
@@ -231,3 +280,36 @@ site/shared/diagrams/PA-Sxxx/
 ```
 
 Generated SVG is derived output; edit the Mermaid source rather than manually editing the SVG when the conceptual diagram changes.
+
+## Learning Site hard implementation contract
+
+These are observable implementation requirements from the initial P0 Learning Site slice.
+
+### Dashboard root
+The localized home route must render a semantic dashboard region (implementation naming may vary) containing real available data or explicit empty states. A home consisting only of hero copy plus links/cards is non-compliant.
+
+Essential dashboard information must remain understandable without interpreting a chart. Charts may supplement cards/tables/text; they do not replace accessible values/labels.
+
+### Study-control identifiers
+Each trackable item has a stable identifier independent of translated text, for example:
+
+```text
+PA-S001:exercise:quality-scenario
+PA-S001:mastery:explain-architecture
+```
+
+ES/EN equivalents share the same key. The rendered control exposes this ID through the schema/DOM (`id`, `value`, `data-study-id`, or equivalent).
+
+Trackable controls are enabled. Do not generate `disabled` checkboxes as the default checklist UI.
+
+Client persistence may use local storage under a versioned namespace when compatible with the current static architecture. Stored study state remains distinct from `07-PROGRESS.md`, evidence artifacts and competency/mastery records.
+
+### Rendered-output regression checks
+The canonical site check should fail when practical if:
+- localized home lacks dashboard semantics/data sections;
+- a trackable checklist/exercise input is disabled or lacks a stable ID;
+- a session lacks Visual Learning Studio/mind-map/flashcard coverage;
+- generated public HTML contains `apps/book` as current architecture;
+- global curriculum navigation is missing;
+- raw Mermaid is published instead of generated SVG;
+- ES/EN structural parity is broken.

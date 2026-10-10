@@ -51,6 +51,13 @@ conceptual work.
 
 Prefer embedded assessment through real learning/build work over broad upfront diagnostic questionnaires. Teach concepts before asking the learner to apply them.
 
+
+## Learning-surface preferences
+
+Prefer academically rigorous material that remains visually scannable and engaging: concept-first explanations, concrete examples, diagrams, comparison tables, meaningful lists, code/contract excerpts, failure scenarios, mind maps and retrieval-practice flashcards. Avoid walls of text, shallow bullet-only teaching and decorative card-heavy layouts.
+
+For the Learning Site, prioritize phone readability, then tablet/iPad, then desktop; use global curriculum navigation and adaptive visual learning modes selected for the topic.
+
 ## Reliability expectations
 
 Do not invent facts or measurements. Explicitly identify assumptions.

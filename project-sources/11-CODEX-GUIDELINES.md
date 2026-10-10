@@ -180,6 +180,57 @@ Treat this rule as persistent for all current and future PA sessions.
 
 
 
+## Mandatory Learning Site dashboard + adaptive-learning implementation
+
+Whenever Codex creates/regenerates the Learning Site shell or session publishing system, preserve the following platform capabilities for all current/future sessions.
+
+### Stable dashboard-tracking IDs
+When generating/updating session content, preserve stable machine-readable IDs for learner-toggleable checklist items and exercises. ES/EN equivalents use the same IDs. Dashboard state must key from these identifiers rather than visible translated text. Do not let local toggle state overwrite canonical progress/evidence/mastery files.
+
+### Dashboard home
+Implement/maintain a dashboard home using only available data. Support appropriate cards/tables/charts for roadmap progress, learner study completion, exercises, evidence-backed mastery, artifacts, revisits and projects. Checklist/exercise controls may be toggleable and persisted in the current static architecture, but their state is not mastery evidence.
+
+### Navigation
+Desktop: use the primary sidebar/region for meaningful global navigation (phases/sessions, projects/systems, principal destinations). Move the page TOC below that global navigation or above the main article. Do not maintain two wasteful permanent side rails by default.
+
+Mobile-first: ensure navigation, TOC, charts, tables, tabs, diagrams and code work at phone width first, then tablet/iPad, then desktop.
+
+### Adaptive Visual Learning Studio
+
+The Visual Learning Studio implements the existing `Visual Learning Guide` / `Guía Visual de Aprendizaje` section as an adaptive multi-mode learning experience; the visible section name may remain localized while the platform capability is called Visual Learning Studio.
+Every theory-bearing session `page.json` (or equivalent) must declare visual-learning modes tied to source sections.
+
+Mandatory:
+1. **Mind map** covering every Concept + Main Topic + theoretical Subtopic; Mermaid `.mmd` under `site/shared/diagrams/<SESSION_ID>/`; generated SVG; white main canvas; restrained dark nodes; white high-contrast node text; localized accessible title/description.
+2. **Flashcards** covering those same sections. Each card declares coverage; front question; back answer + explanation; tap/click flip; previous/next; counter; keyboard support; readable no-JS fallback; reduced-motion support.
+
+Additional modes are content-driven only: comparisons, step flows, dependency/boundary maps, sequences, timelines, lifecycle/state views, decision/trade-off matrices, failure/change flows, pipelines/journeys, code/contract walkthroughs, distinctions/misconceptions and recall/teach-back.
+
+Do not hard-code one identical tab set across sessions. Do not invent unsupported theory to fill a visual mode.
+
+### Content renderer improvements
+Preserve the full source text/citations/links while improving study readability:
+- explicit Concept foundation first for Main Topic/Subtopics;
+- meaningful idea emphasis;
+- descriptive internal subheadings;
+- lists only when semantically useful;
+- numbered mechanisms/sequences;
+- stronger table hierarchy;
+- diagrams/examples/code where supported;
+- parse `Context — Title`-style labels into semantic kicker/subtitle where appropriate;
+- avoid wrapping every paragraph in rounded cards.
+
+### Acronyms
+Ensure every acronym/initialism is expanded at least once per published page. Add validation or content checks where practical.
+
+### Palette
+Do not introduce default pink, purple or rainbow/multi-hue decorative palettes. Follow `/ui-reference/` while adapting to restrained neutral/blue/cyan-teal/green/amber-orange/red semantic palettes unless product/domain/brand requirements explicitly say otherwise.
+
+### Validation/tests
+A new theory-bearing session must fail content validation if it lacks the Visual Learning Studio declaration, complete mind-map coverage, complete flashcard coverage, ES/EN visual-mode parity, or required diagram discovery/generation.
+
+Add/maintain tests for content contract, flashcard coverage, mind-map coverage, static fallback, progressive hooks, accessibility semantics and responsive/no-overflow behavior. Run `npm run check` (or the repository's canonical equivalent) and report exact results; never weaken checks to pass.
+
 ## Mandatory `/ui-reference/` inspection
 
 Before Codex creates, regenerates or substantially changes any Principal Accelerator Learning Site UI/content presentation, it must inspect:
@@ -457,3 +508,59 @@ abstractions; - selected libraries without justification; - coupled
 layers; - invented metrics; - created inaccessible UI; -
 overengineered; - wrote tests that actually verify behavior; - hid
 architectural decisions.
+
+## Preserve-and-extend implementation rule — mandatory
+
+Before any `site/` creation/regeneration:
+1. inspect the current repository implementation, generated site, content schemas, tests and `/ui-reference/`;
+2. inventory current capabilities;
+3. preserve capabilities that satisfy the current contract;
+4. migrate forward only what is obsolete;
+5. never replace a richer working implementation with a smaller PA-S001 scaffold.
+
+User/Codex local improvements are code source-of-truth unless they violate the current canonical contract. Report any capability intentionally removed and the exact contract reason.
+
+Search public content/source for stale `apps/book` references. `apps/book/` may appear only in explicit migration/history documentation; it must not be rendered as the current Learning Site architecture.
+
+## Mandatory inline Learning Site payload in generated Codex prompts
+
+Whenever ChatGPT generates a Codex prompt for a session that creates/regenerates/updates `site/`, the prompt MUST explicitly contain the following acceptance payload (adapt paths/names to the repository, but do not weaken semantics):
+
+```text
+LEARNING SITE HARD GATES
+- Inspect and preserve the current site implementation before editing.
+- Inspect /ui-reference/ and derive presentation/interactions from it.
+- /es/ and /en/ are actual learning dashboards, not hero/index-only landing pages.
+- Dashboard renders available roadmap/session/study/exercise/evidence/mastery/artifact/revisit/project/activity data or honest empty states.
+- Trackable Exercises and Knowledge Mastery Checklist items have stable IDs shared by ES/EN.
+- Published study checkboxes are enabled and can be checked/unchecked; do not render them disabled by default.
+- Persist study state with the existing static/progressive architecture; study state never awards L1–L5 or Completed.
+- Global desktop nav includes phase-grouped sessions + projects/systems + primary destinations; page TOC sits below it or above article.
+- Phone first, then tablet/iPad, then desktop; no page-level horizontal overflow.
+- Every Main Topic/Subtopic opens concept-first: definition/scope/distinctions, then mechanism/model, then deeper development/examples/trade-offs.
+- Expand every acronym/initialism at least once per published page.
+- Every theory session has adaptive Visual Learning Studio; mandatory complete mind map + flashcards; additional modes by topic fit only.
+- Mermaid is source; publish responsive accessible SVG.
+- Avoid default decorative pink, purple and rainbow palettes unless product/domain/brand explicitly requires them.
+- Do not resurrect apps/book as current architecture.
+- Do not invent metrics/mastery/evidence.
+- Run canonical checks and inspect rendered HTML, not only source files.
+```
+
+A generated prompt that omits these hard gates is incomplete.
+
+## Rendered-output acceptance checks
+
+Before reporting Learning Site work complete, inspect generated `/es/` + `/en/` home HTML and at least one generated session page.
+
+Reject completion if any of the following is true:
+- home is only hero + index/navigation cards and has no dashboard data/empty-state regions;
+- trackable `<input type="checkbox">` controls are `disabled`;
+- trackable controls lack stable machine IDs;
+- session page lacks the adaptive studio or mandatory modes;
+- current architecture text still says `apps/book` represents the Learning Site;
+- global curriculum navigation is absent;
+- raw Mermaid is displayed;
+- build/tests pass but the observable UI contract above is missing.
+
+Run `npm run check` or the canonical equivalent, then perform these rendered-output inspections separately.

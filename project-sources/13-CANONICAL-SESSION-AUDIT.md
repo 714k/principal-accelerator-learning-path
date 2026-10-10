@@ -28,7 +28,7 @@ PA-S001:
 - [ ] teaches engineering foundations;
 - [ ] is not a standalone diagnostic interview;
 - [ ] initializes the real Accelerator repository;
-- [ ] initializes P0 `apps/book`;
+- [ ] initializes P0 `apps/portfolio/` + separate `site/`;
 - [ ] initializes bilingual `site/`;
 - [ ] never creates a throwaway diagnostic app.
 
@@ -50,6 +50,7 @@ Session header / Objective
 → Time Breakdown
 → Real-World Example
 → Production-Ready Example
+→ Visual Learning Guide / Studio
 → Exercises
 → Curated Sources and References
 → Resources
@@ -110,6 +111,18 @@ Reject explanations such as “Coupling describes interdependence” unless foll
 - [ ] `Knowledge Mastery Checklist` uses one Markdown checkbox per criterion.
 - [ ] `End-of-Session Success Criteria` uses one Markdown checkbox per criterion.
 - [ ] Neither section is rendered as comma-separated prose.
+
+## Academic content + acronym audit
+
+For every Main Topic and theoretical Subtopic:
+- [ ] academic concept/definition and scope appear before quotations, recommendations or integrated discussion;
+- [ ] mechanism/model follows the concept foundation;
+- [ ] content has enough depth for independent study;
+- [ ] presentation uses varied semantic structures where useful, not only walls of prose, bullets or rounded cards;
+- [ ] examples/counterexamples and production implications are concrete.
+
+For each ES/EN page:
+- [ ] every acronym/initialism is expanded at least once before shorthand-only use.
 
 ## 6. Concepts / Main Topic / Subtopics
 
@@ -187,6 +200,24 @@ When an app/lab/system is involved:
 
 
 
+## Learning Site dashboard/navigation audit
+
+- [ ] `site/` home is a learning-progress dashboard.
+- [ ] Dashboard uses only real/declared data.
+- [ ] Study completion is visually/semantically separate from evidence-backed mastery.
+- [ ] Knowledge Mastery Checklist / Exercise toggles do not award L1–L5.
+- [ ] Charts match the data relationship and have accessible textual/table support where essential.
+- [ ] Desktop global navigation includes phases/sessions and projects/systems.
+- [ ] Current-page TOC is below global navigation or above content, not a wasteful second permanent rail by default.
+- [ ] Phone is treated as priority layout, then tablet/iPad, then desktop.
+- [ ] No page-level horizontal overflow.
+- [ ] Default palette avoids decorative pink/purple/rainbow unless explicitly justified by product/domain/brand context.
+
+- [ ] Trackable Exercises and Knowledge Mastery Checklist items have stable IDs.
+- [ ] ES/EN equivalents share the same IDs.
+- [ ] Toggle state keys do not depend on translated labels.
+- [ ] Local study state cannot overwrite canonical mastery/evidence records.
+
 ## Canonical UI Reference audit
 
 For every Learning Site implementation/regeneration:
@@ -204,6 +235,25 @@ For every Learning Site implementation/regeneration:
 - [ ] ES/EN pages preserve equivalent presentation and interaction.
 - [ ] Content accuracy/academic requirements were not weakened.
 - [ ] Material deviations from the reference are documented.
+
+## Adaptive Visual Learning Studio audit
+
+The Visual Learning Studio implements the existing `Visual Learning Guide` / `Guía Visual de Aprendizaje` section as an adaptive multi-mode learning experience; the visible section name may remain localized while the platform capability is called Visual Learning Studio.
+
+For every theory-bearing session:
+- [ ] content model declares visual-learning modes and source-section coverage;
+- [ ] mandatory mind map covers every Concept + Main Topic + theoretical Subtopic;
+- [ ] Mermaid `.mmd` exists under the session diagram directory;
+- [ ] responsive SVG is generated/discovered through the canonical build pipeline;
+- [ ] mind map has localized accessible title/description;
+- [ ] diagram uses restrained accessible styling; no bright/rainbow decorative node palette;
+- [ ] flashcards cover every Concept + Main Topic + theoretical Subtopic;
+- [ ] each flashcard declares covered source section(s);
+- [ ] front question + back answer/explanation exist;
+- [ ] tap/click, keyboard, previous/next, counter, no-JS fallback and reduced-motion behavior exist;
+- [ ] additional modes are supported by source content rather than invented to fill tabs;
+- [ ] ES/EN preserve the same mode identifiers/coverage structure;
+- [ ] validation fails new session content that violates this contract.
 
 ## Visual Learning Guide audit
 
@@ -238,3 +288,37 @@ For every theory-bearing session:
 
 `PROJECT-INSTRUCTIONS-SETTINGS.md` MUST remain below 8,000 characters.
 Detailed rules belong in Sources; Settings contains only high-priority routing/invariants.
+
+## 12. Rendered Learning Site hard-fail audit
+
+For any session/build that creates, regenerates or materially changes `site/`, inspect rendered output in addition to source/configuration.
+
+### Localized home `/es/` and `/en/`
+- [ ] Home is a real learning dashboard, not only hero copy plus links/cards.
+- [ ] Dashboard has available-data or explicit empty-state representations for learning progress/activity categories.
+- [ ] Dashboard distinguishes study tracking from evidence-backed mastery.
+- [ ] Essential chart information has accessible text/table/value equivalents.
+- [ ] Global curriculum navigation exposes phase-grouped sessions, projects/systems and primary destinations.
+
+### Session page
+- [ ] Trackable Knowledge Mastery Checklist controls are enabled; default `disabled` checkboxes are a hard failure.
+- [ ] Trackable Exercises expose enabled study controls where the exercise is intended to be tracked.
+- [ ] Every trackable control has a stable machine ID shared by ES/EN.
+- [ ] Toggle state can be changed and persisted using the current site architecture.
+- [ ] Toggling does not mutate or award L1–L5/session completion.
+- [ ] Visual Learning Studio is rendered and its mandatory mind-map + flashcard modes are usable.
+- [ ] Main Topic/Subtopics visibly start with conceptual definition/scope before deeper material.
+- [ ] Acronym expansion rule is satisfied on the rendered page.
+- [ ] No public current-architecture prose says `apps/book` represents the Learning Site.
+
+### Regression protection
+- [ ] Existing richer site capabilities were inventoried before regeneration.
+- [ ] No dashboard/navigation/tracking/studio/accessibility capability was silently removed.
+- [ ] Generated Codex prompt contained the hard Learning Site gates inline.
+- [ ] Rendered HTML was inspected after `npm run check`; passing source/build checks alone is insufficient.
+
+Any failed item above means the Learning Site portion of the session is not complete.
+## 13. Optional package verifier
+
+When the repository has generated HTML available, the included `verify-learning-site-contract.py` may be run as an additional regression check. It does not replace repository-native tests or the audit above.
+

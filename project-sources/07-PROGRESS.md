@@ -25,6 +25,16 @@ If a later session depends on incomplete prior material, record the dependency/r
 Do not implement unlock logic based on session completion.
 
 
+## Dashboard data semantics
+
+The Learning Site dashboard may project this file plus session/content state, but must preserve semantic distinctions:
+- checklist/exercise completion = learner-tracked study activity;
+- `Completed` / `Partial` / `Revisit` = session status;
+- L1–L5 = evidence-backed mastery only;
+- artifacts/tests/measurements = evidence only when actually produced.
+
+A checked study item must never automatically change mastery or session completion status.
+
 ## Current systems
 
 -   Engineering Book / Portfolio: Not started

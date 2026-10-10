@@ -89,7 +89,7 @@ Use the most useful form for the situation:
 
 The learner should not have to request this separately.
 
-For PA-S001 specifically, the build target is the initialization of the Accelerator repository and **P0 --- Engineering Book / Portfolio (`apps/book`)**. Do not scaffold a separate "diagnostic app". Leave learning-critical decisions/implementation for the learner according to Codex ownership rules.
+For PA-S001 specifically, the build target is the initialization of the Accelerator repository and **P0 --- Engineering Book / Portfolio (`apps/portfolio/`)**. Do not scaffold a separate "diagnostic app". Leave learning-critical decisions/implementation for the learner according to Codex ownership rules.
 
 
 ## Non-blocking session progression
@@ -124,7 +124,7 @@ For PA-S001, the **first Build turn** must provide both:
 - a complete Codex prompt.
 
 They must initialize/extend the real Accelerator repository, including at minimum:
-- `apps/book`;
+- `apps/portfolio/`;
 - repository/workspace baseline;
 - `site/es/sessions/PA-S001/`;
 - `site/en/sessions/PA-S001/`;
@@ -311,6 +311,22 @@ It must include, as applicable:
 
 Do not write cryptic fragments. Specify the concrete artifact, failure, responsible component, expected behavior and verification.
 
+## Concept-first academic section rule
+
+Every `## Main Topic` and every theoretical `### Subtopic` must begin with an explicit academic conceptual foundation before integrated discussion, quotations, implications or examples.
+
+Use this order when applicable:
+1. **Concept / definition and scope** — authoritative or source-backed definition, what the concept includes/excludes, canonical terminology;
+2. **Mechanism / model** — how it works in software and what concrete elements participate;
+3. **Integrated development** — the deeper explanation already required by the session;
+4. examples/counterexamples;
+5. trade-offs/limitations;
+6. production and Staff/Principal implications.
+
+Do not open a subtopic with an unexplained quotation, slogan or implementation detail. A cited statement such as a Parnas design principle may follow the academic concept definition, not replace it.
+
+Academic depth must remain readable. Use meaningful internal structure—short explanatory subsections, bullets when they summarize real dimensions, numbered mechanisms, comparison tables, diagrams, code excerpts, examples, counterexamples and semantic callouts. Do not make prose "interesting" merely by putting every paragraph in a rounded rectangle, and do not replace developed prose with bullet lists.
+
 ## Learning Preview
 
 At the beginning of every session, before detailed teaching, exercises,
@@ -353,15 +369,18 @@ For theory-bearing sessions, the teaching flow must visibly include:
 7.  Time Breakdown
 8.  Real-World Example
 9.  Production-Ready Example
-10. Architecture/Design where applicable
-11. Exercises
-12. Resources
-13. Knowledge Mastery Checklist
-14. Build/Codex/Test/Break/Measure where applicable
-15. Staff/Principal reasoning
-16. Artifact and Publishing
-17. Mastery, Evidence and Progress
-18. Bridge to Next Session
+10. Visual Learning Guide / Studio
+11. Architecture/Design where applicable
+12. Exercises
+13. Curated Sources and References
+14. Resources
+15. Knowledge Mastery Checklist
+16. End-of-Session Success Criteria
+17. Build/Codex/Test/Break/Measure where applicable
+18. Staff/Principal reasoning
+19. Artifact and Publishing
+20. Mastery, Evidence and Progress
+21. Bridge to Next Session
 
 ### Concepts section
 
@@ -517,11 +536,13 @@ The initial theory delivery for a session must visibly contain, in this order:
 9. `## Time Breakdown`
 10. `## Real-World Example`
 11. `## Production-Ready Example`
-12. `## Exercises`
-13. `## Resources`
-14. `## Knowledge Mastery Checklist`
-15. `## End-of-Session Success Criteria`
-16. `## Bridge to PA-Sxxx`
+12. `## Visual Learning Guide / Studio`
+13. `## Exercises`
+14. `## Curated Sources and References`
+15. `## Resources`
+16. `## Knowledge Mastery Checklist`
+17. `## End-of-Session Success Criteria`
+18. `## Bridge to PA-Sxxx`
 
 After completing those sections, **stop and let the learner study/discuss the theory**.
 
@@ -534,7 +555,7 @@ Before ending the theory phase, verify:
 - every concept/subtopic required by `03-MASTER-ROADMAP.md` for the session has been taught;
 - every important concept includes, when applicable: what it is, why it exists/problem solved, terminology/distinctions, mental model, mechanism, concrete example, counterexample, misconceptions, trade-offs/limitations, production implications, relationships, and FPA/AIPE/Staff/Principal connection;
 - `Subtopics` explicitly lists all taught subtopics;
-- `Theory → Practice Map`, `Time Breakdown`, `Real-World Example`, `Production-Ready Example`, `Exercises`, `Resources`, `Knowledge Mastery Checklist`, `End-of-Session Success Criteria`, and `Bridge` are present.
+- `Theory → Practice Map`, `Time Breakdown`, `Real-World Example`, `Production-Ready Example`, `Visual Learning Guide / Studio`, `Exercises`, `Curated Sources and References`, `Resources`, `Knowledge Mastery Checklist`, `End-of-Session Success Criteria`, and `Bridge` are present.
 
 A theory-bearing session is incomplete if it stops after only a subset of its required Concepts.
 
@@ -546,6 +567,21 @@ The learner may ask to continue after the theory phase. Only then proceed to:
 
 At that point, when implementation is applicable, automatically provide the `.sh` scaffold, Codex prompt, or both. The learner should not need to request them separately.
 
+
+## Adaptive Visual Learning Studio contract
+
+Every theory-bearing session must publish a Visual Learning Studio after the full theory/examples and before Exercises.
+
+Mandatory for every session:
+- a session mind map covering Concepts, Main Topic and all theoretical Subtopics;
+- flashcards covering Concepts, Main Topic and every theoretical Subtopic;
+- source linkage from each visual mode/card to the theory sections it represents.
+
+Additional modes are selected by pedagogical fit and existing content, not from a globally fixed tab list. Examples include analogy, compare/contrast, dependency map, sequence, lifecycle, timeline, state machine, decision/trade-off matrix, change impact, failure propagation, request/event journey, pipeline, code walkthrough, distinction cards, misconception checks and rapid recall.
+
+The same theory is represented in multiple complementary ways; the visual layer must not invent a second body of theory.
+
+Every bilingual session content model must declare its visual guide/studio. ES and EN must preserve the same mode identifiers and structural coverage. Content validation must fail for session pages missing the required guide, mind-map coverage or flashcard coverage.
 
 ## Bilingual learning and publishing
 
@@ -735,6 +771,41 @@ Reuse the reference's design language and interaction intent. Do not blindly cop
 
 If the reference conflicts with explicit Principal Accelerator requirements (accessibility, responsiveness, ES/EN, Mermaid → SVG, static hosting, semantic HTML, or later accepted ADRs), preserve the Accelerator requirement and adapt the reference pattern.
 
+## Learning Site product contract
+
+`site/` is a mobile-first learning product whose home route is a progress dashboard and whose session pages combine complete academic theory with an adaptive Visual Learning Studio.
+
+### Dashboard home
+
+The Learning Site home must expose useful, evidence-safe views such as:
+- roadmap/session progress;
+- study completion from learner-toggleable Knowledge Mastery Checklist items;
+- exercise completion;
+- evidence-backed L1–L5 mastery by competency/session when evidence exists;
+- artifacts produced;
+- revisit queue;
+- project/system progress;
+- recent learning activity;
+- charts/tables/cards that are meaningful for the available data.
+
+Use line, bar, donut/pie, matrix, table, timeline or other visualizations only when the underlying data justifies them. Never fabricate values. Clearly distinguish learner-tracked completion/self-assessment from evidence-backed mastery.
+
+Checklist/exercise state should be interactive, accessible and persistable where the current static-site architecture permits (for example local client state). Changing a checkbox changes study-tracking state only; it does not award mastery.
+
+### Navigation
+
+Desktop must not waste a wide column on only a few controls. Use a useful global navigation region containing sessions grouped by phase, projects/systems and other principal destinations. The current page Table of Contents (TOC) belongs below that navigation or above the article content; do not dedicate a second permanent right rail to it by default.
+
+Mobile is priority 1, tablet priority 2, desktop priority 3. Mobile navigation and TOC must remain compact, accessible and usable without horizontal page overflow.
+
+### Acronym expansion
+
+On every published page, expand each acronym/initialism at least once before relying on the short form: `Full Term (ACRONYM)`. ES/EN pages may localize the expansion while preserving the canonical industry acronym when appropriate.
+
+### Visual palette
+
+Default generated Accelerator UIs must avoid decorative pink, purple and rainbow/multi-hue palettes unless the product/domain/brand explicitly calls for them. Prefer restrained neutral/dark/light surfaces with accessible blue, cyan/teal, green, amber/orange and red semantic accents. Color is never the sole carrier of meaning.
+
 ## Public Site contract
 
 Every theory-bearing session must create or extend a **publishable bilingual web surface** in the repository.
@@ -868,3 +939,34 @@ At the end of each session:
 
 For current external technical claims or real-world cases, verify
 reliable/primary sources when necessary. Never invent facts.
+
+## Preserve-and-extend repository rule
+
+Git/repository code is authoritative for the current implementation. Before generating or regenerating a session/site surface, inspect the existing `site/`, its content schema, generated output, tests and current reusable UI. Preserve working capabilities and user/Codex improvements unless they conflict with the current canonical contract.
+
+Do **not** replace a richer existing Learning Site with a smaller scaffold. Regeneration means **migrate forward**, not reset to PA-S001-minimal UI.
+
+If current code and Sources differ:
+1. preserve user work non-destructively;
+2. migrate obsolete structure toward the canonical contract;
+3. document material changes/deviations;
+4. never resurrect `apps/book/` as an implementation target or publish it as the current architecture.
+
+## Session-generated Codex prompt invariant
+
+Every Codex prompt that can create/regenerate `site/` MUST inline the applicable Learning Site acceptance requirements. It is not enough to say “follow the Sources”. The generated prompt must explicitly require, at minimum:
+
+- dashboard home, not a marketing/index-only landing page;
+- interactive enabled study checkboxes with stable IDs and persistence;
+- study state separated from mastery/evidence;
+- phase/session/project global navigation and non-wasteful TOC placement;
+- current `/ui-reference/` look/feel;
+- concept-first academic content and acronym expansion;
+- adaptive Visual Learning Studio, mind map, flashcards and topic-fit modes;
+- responsive Mermaid → SVG;
+- phone-first behavior;
+- no default decorative pink/purple/rainbow palette;
+- preservation of richer existing implementation;
+- canonical checks/tests and a completion report.
+
+A session/site implementation is not complete merely because the static build succeeds.

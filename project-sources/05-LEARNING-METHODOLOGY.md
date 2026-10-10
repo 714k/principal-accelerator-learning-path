@@ -219,7 +219,9 @@ The Theory Phase must include:
 - Time Breakdown;
 - Real-World Example;
 - Production-Ready Example;
+- Visual Learning Guide / Studio;
 - Exercises;
+- Curated Sources and References;
 - Resources;
 - Knowledge Mastery Checklist;
 - End-of-Session Success Criteria;
@@ -334,6 +336,30 @@ is not sufficient evidence of mastery.
 
 
 
+## Academic depth + study readability
+
+Academic content must become deeper, not denser for its own sake.
+
+For every Main Topic/Subtopic, teach in this order:
+**conceptual foundation → mechanism/model → integrated explanation → examples/counterexamples → trade-offs/production implications**.
+
+Use mixed instructional structures intentionally:
+- sustained explanatory prose for causal reasoning;
+- descriptive subheadings for conceptual stages;
+- bullet lists for real dimensions/criteria, not as a substitute for prose;
+- numbered steps for mechanisms/sequences;
+- comparison tables for alternatives;
+- diagrams for relationships/flow/state;
+- concise code/contract excerpts for software manifestation;
+- semantic callouts for misconception, failure, invariant or decision consequence;
+- explicit examples and counterexamples.
+
+Avoid both extremes:
+- walls of undifferentiated prose;
+- "card soup" where every paragraph is boxed or converted into bullets.
+
+The learner should be able to scan the structure quickly and still find graduate/professional-level explanatory depth.
+
 ## Reference-driven UI learning surface
 
 The Learning Site uses `/ui-reference/` as its canonical presentation model.
@@ -357,6 +383,25 @@ The reference should influence how the learner scans, compares, expands, navigat
 Do not allow reference-driven styling to compress or omit theory. The site must still preserve the full academic layer plus the Visual Learning Guide.
 
 When the reference contains an interaction pattern, reproduce its **purpose and user experience** rather than mechanically copying source code.
+
+## Adaptive multimodal learning
+
+The Visual Learning Studio is a multimodal re-representation of the same theory.
+
+Mandatory representations:
+1. **Mind map** — relationship/mental-model view of Concepts + Main Topic + Subtopics.
+2. **Flashcards** — retrieval practice covering all of those sections.
+
+Additional representations depend on the cognitive structure of the topic:
+- structure/boundaries → architecture/dependency/concept maps;
+- temporal behavior → sequence/timeline/lifecycle;
+- alternatives/decisions → comparison/trade-off matrix;
+- propagation/failure → change-impact/failure flow;
+- abstract concepts → analogy paired with concrete software mapping and limits;
+- code/contract behavior → code walkthrough/diff/schema/contract view;
+- easily confused terms → distinction/misconception cards.
+
+The purpose is not variety for its own sake. Each mode must provide a materially different way to reason about the same sourced content.
 
 ## Dual-representation learning
 
@@ -671,3 +716,19 @@ Completion requires the applicable combination of:
 If conceptual understanding is incomplete, classify the session as
 Partial or Revisit rather than advancing as though mastery were
 demonstrated.
+
+## Study-state feedback loop
+
+Interactive checklist/exercise state exists to support planning and retrieval, not to manufacture competence evidence.
+
+Use the learning loop:
+
+**Study item → learner toggles study state → dashboard reflects activity → real work produces evidence → evidence may support L1–L5 assessment**
+
+Never reverse this into `checked → mastered`.
+
+The dashboard should help answer: What have I studied? What exercises remain? What evidence exists? What is in Revisit? Which project/system is advancing? What should I do next?
+
+## Regeneration continuity
+
+A regenerated session inherits the current site's usable learning infrastructure. Preserve dashboard, study tracking, navigation, Visual Learning Studio, accessibility and responsive behavior while updating content to the current session contract. Do not teach regeneration as “start from the smallest shell”.

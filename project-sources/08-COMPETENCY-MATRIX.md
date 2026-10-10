@@ -28,6 +28,10 @@ Do not require a standalone upfront diagnostic interview. Establish and refine l
 | Technical strategy | Evidence pending | L5 | roadmap + economics + organizational reasoning |
 | Cross-team influence | Evidence pending | L5 | reviews/RFCs/strategy exercises |
 
+## Dashboard projection rule
+
+The dashboard may visualize competency levels only from evidence recorded under this matrix/session progress. Learner-toggleable checklist/exercise completion must be presented separately and must not be converted into competency percentages or L1–L5 levels.
+
 ## Mastery definitions
 
 -   L1 Explain

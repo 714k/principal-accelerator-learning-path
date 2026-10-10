@@ -43,6 +43,20 @@ PA-S001 initializes the professional portfolio app under `apps/portfolio/` and t
 
 
 
+### Learning Site experience rule — all 120 sessions
+
+For every theory-bearing session PA-S001–PA-S120, publishing includes the current Learning Site contract:
+- concept-first Main Topic/Subtopics;
+- acronym expansion at least once per page;
+- adaptive Visual Learning Studio;
+- mandatory mind map + comprehensive flashcards;
+- additional visual modes selected by topic fit;
+- ES/EN structural parity;
+- responsive Mermaid→SVG diagrams;
+- dashboard-compatible checklist/exercise/evidence data.
+
+A new session is not publication-complete if its content model fails these validation requirements.
+
 ### Main Topic + Subtopics expansion contract
 
 For all 120 sessions:
@@ -76,7 +90,7 @@ For every theory-bearing session, the topic/subtopics defined here are **minimum
 
 Before any checkpoint, Design, Build, Codex, implementation or assessment, the session must complete:
 
-`Learning Preview → Concepts → Main Topic → Subtopics → Theory → Practice Map → Time Breakdown → Real-World Example → Production-Ready Example → Exercises → Resources → Knowledge Mastery Checklist → End-of-Session Success Criteria → Bridge`
+`Learning Preview → Concepts → Main Topic → Subtopics → Theory → Practice Map → Time Breakdown → Real-World Example → Production-Ready Example → Visual Learning Guide / Studio → Exercises → Resources → Knowledge Mastery Checklist → End-of-Session Success Criteria → Bridge`
 
 All session-specific concepts listed in this roadmap must be taught before leaving the Theory Phase.
 
@@ -85,6 +99,12 @@ For PA-S001 specifically, this means the first theory phase must teach **all** o
 For PA-S002 specifically, this means the first theory phase must teach **all** of the listed monorepo/standards concepts—monorepo vs. polyrepo; repository vs. architecture boundary; workspace/app/package; dependency graph/direction; public APIs/package boundaries; build/task graphs; shared-code trade-offs; engineering standards; convention/policy/standard; quality gates; architectural constraints/fitness functions; ownership boundaries—before asking the learner a checkpoint question.
 
 
+
+### P0 Learning Site baseline timing
+
+PA-S001 initializes the current Learning Site baseline, including dashboard home, Light/Dark shell, global curriculum navigation, interactive checklist/exercise study tracking, Visual Learning Studio infrastructure and Mermaid→SVG publication. Later F0 sessions deepen/refactor these capabilities without removing them.
+
+Therefore, PA-S006 **deepens** dashboard/theme/chart architecture and evidence visualization. A PA-S001 regeneration must not defer the dashboard or interactive tracking until PA-S006.
 
 ### PA-S001 automatic scaffold rule
 
@@ -153,9 +173,8 @@ Its build should evolve the same Accelerator repository rather than create an un
   PA-S005                 ES/EN content           **FPA + Staff**
                           architecture + i18n     
 
-  PA-S006                 Theme + charts +        **FPA + AIPE + Staff**
-                          learning/mastery        
-                          dashboard               
+  PA-S006                 Dashboard/theme/chart  **FPA + AIPE + Staff**
+                          architecture deepening  
   -----------------------------------------------------------------------
 
 ## F1 --- Software Design & Architecture
