@@ -525,3 +525,48 @@ Do not publish disabled checkboxes merely to mimic Markdown checkboxes.
 ## Preserve current site capability on regeneration
 
 Regenerating an old session means applying new content/contract to the current site platform. Preserve current dashboard, navigation, Visual Learning Studio, responsive behavior, accessibility and tracking capabilities. Do not roll the platform back to an earlier minimal shell.
+
+## Learning Text publishing standard — canonical
+
+Published session theory must optimize both academic integrity and learning efficiency.
+
+### Required local structure for substantial Main Topics/Subtopics
+When applicable, publish in this order:
+1. compact pre-training of unfamiliar terms;
+2. guiding question;
+3. concept definition/scope/distinction;
+4. mechanism/model;
+5. immediate concrete software example;
+6. explanatory visual/table/flow placed adjacent to the relevant prose;
+7. deeper analysis/counterexample;
+8. brief retrieval/self-check;
+9. trade-offs/production implications;
+10. explicit answer/synthesis for the guiding question.
+
+Exact labels may vary; the learning function may not be omitted.
+
+### Paragraph/readability contract
+- one dominant idea per paragraph;
+- topic sentence/main idea early;
+- short coherent paragraph blocks;
+- clear subheadings exposing structure;
+- bold only for key concepts/distinctions/invariants/consequences;
+- active, concrete language when technically accurate;
+- no decorative anecdote/trivia/filler;
+- no purposeless redundancy;
+- no bullet-only substitute for explanation.
+
+### Example contract
+Important abstractions require nearby concrete software examples. Examples name actual software elements and behavior. For procedural/decision skills, use worked-example fading when appropriate to learner evidence.
+
+### Retrieval contract
+Long theory sections include lightweight retrieval/self-test prompts without turning the Theory Phase into a blocking quiz. Published pages may use disclosure/reveal patterns while retaining readable no-JavaScript answers.
+
+### Analogy contract
+Analogies are optional and must show exact software mapping plus explicit limits/non-mapping.
+
+### Visual proximity contract
+Diagrams, concept maps, tables, timelines and flows appear next to the section they explain. Relationship labels should be direct where feasible; visual signaling uses restrained semantic color and arrows with meaning. Do not use distant legends when direct labeling is practical.
+
+### Adaptive expertise contract
+Scaffolding density may vary according to recorded evidence, but canonical definitions/distinctions and source-backed content remain available. Seniority/job title alone is not evidence for removing foundational explanation.

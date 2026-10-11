@@ -59,3 +59,6 @@ Only after Theory: Design → Build → Prove → Think → Publish. Codex inspe
 
 ## Evidence/mastery
 Never invent metrics, tests, benchmarks, AI evals or mastery. Use L1 Explain, L2 Implement, L3 Operate, L4 Decide, L5 Lead; mastery requires evidence. Status never locks future sessions.
+
+## Learning text ergonomics
+Theory must be learnable, not only correct: pre-train unfamiliar terms; one main idea per paragraph; clear headings; selective bold; immediate concrete examples; interleave explanation, visual, retrieval and trade-off; analogies need software mapping + limits; visuals stay adjacent to the text; remove filler/trivia/redundancy. Pure exposition, bullet-only teaching and card soup are non-compliant.

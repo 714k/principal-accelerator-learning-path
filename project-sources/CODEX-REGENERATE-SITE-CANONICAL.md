@@ -108,3 +108,22 @@ Report:
 - exact commands/tests/results;
 - remaining failures/warnings;
 - intentional deviations and why.
+
+## 11. Learning Text Ergonomics migration
+Bring every current and future theory-bearing session renderer/content schema forward to the canonical Learning Text Ergonomics Contract.
+
+Required observable behavior:
+- pre-training blocks for unfamiliar terms before they are relied upon;
+- one dominant idea per paragraph, main idea early;
+- clear internal subheadings and selective bold signaling;
+- guiding question + explicit resolution for substantial Main Topic/Subtopics when useful;
+- immediate concrete software example after important abstractions;
+- varied rhythm: explanation → example → visual → brief retrieval/self-check → implication/trade-off;
+- worked-example fading for new procedural/decision skills when appropriate;
+- optional analogies only with exact software mapping + limit;
+- visuals selected by information structure and placed adjacent to the prose they explain;
+- direct labels/meaningful arrows/restrained semantic colors;
+- removal of decorative anecdotes, trivia, filler and purposeless redundancy;
+- scaffold depth adapted from actual learner evidence, never title alone.
+
+Do not implement this as PA-S001-specific prose. Extend the content model/renderer/validation so future sessions naturally comply. Inspect rendered PA-S001 as the first migration proof and add tests/validation where practical.

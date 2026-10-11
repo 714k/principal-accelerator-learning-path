@@ -105,6 +105,8 @@
           else progress.value = count;
         }
         if (output) output.textContent = `${count ?? '—'} / ${group.ids.length}`;
+        document.querySelectorAll(`[data-study-table-marked="${group.name}"]`).forEach(cell => { cell.textContent = count ?? '—'; });
+        document.querySelectorAll(`[data-study-table-remaining="${group.name}"]`).forEach(cell => { cell.textContent = count === null ? '—' : group.ids.length - count; });
         updateShare(group, count);
         return count;
       });

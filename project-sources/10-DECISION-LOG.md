@@ -33,3 +33,9 @@ Track durable technical decisions made during the Accelerator.
 
 Do not record a technology preference as a decision unless context,
 alternatives, trade-offs and consequences have been analyzed.
+
+## Accepted program-level decisions — learning text ergonomics
+
+| ID | Session | Project/App | Decision | Artifact | Status |
+|---|---|---|---|---|---|
+| LEARN-002 | Program | `site/` | Theory publishing must optimize learning ergonomics: local pre-training, one dominant idea per paragraph, structural signaling, immediate concrete examples, retrieval prompts, adjacent topic-fit visuals, optional bounded analogies and evidence-adaptive scaffolding. Pure exposition/bullet-only/card-soup output is non-compliant. | Project Sources | Accepted |

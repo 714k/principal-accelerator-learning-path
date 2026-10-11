@@ -566,3 +566,7 @@ Its build should evolve the same Accelerator repository rather than create an un
   PA-S120                 Engineering Book + evidence +     **FPA + AIPE +
                           final competency review           Principal**
   ---------------------------------------------------------------------------------
+
+### Learning-text execution rule — all 120 sessions
+
+For PA-S001–PA-S120, theory publishing must satisfy the canonical Learning Text Ergonomics Contract in `01`, `04`, `05`, `11`, `12`, and `13`: pre-training before unfamiliar terminology, one dominant idea per paragraph, clear structural signaling, immediate concrete examples for abstractions, guiding questions with explicit resolution where useful, low-friction retrieval/self-check, topic-appropriate adjacent visuals, and adaptive worked-example fading when appropriate. Accuracy alone is insufficient if the content remains difficult to learn from.

@@ -172,3 +172,6 @@ The Learning Site capabilities below are **platform baseline**, not future optio
 - accessible Light/Dark UI and responsive phone → tablet/iPad → desktop behavior.
 
 PA-S006 deepens theme/chart/mastery-visualization architecture; it does **not** defer initial dashboard/theme/tracking capability until PA-S006.
+
+## Learning-text baseline
+All theory-bearing sessions also follow the canonical Learning Text Ergonomics Contract in `01`, `04`, `05`, `11`, `12`, and `13`: pre-training, one dominant idea per paragraph, structural signaling, immediate concrete examples, retrieval/self-check, topic-appropriate adjacent visuals, optional bounded analogies, and evidence-adaptive scaffolding. Accuracy without learnability is incomplete.

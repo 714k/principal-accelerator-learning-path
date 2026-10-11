@@ -732,3 +732,80 @@ The dashboard should help answer: What have I studied? What exercises remain? Wh
 ## Regeneration continuity
 
 A regenerated session inherits the current site's usable learning infrastructure. Preserve dashboard, study tracking, navigation, Visual Learning Studio, accessibility and responsive behavior while updating content to the current session contract. Do not teach regeneration as “start from the smallest shell”.
+
+## Learning Text Ergonomics and Cognitive Support — canonical
+
+The program treats **learning efficiency** as a quality attribute of instructional content. This section operationalizes the user's requested principles while preserving epistemic caution around claims with mixed or inferential evidence.
+
+### Core composition model
+Use this local teaching cycle for substantial concepts:
+
+`pre-train terms → guiding question → concise concept → concrete example → mechanism/visual → quick retrieval → trade-off/limit → answer guiding question`
+
+This is a default composition pattern, not a rigid literary template.
+
+### Cognitive-load-oriented writing
+- one dominant idea per paragraph;
+- main idea early in the paragraph;
+- short coherent segments with natural pauses;
+- descriptive headings and subheadings as structural signals;
+- minimal decorative emphasis;
+- new terms defined at first meaningful use;
+- familiar/known concepts used as anchors before introducing unfamiliar abstractions;
+- tightly coupled explanation and example kept spatially adjacent.
+
+### Coherence and redundancy
+Remove material that does not contribute to the learning objective, mechanism, distinction, example, failure mode, trade-off or application.
+
+Avoid repetition that merely paraphrases the same claim. Repetition is allowed when it has a clear function: retrieval practice, comparison, progressive deepening, synthesis or spaced revisit.
+
+### Pre-training
+Before a learner must reason with a dense standard, artifact or architecture term, introduce its minimum meaning and role. Examples include Architecture Decision Record (ADR), Request for Comments (RFC), International Organization for Standardization / International Electrotechnical Commission / Institute of Electrical and Electronics Engineers (ISO/IEC/IEEE) standards, quality attribute, contract and architecture description.
+
+Pre-training reduces hidden prerequisite load; it must remain concise and local to the section.
+
+### Worked examples and fading
+For procedural reasoning, debugging, architecture analysis and decision-making, use complete worked examples before partially completed and independent variants when learner evidence indicates the skill is new.
+
+Do not equate receiving a worked example with mastery. Fading support is pedagogical scaffolding, not evidence.
+
+### Retrieval inside exposition
+Interleave low-stakes retrieval prompts at meaningful boundaries. Their purpose is active recall, discrimination or prediction—not grading.
+
+Useful forms:
+- `What would change if ...?`
+- `Which dependency crosses this boundary?`
+- `What does this diagram prove, and what does it not prove?`
+- `Which quality attribute is actually being constrained?`
+
+The complete Theory Phase still proceeds without waiting for learner replies.
+
+### Guiding questions and curiosity
+A guiding question may create useful orientation and curiosity, but the program does not claim that curiosity gaps alone guarantee better learning. Use questions to organize reasoning, not as clickbait.
+
+### Analogies
+Analogies can support intuition but are optional because transfer quality varies by topic and learner. Always pair analogy with:
+1. exact software mapping;
+2. formal concept;
+3. explicit non-mapping/limit.
+
+### Multimedia and concept maps
+Use a diagram when spatial/relational structure matters. Labeled concept maps are especially useful when learning depends on relationships among concepts. Other visual forms should match the structure of the knowledge rather than satisfy a quota.
+
+Direct labels near objects/edges are preferred over distant legends where feasible. Keep graphics adjacent to the explanatory prose to reduce split attention.
+
+### Guided drawing
+Learner-generated drawing may be used only as an optional guided exercise when the target representation is well specified and can be checked for correctness. Do not require free-form drawing as a default learning mechanism.
+
+### Expertise reversal safeguard
+Instructional support is adaptive:
+- unfamiliar material → explicit definitions, worked examples, stronger signaling;
+- demonstrated familiarity → less redundant scaffolding, faster movement to mechanisms/trade-offs/decisions.
+
+Do not infer demonstrated expertise from seniority, job title or self-report alone.
+
+### Language style
+Prefer short, active, concrete sentences when precision is preserved. Use a direct professional/conversational tone rather than ceremonial academic prose. Academic quality comes from source quality, precision, mechanism and evidence—not sentence complexity.
+
+### Visual signaling
+Use a small semantic palette and restrained arrows/highlights. Color must encode a real distinction and must never be the only carrier of meaning. Avoid decorative multicolor treatment.

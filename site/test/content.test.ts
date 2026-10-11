@@ -63,6 +63,7 @@ test('session navigation and progressive theme control are present',()=>{
   assert.ok(html.includes('data-site-search'));
   assert.ok(html.includes('assets/search-es.json'));
   assert.ok(html.includes('<details class="nav-group" open>'));
+  assert.match(html, /class="nav-home"[^>]*>.*?<span>Dashboard<\/span>/);
   assert.ok(sessionsIndex('en','/').includes('PA-S001'));
   assert.ok(projectsIndex('en','/').includes('projects/portfolio/'));
 });
@@ -125,7 +126,8 @@ test('study IDs match across languages and controls are enabled',()=>{
 });
 test('dashboard separates local study, canonical status, mastery, and artifacts',()=>{
   const html=home('en','/',en,'Not started','not-assessed','Not started');
-  for (const id of ['roadmap','study','status','mastery','artifacts','revisit','projects','activity']) assert.ok(html.includes(`id="${id}"`));
+  for (const id of ['roadmap','study','signals','status','mastery','artifacts','revisit','projects','activity']) assert.ok(html.includes(`id="${id}"`));
+  assert.ok(html.indexOf('id="study"') < html.indexOf('id="roadmap"'));
   assert.ok(html.includes('Not started'));
   assert.ok(html.includes('Not assessed'));
   assert.ok(html.includes('Overall program status'));
@@ -135,7 +137,12 @@ test('dashboard separates local study, canonical status, mastery, and artifacts'
   assert.ok(html.includes('data-session-id="PA-S001"'));
   assert.ok(html.includes(`data-exercise-ids="${en.dashboard!.exerciseIds.join('|')}"`));
   assert.ok(html.includes(`data-criteria-ids="${en.dashboard!.checklistIds.join('|')}"`));
-  assert.equal((html.match(/<table class="dashboard-table">/g) ?? []).length,2);
+  assert.equal((html.match(/<table class="dashboard-table">/g) ?? []).length,4);
+  assert.ok(html.includes('Numeric local study detail'));
+  assert.ok(html.includes('data-study-table-marked="exercise"'));
+  assert.ok(html.includes('data-study-table-remaining="criteria"'));
+  assert.ok(html.includes('Status and source of key signals'));
+  assert.ok(html.includes('data/mastery/PA-S001.json'));
   assert.ok(html.includes('<progress id="study-exercises"'));
   assert.ok(!html.includes('<progress id="study-exercises" data-study-progress="exercise" max="5" value='));
   assert.ok(html.includes('data-share-chart="exercise"'));
