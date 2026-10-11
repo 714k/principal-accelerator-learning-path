@@ -22,7 +22,7 @@ const server=createServer((req,res)=>{
     file=realpathSync(file);
     if (!file.startsWith(root+sep)) {res.writeHead(404).end();return;}
     const content=readFileSync(file);
-    const type=extname(file)==='.css'?'text/css':extname(file)==='.svg'?'image/svg+xml':extname(file)==='.js'?'text/javascript':'text/html';
+    const type=extname(file)==='.css'?'text/css':extname(file)==='.svg'?'image/svg+xml':extname(file)==='.js'?'text/javascript':extname(file)==='.json'?'application/json':'text/html';
     res.writeHead(200,{'Content-Type':type+'; charset=utf-8','X-Content-Type-Options':'nosniff','Cache-Control':'no-store'});
     res.end(req.method==='HEAD'?undefined:content);
   } catch {res.writeHead(404).end('Not found');}
