@@ -64,7 +64,9 @@
 .site-main-column{min-width:0}
 .site-main-column>main{width:min(100%,84rem);margin:0 auto;padding:1rem}
 .site-main-column>footer{width:100%;margin-top:2rem;padding:1rem max(1rem,calc((100vw - 84rem)/2));font-size:.85rem}
-.site-header{min-height:4.25rem;padding: .65rem 1rem;gap:.75rem}
+.site-header{position:sticky;top:0;z-index:30;min-height:4.25rem;padding:.65rem 1rem;gap:.75rem}
+.skip:focus{z-index:40}
+html{scroll-padding-top:6rem}
 .site-header .brand{font-size:clamp(.9rem,2.5vw,1.1rem)}
 .header-actions>a{font-weight:700;text-transform:lowercase}
 .theme-toggle{width:44px;padding:.4rem}
