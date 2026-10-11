@@ -32,3 +32,7 @@ It inspects available generated HTML for several regressions. Repository-native 
 
 ## Learning-text migration
 This baseline also upgrades the content-generation contract. Existing and future theory pages must be migrated to the Learning Text Ergonomics Contract. Run the canonical Codex regeneration prompt to bring the renderer/schema forward; do not manually rewrite only PA-S001 and leave future sessions unchanged.
+
+## v5 theory-authoring migration
+
+v5 changes the theory publication and implementation boundary. Future sessions must not rely on Codex to reconstruct academic theory from roadmap bullets. ChatGPT completes canonical theory first; the **Codex prompt** materializes that exact ES/EN payload and creates all session deliverables without reauthoring. A `.sh` is used only to scaffold a genuinely NEW repository/app/lab/system from zero. Once compatible structure exists, no shell script is required. For existing sessions without a canonical authored source payload, migration must report the gap rather than invent a replacement chapter.

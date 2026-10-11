@@ -44,7 +44,7 @@ The learner may start later sessions while earlier sessions are Partial, Revisit
 
 When Build begins, implementation-capable sessions provide the executable scaffold automatically.
 
-PA-S001 must provide both `.sh` and Codex prompt for the real Accelerator repository, `apps/portfolio/`, and bilingual `site/` surface.
+The Codex prompt is the normal Build handoff once a compatible repository/app/lab structure exists. A `.sh` script is reserved for deterministic first-time scaffolding of a NEW repository/app/lab/system when no compatible baseline exists; it is not required for routine session deliverables or updates.
 
 ## Main Topic / Subtopics invariant
 
@@ -154,7 +154,7 @@ requiring the learner to restate the program.
 - Do not turn PA-S001 or any other session into a broad upfront diagnostic interview.
 - Competency/mastery is inferred progressively from normal learning work: concept checks, learner-owned implementation, debugging, tests, architecture/design decisions and durable evidence.
 - PA-S001 initializes the real Accelerator repository and P0 --- Engineering Book / Portfolio. It is not a separate diagnostic application.
-- When a session creates or extends an app/lab/system, the session must provide the executable scaffold path automatically: a shell script and/or complete Codex prompt appropriate to the task.
+- When a session creates or extends an existing app/lab/system, the session provides the complete Codex prompt automatically. A shell script is reserved only for first-time scaffolding of a genuinely new repository/app/lab/system with no compatible baseline.
 - Theory comes before applying new concepts. `## Concepts` must teach the engineering topic, not merely explain the learning process or assessment model.
 
 ## P0 implementation baseline — effective from PA-S001
@@ -175,3 +175,7 @@ PA-S006 deepens theme/chart/mastery-visualization architecture; it does **not** 
 
 ## Learning-text baseline
 All theory-bearing sessions also follow the canonical Learning Text Ergonomics Contract in `01`, `04`, `05`, `11`, `12`, and `13`: pre-training, one dominant idea per paragraph, structural signaling, immediate concrete examples, retrieval/self-check, topic-appropriate adjacent visuals, optional bounded analogies, and evidence-adaptive scaffolding. Accuracy without learnability is incomplete.
+
+## v5 canonical-theory boundary
+
+v5 makes the theory-authoring boundary explicit: ChatGPT authors the complete canonical theory; Build materializes exact ES/EN source content; Codex publishes/integrates it without reauthoring. This prevents the renderer/implementation agent from degrading rich teaching into shallow headings, bullets or summaries.

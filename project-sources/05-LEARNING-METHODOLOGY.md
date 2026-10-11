@@ -266,7 +266,7 @@ In PA-S001, baseline evidence is a by-product of the work, not the main curricul
 
 Prefer advancing the longitudinal projects over throwaway exercises. Start P0 in PA-S001 and evolve it across sessions. Use isolated labs when the curriculum intentionally compares architectures, failure modes or specialized systems.
 
-When implementation is applicable, provide the scaffold path automatically (`.sh`, Codex prompt, or both) after the relevant theory/design checkpoint.
+When implementation is applicable, provide the complete Codex handoff automatically after the relevant theory/design checkpoint. Use a `.sh` only for deterministic first-time scaffolding of a new repository/app/lab/system when no compatible baseline exists.
 
 
 ## Non-blocking longitudinal learning
@@ -292,8 +292,8 @@ Theory and Build are separate phases, but the transition must be automatic.
 
 After the learner continues from the completed Theory Phase:
 - enter Design/Build without asking whether they want scaffolding;
-- if implementation applies, provide the `.sh`/Codex handoff immediately;
-- for PA-S001, provide both `.sh` and Codex prompt and initialize P0 plus the bilingual public site.
+- if implementation applies, provide the Codex handoff immediately;
+- for PA-S001, provide the complete Codex prompt; add a `.sh` only if P0/repository structure must be created from zero. If it already exists, Codex creates all session deliverables directly.
 
 The learner may still own architecture-critical decisions and implementation tasks; automatic scaffolding does not mean Codex owns the learning-critical work.
 
@@ -809,3 +809,67 @@ Prefer short, active, concrete sentences when precision is preserved. Use a dire
 
 ### Visual signaling
 Use a small semantic palette and restrained arrows/highlights. Color must encode a real distinction and must never be the only carrier of meaning. Avoid decorative multicolor treatment.
+
+## Canonical theory authorship and publishing contract — v5
+
+This contract resolves the boundary between ChatGPT session teaching and Codex implementation.
+
+### Authority split
+
+**ChatGPT owns canonical theory authoring.** During the Theory Phase, ChatGPT must compose the complete source-backed ES session content to the required pedagogical standard and, before Build publication, produce or materialize the semantically equivalent EN content.
+
+**Codex does not own theory authoring.** Codex owns schema integration, rendering, diagrams, interaction, build plumbing, migration, tests and publication. Codex must not independently shorten, summarize, "improve", replace or regenerate canonical theory prose merely to fit a renderer.
+
+### Build handoff invariant
+
+When Build begins for a theory-bearing session, the Codex handoff must carry the canonical theory into the repository in one of these forms, in priority order:
+1. the Codex prompt contains the exact approved ES/EN canonical content payload to materialize;
+2. the prompt points to exact canonical content files already present in the repository.
+
+The shell script is not part of normal theory publication; it is reserved for first-time mechanical scaffolding of a new repository/app/lab/system. A handoff that merely tells Codex to "write the session theory from the Sources" is incomplete.
+
+If the canonical content payload/files are missing, Codex must stop and report `MISSING_CANONICAL_THEORY_PAYLOAD`; it must not invent a substitute chapter.
+
+### Fidelity rule
+
+Mechanical transformations are allowed only when they preserve meaning and instructional structure: escaping, stable IDs, schema normalization, localized link wiring, diagram references, citation IDs and equivalent markup segmentation.
+
+Codex must preserve:
+- section order and hierarchy;
+- definitions/scope/distinctions;
+- guiding questions and explicit resolutions;
+- concrete examples and named software elements;
+- retrieval/self-check prompts and their answers;
+- counterexamples/failure modes;
+- trade-offs/limitations;
+- citations/source linkage;
+- visual adjacency intent;
+- epistemic labels and limitations.
+
+Codex must not collapse several authored blocks into a generic paragraph or bullet list.
+
+### Structured instructional content model
+
+The canonical content schema should preserve instructional function explicitly rather than relying only on free-form prose. For substantial Main Topics/Subtopics, support typed blocks or equivalent semantics such as:
+
+```text
+pretraining[]
+guidingQuestion
+concept { definition, scope, distinctions, sources }
+example { context, namedElements, behavior, consequence }
+mechanism { explanation, visualRef? }
+analysis[]
+retrieval { prompt, answer, explanation }
+counterexample/failure
+tradeoffs[]
+productionImplications[]
+guidingQuestionResolution
+```
+
+Exact field names may differ, but the functions must remain representable and renderer-visible. A single string field containing a shallow paragraph is not a sufficient replacement for this structure.
+
+### Validation principle
+
+Validation must check both **presence and rendered instructional function**. A section does not pass merely because keys named `concept`, `example` or `visual` exist. Rendered output must contain substantive authored content for the applicable functions and preserve their ordering/proximity.
+
+The canonical audit remains the semantic quality gate; machine checks provide regression protection, not proof of pedagogical quality.

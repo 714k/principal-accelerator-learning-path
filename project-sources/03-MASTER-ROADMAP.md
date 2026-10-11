@@ -108,9 +108,9 @@ Therefore, PA-S006 **deepens** dashboard/theme/chart architecture and evidence v
 
 ### PA-S001 automatic scaffold rule
 
-After the complete PA-S001 Theory Phase and learner continuation into Build, automatically provide both a `.sh` scaffold and Codex prompt.
+After the complete PA-S001 Theory Phase and learner continuation into Build, automatically provide the complete Codex prompt. Provide a `.sh` only if the real Accelerator repository/P0 structure does not yet exist and must be initialized from zero.
 
-The scaffold must initialize the real Accelerator repository and first runnable P0 slice, including `apps/portfolio/` plus the separate bilingual `site/` learning surface. The learner must not need to request these artifacts separately.
+When used, the shell script is limited to deterministic initial scaffolding (`apps/portfolio/`, bilingual `site/`, workspace baseline). Codex then creates the actual PA-S001 session deliverables. If the compatible structure already exists, Codex performs the entire Build handoff without a shell script.
 
 ### PA-S001 contract
 

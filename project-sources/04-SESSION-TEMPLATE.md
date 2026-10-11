@@ -66,7 +66,7 @@ Prefer textbook/technical-report prose over coaching language.
 
 Do not repeatedly address the learner with "tú", "veremos", "imagina", "piensa en", or conversational transitions when formal exposition is clearer.
 
-Use questions primarily in Learning Preview, Exercises and later checkpoints—not as substitutes for exposition.
+Use questions deliberately: guiding questions frame substantial sections; brief retrieval/self-check prompts may be interleaved after teaching; Exercises/checkpoints assess application. Avoid rhetorical filler or using questions as a substitute for explanation.
 
 ### Source quality gate
 
@@ -566,19 +566,16 @@ appropriate design, analysis or evidence objective instead.
 
 Use incremental steps, files/packages/components and checkpoints.
 
-When implementation is applicable, **automatically provide an executable scaffold entry point in the first Build turn**. Do not wait for a separate learner request. Prefer a ready-to-run `.sh` script for repository/app/package creation and a Codex prompt for bounded implementation. The learner should not need to ask separately.
+When implementation is applicable, **automatically provide the complete Codex implementation prompt in the first Build turn**. Do not wait for a separate learner request. A ready-to-run `.sh` is used only when a NEW repository/app/lab/system has no compatible baseline and requires deterministic first-time scaffolding. Routine session deliverables, migrations and extensions of existing structures are Codex-owned implementation work and require no shell script.
 
 The scaffold must target the longitudinal project selected from `09-PROJECTS-AND-APPS.md`, not an unrelated throwaway app unless the roadmap explicitly calls for an isolated lab.
 
 
 ### PA-S001 required Build handoff
 
-When PA-S001 enters Build, provide **both** artifacts immediately:
+When PA-S001 enters Build, always provide a complete Codex prompt ready to paste into VS Code. Provide `bootstrap-pa-s001.sh` (or equivalent) **only when the repository/P0 structure is being created from zero**. If the compatible structure already exists, omit the script and let Codex create/update all session deliverables.
 
-1. `bootstrap-pa-s001.sh` (or equivalently named runnable shell script).
-2. A complete Codex prompt ready to paste into VS Code.
-
-The script/prompt must target the real Accelerator repository and initialize:
+The handoff must target the real Accelerator repository and initialize/extend:
 - `apps/portfolio/`;
 - repository/workspace baseline;
 - public bilingual session routes/content under `site/es/sessions/PA-S001/` and `site/en/sessions/PA-S001/`;
@@ -810,7 +807,7 @@ site/es/projects/<project-or-app>/
 site/en/projects/<project-or-app>/
 ```
 
-The `.sh` scaffold / Codex prompt must create or update these paths automatically.
+The Codex prompt must create or update these paths automatically. A `.sh`, when legitimately used for a brand-new scaffold, may create only the initial directory/workspace baseline and must not be required for subsequent session updates.
 
 The public content must include the session's publishable theory, implementation mapping, evidence links and relevant diagrams without exposing confidential/private material.
 
@@ -1036,3 +1033,80 @@ Before leaving Theory, verify:
 - [ ] analogies, if any, state their limit;
 - [ ] no decorative/redundant prose remains;
 - [ ] the explanation depth matches available learner evidence without inventing mastery.
+
+## Canonical theory authorship and publishing contract — v5
+
+This contract resolves the boundary between ChatGPT session teaching and Codex implementation.
+
+### Authority split
+
+**ChatGPT owns canonical theory authoring.** During the Theory Phase, ChatGPT must compose the complete source-backed ES session content to the required pedagogical standard and, before Build publication, produce or materialize the semantically equivalent EN content.
+
+**Codex does not own theory authoring.** Codex owns schema integration, rendering, diagrams, interaction, build plumbing, migration, tests and publication. Codex must not independently shorten, summarize, "improve", replace or regenerate canonical theory prose merely to fit a renderer.
+
+### Build handoff invariant
+
+When Build begins for a theory-bearing session, the Codex handoff must carry canonical theory in one of these forms, in priority order:
+1. the Codex prompt contains the exact approved ES/EN canonical content payload to materialize;
+2. the prompt points to exact canonical content files already present in the repository.
+
+Do not use `.sh` to publish theory. Shell scripts are only for first-time mechanical scaffolding of a new repository/app/lab/system. A handoff that merely tells Codex to "write the session theory from the Sources" is incomplete.
+
+If the canonical content payload/files are missing, Codex must stop and report `MISSING_CANONICAL_THEORY_PAYLOAD`; it must not invent a substitute chapter.
+
+### Fidelity rule
+
+Mechanical transformations are allowed only when they preserve meaning and instructional structure: escaping, stable IDs, schema normalization, localized link wiring, diagram references, citation IDs and equivalent markup segmentation.
+
+Codex must preserve:
+- section order and hierarchy;
+- definitions/scope/distinctions;
+- guiding questions and explicit resolutions;
+- concrete examples and named software elements;
+- retrieval/self-check prompts and their answers;
+- counterexamples/failure modes;
+- trade-offs/limitations;
+- citations/source linkage;
+- visual adjacency intent;
+- epistemic labels and limitations.
+
+Codex must not collapse several authored blocks into a generic paragraph or bullet list.
+
+### Structured instructional content model
+
+The canonical content schema should preserve instructional function explicitly rather than relying only on free-form prose. For substantial Main Topics/Subtopics, support typed blocks or equivalent semantics such as:
+
+```text
+pretraining[]
+guidingQuestion
+concept { definition, scope, distinctions, sources }
+example { context, namedElements, behavior, consequence }
+mechanism { explanation, visualRef? }
+analysis[]
+retrieval { prompt, answer, explanation }
+counterexample/failure
+tradeoffs[]
+productionImplications[]
+guidingQuestionResolution
+```
+
+Exact field names may differ, but the functions must remain representable and renderer-visible. A single string field containing a shallow paragraph is not a sufficient replacement for this structure.
+
+### Validation principle
+
+Validation must check both **presence and rendered instructional function**. A section does not pass merely because keys named `concept`, `example` or `visual` exist. Rendered output must contain substantive authored content for the applicable functions and preserve their ordering/proximity.
+
+The canonical audit remains the semantic quality gate; machine checks provide regression protection, not proof of pedagogical quality.
+
+## Theory-to-Build publication handoff — mandatory
+
+Before emitting the Build handoff for a theory-bearing session:
+
+1. Freeze the completed Theory Phase as the canonical ES authoring payload.
+2. Produce the semantically equivalent EN payload while preserving section IDs and instructional functions.
+3. Assign stable section/block IDs shared across ES/EN where the content model requires pairing.
+4. Include the exact payload in the Codex prompt, or point Codex to exact canonical payload files already present in the repository.
+5. Tell Codex to materialize/publish/render that payload without reauthoring it.
+6. Do not require a `.sh` for content materialization; a shell script is reserved for first-time app/lab/system scaffolding only.
+
+The learner must never depend on Codex to recreate from memory the richer theory that was already taught in ChatGPT.

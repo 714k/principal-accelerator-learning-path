@@ -570,3 +570,85 @@ Diagrams, concept maps, tables, timelines and flows appear next to the section t
 
 ### Adaptive expertise contract
 Scaffolding density may vary according to recorded evidence, but canonical definitions/distinctions and source-backed content remain available. Seniority/job title alone is not evidence for removing foundational explanation.
+
+## Canonical theory authorship and publishing contract — v5
+
+This contract resolves the boundary between ChatGPT session teaching and Codex implementation.
+
+### Authority split
+
+**ChatGPT owns canonical theory authoring.** During the Theory Phase, ChatGPT must compose the complete source-backed ES session content to the required pedagogical standard and, before Build publication, produce or materialize the semantically equivalent EN content.
+
+**Codex does not own theory authoring.** Codex owns schema integration, rendering, diagrams, interaction, build plumbing, migration, tests and publication. Codex must not independently shorten, summarize, "improve", replace or regenerate canonical theory prose merely to fit a renderer.
+
+### Build handoff invariant
+
+When Build begins for a theory-bearing session, the Codex handoff must carry the canonical theory into the repository in one of these forms, in priority order:
+1. the Codex prompt contains the exact approved ES/EN canonical content payload to materialize;
+2. the prompt points to exact canonical content files already present in the repository.
+
+A `.sh` is not required for publication and must be reserved for first-time mechanical scaffolding of a new repository/app/lab/system. A handoff that merely tells Codex to "write the session theory from the Sources" is incomplete.
+
+If the canonical content payload/files are missing, Codex must stop and report `MISSING_CANONICAL_THEORY_PAYLOAD`; it must not invent a substitute chapter.
+
+### Fidelity rule
+
+Mechanical transformations are allowed only when they preserve meaning and instructional structure: escaping, stable IDs, schema normalization, localized link wiring, diagram references, citation IDs and equivalent markup segmentation.
+
+Codex must preserve:
+- section order and hierarchy;
+- definitions/scope/distinctions;
+- guiding questions and explicit resolutions;
+- concrete examples and named software elements;
+- retrieval/self-check prompts and their answers;
+- counterexamples/failure modes;
+- trade-offs/limitations;
+- citations/source linkage;
+- visual adjacency intent;
+- epistemic labels and limitations.
+
+Codex must not collapse several authored blocks into a generic paragraph or bullet list.
+
+### Structured instructional content model
+
+The canonical content schema should preserve instructional function explicitly rather than relying only on free-form prose. For substantial Main Topics/Subtopics, support typed blocks or equivalent semantics such as:
+
+```text
+pretraining[]
+guidingQuestion
+concept { definition, scope, distinctions, sources }
+example { context, namedElements, behavior, consequence }
+mechanism { explanation, visualRef? }
+analysis[]
+retrieval { prompt, answer, explanation }
+counterexample/failure
+tradeoffs[]
+productionImplications[]
+guidingQuestionResolution
+```
+
+Exact field names may differ, but the functions must remain representable and renderer-visible. A single string field containing a shallow paragraph is not a sufficient replacement for this structure.
+
+### Validation principle
+
+Validation must check both **presence and rendered instructional function**. A section does not pass merely because keys named `concept`, `example` or `visual` exist. Rendered output must contain substantive authored content for the applicable functions and preserve their ordering/proximity.
+
+The canonical audit remains the semantic quality gate; machine checks provide regression protection, not proof of pedagogical quality.
+
+## Canonical authored-theory artifact
+
+The completed Theory Phase is itself a durable authored artifact. Publication must preserve it as the source content for `site/`.
+
+Preferred model:
+
+```text
+ChatGPT canonical theory (ES + semantically equivalent EN)
+        ↓ materialized by Build handoff
+site content source / structured page data
+        ↓ Codex mechanical integration
+renderer + Visual Learning Studio + diagrams
+        ↓
+generated site
+```
+
+Do not use the generated HTML as the only source of truth for theory. Keep editable canonical content in the repository. Do not ask Codex to reconstruct academic prose from rendered output.

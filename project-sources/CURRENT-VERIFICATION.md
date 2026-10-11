@@ -1,30 +1,27 @@
-# CURRENT VERIFICATION — Canonical Learning Site v4
+# CURRENT VERIFICATION — Canonical Learning Site v5
 
-- [x] settings_under_8000
-- [x] 01_contract
-- [x] 04_gate
-- [x] 05_method
-- [x] 11_inline
-- [x] 12_publish
-- [x] 13_hardfail
-- [x] 03_all_sessions
-- [x] codex_migration
-- [x] decision_log
-- PROJECT-INSTRUCTIONS-SETTINGS characters: **7863**
+- [x] v4 dashboard/tracking/navigation/Visual Learning Studio contracts preserved
+- [x] ChatGPT canonical-theory authorship contract added to 01/04/05/11/12/13
+- [x] Codex theory firewall added
+- [x] Build handoff requires exact canonical ES/EN payload/files
+- [x] Missing payload hard-stop: `MISSING_CANONICAL_THEORY_PAYLOAD`
+- [x] Prompt requires `PUBLISH VERBATIM SEMANTICS; DO NOT REAUTHOR THEORY`
+- [x] Renderer/schema instructed to adapt to authored content, not compress it
+- [x] Question-guidance contradiction resolved in 04/13
+- [x] Verifier expanded with basic learning-text regression heuristics + theory-firewall check
+- [x] Project Instructions under 8,000 characters
 
-## Learning-text invariants checked
+PROJECT-INSTRUCTIONS-SETTINGS characters: **6997**
 
-- Pre-training before unfamiliar terminology.
-- One dominant idea per paragraph + early topic sentence.
-- Clear headings and selective bold signaling.
-- Immediate concrete examples after abstractions.
-- Guiding question + explicit resolution when useful.
-- Interleaved retrieval/self-check without blocking Theory.
-- Worked-example fading when a new procedural skill benefits from it.
-- Analogies optional and bounded by explicit non-mapping.
-- Visual type selected by knowledge structure and placed adjacent to prose.
-- Direct labels / restrained semantic color / meaningful arrows.
-- Coherence: remove filler, trivia, decorative anecdotes and purposeless repetition.
-- Scaffolding adapts to evidence rather than title/self-report.
-- Generated Codex prompts inline Learning Text hard gates.
-- Canonical audit hard-fails material pedagogical regressions.
+## Scope of verification
+Machine checks can detect structural regressions but cannot prove pedagogical quality. `13-CANONICAL-SESSION-AUDIT.md` remains the semantic rendered-content gate.
+
+
+## Codex-only session-delivery invariant — 2026-10-10 update
+
+- [x] Existing compatible repository/app/lab/system → Codex prompt only; no `.sh` required.
+- [x] `.sh` reserved exclusively for deterministic first-time scaffolding of a NEW repository/app/lab/system.
+- [x] Shell scaffold, when used, creates baseline structure only; it does not own session deliverables or theory publication.
+- [x] Codex materializes canonical ES/EN theory payload and creates all session deliverables once structure exists.
+- [x] PA-S001 no longer requires both artifacts when P0/repository already exists.
+- [x] `CODEX-REGENERATE-SITE-CANONICAL.md` explicitly forbids requiring a shell script for migration of an existing site.
