@@ -1,843 +1,122 @@
 {
-  "id": "PA-S001",
-  "lang": "es",
-  "kind": "session",
-  "title": "Fundamentos de ingeniería",
-  "description": "Teoría → implementación → evidencia.",
-  "status": "editorial-draft",
-  "dashboard": {
-    "sessionId": "PA-S001",
-    "projectId": "P0",
-    "checklistIds": [
-      "PA-S001:mastery:engineering-architecture",
-      "PA-S001:mastery:product-scales",
-      "PA-S001:mastery:quality-scenario",
-      "PA-S001:mastery:boundaries",
-      "PA-S001:mastery:coupling-cohesion",
-      "PA-S001:mastery:fpa",
-      "PA-S001:mastery:aipe",
-      "PA-S001:mastery:scope-evidence"
-    ],
-    "exerciseIds": [
-      "PA-S001:exercise:product-boundaries",
-      "PA-S001:exercise:quality-scenario",
-      "PA-S001:exercise:change-propagation",
-      "PA-S001:exercise:ai-boundary",
-      "PA-S001:exercise:staff-principal"
-    ],
-    "studyState": "learner-controlled",
-    "evidenceState": "not-assessed"
-  },
-  "visualLearning": {
-    "intro": "Cinco vistas complementarias comprimen para repaso la teoría de PA-S001 ya publicada. Distinguen la mecánica de publicación de P0 de la evidencia del learner; no evalúan dominio ni afirman operación en producción.",
-    "modes": [
-      {
-        "id": "mental-model",
-        "kind": "modelo mental",
-        "label": "Mapa mental",
-        "title": "P0 conecta tres objetos diferentes",
-        "rationale": "La sesión es fundacional y estructural: un mapa compacto hace visibles las relaciones entre teoría, implementación, evidencia, alcance, calidad y límites antes de examinar módulos individuales.",
-        "sourceSections": [
-          "c1",
-          "c2",
-          "c3",
-          "c4",
-          "c5",
-          "c6",
-          "c7",
-          "c8",
-          "main-topic",
-          "s1",
-          "s2",
-          "s3",
-          "s4",
-          "s5",
-          "s6",
-          "s7",
-          "s8"
-        ],
-        "blocks": [
-          {
-            "type": "diagram",
-            "diagram": {
-              "source": "PA-S001/foundations.mmd",
-              "title": "Mapa mental de fundamentos de ingeniería PA-S001",
-              "description": "Un mapa mental de PA-S001 que conecta teoría, implementación, evidencia, arquitectura, calidad, límites, acoplamiento, frontend platform architecture, AI product engineering y alcance Staff a Principal."
-            }
-          },
-          {
-            "type": "cards",
-            "cards": [
-              {
-                "eyebrow": "Teoría",
-                "title": "El capítulo público",
-                "body": "site/ contiene el material canónico de aprendizaje público. Un capítulo puede existir antes de ejecutar su laboratorio; eso es publicación, no prueba de aprendizaje."
-              },
-              {
-                "eyebrow": "Implementación",
-                "title": "El renderer",
-                "body": "site/tooling lee contenido bilingüe explícito, valida su contrato acotado y escribe rutas estáticas. Representa el material, no se convierte en el material mismo."
-              },
-              {
-                "eyebrow": "Evidencia",
-                "title": "Lo que aún debe observarse",
-                "body": "Una comprobación exitosa del scaffold no demuestra comprensión del learner, calidad semántica de la traducción, accesibilidad ni operación en producción."
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "boundary-map",
-        "kind": "mapa de límites",
-        "label": "Flujo de límites",
-        "title": "Qué llega a la salida pública",
-        "rationale": "Los límites de publicación y confianza son centrales en la sesión, por lo que la topología Mermaid existente es la forma más directa de mostrar productos públicos distintos y entradas excluidas.",
-        "sourceSections": [
-          "s4",
-          "production",
-          "visual-learning-guide"
-        ],
-        "blocks": [
-          {
-            "type": "diagram",
-            "diagram": {
-              "source": "PA-S001/boundary-flow.mmd",
-              "title": "Límite de publicación público de P0",
-              "description": "La ruta separada del portafolio y las rutas bilingües del Learning Site se generan desde fuentes explícitas; data y artifacts no se copian automáticamente."
-            }
-          },
-          {
-            "type": "cards",
-            "cards": [
-              {
-                "eyebrow": "Producto",
-                "title": "Portafolio ≠ Learning Site",
-                "body": "El portafolio es una superficie profesional. El Learning Site es el hogar canónico de la teoría completa de la sesión."
-              },
-              {
-                "eyebrow": "Confianza",
-                "title": "Las entradas explícitas no son un control de seguridad",
-                "body": "La allowlist limita la copia automática, pero el contenido público todavía requiere revisión; una carpeta por sí sola no impone acceso ni veracidad."
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "scope-compare",
-        "kind": "comparar y contrastar",
-        "label": "Matriz de alcance",
-        "title": "Aplicación, sistema y plataforma responden preguntas distintas",
-        "rationale": "PA-S001 distingue explícitamente niveles de alcance. Una vista lado a lado evita tratar una carpeta compartida o dos consumidores como evidencia automática de una plataforma.",
-        "sourceSections": [
-          "s2",
-          "s6",
-          "s8"
-        ],
-        "blocks": [
-          {
-            "type": "comparison",
-            "table": {
-              "headers": [
-                "Vista",
-                "Qué está en alcance",
-                "Pregunta útil",
-                "Límite"
-              ],
-              "rows": [
-                [
-                  "Aplicación",
-                  "Una finalidad para usuarios, como el Book",
-                  "¿Qué resultado ofrece este producto?",
-                  "Puede ocultar las dependencias de construcción y entrega necesarias para publicarlo."
-                ],
-                [
-                  "Sistema",
-                  "Elementos y relaciones elegidos: contenido, construcción y entrega",
-                  "¿Qué dependencias y rutas de fallo importan aquí?",
-                  "Su límite debe elegirse; no es automáticamente todo el ecosistema."
-                ],
-                [
-                  "Plataforma",
-                  "Capacidades, contratos y soporte para consumidores",
-                  "¿Pueden adoptarla de forma segura más de un consumidor significativo?",
-                  "Un paquete compartido o un caso de uso no establece por sí solo una experiencia de plataforma."
-                ]
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "id": "change-journey",
-        "kind": "flujo de cambio y fallo",
-        "label": "Recorrido del cambio",
-        "title": "Un cambio de contenido atraviesa una ruta de publicación acotada",
-        "rationale": "La teoría explica cómo se propaga un cambio editorial nombrado y dónde lo detiene una referencia inexistente. Una secuencia hace más fácil razonar sobre las rutas normal y de fallo que una descripción solo en prosa.",
-        "sourceSections": [
-          "main-topic",
-          "s3",
-          "production"
-        ],
-        "blocks": [
-          {
-            "type": "diagram",
-            "diagram": {
-              "source": "PA-S001/session-publication-pipeline.mmd",
-              "title": "Flujo de cambio de publicación de sesión",
-              "description": "Un cambio de contenido se cataloga, valida y genera; una traducción ausente o R999 produce un error identificable antes de reemplazar la salida."
-            }
-          },
-          {
-            "type": "flow",
-            "steps": [
-              {
-                "title": "Editar una fuente explícita",
-                "body": "Un editor cambia una página de sesión bilingüe bajo site/."
-              },
-              {
-                "title": "Cargar el par esperado",
-                "body": "La construcción lee las rutas ES y EN conocidas en vez de copiar datos arbitrarios del repositorio."
-              },
-              {
-                "title": "Validar el contrato editorial",
-                "body": "Se comprueban forma, identificadores citados y correspondencia estructural; la equivalencia semántica aún requiere revisión humana."
-              },
-              {
-                "title": "Generar rutas públicas",
-                "body": "Solo después de validar, el renderer escribe dist/ para el host estático."
-              },
-              {
-                "title": "Detener una publicación malformada",
-                "body": "Una R999 o traducción ausente produce un fallo identificable, en vez de publicar silenciosamente Mermaid o una página malformada."
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "recall-cards",
-        "kind": "tarjetas de repaso",
-        "label": "Flashcards",
-        "title": "Comprobar distinciones, no solo vocabulario",
-        "rationale": "Varios términos de PA-S001 se confunden fácilmente. Estas preguntas piden el límite o consecuencia que los distingue, sin informar una puntuación ni nivel de dominio.",
-        "sourceSections": [
-          "c1",
-          "c2",
-          "c3",
-          "c4",
-          "c5",
-          "c6",
-          "c7",
-          "c8",
-          "main-topic",
-          "s1",
-          "s2",
-          "s3",
-          "s4",
-          "s5",
-          "s6",
-          "s7",
-          "s8"
-        ],
-        "blocks": [
-          {
-            "type": "flashcards",
-            "cards": [
-              {
-                "id": "F01",
-                "category": "C1 / S1",
-                "question": "¿Qué distingue ingeniería y arquitectura y qué cambio lo pondría a prueba?",
-                "answer": "La ingeniería de software es una disciplina que especifica, construye, verifica, opera y mantiene software. La arquitectura es el conjunto de conceptos y propiedades fundamentales de una entidad en su entorno; una descripción de arquitectura es el artefacto que los expresa. La distinción evita llamar “arquitectura” a cualquier edición de código o diagrama [R1] [R2].",
-                "explanation": "Modelo: resultado esperado → responsabilidades → contratos → cambio → verificación. Ejemplo construido: publicar un capítulo bilingüe exige contenido, validador, generador y rutas; cambiar el color de un botón sólo afecta presentación, mientras cambiar quién valida el contenido altera responsabilidades y fallos. Contraejemplo: un diagrama correcto no demuestra que el sitio producido respete sus límites. El coste de documentar decisiones se justifica cuando un cambio afecta consumidores o cualidades; en producción, comparar descripción con pruebas y salida evita confundir intención con comportamiento.",
-                "sourceSections": [
-                  "c1",
-                  "s1"
-                ]
-              },
-              {
-                "id": "F02",
-                "category": "C2 / S2",
-                "question": "¿Qué distingue aplicación, sistema, plataforma y ecosistema y qué cambio lo pondría a prueba?",
-                "answer": "Una aplicación sirve un objetivo de usuario. Un sistema es el conjunto de elementos y relaciones dentro de un límite elegido. Una plataforma ofrece capacidades a consumidores mediante interfaces, soporte y reglas de adopción; un ecosistema incluye participantes y proveedores que rodean al sistema [R5] [R13].",
-                "explanation": "Modelo: el Learning Site es una aplicación; contenido, compilador, host y navegador forman el sistema de publicación analizado. Un paquete de tema compartido puede ser un componente del sistema, pero no constituye automáticamente una plataforma: faltan contrato de compatibilidad, adopción y operación para consumidores [R13]. Contraejemplo: llamar “plataforma” a dos páginas con CSS común exagera la capacidad ofrecida. Ampliar el límite permite estudiar fallos del host o del proveedor, pero aumenta el coste de análisis; en producción se elige el alcance según la decisión y las dependencias que pueden fallar.",
-                "sourceSections": [
-                  "c2",
-                  "s2"
-                ]
-              },
-              {
-                "id": "F03",
-                "category": "C3 / S3",
-                "question": "¿Qué distingue atributos de calidad y restricciones y qué cambio lo pondría a prueba?",
-                "answer": "Un atributo de calidad expresa una propiedad evaluable del producto, como accesibilidad, mantenibilidad o seguridad; una restricción limita las soluciones permitidas. ISO/IEC 25010:2023 proporciona un modelo de calidad del producto, no una medición de este sitio [R3].",
-                "explanation": "Un escenario verificable identifica fuente, estímulo, entorno, artefacto, respuesta y medida. Ejemplo propuesto: cuando falta la traducción de una sección durante la compilación, el validador falla antes de reemplazar la salida y nombra la sección. “Debe ser accesible” no especifica una respuesta comprobable [R4] [R15]. El coste de una validación estricta es mantener el esquema al cambiar contenido; la ganancia prevista es detectar deriva estructural. Una prueba de esquema no certifica traducción semántica ni conformidad con Web Content Accessibility Guidelines (WCAG) 2.2; la revisión manual sigue siendo necesaria [R15].",
-                "sourceSections": [
-                  "c3",
-                  "s3"
-                ]
-              },
-              {
-                "id": "F04",
-                "category": "C4 / S4",
-                "question": "¿Qué distingue límites y contratos y qué cambio lo pondría a prueba?",
-                "answer": "Un límite determina qué responsabilidad pertenece a un elemento y qué información cruza hacia otro. Un contrato define entradas, salidas, errores y compatibilidad observables; un directorio no impone por sí solo ese contrato. Parnas propone descomponer módulos alrededor de decisiones susceptibles de cambio [R12].",
-                "explanation": "Ejemplo construido: `site/` guarda contenido público; el validador acepta páginas con secciones y citas válidas; el generador publica sólo rutas declaradas. Un fallo de referencia detiene la compilación. El límite de publicación no demuestra que cada frase pública sea verdadera. Contraejemplo: copiar recursivamente todo el repositorio a `dist/` cruzaría el límite de publicación e incluiría potencialmente datos privados. Mantener una lista explícita cuesta mantenimiento; en producción exige revisar tanto la lista como el texto incluido.",
-                "sourceSections": [
-                  "c4",
-                  "s4"
-                ]
-              },
-              {
-                "id": "F05",
-                "category": "C5 / S5",
-                "question": "¿Qué distingue acoplamiento y cohesión y qué cambio lo pondría a prueba?",
-                "answer": "Acoplamiento es dependencia entre elementos: un cambio en uno puede exigir cambiar otro. Cohesión describe si las responsabilidades dentro de un módulo persiguen una finalidad relacionada. Separar decisiones de cambio, como recomienda Parnas, permite analizar ambas propiedades con elementos concretos [R12].",
-                "explanation": "Ejemplo construido: el generador depende del contrato `Page`, no de cada frase española. Si los IDs de sección cambian, los enlaces, tarjetas y mapa también deben cambiar: existe acoplamiento incluso sin importaciones entre archivos. Un validador cohesivo concentra las invariantes editoriales. Contraejemplo: mover todas las funciones a `shared/` no demuestra cohesión; además puede introducir dependencia cruzada. Reducir acoplamiento cuesta interfaces y coordinación; en producción se observa propagación de cambios, fallos y compatibilidad antes de afirmar una mejora.",
-                "sourceSections": [
-                  "c5",
-                  "s5"
-                ]
-              },
-              {
-                "id": "F06",
-                "category": "C6 / S6",
-                "question": "¿Qué distingue arquitectura de plataforma frontend y qué cambio lo pondría a prueba?",
-                "answer": "Frontend Platform Architecture (FPA) diseña capacidades frontend reutilizables y la experiencia de sus consumidores: interfaces, documentación, compatibilidad, soporte y adopción. Se relaciona con ingeniería de plataforma, cuyo modelo CNCF considera inversión, adopción, interfaces, operación y medición [R13].",
-                "explanation": "Ejemplo construido: una capacidad de tema usada por sitio y portafolio necesitaría tokens, contrato de cambio y pruebas en ambos consumidores. Hoy compartir CSS o una función no prueba que esa plataforma exista. La interfaz de lectura y las reglas de avance siguen siendo responsabilidades de producto. Contraejemplo: extraer un diseño genérico desde un solo caso fija supuestos prematuros. La plataforma cuesta mantenimiento y soporte; en producción se justifica cuando consumidores reales y cambios repetidos muestran valor, no por preferencia de carpetas.",
-                "sourceSections": [
-                  "c6",
-                  "s6"
-                ]
-              },
-              {
-                "id": "F07",
-                "category": "C7 / S7",
-                "question": "¿Qué distingue ingeniería de productos con ia y qué cambio lo pondría a prueba?",
-                "answer": "AI Product Engineering (AIPE) integra inteligencia artificial (IA) como capacidad de producto con evaluación, operación y gestión de riesgos. Usar IA para escribir código no añade por sí mismo una función de IA al producto. El marco AI Risk Management Framework (AI RMF) de NIST trata riesgos de sistemas de IA [R6].",
-                "explanation": "Ejemplo hipotético: un recomendador de sesiones recupera evidencia, genera una propuesta, valida citas y permite abstenerse si faltan datos. La salida con formato válido no prueba exactitud. Sculley y coautores explican deuda técnica causada por dependencias y acoplamiento en sistemas de aprendizaje automático [R14]. Contraejemplo: asignar L1–L5 desde una recomendación sin evidencia transformaría una sugerencia en certificación. Evaluaciones, observabilidad y revisión humana tienen coste; en producción deben definirse criterios de fallo y escalación antes de confiar en la capacidad. P0 no integra un modelo.",
-                "sourceSections": [
-                  "c7",
-                  "s7"
-                ]
-              },
-              {
-                "id": "F08",
-                "category": "C8 / S8",
-                "question": "¿Qué distingue alcance staff y principal y qué cambio lo pondría a prueba?",
-                "answer": "Staff y Principal nombran alcances de responsabilidad que varían por organización, no niveles universales de habilidad. El ejemplo contextual de GitLab distingue liderazgo técnico de grupo y un marco Principal de alcance mayor [R7] [R9]. Una decisión documentada no demuestra influencia real.",
-                "explanation": "Ejemplo hipotético: Staff acuerda el contrato de evidencia del Book con un equipo; Principal propone compatibilidad y excepciones para varios sistemas y equipos. El mecanismo es ampliar el radio de coordinación y asumir consecuencias cruzadas, manteniendo claros los dueños de decisiones. Contraejemplo: imponer un único patrón sin medir costes de adopción puede trasladar trabajo a otros equipos. Coordinar más sistemas consume tiempo y exige evidencia de resultados; en producción las consecuencias deben observarse, no inferirse del título o de un Architecture Decision Record (ADR).",
-                "sourceSections": [
-                  "c8",
-                  "s8"
-                ]
-              },
-              {
-                "id": "F09",
-                "category": "Main Topic",
-                "question": "¿Cómo conecta el modelo resultado, responsabilidad, cambio y verificación?",
-                "answer": "Concepto y alcance: El modelo central de esta sesión conecta resultado → responsabilidad → cambio → verificación. El resultado es una conducta observable; la responsabilidad asigna quién la produce; el cambio revela dependencias; la verificación compara la conducta real con el contrato. Esta es una síntesis didáctica basada en ingeniería y descripción arquitectónica, no una norma nueva [R1] [R2].",
-                "explanation": "Mecanismo: en P0, el lector solicita una ruta; el generador ha transformado contenido validado en HTML; el navegador muestra teoría y guarda marcas de estudio locales. El contrato de publicación limita qué entra en `dist/`; el archivo canónico de progreso y los niveles de dominio permanecen fuera. La revisión contrasta ruta, citas, controles y estados vacíos con la salida.",
-                "sourceSections": [
-                  "main-topic"
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  "sections": [
-    {
-      "id": "objective",
-      "title": "Objetivo",
-      "paragraphs": [
-        "Relacionar propósito, estructura, calidad y evidencia para iniciar P0. Este capítulo es una síntesis editorial inicial de PA-S001; no acredita dominio ni sustituye la fase teórica completa de la conversación.",
-        "Fase: F0 — Accelerator Platform. Áreas simultáneas: Frontend Platform Architecture, AI Product Engineering y Staff engineering, con introducción al alcance de Principal."
-      ]
-    },
-    {
-      "id": "preview",
-      "title": "Learning Preview",
-      "paragraphs": [
-        "El alcance incluye ingeniería y arquitectura; aplicación, sistema, plataforma y ecosistema; calidad y restricciones; fronteras; acoplamiento y cohesión; FPA; AIPE; alcance Staff/Principal. Se aplicarán al Book, sin añadir una funcionalidad de IA artificialmente."
-      ]
-    },
-    {
-      "id": "concepts",
-      "title": "Concepts",
-      "paragraphs": [
-        "Ingeniería de software abarca desarrollo, operación y mantenimiento mediante un enfoque sistemático y disciplinado [R1]. Arquitectura permite razonar sobre estructura, comportamiento y cualidades del sistema [R2]. En este programa, una responsabilidad define de qué se hace cargo un elemento; un contrato expresa lo que sus consumidores pueden esperar. Son instrumentos para analizar cambios, no promesas de superioridad.",
-        "ISO/IEC/IEEE 42010 distingue la arquitectura de una descripción de arquitectura: la segunda expresa la primera, pero no la reemplaza [R11]. Por tanto, un mapa de rutas o un ADR es evidencia de una descripción, no prueba de que la estructura descrita tenga la cualidad esperada."
-      ]
-    },
-    {
-      "id": "c1",
-      "title": "C1 — Ingeniería y arquitectura",
-      "level": 3,
-      "paragraphs": [
-        "La ingeniería de software es una disciplina que especifica, construye, verifica, opera y mantiene software. La arquitectura es el conjunto de conceptos y propiedades fundamentales de una entidad en su entorno; una descripción de arquitectura es el artefacto que los expresa. La distinción evita llamar “arquitectura” a cualquier edición de código o diagrama [R1] [R2].",
-        "Modelo: resultado esperado → responsabilidades → contratos → cambio → verificación. Ejemplo construido: publicar un capítulo bilingüe exige contenido, validador, generador y rutas; cambiar el color de un botón sólo afecta presentación, mientras cambiar quién valida el contenido altera responsabilidades y fallos.",
-        "Contraejemplo: un diagrama correcto no demuestra que el sitio producido respete sus límites. El coste de documentar decisiones se justifica cuando un cambio afecta consumidores o cualidades; en producción, comparar descripción con pruebas y salida evita confundir intención con comportamiento."
-      ]
-    },
-    {
-      "id": "c2",
-      "title": "C2 — Aplicación, sistema, plataforma y ecosistema",
-      "level": 3,
-      "paragraphs": [
-        "Una aplicación sirve un objetivo de usuario. Un sistema es el conjunto de elementos y relaciones dentro de un límite elegido. Una plataforma ofrece capacidades a consumidores mediante interfaces, soporte y reglas de adopción; un ecosistema incluye participantes y proveedores que rodean al sistema [R5] [R13].",
-        "Modelo: el Learning Site es una aplicación; contenido, compilador, host y navegador forman el sistema de publicación analizado. Un paquete de tema compartido puede ser un componente del sistema, pero no constituye automáticamente una plataforma: faltan contrato de compatibilidad, adopción y operación para consumidores [R13].",
-        "Contraejemplo: llamar “plataforma” a dos páginas con CSS común exagera la capacidad ofrecida. Ampliar el límite permite estudiar fallos del host o del proveedor, pero aumenta el coste de análisis; en producción se elige el alcance según la decisión y las dependencias que pueden fallar."
-      ]
-    },
-    {
-      "id": "c3",
-      "title": "C3 — Atributos de calidad y restricciones",
-      "level": 3,
-      "paragraphs": [
-        "Un atributo de calidad expresa una propiedad evaluable del producto, como accesibilidad, mantenibilidad o seguridad; una restricción limita las soluciones permitidas. ISO/IEC 25010:2023 proporciona un modelo de calidad del producto, no una medición de este sitio [R3].",
-        "Un escenario verificable identifica fuente, estímulo, entorno, artefacto, respuesta y medida. Ejemplo propuesto: cuando falta la traducción de una sección durante la compilación, el validador falla antes de reemplazar la salida y nombra la sección. “Debe ser accesible” no especifica una respuesta comprobable [R4] [R15].",
-        "El coste de una validación estricta es mantener el esquema al cambiar contenido; la ganancia prevista es detectar deriva estructural. Una prueba de esquema no certifica traducción semántica ni conformidad con Web Content Accessibility Guidelines (WCAG) 2.2; la revisión manual sigue siendo necesaria [R15]."
-      ]
-    },
-    {
-      "id": "c4",
-      "title": "C4 — Límites y contratos",
-      "level": 3,
-      "paragraphs": [
-        "Un límite determina qué responsabilidad pertenece a un elemento y qué información cruza hacia otro. Un contrato define entradas, salidas, errores y compatibilidad observables; un directorio no impone por sí solo ese contrato. Parnas propone descomponer módulos alrededor de decisiones susceptibles de cambio [R12].",
-        "Ejemplo construido: `site/` guarda contenido público; el validador acepta páginas con secciones y citas válidas; el generador publica sólo rutas declaradas. Un fallo de referencia detiene la compilación. El límite de publicación no demuestra que cada frase pública sea verdadera.",
-        "Contraejemplo: copiar recursivamente todo el repositorio a `dist/` cruzaría el límite de publicación e incluiría potencialmente datos privados. Mantener una lista explícita cuesta mantenimiento; en producción exige revisar tanto la lista como el texto incluido."
-      ]
-    },
-    {
-      "id": "c5",
-      "title": "C5 — Acoplamiento y cohesión",
-      "level": 3,
-      "paragraphs": [
-        "Acoplamiento es dependencia entre elementos: un cambio en uno puede exigir cambiar otro. Cohesión describe si las responsabilidades dentro de un módulo persiguen una finalidad relacionada. Separar decisiones de cambio, como recomienda Parnas, permite analizar ambas propiedades con elementos concretos [R12].",
-        "Ejemplo construido: el generador depende del contrato `Page`, no de cada frase española. Si los IDs de sección cambian, los enlaces, tarjetas y mapa también deben cambiar: existe acoplamiento incluso sin importaciones entre archivos. Un validador cohesivo concentra las invariantes editoriales.",
-        "Contraejemplo: mover todas las funciones a `shared/` no demuestra cohesión; además puede introducir dependencia cruzada. Reducir acoplamiento cuesta interfaces y coordinación; en producción se observa propagación de cambios, fallos y compatibilidad antes de afirmar una mejora."
-      ]
-    },
-    {
-      "id": "c6",
-      "title": "C6 — Arquitectura de plataforma frontend",
-      "level": 3,
-      "paragraphs": [
-        "Frontend Platform Architecture (FPA) diseña capacidades frontend reutilizables y la experiencia de sus consumidores: interfaces, documentación, compatibilidad, soporte y adopción. Se relaciona con ingeniería de plataforma, cuyo modelo CNCF considera inversión, adopción, interfaces, operación y medición [R13].",
-        "Ejemplo construido: una capacidad de tema usada por sitio y portafolio necesitaría tokens, contrato de cambio y pruebas en ambos consumidores. Hoy compartir CSS o una función no prueba que esa plataforma exista. La interfaz de lectura y las reglas de avance siguen siendo responsabilidades de producto.",
-        "Contraejemplo: extraer un diseño genérico desde un solo caso fija supuestos prematuros. La plataforma cuesta mantenimiento y soporte; en producción se justifica cuando consumidores reales y cambios repetidos muestran valor, no por preferencia de carpetas."
-      ]
-    },
-    {
-      "id": "c7",
-      "title": "C7 — Ingeniería de productos con IA",
-      "level": 3,
-      "paragraphs": [
-        "AI Product Engineering (AIPE) integra inteligencia artificial (IA) como capacidad de producto con evaluación, operación y gestión de riesgos. Usar IA para escribir código no añade por sí mismo una función de IA al producto. El marco AI Risk Management Framework (AI RMF) de NIST trata riesgos de sistemas de IA [R6].",
-        "Ejemplo hipotético: un recomendador de sesiones recupera evidencia, genera una propuesta, valida citas y permite abstenerse si faltan datos. La salida con formato válido no prueba exactitud. Sculley y coautores explican deuda técnica causada por dependencias y acoplamiento en sistemas de aprendizaje automático [R14].",
-        "Contraejemplo: asignar L1–L5 desde una recomendación sin evidencia transformaría una sugerencia en certificación. Evaluaciones, observabilidad y revisión humana tienen coste; en producción deben definirse criterios de fallo y escalación antes de confiar en la capacidad. P0 no integra un modelo."
-      ]
-    },
-    {
-      "id": "c8",
-      "title": "C8 — Alcance Staff y Principal",
-      "level": 3,
-      "paragraphs": [
-        "Staff y Principal nombran alcances de responsabilidad que varían por organización, no niveles universales de habilidad. El ejemplo contextual de GitLab distingue liderazgo técnico de grupo y un marco Principal de alcance mayor [R7] [R9]. Una decisión documentada no demuestra influencia real.",
-        "Ejemplo hipotético: Staff acuerda el contrato de evidencia del Book con un equipo; Principal propone compatibilidad y excepciones para varios sistemas y equipos. El mecanismo es ampliar el radio de coordinación y asumir consecuencias cruzadas, manteniendo claros los dueños de decisiones.",
-        "Contraejemplo: imponer un único patrón sin medir costes de adopción puede trasladar trabajo a otros equipos. Coordinar más sistemas consume tiempo y exige evidencia de resultados; en producción las consecuencias deben observarse, no inferirse del título o de un Architecture Decision Record (ADR)."
-      ]
-    },
-    {
-      "id": "main-topic",
-      "title": "Main Topic — Un sistema justificable",
-      "paragraphs": [
-        "Concepto y alcance: El modelo central de esta sesión conecta resultado → responsabilidad → cambio → verificación. El resultado es una conducta observable; la responsabilidad asigna quién la produce; el cambio revela dependencias; la verificación compara la conducta real con el contrato. Esta es una síntesis didáctica basada en ingeniería y descripción arquitectónica, no una norma nueva [R1] [R2].",
-        "Mecanismo: en P0, el lector solicita una ruta; el generador ha transformado contenido validado en HTML; el navegador muestra teoría y guarda marcas de estudio locales. El contrato de publicación limita qué entra en `dist/`; el archivo canónico de progreso y los niveles de dominio permanecen fuera. La revisión contrasta ruta, citas, controles y estados vacíos con la salida.",
-        "Síntesis: P0 conecta teoría, implementación y evidencia, pero esos objetos no significan lo mismo. Un capítulo puede existir antes de ejecutar su laboratorio. Una prueba puede pasar sin demostrar comprensión del alumno. La presentación debe conservar esas diferencias. site/ contiene el material público canónico; site/tooling lo representa. artifacts/ y data/ no se copian automáticamente a la salida. Esta separación es una regla del Accelerator y debe comprobarse inspeccionando el resultado. Su coste es mantener un contrato editorial explícito; su beneficio esperado es limitar interpretaciones incompatibles. La hipótesis no demuestra por sí sola que el sistema sea más mantenible.",
-        "Un cambio recorre elementos nombrados: un editor modifica site/en/sessions/PA-S001/page.json; ContentValidator comprueba forma e identificadores citados; SiteGenerator escribe dist/; SessionPage presenta los datos; SessionTOC enlaza a anclas de sección. Un tipo TypeScript expresa la forma de datos esperada, pero no puede probar por sí mismo que exista una traducción ni que ambos textos expresen el mismo significado. El build comprueba carga de archivos y correspondencia estructural; la revisión editorial bilingüe sigue siendo verificación humana.",
-        "Contraejemplo: una lista de carpetas que llama “plataforma” a código compartido, o un test verde usado para declarar dominio, rompe la cadena de verificación. El modelo exige describir qué resultado cambia, quién es responsable, qué contrato protege a los consumidores y qué observación lo confirma. Su coste es coordinación editorial y pruebas de correspondencia; sus límites incluyen la traducción semántica y la evaluación humana. En producción, esos huecos deben revisarse antes de publicar o aceptar una decisión [R2] [R12]."
-      ]
-    },
-    {
-      "id": "subtopics",
-      "title": "Subtemas S1–S8",
-      "paragraphs": [
-        "Cada subtema desarrolla un concepto en el contexto de P0: definición y alcance, mecanismo, ejemplo construido, contraejemplo, coste, límite y consecuencia de producción."
-      ]
-    },
-    {
-      "id": "s1",
-      "title": "S1 — Ingeniería y arquitectura",
-      "level": 3,
-      "paragraphs": [
-        "Concepto y alcance: La ingeniería de software es una disciplina que especifica, construye, verifica, opera y mantiene software. La arquitectura es el conjunto de conceptos y propiedades fundamentales de una entidad en su entorno; una descripción de arquitectura es el artefacto que los expresa. La distinción evita llamar “arquitectura” a cualquier edición de código o diagrama [R1] [R2].",
-        "Mecanismo: Modelo: resultado esperado → responsabilidades → contratos → cambio → verificación. Ejemplo construido: publicar un capítulo bilingüe exige contenido, validador, generador y rutas; cambiar el color de un botón sólo afecta presentación, mientras cambiar quién valida el contenido altera responsabilidades y fallos.",
-        "La arquitectura enfoca decisiones de estructura y comportamiento global [R2]. Ejemplo hipotético: corregir un enlace es un cambio localizado; definir la identidad de una sesión entre idiomas condiciona múltiples consumidores. La relevancia no depende del número de líneas. Como heurística, analizar alcance, coste de cambio y cualidades afectadas. Elegir primero una tecnología puede ocultar alternativas; documentar toda decisión menor también tiene coste. El trabajo del alumno consiste en explicar por qué una decisión del Book merece tratamiento arquitectónico.",
-        "Mecanismo: una decisión estructural se vuelve consecuente cuando restringe o habilita cambios posteriores. Mover el renderer de un generador estático a un servidor, por ejemplo, modifica entrega, responsabilidad operativa y modos de fallo; la carpeta de un componente no. El contraste evita tratar cambios ordinarios de implementación como arquitectura y mantiene explícitas las restricciones que sí son arquitectónicas.",
-        "Contraejemplo: un diagrama correcto no demuestra que el sitio producido respete sus límites. El coste de documentar decisiones se justifica cuando un cambio afecta consumidores o cualidades; en producción, comparar descripción con pruebas y salida evita confundir intención con comportamiento."
-      ]
-    },
-    {
-      "id": "s2",
-      "title": "S2 — Aplicación, sistema, plataforma y ecosistema",
-      "level": 3,
-      "paragraphs": [
-        "Concepto y alcance: Una aplicación sirve un objetivo de usuario. Un sistema es el conjunto de elementos y relaciones dentro de un límite elegido. Una plataforma ofrece capacidades a consumidores mediante interfaces, soporte y reglas de adopción; un ecosistema incluye participantes y proveedores que rodean al sistema [R5] [R13].",
-        "Mecanismo: Modelo: el Learning Site es una aplicación; contenido, compilador, host y navegador forman el sistema de publicación analizado. Un paquete de tema compartido puede ser un componente del sistema, pero no constituye automáticamente una plataforma: faltan contrato de compatibilidad, adopción y operación para consumidores [R13].",
-        "Definiciones operativas: una aplicación ofrece una finalidad a usuarios; un sistema incluye los elementos y relaciones del alcance elegido; el ecosistema incluye participantes y proveedores. Una plataforma ofrece capacidades según las necesidades de consumidores [R5]. El Learning Site es una aplicación. Al analizar publicación, el sistema incluye contenido, construcción y entrega. Un paquete compartido no demuestra una experiencia de plataforma: también deben considerarse contratos y soporte. Delimitar el alcance evita tanto ignorar dependencias como modelar innecesariamente todo el entorno.",
-        "Por ejemplo, PortfolioPage y SessionPage pueden consumir una futura capacidad compartida de tema, pero ese único caso de uso no convierte lo actual en plataforma frontend. Política de compatibilidad, versionado, documentación, soporte y más de un consumidor significativo son preocupaciones separadas. Extraer demasiado pronto crea una API genérica cuyos supuestos quizá no encajen en ningún producto.",
-        "Contraejemplo: llamar “plataforma” a dos páginas con CSS común exagera la capacidad ofrecida. Ampliar el límite permite estudiar fallos del host o del proveedor, pero aumenta el coste de análisis; en producción se elige el alcance según la decisión y las dependencias que pueden fallar."
-      ]
-    },
-    {
-      "id": "s3",
-      "title": "S3 — Atributos de calidad y restricciones",
-      "level": 3,
-      "paragraphs": [
-        "Concepto y alcance: Un atributo de calidad expresa una propiedad evaluable del producto, como accesibilidad, mantenibilidad o seguridad; una restricción limita las soluciones permitidas. ISO/IEC 25010:2023 proporciona un modelo de calidad del producto, no una medición de este sitio [R3].",
-        "Mecanismo: Un escenario verificable identifica fuente, estímulo, entorno, artefacto, respuesta y medida. Ejemplo propuesto: cuando falta la traducción de una sección durante la compilación, el validador falla antes de reemplazar la salida y nombra la sección. “Debe ser accesible” no especifica una respuesta comprobable [R4] [R15].",
-        "Los escenarios de calidad especifican fuente, estímulo, entorno, artefacto, respuesta y medida [R4]. Ejemplo propuesto: un autor añade una referencia ausente durante la construcción; el validador rechaza la publicación e identifica la referencia. Es un criterio, no una medición. La salida estática es una restricción del programa; una herramienta concreta es una opción. Publicación inmediata y revisión humana bilingüe pueden competir: resolver la tensión requiere una decisión de proceso, no solamente código.",
-        "El camino normal no es solo renderizar: valida las dos entradas de idioma y después reemplaza la salida generada. El camino de fallo se detiene antes de que una referencia malformada llegue a la salida. Esto ofrece una propiedad de integridad acotada, pero no mide latencia, prueba veracidad de fuentes ni certifica accesibilidad.",
-        "El coste de una validación estricta es mantener el esquema al cambiar contenido; la ganancia prevista es detectar deriva estructural. Una prueba de esquema no certifica traducción semántica ni conformidad con Web Content Accessibility Guidelines (WCAG) 2.2; la revisión manual sigue siendo necesaria [R15]."
-      ]
-    },
-    {
-      "id": "s4",
-      "title": "S4 — Límites y contratos",
-      "level": 3,
-      "paragraphs": [
-        "Concepto y alcance: Un límite determina qué responsabilidad pertenece a un elemento y qué información cruza hacia otro. Un contrato define entradas, salidas, errores y compatibilidad observables; un directorio no impone por sí solo ese contrato. Parnas propone descomponer módulos alrededor de decisiones susceptibles de cambio [R12].",
-        "Mecanismo: Ejemplo construido: `site/` guarda contenido público; el validador acepta páginas con secciones y citas válidas; el generador publica sólo rutas declaradas. Un fallo de referencia detiene la compilación. El límite de publicación no demuestra que cada frase pública sea verdadera.",
-        "El diseño de software separa responsabilidades, arquitectura, componentes e interfaces para satisfacer requisitos funcionales y de calidad [R1]. Aplicación hipotética: el lector interpreta almacenamiento y la vista consume contenido interpretado. Cambiar formato debería preservar el contrato si la hipótesis de separación se cumple. Una carpeta no impide accesos ni constituye control de seguridad. Se debe comprobar quién lee cada entrada y qué termina publicado. En P0, la lista explícita de archivos públicos evita copiar indiscriminadamente datos; no sustituye la revisión de lo que se escribió dentro de esos archivos.",
-        "P0 tiene límites de producto (portafolio frente a Learning Site), de módulo (validación de contenido frente a renderizado), de ejecución (preview local frente a host estático), de publicación (entradas explícitas a dist/) y de confianza (texto público revisado frente a artefactos privados). Tratar los cinco como carpetas ocultaría mecanismos de fallo distintos.",
-        "Contraejemplo: copiar recursivamente todo el repositorio a `dist/` cruzaría el límite de publicación e incluiría potencialmente datos privados. Mantener una lista explícita cuesta mantenimiento; en producción exige revisar tanto la lista como el texto incluido."
-      ]
-    },
-    {
-      "id": "s5",
-      "title": "S5 — Acoplamiento y cohesión",
-      "level": 3,
-      "paragraphs": [
-        "Concepto y alcance: Acoplamiento es dependencia entre elementos: un cambio en uno puede exigir cambiar otro. Cohesión describe si las responsabilidades dentro de un módulo persiguen una finalidad relacionada. Separar decisiones de cambio, como recomienda Parnas, permite analizar ambas propiedades con elementos concretos [R12].",
-        "Mecanismo: Ejemplo construido: el generador depende del contrato `Page`, no de cada frase española. Si los IDs de sección cambian, los enlaces, tarjetas y mapa también deben cambiar: existe acoplamiento incluso sin importaciones entre archivos. Un validador cohesivo concentra las invariantes editoriales.",
-        "Coupling describe interdependencia; cohesion describe relación interna entre tareas o elementos [R10]. Ejemplo: duplicar referencias ES/EN obliga a coordinar cambios aunque no existan imports entre archivos. Compartir identificadores puede reducir divergencia, pero un error común puede afectar ambos idiomas. Menos duplicación no equivale automáticamente a menos acoplamiento. Agrupar todo en shared tampoco prueba cohesión. El alumno debe estudiar un cambio concreto, observar su propagación y explicar por qué las responsabilidades permanecen juntas o separadas.",
-        "ContentValidator es cohesivo cuando posee parsing e invariantes de entrada, mientras SessionPage lo es cuando posee presentación. Permitir que SessionPage lea directamente el sistema de archivos acoplaría el layout HTML al almacenamiento. Un contrato tipado reduce desajustes accidentales de forma, pero no elimina acoplamiento a nombres de rutas, convenciones de referencias u orden de build. Esas dependencias requieren pruebas y documentación deliberadas.",
-        "Contraejemplo: mover todas las funciones a `shared/` no demuestra cohesión; además puede introducir dependencia cruzada. Reducir acoplamiento cuesta interfaces y coordinación; en producción se observa propagación de cambios, fallos y compatibilidad antes de afirmar una mejora."
-      ]
-    },
-    {
-      "id": "s6",
-      "title": "S6 — Arquitectura de plataforma frontend",
-      "level": 3,
-      "paragraphs": [
-        "Concepto y alcance: Frontend Platform Architecture (FPA) diseña capacidades frontend reutilizables y la experiencia de sus consumidores: interfaces, documentación, compatibilidad, soporte y adopción. Se relaciona con ingeniería de plataforma, cuyo modelo CNCF considera inversión, adopción, interfaces, operación y medición [R13].",
-        "Mecanismo: Ejemplo construido: una capacidad de tema usada por sitio y portafolio necesitaría tokens, contrato de cambio y pruebas en ambos consumidores. Hoy compartir CSS o una función no prueba que esa plataforma exista. La interfaz de lectura y las reglas de avance siguen siendo responsabilidades de producto.",
-        "Definición curricular: FPA diseña capacidades frontend compartidas, contratos y experiencia de adopción. Se aplica a frontend el principio de plataforma orientada al consumidor [R5]. Un tema reutilizable necesita una interfaz comprensible y compatibilidad; la regla para aprobar una sesión pertenece al producto, no necesariamente a un componente genérico. Generalizar con un solo caso puede incorporar supuestos prematuros. PA-S001 inicia un consumidor real y conserva las futuras extracciones como decisiones abiertas. No se afirma ahorro de tiempo sin medir adopción y mantenimiento.",
-        "En esta porción, el shell semántico, CSS responsivo, enlaces de idioma y TOC desplegable son mecanismos compartidos de entrega, no un design system declarado. El portafolio tiene navegación propia y no representa el capítulo. Una extracción futura debe justificarse por consumidores compatibles y contrato de adopción, no por preferencia de una carpeta shared.",
-        "Contraejemplo: extraer un diseño genérico desde un solo caso fija supuestos prematuros. La plataforma cuesta mantenimiento y soporte; en producción se justifica cuando consumidores reales y cambios repetidos muestran valor, no por preferencia de carpetas."
-      ]
-    },
-    {
-      "id": "s7",
-      "title": "S7 — Ingeniería de productos con IA",
-      "level": 3,
-      "paragraphs": [
-        "Concepto y alcance: AI Product Engineering (AIPE) integra inteligencia artificial (IA) como capacidad de producto con evaluación, operación y gestión de riesgos. Usar IA para escribir código no añade por sí mismo una función de IA al producto. El marco AI Risk Management Framework (AI RMF) de NIST trata riesgos de sistemas de IA [R6].",
-        "Mecanismo: Ejemplo hipotético: un recomendador de sesiones recupera evidencia, genera una propuesta, valida citas y permite abstenerse si faltan datos. La salida con formato válido no prueba exactitud. Sculley y coautores explican deuda técnica causada por dependencias y acoplamiento en sistemas de aprendizaje automático [R14].",
-        "Definición curricular: AIPE integra, evalúa y opera Artificial Intelligence (AI) como capacidad de producto. Usar Codex para escribir código no añade IA al producto. El National Institute of Standards and Technology (NIST) AI Risk Management Framework trata riesgos y características de sistemas de IA [R6]. Ejemplo hipotético: un asistente recomienda sesiones, pero una recomendación no constituye evidencia de dominio. Deben distinguirse resultados útiles, abstención y fallos. Evaluar exige casos y criterios relacionados con el propósito. Añadir revisión tiene coste y no elimina todos los errores. Este scaffold no llama modelos ni introduce credenciales.",
-        "Una respuesta JSON válida de un modelo solo es un resultado de formato. La corrección factual exige una afirmación fundamentada separada, revisión de fuente y conjunto de evaluación. Un producto seguro puede abstenerse cuando no hay evidencia y mostrar incertidumbre en vez de fabricar un nivel o métrica. P0 modela ese límite al no presentar función IA y conservar mastery como null hasta que exista evidencia.",
-        "Contraejemplo: asignar L1–L5 desde una recomendación sin evidencia transformaría una sugerencia en certificación. Evaluaciones, observabilidad y revisión humana tienen coste; en producción deben definirse criterios de fallo y escalación antes de confiar en la capacidad. P0 no integra un modelo."
-      ]
-    },
-    {
-      "id": "s8",
-      "title": "S8 — Alcance Staff y Principal",
-      "level": 3,
-      "paragraphs": [
-        "Concepto y alcance: Staff y Principal nombran alcances de responsabilidad que varían por organización, no niveles universales de habilidad. El ejemplo contextual de GitLab distingue liderazgo técnico de grupo y un marco Principal de alcance mayor [R7] [R9]. Una decisión documentada no demuestra influencia real.",
-        "Mecanismo: Ejemplo hipotético: Staff acuerda el contrato de evidencia del Book con un equipo; Principal propone compatibilidad y excepciones para varios sistemas y equipos. El mecanismo es ampliar el radio de coordinación y asumir consecuencias cruzadas, manteniendo claros los dueños de decisiones.",
-        "GitLab ofrece un ejemplo particular: Staff opera generalmente en dominios de un equipo y Principal en un ámbito organizacional [R8] [R9]. No es equivalencia universal de títulos. Síntesis para el programa: pasar de coordinar decisiones de un sistema a dirección técnica entre sistemas. Ejemplo Staff: acordar el contrato de evidencia del Book. Ejemplo Principal: proponer compatibilidad, propietarios y excepciones para varios consumidores. Imponer uniformidad puede transferir costes a otros equipos; permitir divergencia total también puede tener costes. Un ADR del laboratorio no demuestra liderazgo organizacional real.",
-        "Las etiquetas L1 Explain, L2 Implement, L3 Operate, L4 Decide y L5 Lead son vocabulario propio de evidencia del programa, no estándar industrial ni escala porcentual. Ayudan a distinguir recibir una explicación de operar un sistema o liderar una decisión. En este capítulo no se asigna nivel alguno; la prueba debe adjuntarse a trabajo real.",
-        "Contraejemplo: imponer un único patrón sin medir costes de adopción puede trasladar trabajo a otros equipos. Coordinar más sistemas consume tiempo y exige evidencia de resultados; en producción las consecuencias deben observarse, no inferirse del título o de un Architecture Decision Record (ADR)."
-      ]
-    },
-    {
-      "id": "practice",
-      "title": "Theory → Practice Map",
-      "paragraphs": [
-        "Contenido canónico → site/. Presentación → site/tooling/render.ts. Contrato editorial → content.ts. Publicación → build.ts. Evidencia del alumno → data/mastery/PA-S001.json, inicialmente vacía. Las pruebas del scaffold verifican casos delimitados de estructura, referencias y salida HTML; no establecen accesibilidad integral ni dominio."
-      ],
-      "table": {
-        "headers": [
-          "Concepto",
-          "Elemento P0",
-          "Verificación propuesta"
-        ],
-        "rows": [
-          [
-            "Límite de publicación",
-            "Lista explícita de rutas en build.ts",
-            "Inspeccionar rutas generadas; confirmar ausencia de data/ y artifacts/."
-          ],
-          [
-            "Correspondencia bilingüe",
-            "assertPair(es, en)",
-            "Eliminar o cambiar una entrada requerida en copia temporal; el build debe fallar."
-          ],
-          [
-            "Mejora progresiva",
-            "Enlaces nativos, details TOC, botón de tema",
-            "Sigue pendiente revisión manual con teclado y sin JavaScript."
-          ],
-          [
-            "Integridad de evidencia",
-            "data/mastery/PA-S001.json",
-            "Confirmar not assessed/null hasta que exista evidencia del learner."
-          ]
-        ]
-      }
-    },
-    {
-      "id": "time",
-      "title": "Time Breakdown",
-      "paragraphs": [
-        "Las siguientes son estimaciones de estudio, no tiempos observados del learner: 45–60 minutos para Concepts y Main Topic; 60–90 minutos para los Subtopics desarrollados; 30–45 minutos para ejemplos y revisión de fuentes; y 30–60 minutos para ejercicios y preparación de evidencia. Una duración real posterior no debe sobrescribir estas estimaciones sin una fuente."
-      ]
-    },
-    {
-      "id": "real-world",
-      "title": "Real-World Example",
-      "paragraphs": [
-        "GitLab presenta su propia escalera como ejemplo contextual: su material de Staff trata el liderazgo técnico dentro de un grupo, mientras su marco de Principal describe un alcance equivalente a un stage [R7] [R9]. No es una definición universal de títulos. El contraste sirve para razonar sobre radio de influencia, coordinación y consecuencias entre sistemas; no permite inferir capacidad, nivel ni resultados del learner.",
-        "Hecho externo: GOV.UK Design System publica componentes con guías de uso y ejemplos de código [R16]. Inferencia para P0: documentar contratos de componentes podría facilitar adopción futura; ese caso no demuestra que P0 funcione o sea accesible."
-      ]
-    },
-    {
-      "id": "production",
-      "title": "Production-Ready Example — ejemplo construido",
-      "paragraphs": [
-        "Ejemplo construido, no sistema existente: una revisión documental fiscal asistida por Artificial Intelligence (AI) recibe una solicitud, recupera documentos, llama a un adaptador de IA y valida que toda sugerencia cite evidencia recuperada. El camino normal entrega una recomendación con identificadores de evidencia a un revisor humano; también registra telemetría y la versión de política aplicada. El diseño trata la trazabilidad y la revisión humana como controles de producto, coherentes con la gestión de riesgo de IA [R6].",
-        "Camino de fallo: si falla la recuperación, faltan citas o la validación rechaza el resultado, el servicio degrada a insufficient-evidence y no presenta una recomendación como sustentada. El revisor humano conserva la decisión y puede solicitar más documentos. Esta degradación no prueba que la política sea correcta: es un comportamiento propuesto que evita convertir una salida con formato válido en una conclusión fiscal sin soporte.",
-        "Pruebas futuras propuestas: simular retrieval_failed, missing_citations y validation_failed; comprobar que cada evidenceId pertenece al conjunto recuperado; verificar que la telemetría contiene la versión de política sin registrar documentos sensibles; y revisar accesibilidad del flujo humano. Limitaciones: el contrato no evalúa exactitud jurídica, cobertura de recuperación, sesgo, seguridad de credenciales ni coste. Ninguna de estas pruebas existe todavía en P0."
-      ],
-      "diagram": {
-        "source": "PA-S001/boundary-flow.mmd",
-        "title": "Flujo de límites y evidencia",
-        "description": "Flujo construido que separa contrato de contenido, sitio de aprendizaje, dashboard, evidencia canónica, estado local de estudio y portafolio enlazado."
-      },
-      "code": "type SupportedSuggestion =\n  | { kind: \"supported\"; recommendation: string; evidenceIds: readonly string[] }\n  | { kind: \"insufficient-evidence\"; reason: \"retrieval_failed\" | \"missing_citations\" | \"validation_failed\" };"
-    },
-    {
-      "id": "visual-learning-guide",
-      "title": "Guía Visual de Aprendizaje",
-      "paragraphs": [
-        "El Studio reúne diagramas Scalable Vector Graphics (SVG), flujos, comparación y tarjetas de repaso. Leer el flujo de límites de izquierda a derecha: el contrato de sesión alimenta el sitio de aprendizaje y el dashboard; el estado local de estudio no modifica la evidencia canónica; y el portafolio solo se enlaza públicamente. Es una síntesis didáctica, no una garantía de seguridad ni evidencia de operación en producción."
-      ],
-      "diagram": {
-        "source": "PA-S001/boundary-flow.mmd",
-        "title": "Flujo de límites público de P0",
-        "description": "El contrato de contenido, el sitio de aprendizaje, el dashboard, la evidencia canónica y el estado local permanecen diferenciados; el portafolio es una ruta pública enlazada."
-      }
-    },
-    {
-      "id": "exercises",
-      "title": "Exercises — trabajo del alumno",
-      "paragraphs": [
-        "Trabajo del estudiante: las marcas siguientes sólo registran actividad local de estudio; las respuestas y el diagnóstico pertenecen al estudiante."
-      ],
-      "studyItems": [
-        {
-          "id": "PA-S001:exercise:product-boundaries",
-          "label": "Delimitar los dos productos P0 y justificar sus contratos."
-        },
-        {
-          "id": "PA-S001:exercise:quality-scenario",
-          "label": "Escribir un escenario de calidad con estímulo, respuesta y medida."
-        },
-        {
-          "id": "PA-S001:exercise:change-propagation",
-          "label": "Provocar y diagnosticar un fallo de validación; restaurar el archivo."
-        },
-        {
-          "id": "PA-S001:exercise:ai-boundary",
-          "label": "Distinguir una recomendación de IA de evidencia de dominio."
-        },
-        {
-          "id": "PA-S001:exercise:staff-principal",
-          "label": "Comparar consecuencias de una decisión Staff y una Principal."
-        }
-      ]
-    },
-    {
-      "id": "resources",
-      "title": "Curated Sources and References",
-      "paragraphs": [
-        "Las referencias citadas sustentan distinciones técnicas: SWEBOK para ingeniería [R1], ISO/IEC/IEEE 42010 para descripción de arquitectura [R2], ISO/IEC 25010 para calidad [R3], NASA para escenarios [R4], Baldwin y Woodard y CNCF para plataformas [R5] [R13], Parnas para modularidad [R12], NIST y Sculley et al. para riesgos y deuda técnica de IA [R6] [R14], GitLab como ejemplo contextual de alcance [R7] [R9], W3C para accesibilidad [R15] y GOV.UK para documentación de componentes [R16]. Los ejemplos de P0 siguen siendo construidos o locales, no hechos demostrados por esas fuentes."
-      ]
-    },
-    {
-      "id": "study-resources",
-      "title": "Resources",
-      "paragraphs": [
-        "Para estudiar, releer las secciones citadas de las fuentes y convertir un atributo de calidad en un escenario con fuente, estímulo, entorno, artefacto, respuesta y medida. Un Architecture Decision Record (ADR) posterior debe registrar razonamiento del learner, no copiar esta síntesis editorial.",
-        "Siglas usadas: F0 = fase 0, P0 = proyecto 0, PA-S001 = sesión 001 del Principal Accelerator, C1–C8 = conceptos 1–8, S1–S8 = subtemas 1–8, L1–L5 = niveles de dominio 1–5; ES/EN = español/inglés; FPA = Frontend Platform Architecture; AIPE = AI Product Engineering; IA/AI = inteligencia artificial / artificial intelligence; ADR = Architecture Decision Record; API = Application Programming Interface; CSS = Cascading Style Sheets; HTML = HyperText Markup Language; JSON = JavaScript Object Notation; SVG = Scalable Vector Graphics; TOC = Table of Contents; SWEBOK = Software Engineering Body of Knowledge; ISO = International Organization for Standardization; IEC = International Electrotechnical Commission; IEEE = Institute of Electrical and Electronics Engineers; NASA = National Aeronautics and Space Administration; NIST = National Institute of Standards and Technology; CNCF = Cloud Native Computing Foundation; RMF = Risk Management Framework; WCAG = Web Content Accessibility Guidelines; GOV.UK = portal del Gobierno del Reino Unido [R1] [R15] [R16]."
-      ]
-    },
-    {
-      "id": "mastery",
-      "title": "Knowledge Mastery Checklist",
-      "paragraphs": [
-        "Marcar un criterio ayuda al repaso; no concede niveles L1–L5, estado Completed ni evidencia canónica."
-      ],
-      "studyItems": [
-        {
-          "id": "PA-S001:mastery:engineering-architecture",
-          "label": "Explicar ingeniería, arquitectura y descripción."
-        },
-        {
-          "id": "PA-S001:mastery:product-scales",
-          "label": "Distinguir aplicación, sistema, plataforma y ecosistema."
-        },
-        {
-          "id": "PA-S001:mastery:quality-scenario",
-          "label": "Formular un escenario de calidad comprobable."
-        },
-        {
-          "id": "PA-S001:mastery:boundaries",
-          "label": "Identificar límites y contratos de P0."
-        },
-        {
-          "id": "PA-S001:mastery:coupling-cohesion",
-          "label": "Analizar propagación de cambio y cohesión."
-        },
-        {
-          "id": "PA-S001:mastery:fpa",
-          "label": "Explicar cuándo una capacidad frontend es plataforma."
-        },
-        {
-          "id": "PA-S001:mastery:aipe",
-          "label": "Explicar el límite de evidencia de una función de IA."
-        },
-        {
-          "id": "PA-S001:mastery:scope-evidence",
-          "label": "Distinguir alcance Staff/Principal y evidencia real."
-        }
-      ]
-    },
-    {
-      "id": "success",
-      "title": "End-of-Session Success Criteria",
-      "paragraphs": [
-        "Primera app ejecutable; páginas ES/EN revisadas; pruebas reales documentadas; fallo controlado diagnosticado por el alumno; ADR razonado; evidencia y limitaciones registradas. Un scaffold funcional no completa la sesión ni reemplaza el capítulo teórico íntegro."
-      ],
-      "checklist": [
-        "El portafolio y Learning Site son rutas públicas separadas sin información profesional fabricada.",
-        "Páginas ES y EN, índices, breadcrumbs, enlaces de idioma, control de tema y generación estática han sido comprobados mecánicamente.",
-        "El learner ha aportado evidencia real antes de registrar dominio o estado Completed.",
-        "Revisiones manuales de accesibilidad y responsive se registran como realizadas, no se infieren de un build."
-      ]
-    },
-    {
-      "id": "bridge",
-      "title": "Bridge to PA-S002",
-      "paragraphs": [
-        "PA-S002 desarrolla el mismo repositorio hacia monorepo y estándares: workspace/app/package, dependencias, APIs públicas y quality gates. Los pendientes se registran como Revisit y nunca bloquean el inicio de otra sesión."
-      ]
-    },
-    {
-      "id": "reliability",
-      "title": "Evidencia y estado actual",
-      "paragraphs": [
-        "Estado actual: no existe evidencia de implementación o aprendizaje aportada por el learner, y no hay nivel L1–L5 evaluado. Checklist y ejercicios son estado de estudio controlado por el learner; el estado de sesión puede ser Not started, Partial, Completed o Revisit, mientras que L1–L5 exige evidencia real. Artefactos, pruebas y mediciones solo cuentan cuando existen y se registran. Esta página es síntesis editorial; sus ejemplos construidos no son resultados de P0."
-      ]
-    }
+  "id":"PA-S001","lang":"es","kind":"session","title":"Fundamentos de ingeniería, FPA, AIPE y Staff","description":"Fase: F0 — Accelerator Platform. Estado previo: Not started, según el progreso del programa. Sistema longitudinal: P0 — inicio del repositorio real, apps/portfolio/ y el sitio bilingüe site/. Esta sesión los prepara conceptualmente; la implementación corresponde a Build, después de estudiar y conversar la teoría.","status":"editorial-draft",
+  "dashboard":{"sessionId":"PA-S001","projectId":"P0","exerciseIds":["PA-S001:exercise:classify-scope","PA-S001:exercise:rewrite-quality","PA-S001:exercise:trace-boundary","PA-S001:exercise:review-ai-failure"],"checklistIds":["PA-S001:mastery:explain-engineering-architecture","PA-S001:mastery:distinguish-system-scopes","PA-S001:mastery:formulate-quality-scenario","PA-S001:mastery:analyze-boundary-coupling","PA-S001:mastery:explain-fpa-aipe","PA-S001:mastery:scale-reasoning"],"successIds":["PA-S001:success:explain-system-model","PA-S001:success:connect-decision-quality","PA-S001:success:recognize-evidence-limits","PA-S001:success:distinguish-app-platform","PA-S001:success:identify-missing-quality-information"],"studyState":"local-only","evidenceState":"not-assessed"},
+  "sections":[
+    {"id":"objective","title":"Objective","paragraphs":["Construir un modelo inicial para razonar sobre software en distintos niveles: desde componentes hasta sistemas y plataformas. Usar ese modelo para entender cómo se relacionan la arquitectura, los atributos de calidad, los límites del sistema, la plataforma frontend, los productos con inteligencia artificial y el alcance de Staff y Principal.","La meta no es diagnosticar tus competencias mediante una entrevista. La evidencia de aprendizaje se obtendrá gradualmente al estudiar, diseñar, construir y operar los sistemas del programa."]},
+    {"id":"preview","title":"Learning Preview","paragraphs":["Al terminar la teoría podrás explicar cómo se relacionan la ingeniería de software y la arquitectura; qué distingue una aplicación, un sistema, una plataforma y un ecosistema; por qué requisitos como seguridad, rendimiento y facilidad de cambio influyen en la arquitectura; cómo los límites y las dependencias afectan el cambio; qué abarca la Frontend Platform Architecture (FPA; arquitectura de plataformas frontend); cómo la AI Product Engineering (AIPE; ingeniería de productos con inteligencia artificial) conecta modelos de inteligencia artificial con productos y sus riesgos; y cómo ampliar el razonamiento desde la entrega de un componente hasta el impacto entre equipos y organizaciones."]},
+    {"id":"concepts","title":"Concepts — Pre-entrenamiento","paragraphs":["Estos ocho conceptos establecen el vocabulario de la sesión. Las definiciones de FPA, AIPE y alcance profesional son definiciones operativas de esta ruta; no se presentan como taxonomías universales."]},
+    {"id":"c1","title":"1 — Ingeniería de software y arquitectura","level":3,"paragraphs":["La ingeniería de software abarca el trabajo disciplinado para comprender necesidades, diseñar, construir, verificar, desplegar, operar y evolucionar software. El cuerpo de conocimiento Software Engineering Body of Knowledge (SWEBOK) de IEEE Computer Society reúne áreas como requisitos, arquitectura, diseño, construcción, pruebas, mantenimiento, calidad y seguridad. [R2]"],"blocks":[{"kind":"pretraining","text":"La arquitectura se ocupa de decisiones estructurales que influyen en cómo se organiza un sistema y en si puede alcanzar sus objetivos bajo determinadas restricciones. La arquitectura no es idéntica a su diagrama o documento: el estándar 42010 de la International Organization for Standardization, la International Electrotechnical Commission y el Institute of Electrical and Electronics Engineers (ISO/IEC/IEEE) distingue la arquitectura de una entidad de la descripción que la representa. [R1]"},{"kind":"example","text":"Ingeniería de software incluye tanto implementar un formulario como comprobarlo, desplegarlo y mantenerlo. Una decisión arquitectónica sería determinar si la validación de ese formulario vive en el navegador, en el servidor o en ambos."}],"diagram":{"source":"PA-S001/architecture-quality-relation-es.mmd","title":"Relación entre descripción, arquitectura, cualidad y evidencia","description":"El contexto define el atributo de calidad; este influye en las decisiones arquitectónicas y en el comportamiento observable. Una descripción comunica la arquitectura y orienta la evidencia, pero no prueba por sí sola la calidad."}},
+    {"id":"c2","title":"2 — Aplicación, sistema, plataforma y ecosistema","level":3,"paragraphs":["Son niveles de alcance que se relacionan, pero no son sinónimos.","Aplicación: software que ofrece capacidades a usuarios o procesos. Un portafolio web es una aplicación.","Sistema: conjunto coordinado de software, datos, infraestructura y personas que colabora para cumplir una misión. Una aplicación puede ser solo una parte.","Plataforma: capacidades reutilizables y contratos que permiten a varios productos o equipos construir y operar aplicaciones. Un sistema de diseño con componentes, tokens y reglas de accesibilidad puede ser una plataforma frontend.","Ecosistema: conjunto más amplio de organizaciones, productos, integraciones, reglas y usuarios que interactúan alrededor de una plataforma o dominio.","Distinción importante: una biblioteca compartida no se convierte automáticamente en plataforma. Para llamarla plataforma en el sentido de este curso, debe ofrecer capacidades reutilizables con interfaces y condiciones de adopción comprensibles para sus consumidores."]},
+    {"id":"c3","title":"3 — Atributos de calidad y restricciones","level":3,"paragraphs":["Un atributo de calidad describe una propiedad del comportamiento o evolución del sistema, como rendimiento, seguridad, disponibilidad, usabilidad o facilidad de modificación. Una restricción limita las opciones posibles; puede provenir del negocio, de requisitos regulatorios, de compatibilidad técnica, del presupuesto o de las capacidades del equipo."],"blocks":[{"kind":"example","text":"Si una función debe seguir disponible cuando falla un servicio externo, el diseño necesita especificar cómo detectará el fallo y qué respuesta dará al usuario. El Software Engineering Institute (SEI) de Carnegie Mellon explica que los requisitos de atributos de calidad influyen significativamente en la arquitectura y recomienda hacerlos específicos mediante escenarios. [R3]"},{"kind":"mechanism","text":"Una lista de palabras como “rápido, seguro y escalable” no define por sí sola una meta verificable. Un escenario útil identifica quién o qué inicia una acción, bajo qué condición ocurre, qué resultado se espera y cómo se observará ese resultado."}]},
+    {"id":"c4","title":"4 — Límites","level":3,"paragraphs":["Un límite establece qué responsabilidades, datos o decisiones pertenecen a un elemento del software y cuáles quedan fuera. Puede existir entre dos módulos, entre navegador y servidor, entre una aplicación y una plataforma, o entre un producto y un proveedor externo."],"blocks":[{"kind":"mechanism","text":"Los límites se vuelven visibles mediante interfaces, esquemas de datos, permisos, protocolos y acuerdos operativos. Si un componente necesita acceder directamente a los datos internos de muchos otros componentes, el límite existe en el diagrama, pero quizá no se respeta en la implementación."}]},
+    {"id":"c5","title":"5 — Acoplamiento y cohesión","level":3,"paragraphs":["El acoplamiento describe cuánto depende un componente de detalles o decisiones de otros componentes. La cohesión describe qué tan relacionadas están las responsabilidades que un componente agrupa."],"blocks":[{"kind":"tradeoffs","text":"Como heurística de diseño, un sistema suele ser más fácil de cambiar cuando sus límites reducen dependencias innecesarias y cada componente mantiene responsabilidades coherentes. No es una ley de que “menos acoplamiento siempre es mejor”: dividir un sistema también añade contratos, coordinación y costos de operación."},{"kind":"example","text":"Si el módulo de perfil importa la estructura interna de la base de datos de facturación, un cambio en facturación puede obligar a modificar el perfil. Si ambos acuerdan un contrato estable, esa dependencia puede reducirse."}]},
+    {"id":"c6","title":"6 — FPA: arquitectura de plataformas frontend","level":3,"paragraphs":["En este programa, Frontend Platform Architecture (FPA; arquitectura de plataformas frontend) significa el diseño y evolución de capacidades frontend reutilizables por distintas aplicaciones o equipos: sistemas de diseño, tokens visuales, componentes, internacionalización, accesibilidad, navegación, herramientas de construcción, observabilidad frontend y experiencia de desarrollo."],"blocks":[{"kind":"tradeoffs","text":"Esta es una definición operativa para la ruta de aprendizaje, no una definición normativa universal. El objetivo de una plataforma frontend no es centralizar cada decisión visual; es facilitar soluciones compartidas sin ocultar las necesidades legítimas de los productos."}]},
+    {"id":"c7","title":"7 — AIPE: ingeniería de productos con IA","level":3,"paragraphs":["En este programa, AI Product Engineering (AIPE; ingeniería de productos con inteligencia artificial) significa integrar capacidades de inteligencia artificial (IA) en productos de software de manera que sus entradas, salidas, límites, riesgos y mecanismos de evaluación formen parte del diseño del producto."],"blocks":[{"kind":"analysis","text":"Un producto con IA no queda definido solo por el modelo que llama. También importan la experiencia de usuario, los datos, las herramientas que puede usar el modelo, la revisión humana cuando corresponda, la seguridad y la forma de detectar respuestas incorrectas. El marco voluntario AI Risk Management Framework (AI RMF; marco de gestión de riesgos de IA) del National Institute of Standards and Technology (NIST) organiza consideraciones de confiabilidad para el diseño, desarrollo, uso y evaluación de productos y sistemas de IA. NIST informa que el AI RMF 1.0 está en revisión, así que debe consultarse como guía vigente sujeta a cambios, no como una regla inmutable. [R4]"}]},
+    {"id":"c8","title":"8 — Alcance Staff y Principal","level":3,"paragraphs":["En esta ruta, el razonamiento Staff se enfoca en entregar y operar sistemas, resolver problemas que cruzan componentes o equipos, explicar decisiones y gestionar consecuencias de cambios.","El razonamiento Principal extiende ese alcance hacia capacidades compartidas, estándares, excepciones, estrategia técnica y adopción entre varios equipos. Esta distinción es un marco pedagógico del programa, no una definición universal de títulos: el alcance real varía entre organizaciones."],"blocks":[{"kind":"retrieval","text":"Si una decisión mejora un módulo pero complica el producto entero, ¿en qué nivel debes ampliar el análisis?","answer":"Como mínimo, al nivel del sistema que sufre la consecuencia; si el impacto alcanza capacidades compartidas o varios equipos, amplía el análisis a plataforma u organización."}]},
+    {"id":"main-topic","title":"Main Topic — Fundamentos de ingeniería: decidir con un modelo de sistema","paragraphs":["La ingeniería de software convierte necesidades en sistemas que se pueden construir, verificar y mantener. La arquitectura organiza decisiones estructurales dentro de ese trabajo. Para tomar decisiones útiles, un ingeniero necesita saber qué sistema está considerando, qué propiedades importan, dónde están sus límites y quién experimentará las consecuencias."],"blocks":[
+      {"kind":"guiding-question","text":"¿Por qué no basta con decir que la aplicación debe ser “segura y rápida”?"},
+      {"kind":"example","text":"Piensa en una aplicación que recibe documentos y ayuda a una persona a revisarlos. La aplicación es una parte del sistema. También podrían participar una interfaz de programación de aplicaciones (API), una base de datos, almacenamiento de documentos, un proveedor de inteligencia artificial, controles de acceso, procesos de revisión humana y mecanismos de soporte. Si los documentos pasan por sistemas externos, esas integraciones también influyen en seguridad, disponibilidad y costos."},
+      {"kind":"mechanism","text":"Las decisiones arquitectónicas conectan necesidades con mecanismos. Si se requiere que la interfaz sea compatible con varios idiomas, la estructura del contenido y las rutas deben permitir seleccionar una lengua sin duplicar cada función. Si se requiere limitar la exposición de documentos, los límites de autorización y acceso a datos deben coincidir con esa necesidad. Si se espera que la interfaz cambie con frecuencia, la separación de responsabilidades puede reducir el costo de ciertos cambios; mantener esa separación también implica trabajo y coordinación."},
+      {"kind":"analysis","text":"Por eso, la arquitectura no se evalúa solo por su forma. Se evalúa según el contexto y las consecuencias de sus decisiones. El SEI señala que los escenarios de atributos de calidad ayudan a precisar requisitos y razonar sobre cómo patrones y componentes pueden contribuir a ellos. [R3]"},
+      {"kind":"mechanism","text":"Modelo inicial: necesidad y contexto → propiedades y restricciones que importan → límites, responsabilidades y contratos → componentes y sus dependencias → comportamiento observable y consecuencias."},
+      {"kind":"retrieval","text":"¿Qué pasos conectan el contexto con las consecuencias?","answer":"Contexto → necesidades y restricciones → límites y contratos → componentes y dependencias → comportamiento observable y consecuencias. El modelo orienta preguntas; no garantiza resultados."},
+      {"kind":"tradeoffs","text":"Ese modelo no reemplaza el análisis detallado ni garantiza que el sistema cumpla sus objetivos. Ayuda a preguntar qué debe comprobarse y qué decisión puede afectar el resultado. Un documento de arquitectura puede comunicar esa decisión, pero no es la arquitectura misma; ISO/IEC/IEEE 42010 distingue expresamente la entidad de su descripción. [R1]"},
+      {"kind":"resolution","text":"Porque esas palabras no identifican por sí mismas una condición comprobable, una amenaza o carga específica, ni el resultado que debe observarse. El equipo necesita concretarlas en escenarios apropiados al sistema y revisar qué decisiones contribuyen a cumplirlos."}
+    ]},
+    {"id":"subtopics","title":"Subtopics","paragraphs":["Los siete subtemas siguientes desarrollan el modelo central mediante alcance, mecanismos, ejemplos, límites y consecuencias de producción."]},
+    {"id":"s1","title":"Ingeniería de software frente a arquitectura","level":3,"paragraphs":["La ingeniería y la arquitectura se relacionan, pero no describen el mismo alcance de trabajo."],"blocks":[
+      {"kind":"guiding-question","text":"¿La arquitectura es un documento?"},
+      {"kind":"concept","text":"La ingeniería de software abarca múltiples actividades del ciclo de vida. La arquitectura se concentra en decisiones estructurales y sus efectos sobre el sistema. El estándar ISO/IEC/IEEE 42010 trata requisitos para expresar descripciones de arquitectura de entidades tan variadas como software, sistemas, empresas y productos; no prescribe una única notación o proceso de trabajo. [R1]"},
+      {"kind":"mechanism","text":"Una decisión estructural distribuye responsabilidades, establece relaciones o define restricciones. Por ejemplo, decidir que el navegador nunca almacena un secreto de acceso cambia dónde se ejecutan ciertas operaciones y qué interfaces necesita el servidor."},
+      {"kind":"example","text":"“Usar un botón azul” puede ser una decisión visual local. “Todos los botones de acción usan un componente común que aplica roles accesibles y estilos de marca” puede formar parte de una decisión de plataforma. El alcance de una decisión depende de sus consumidores y efectos, no del tamaño de su descripción."},
+      {"kind":"production","text":"Explica las decisiones según la necesidad que atienden, sus alternativas y consecuencias. Un diagrama puede ayudar a comunicarlas, pero por sí solo no demuestra que el sistema cumpla rendimiento, seguridad o accesibilidad."},
+      {"kind":"resolution","text":"No. La arquitectura pertenece a la entidad diseñada; un documento o diagrama es una descripción que la comunica. ISO/IEC/IEEE 42010 distingue ambas cosas. [R1]"}
+    ]},
+    {"id":"s2","title":"Aplicación, sistema, plataforma y ecosistema","level":3,"paragraphs":["Estos términos describen escalas diferentes de capacidades e interacción."],"blocks":[
+      {"kind":"guiding-question","text":"¿En qué se diferencian aplicación, sistema y plataforma?"},
+      {"kind":"concept","text":"El estándar 42010 contempla entidades de interés de distintos niveles y separa cada entidad de su descripción arquitectónica; la clasificación anterior es un modelo de enseñanza para la ruta, no una taxonomía obligatoria del estándar. [R1]"},
+      {"kind":"mechanism","text":"Una aplicación consume capacidades; un sistema coordina elementos para cumplir una misión; una plataforma publica capacidades reutilizables mediante contratos; un ecosistema incluye otros productos, participantes y reglas de interacción."},
+      {"kind":"example","text":"El sitio de aprendizaje del programa sería una aplicación. El repositorio, su proceso de publicación, sus contenidos y sus usuarios conforman aspectos de un sistema. Componentes reutilizables de interfaz, estilos, navegación y funciones accesibles podrían constituir capacidades de plataforma si se diseñan para varios consumidores."},
+      {"kind":"tradeoffs","text":"Convertir demasiado pronto una solución local en plataforma puede imponer abstracciones y gobernanza que no se justifican. Mantener todo local, por otro lado, puede duplicar mantenimiento cuando varias aplicaciones realmente comparten una necesidad."},
+      {"kind":"resolution","text":"Una aplicación ofrece capacidades; un sistema coordina elementos para una misión; una plataforma proporciona capacidades reutilizables a consumidores. El ecosistema abarca participantes e interacciones más amplias."}
+    ]},
+    {"id":"s3","title":"Atributos de calidad y restricciones","level":3,"paragraphs":["Los atributos expresan propiedades importantes del sistema; las restricciones acotan las soluciones válidas."],"blocks":[
+      {"kind":"guiding-question","text":"¿Por qué “rápido y seguro” no basta como requisito arquitectónico?"},
+      {"kind":"concept","text":"No son categorías completamente separadas: un nivel obligatorio de protección o compatibilidad puede funcionar como requisito y como límite de diseño."},
+      {"kind":"mechanism","text":"Una necesidad de calidad influye en componentes, contratos, tecnologías y operación. La seguridad puede exigir controles de autorización en el servidor; la facilidad de modificación puede favorecer límites entre responsabilidades; la disponibilidad puede requerir procedimientos de recuperación. El SEI describe cómo atributos como rendimiento, seguridad, modificabilidad, confiabilidad y usabilidad afectan la arquitectura. [R3]"},
+      {"kind":"example","text":"Ejemplo trabajado. Requisito vago: “el resumen con IA debe responder rápido”. Reformulación inicial: “cuando una persona solicita un resumen, la interfaz muestra que el proceso está en curso y entrega un resultado o un mensaje de error controlado”. Quedan pendientes medidas concretas, como el tiempo objetivo y el comportamiento en una interrupción; no deben inventarse sin conocer las necesidades del producto."},
+      {"kind":"retrieval","text":"¿Qué falta en “el resumen debe ser rápido”?","answer":"Una condición concreta, una respuesta esperada y un criterio observable. Los valores exactos dependen del producto; aquí no se han especificado."},
+      {"kind":"failure","text":"“Usamos microservicios para tener escalabilidad” no prueba que exista una necesidad de escala ni que esa decisión la satisfaga. Cada servicio separado también introduce llamadas de red, fallos parciales y operación distribuida."},
+      {"kind":"resolution","text":"No expresa todavía una condición observable ni un resultado esperado. Debe concretarse en escenarios acordes con el contexto."}
+    ]},
+    {"id":"s4","title":"Límites, acoplamiento y cohesión","level":3,"paragraphs":["Los límites agrupan responsabilidades y definen qué puede depender de qué."],"blocks":[
+      {"kind":"guiding-question","text":"¿Menos acoplamiento significa que los componentes nunca se comunican?"},
+      {"kind":"concept","text":"El acoplamiento describe dependencias entre componentes; la cohesión, la relación entre las responsabilidades dentro de un componente."},
+      {"kind":"mechanism","text":"Si un componente conoce detalles internos de otro, un cambio puede propagarse a través del límite. Si el contrato oculta esos detalles y contiene la información necesaria, algunos cambios pueden permanecer locales. Pero si el contrato es incompleto o inestable, el límite es solo aparente."},
+      {"kind":"example","text":"Un componente DocumentReview puede pedir a un contrato SummarizeDocument un resumen. Si depende de una interfaz estable, el proveedor de IA podría cambiar sin obligar a rehacer la pantalla. El contrato no resuelve por sí mismo todos los cambios: si cambia el significado o las garantías del resumen, también puede requerirse modificar la experiencia y las pruebas."},
+      {"kind":"retrieval","text":"Si un componente frontend importa el esquema interno de almacenamiento, ¿qué riesgo aparece?","answer":"El detalle de persistencia cruza el límite hacia el frontend; un cambio interno puede exigir modificar consumidores y aumenta el acoplamiento."},
+      {"kind":"failure","text":"Mala interpretación frecuente: “bajo acoplamiento significa que los componentes no se comunican”. En un sistema funcional los componentes colaboran. La pregunta es si la relación está explícita, estable y proporcionada a la necesidad."},
+      {"kind":"resolution","text":"No. Significa reducir dependencias innecesarias y hacer explícitas las dependencias que sí existen. La separación también tiene costos."}
+    ]},
+    {"id":"s5","title":"Frontend Platform Architecture (FPA)","level":3,"paragraphs":["La FPA diseña capacidades frontend comunes para varios productos."],"blocks":[
+      {"kind":"guiding-question","text":"¿Qué busca una plataforma frontend?"},
+      {"kind":"concept","text":"Incluye componentes, estilos, tokens, internacionalización, navegación, accesibilidad, herramientas de desarrollo y prácticas para publicar. En esta sesión se usa como una definición de trabajo de la ruta."},
+      {"kind":"mechanism","text":"Una capacidad compartida establece una interfaz para que los equipos consumidores aprovechen comportamiento común. Por ejemplo, un componente de navegación podría proporcionar estructura semántica, interacción por teclado y una apariencia coherente, mientras permite que cada producto aporte sus destinos."},
+      {"kind":"tradeoffs","text":"Un sistema de diseño compartido puede reducir duplicación y facilitar coherencia, pero puede frenar necesidades específicas si su proceso de evolución es lento o demasiado rígido. Una excepción puede ser adecuada si tiene una razón explícita y se evalúa su costo de mantenimiento."},
+      {"kind":"production","text":"El Staff puede demostrar que una capacidad resuelve un problema concreto de varios productos; el Principal puede considerar adopción, gobernanza, migración, excepciones y quién será responsable de mantenerla. Esto es un encuadre pedagógico de la ruta, no una regla de jerarquía profesional."},
+      {"kind":"resolution","text":"Busca compartir capacidades útiles entre productos —por ejemplo, componentes, tokens, accesibilidad y herramientas— mediante contratos y condiciones de adopción comprensibles."}
+    ]},
+    {"id":"s6","title":"AI Product Engineering (AIPE)","level":3,"paragraphs":["La AIPE conecta una capacidad de IA con una experiencia y un objetivo de producto."],"blocks":[
+      {"kind":"guiding-question","text":"¿Qué hace que una función de IA sea ingeniería de producto y no solo una llamada a un modelo?"},
+      {"kind":"concept","text":"También considera las condiciones de uso y los riesgos de esa capacidad. No es simplemente enviar un prompt a un modelo."},
+      {"kind":"mechanism","text":"Una función podría recibir un documento, extraer contexto, solicitar una respuesta a un modelo, verificar que la salida pueda mostrarse de forma segura y presentar opciones para revisar o corregir. Según el uso, también puede necesitar registro, límites, evaluación y una ruta alternativa."},
+      {"kind":"example","text":"Para generar un borrador de explicación, el producto podría mostrar el texto como propuesta editable y dejar claro qué fuente se utilizó. Esto es una opción de diseño ilustrativa; su adecuación depende del uso, los usuarios y las consecuencias de errores. NIST ofrece un marco voluntario para integrar consideraciones de confiabilidad a través del diseño, desarrollo, uso y evaluación de sistemas de IA. [R4]"},
+      {"kind":"failure","text":"Si la respuesta no se apoya en el documento recibido, la interfaz podría transmitir certeza injustificada. El sistema requiere evaluar esta clase de error en el contexto del producto y decidir cómo comunicarla o manejarla; la mera presencia de un modelo no prueba confiabilidad."},
+      {"kind":"resolution","text":"La integración con el objetivo, los datos, la experiencia, los riesgos, las evaluaciones y el comportamiento ante errores."}
+    ]},
+    {"id":"s7","title":"Staff y Principal: ampliar la unidad de razonamiento","level":3,"paragraphs":["Esta ruta usa Staff y Principal como niveles crecientes de alcance técnico y organizacional."],"blocks":[
+      {"kind":"guiding-question","text":"¿Qué cambia al ampliar el razonamiento de Staff a Principal en esta ruta?"},
+      {"kind":"concept","text":"Son objetivos de desarrollo del programa, no equivalencias garantizadas con cargos en una empresa."},
+      {"kind":"mechanism","text":"El razonamiento se amplía desde código y componentes a módulos, aplicaciones, sistemas, plataformas, varios equipos y estrategia. A cada ampliación aparecen nuevos interesados, restricciones, costos de coordinación y consecuencias de una decisión."},
+      {"kind":"example","text":"Para corregir una navegación inaccesible, una solución de componente puede resolver el defecto en una página. Un análisis más amplio puede revisar el componente compartido, los productos consumidores, las pruebas y el proceso para prevenir regresiones."},
+      {"kind":"tradeoffs","text":"Ampliar el alcance sin evidencia puede generar burocracia y decisiones prematuras. Mantener una mirada demasiado local puede ocultar problemas compartidos. La escala de análisis debe corresponder al alcance probable del impacto."},
+      {"kind":"resolution","text":"El alcance puede pasar de sistemas y equipos a capacidades compartidas, adopción, gobernanza y estrategia. Los títulos reales varían entre organizaciones."}
+    ]},
+    {"id":"practice","title":"Theory → Practice Map","paragraphs":["Estas son formas posibles de reunir evidencia. Todavía no afirman que PA-S001 haya producido esas pruebas o resultados."],"table":{"headers":["Idea","Manifestación en software","Evidencia que podría comprobarla"],"rows":[["Atributo de calidad","Requisito específico, escenario o presupuesto de calidad","Prueba, medición, revisión o criterio observable"],["Límite","Interfaz, esquema, autorización o contrato","Prueba de contrato o revisión de dependencias"],["Acoplamiento","Dependencias entre módulos o servicios","Grafo de dependencias y análisis del cambio"],["Cohesión","Responsabilidades agrupadas dentro de un módulo","Revisión de cambios, API y pruebas"],["FPA","Capacidades compartidas de frontend","Consumidores reales y contratos documentados"],["AIPE","Flujo de producto que incluye IA","Evaluaciones, manejo de fallos y experiencia revisable"],["Alcance Staff/Principal","Decisión que cruza módulos, equipos o plataformas","Decisión documentada y consecuencias observadas"]]}},
+    {"id":"time","title":"Time Breakdown","paragraphs":["Estimación para esta sesión: 120 minutos. Es una asignación sugerida de estudio; no está basada en mediciones previas."],"table":{"headers":["Actividad","Tiempo estimado"],"rows":[["Concepts y Main Topic","25 min"],["Subtopics y recuperación breve","40 min"],["Ejemplo real y ejemplo de producción","20 min"],["Visual Learning Studio","15 min"],["Ejercicios y checklist","20 min"],["Total","120 min"]]}},
+    {"id":"real-world","title":"Real-World Example","paragraphs":["NIST publica el AI RMF como marco voluntario para incorporar consideraciones de confiabilidad en el diseño, desarrollo, uso y evaluación de productos, servicios y sistemas de IA. La página oficial también indica que el AI RMF 1.0 está en revisión. Este caso muestra cómo el diseño de un producto con IA debe considerar su contexto y ciclo de vida; no demuestra que adoptar un marco, por sí solo, garantice un producto seguro o adecuado. [R4]","Como otro ejemplo de orientación arquitectónica, Microsoft documenta su Azure Well-Architected Framework como un conjunto de principios y herramientas guiados por calidad para analizar cargas de trabajo. Su lista de pilares incluye confiabilidad, seguridad, optimización de costos, excelencia operativa y eficiencia de rendimiento. Es un marco de Microsoft para sus cargas de trabajo; sirve como ejemplo de análisis, no como lista universal obligatoria. [R5]"]},
+    {"id":"production","title":"Production-Ready Example","paragraphs":["Ejemplo hipotético: un producto de revisión de documentos permite que una persona solicite un resumen asistido por IA. No representa un sistema de Thomson Reuters ni describe datos o componentes internos de esa empresa.","La interfaz inicia la petición y muestra el estado. El servicio de revisión verifica permisos, obtiene el documento autorizado y solicita el resumen. El proveedor puede responder, tardar demasiado o fallar. El producto debe definir qué verá la persona en cada caso y qué información conservará.","Las decisiones dependen de requisitos que aún deben establecerse: qué documentos puede procesar cada rol, cuánto tarda una respuesta aceptable, qué debe registrarse y qué consecuencias tendría un resumen incorrecto. Los diagramas y contratos ayudan a revisar esas decisiones; no sustituyen pruebas o evaluaciones.","Un límite importante separa el acceso autorizado al documento de la capacidad del proveedor de IA. Otro separa la presentación de la respuesta de su generación. Esos límites podrían facilitar reemplazar un proveedor, pero también añaden contratos y manejo de errores.","Fallo ilustrativo: si el proveedor tarda demasiado, la interfaz no debe quedarse indefinidamente en “cargando”. El equipo debe acordar un tiempo límite, una respuesta comprensible y si la persona puede reintentar o completar la tarea sin el resumen. Sin requisitos y pruebas, no se puede afirmar que una arquitectura específica sea suficientemente confiable."],"diagram":{"source":"PA-S001/document-review-flow.mmd","title":"Flujo hipotético de revisión de documentos","description":"Una persona revisora solicita un resumen en la interfaz web; el servicio de revisión coordina almacenamiento autorizado, proveedor de IA y registro de actividad, y devuelve un resultado editable con contexto para revisión."}},
+    {"id":"visual-learning-guide","title":"Visual Learning Guide / Studio","paragraphs":["El mapa mental relaciona las ocho bases conceptuales, el modelo integrado y los siete subtemas desarrollados. Es una síntesis de la teoría anterior. La raíz representa el tema de sesión; la rama del Main Topic muestra el modelo de decisión; las ramas de Concepts y Subtopics conservan los temas que luego se desarrollan y practican."]},
+    {"id":"exercises","title":"Exercises","paragraphs":["Los identificadores están escritos para permitir que el estado de estudio se mantenga igual en español e inglés. Marcar una casilla significa estudiado, no demuestra dominio. Recuperación con respuesta: si un componente frontend importa el esquema interno de almacenamiento, ¿qué riesgo aparece? Respuesta: el detalle de persistencia cruza el límite hacia el frontend; un cambio interno puede exigir modificar consumidores y aumenta el acoplamiento."],"studyItems":[{"id":"PA-S001:exercise:classify-scope","label":"Clasifica un sitio web, su API, una librería común y las aplicaciones consumidoras como aplicación, sistema, plataforma o ecosistema. Justifica cualquier caso ambiguo."},{"id":"PA-S001:exercise:rewrite-quality","label":"Reescribe “la función de resumen debe ser confiable” como escenario verificable. Si faltan datos del producto, anota qué información debe obtenerse."},{"id":"PA-S001:exercise:trace-boundary","label":"Dibuja qué componentes deben conocer el contenido de un documento y cuáles solo necesitan recibir un resumen o estado."},{"id":"PA-S001:exercise:review-ai-failure","label":"Describe qué ve la persona si el proveedor de IA tarda, falla o devuelve una respuesta que no ayuda. Señala qué requiere validación con usuarios y responsables del producto."}]},
+    {"id":"resources","title":"Curated Sources and References","paragraphs":["International Organization for Standardization. (2022). ISO/IEC/IEEE 42010:2022 — Software, systems and enterprise — Architecture description. La ficha oficial describe el alcance de la norma y su distinción entre arquitectura y descripción. [R1]","IEEE Computer Society. (s. f.). Software Engineering Body of Knowledge (SWEBOK). IEEE describe el SWEBOK como una organización de procesos, modelos, métodos y prácticas de ingeniería de software. [R2]","Software Engineering Institute, Carnegie Mellon University. (2018). Reasoning About Software Quality Attributes. Resume cómo requisitos de atributos de calidad influyen en la arquitectura y presenta escenarios como una forma de especificarlos. [R3]","National Institute of Standards and Technology. (2023–2026). AI Risk Management Framework. Marco voluntario para incorporar consideraciones de confiabilidad; la página oficial señala que AI RMF 1.0 está en revisión. [R4]","Microsoft. (s. f.). Azure Well-Architected Framework. Ejemplo de marco de arquitectura guiado por calidad para cargas de trabajo de Azure; su orientación es específica al contexto documentado por Microsoft. [R5]"]},
+    {"id":"study-resources","title":"Resources","paragraphs":["Para profundizar en arquitectura: revisa la ficha y el resumen público de International Organization for Standardization / International Electrotechnical Commission / Institute of Electrical and Electronics Engineers (ISO/IEC/IEEE) 42010 antes de consultar el texto completo, que tiene acceso de pago. [R1]","Para razonar sobre calidad: lee la introducción del Software Engineering Institute (SEI) sobre escenarios de modificabilidad y confiabilidad. Usa sus ejemplos como modelos para escribir escenarios propios, no como requisitos automáticos. [R3]","Para productos con IA: consulta el Artificial Intelligence Risk Management Framework (AI RMF) del National Institute of Standards and Technology (NIST) y revisa la fecha y el estado de sus versiones, porque el marco está en revisión. [R4]","Siglas de la página: fase 0 (F0); proyecto 0 (P0); sesión 001 del Principal Accelerator (PA-S001); Frontend Platform Architecture (FPA); AI Product Engineering (AIPE); inteligencia artificial (IA); application programming interface (API); Software Engineering Body of Knowledge (SWEBOK); y niveles de dominio 1–5 (L1–L5)."]},
+    {"id":"mastery","title":"Knowledge Mastery Checklist","paragraphs":["Marcar un criterio solo indica seguimiento de estudio; no cambia automáticamente el estado de la sesión ni otorga nivel L1–L5."],"studyItems":[{"id":"PA-S001:mastery:explain-engineering-architecture","label":"Explico cómo se relacionan ingeniería de software y arquitectura, y distingo la arquitectura de su descripción."},{"id":"PA-S001:mastery:distinguish-system-scopes","label":"Distingo aplicación, sistema, plataforma y ecosistema, y puedo reconocer casos ambiguos."},{"id":"PA-S001:mastery:formulate-quality-scenario","label":"Convierto una meta de calidad vaga en un escenario que identifica qué debe observarse."},{"id":"PA-S001:mastery:analyze-boundary-coupling","label":"Identifico un límite y explico cómo una dependencia puede propagar un cambio."},{"id":"PA-S001:mastery:explain-fpa-aipe","label":"Explico el propósito y los límites de FPA y AIPE según las definiciones de esta ruta."},{"id":"PA-S001:mastery:scale-reasoning","label":"Explico cómo cambia el análisis al pasar del alcance de un componente al de un sistema, plataforma o varios equipos."}]},
+    {"id":"success","title":"End-of-Session Success Criteria","paragraphs":["Estos controles registran seguimiento de estudio y se reflejan en el dashboard; no afirman que el criterio ya se haya demostrado ni modifican dominio o estado de sesión."],"studyItems":[{"id":"PA-S001:success:explain-system-model","label":"Puedo explicar el modelo contexto → necesidades → límites → componentes → consecuencias."},{"id":"PA-S001:success:connect-decision-quality","label":"Puedo nombrar una decisión arquitectónica y el atributo de calidad que pretende atender."},{"id":"PA-S001:success:recognize-evidence-limits","label":"Puedo explicar por qué un diagrama, una norma o una llamada a un modelo no prueban por sí solos la calidad del producto."},{"id":"PA-S001:success:distinguish-app-platform","label":"Puedo distinguir una capacidad de aplicación de una capacidad de plataforma e indicar qué evidencia aclararía el límite."},{"id":"PA-S001:success:identify-missing-quality-information","label":"Puedo proponer qué información falta antes de afirmar que un requisito de calidad se cumplió."}]},
+    {"id":"bridge","title":"Bridge to PA-S002","paragraphs":["PA-S001 establece el lenguaje para hablar de sistemas, calidad y límites. PA-S002 utilizará esos fundamentos para estudiar el repositorio Accelerator como plataforma de ingeniería: monorepo frente a polyrepo, espacios de trabajo, aplicaciones y paquetes, dirección de dependencias, estándares y puertas de calidad.","Fin de la Theory Phase. Ahora corresponde estudiar y discutir esta teoría; todavía no se ha iniciado Design ni Build."]}
   ],
-  "references": [
-    {
-      "id": "R1",
-      "title": "IEEE Computer Society — SWEBOK Guide v4.0a",
-      "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering/resources/"
-    },
-    {
-      "id": "R2",
-      "title": "ISO/IEC/IEEE 42010:2022 — Architecture description",
-      "url": "https://www.iso.org/standard/74393.html"
-    },
-    {
-      "id": "R3",
-      "title": "ISO/IEC 25010:2023 — Product Quality Model",
-      "url": "https://www.iso.org/standard/78176.html"
-    },
-    {
-      "id": "R4",
-      "title": "NASA — Systems Engineering Handbook",
-      "url": "https://www.nasa.gov/wp-content/uploads/2018/09/nasa_systems_engineering_handbook_0.pdf"
-    },
-    {
-      "id": "R5",
-      "title": "Baldwin and Woodard — The Architecture of Platforms",
-      "url": "https://www.hbs.edu/ris/Publication%20Files/09-034_149607b7-2b95-4316-b4b6-1df66dd34e83.pdf"
-    },
-    {
-      "id": "R6",
-      "title": "NIST — Artificial Intelligence Risk Management Framework 1.0",
-      "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf"
-    },
-    {
-      "id": "R7",
-      "title": "GitLab — Staff Engineers",
-      "url": "https://handbook.gitlab.com/handbook/engineering/careers/training/staff-engineers/"
-    },
-    {
-      "id": "R8",
-      "title": "GitLab — Staff Engineers",
-      "url": "https://handbook.gitlab.com/handbook/engineering/careers/training/staff-engineers/"
-    },
-    {
-      "id": "R9",
-      "title": "GitLab — Principal Career Framework",
-      "url": "https://handbook.gitlab.com/handbook/engineering/careers/matrix/infrastructure/principal/"
-    },
-    {
-      "id": "R10",
-      "title": "IEEE Computer Society — SWEBOK Guide v4.0a",
-      "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering/resources/"
-    },
-    {
-      "id": "R11",
-      "title": "ISO/IEC/IEEE 42010:2022 — Architecture description",
-      "url": "https://www.iso.org/standard/74393.html"
-    },
-    {
-      "id": "R12",
-      "title": "Parnas (1972) — On the Criteria To Be Used in Decomposing Systems into Modules, DOI 10.1145/361598.361623",
-      "url": "https://doi.org/10.1145/361598.361623"
-    },
-    {
-      "id": "R13",
-      "title": "CNCF — Platform Engineering Maturity Model",
-      "url": "https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/"
-    },
-    {
-      "id": "R14",
-      "title": "Sculley et al. (2015) — Hidden Technical Debt in Machine Learning Systems",
-      "url": "https://research.google/pubs/hidden-technical-debt-in-machine-learning-systems/"
-    },
-    {
-      "id": "R15",
-      "title": "W3C — Web Content Accessibility Guidelines (WCAG) 2.2",
-      "url": "https://www.w3.org/TR/WCAG22/"
-    },
-    {
-      "id": "R16",
-      "title": "GOV.UK Design System — Components",
-      "url": "https://design-system.service.gov.uk/components/"
-    }
+  "visualLearning":{"intro":"Los cinco modos vuelven a representar la teoría sin sustituirla: el mapa hace visibles las relaciones, el flujo muestra límites, la matriz compara alcances, el recorrido sigue la propagación del cambio y las tarjetas apoyan recuperación activa.","modes":[
+    {"id":"mental-model","kind":"mapa mental","label":"Mapa mental","title":"PA-S001 — Fundamentos de ingeniería","rationale":"Cubre los ocho conceptos, el Main Topic y los siete subtemas teóricos.","sourceSections":["c1","c2","c3","c4","c5","c6","c7","c8","main-topic","s1","s2","s3","s4","s5","s6","s7"],"blocks":[{"type":"diagram","diagram":{"source":"PA-S001/foundations.mmd","title":"Mapa mental de fundamentos de ingeniería","description":"Mapa mental que conecta los ocho conceptos de PA-S001, el modelo de decisión del tema principal y los siete subtemas desarrollados."}}]},
+    {"id":"boundary-flow","kind":"flujo de límites","label":"Flujo de límites","title":"Acceso, generación y revisión del resumen","rationale":"Hace visibles los límites entre la persona, la interfaz, el servicio, los datos autorizados, el proveedor de IA y el registro de actividad.","sourceSections":["c4","c5","s4","production"],"blocks":[{"type":"diagram","diagram":{"source":"PA-S001/boundary-flow.mmd","title":"Flujo de límites de revisión documental","description":"Flujo que distingue presentación, contrato de aplicación, acceso autorizado al documento, proveedor de IA y registro de actividad."}}]},
+    {"id":"scope-matrix","kind":"matriz de alcance","label":"Matriz de alcance","title":"De aplicación a ecosistema y de Staff a Principal","rationale":"Compara la unidad de razonamiento, sus capacidades y el tipo de consecuencia que debe analizarse.","sourceSections":["c2","c8","s2","s7"],"blocks":[{"type":"comparison","table":{"headers":["Alcance","Qué coordina","Pregunta de cambio"],"rows":[["Aplicación","Capacidades para usuarios o procesos","¿Qué experiencia o función cambia?"],["Sistema","Software, datos, infraestructura y personas para una misión","¿Qué elemento o actor sufre la consecuencia?"],["Plataforma","Capacidades reutilizables y contratos para consumidores","¿Qué equipos, adopción o excepciones se afectan?"],["Ecosistema","Organizaciones, productos, integraciones y reglas","¿Qué interacción o responsabilidad cruza organizaciones?"],["Staff","Sistemas y problemas que cruzan componentes o equipos","¿Cómo se entrega y opera la solución con sus consecuencias?"],["Principal","Capacidades compartidas, estrategia, gobernanza y adopción","¿Cómo se sostienen estándares, excepciones y dirección entre equipos?"]]}}]},
+    {"id":"change-journey","kind":"recorrido del cambio","label":"Recorrido del cambio","title":"Cómo una dependencia propaga una modificación","rationale":"Sigue un cambio desde la necesidad inicial hasta sus efectos observables y muestra dónde un contrato puede contenerlo o transmitirlo.","sourceSections":["c5","main-topic","s4","production"],"blocks":[{"type":"flow","steps":[{"title":"Aparece una necesidad","body":"Cambia una regla de facturación, el significado del resumen o el comportamiento esperado ante un timeout."},{"title":"Se identifica el límite","body":"El equipo localiza qué módulo, contrato, permiso o proveedor contiene la responsabilidad afectada."},{"title":"Se revisa la dependencia","body":"Si un consumidor conoce detalles internos, el cambio se propaga; un contrato estable puede mantener algunos cambios locales."},{"title":"Se ajusta la experiencia","body":"Cuando cambian el significado o las garantías, también pueden cambiar la interfaz, el manejo de errores y las pruebas."},{"title":"Se verifica la consecuencia","body":"Pruebas, observación y revisión confirman el comportamiento; el diagrama por sí solo no lo demuestra."}]}]},
+    {"id":"recall-cards","kind":"tarjetas de repaso","label":"Flashcards","title":"Diez preguntas de recuperación","rationale":"Las tarjetas cubren todos los conceptos, el tema principal y cada subtema; sus respuestas siguen disponibles sin JavaScript.","sourceSections":["c1","c2","c3","c4","c5","c6","c7","c8","main-topic","s1","s2","s3","s4","s5","s6","s7"],"blocks":[{"type":"flashcards","cards":[
+      {"id":"F01","category":"Ingeniería y arquitectura","question":"¿La arquitectura es un documento?","answer":"No. La arquitectura pertenece a la entidad diseñada; un documento o diagrama es una descripción que la comunica.","explanation":"ISO/IEC/IEEE 42010 distingue ambas cosas. [R1]","sourceSections":["c1","s1"]},
+      {"id":"F02","category":"Niveles de alcance","question":"¿En qué se diferencian aplicación, sistema y plataforma?","answer":"Una aplicación ofrece capacidades; un sistema coordina elementos para una misión; una plataforma proporciona capacidades reutilizables a consumidores.","explanation":"El ecosistema abarca participantes e interacciones más amplias.","sourceSections":["c2","s2"]},
+      {"id":"F03","category":"Calidad y restricciones","question":"¿Por qué “rápido y seguro” no basta como requisito arquitectónico?","answer":"No expresa aún una condición observable ni un resultado esperado.","explanation":"Debe concretarse en escenarios acordes con el contexto.","sourceSections":["c3","s3"]},
+      {"id":"F04","category":"Límites","question":"¿Qué revela un límite de software?","answer":"Qué responsabilidades, datos y decisiones pertenecen a un componente y cuáles están fuera.","explanation":"Se materializa en contratos, permisos, esquemas e interfaces.","sourceSections":["c4","s4"]},
+      {"id":"F05","category":"Acoplamiento y cohesión","question":"¿Menos acoplamiento significa que los componentes nunca se comunican?","answer":"No. Significa reducir dependencias innecesarias y hacer explícitas las dependencias que sí existen.","explanation":"La separación también tiene costos.","sourceSections":["c5","s4"]},
+      {"id":"F06","category":"FPA","question":"¿Qué busca una plataforma frontend?","answer":"Compartir capacidades útiles entre productos mediante contratos y condiciones de adopción comprensibles.","explanation":"Entre ellas pueden estar componentes, tokens, accesibilidad y herramientas.","sourceSections":["c6","s5"]},
+      {"id":"F07","category":"AIPE","question":"¿Qué hace que una función de IA sea ingeniería de producto y no solo una llamada a un modelo?","answer":"La integración con el objetivo, los datos, la experiencia, los riesgos, las evaluaciones y el comportamiento ante errores.","explanation":"La presencia de un modelo no prueba confiabilidad.","sourceSections":["c7","s6"]},
+      {"id":"F08","category":"Staff y Principal","question":"¿Qué cambia al ampliar el razonamiento de Staff a Principal en esta ruta?","answer":"El alcance puede pasar de sistemas y equipos a capacidades compartidas, adopción, gobernanza y estrategia.","explanation":"Los títulos reales varían por organización.","sourceSections":["c8","s7"]},
+      {"id":"F09","category":"Modelo de decisión","question":"¿Qué pasos conectan contexto con consecuencias?","answer":"Contexto → necesidades y restricciones → límites y contratos → componentes y dependencias → comportamiento observable y consecuencias.","explanation":"El modelo orienta preguntas; no garantiza resultados.","sourceSections":["main-topic"]},
+      {"id":"F10","category":"Escenarios de calidad","question":"¿Qué falta en “el resumen debe ser rápido”?","answer":"Una condición concreta, una respuesta esperada y un criterio observable.","explanation":"Los valores exactos dependen del producto; aquí no se han especificado.","sourceSections":["c3","s3"]}
+    ]}]}
+  ]},
+  "references":[
+    {"id":"R1","title":"International Organization for Standardization — ISO/IEC/IEEE 42010:2022, Architecture description","url":"https://www.iso.org/standard/74393.html"},
+    {"id":"R2","title":"IEEE Computer Society — Software Engineering Body of Knowledge (SWEBOK)","url":"https://www.computer.org/education/bodies-of-knowledge/software-engineering/resources"},
+    {"id":"R3","title":"Software Engineering Institute, Carnegie Mellon University — Reasoning About Software Quality Attributes","url":"https://insights.sei.cmu.edu/library/reasoning-about-software-quality-attributes/"},
+    {"id":"R4","title":"National Institute of Standards and Technology — AI Risk Management Framework","url":"https://www.nist.gov/itl/ai-risk-management-framework"},
+    {"id":"R5","title":"Microsoft Learn — Azure Well-Architected Framework","url":"https://learn.microsoft.com/en-us/azure/well-architected/"}
   ]
 }

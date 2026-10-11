@@ -11,7 +11,7 @@ const root=resolve(dirname(fileURLToPath(import.meta.url)),'../..');
 const output=resolve(root,'dist');
 const base=basePath(process.env.BASE_PATH);
 // Validate all inputs before touching output. Only explicit public files are read.
-const routes=['sessions/PA-S001','projects/portfolio','projects/p0','projects/engineering-book'];
+const routes=['sessions/PA-S001','projects/portfolio','projects/p0'];
 const pairs=routes.map(route=>({route,es:loadPage(resolve(root,`site/es/${route}/page.json`)),en:loadPage(resolve(root,`site/en/${route}/page.json`))}));
 for (const p of pairs) assertPair(p.es,p.en);
 const sessionPair=pairs.find(pair=>pair.route==='sessions/PA-S001');

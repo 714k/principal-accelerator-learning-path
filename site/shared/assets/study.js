@@ -30,7 +30,11 @@
       return;
     }
     const remaining = total - count;
-    const category = group.name === 'exercise' ? (lang === 'es' ? 'ejercicios' : 'exercises') : (lang === 'es' ? 'criterios de repaso' : 'review criteria');
+    const category = group.name === 'exercise'
+      ? (lang === 'es' ? 'ejercicios' : 'exercises')
+      : group.name === 'criteria'
+        ? (lang === 'es' ? 'criterios de repaso' : 'review criteria')
+        : (lang === 'es' ? 'criterios de éxito' : 'success criteria');
     visual.style.setProperty('--chart-share', `${total ? count / total * 100 : 0}%`);
     visual.setAttribute('aria-label', lang === 'es'
       ? `${count} marcados y ${remaining} pendientes de ${total} ${category}`
@@ -93,7 +97,8 @@
     charts.forEach(chart => {
       const groups = [
         { name: 'exercise', ids: chart.dataset.exerciseIds?.split('|').filter(Boolean) ?? [] },
-        { name: 'criteria', ids: chart.dataset.criteriaIds?.split('|').filter(Boolean) ?? [] }
+        { name: 'criteria', ids: chart.dataset.criteriaIds?.split('|').filter(Boolean) ?? [] },
+        { name: 'success', ids: chart.dataset.successIds?.split('|').filter(Boolean) ?? [] }
       ];
       const counts = groups.map(group => {
         const marks = group.ids.map(read);
@@ -114,9 +119,9 @@
       if (summary) summary.textContent = counts.includes(null)
         ? lang === 'es' ? 'Las marcas locales no están disponibles en este navegador.' : 'Local study marks are unavailable in this browser.'
         : lang === 'es'
-          ? `${counts[0]} de ${groups[0].ids.length} ejercicios; ${counts[1]} de ${groups[1].ids.length} criterios marcados en este navegador.`
-          : `${counts[0]} of ${groups[0].ids.length} exercises; ${counts[1]} of ${groups[1].ids.length} review criteria marked in this browser.`;
-      updateLine(groups[0].ids.length + groups[1].ids.length, chart.dataset.sessionId);
+          ? `${counts[0]} de ${groups[0].ids.length} ejercicios; ${counts[1]} de ${groups[1].ids.length} criterios de repaso; ${counts[2]} de ${groups[2].ids.length} criterios de éxito marcados en este navegador.`
+          : `${counts[0]} of ${groups[0].ids.length} exercises; ${counts[1]} of ${groups[1].ids.length} review criteria; ${counts[2]} of ${groups[2].ids.length} success criteria marked in this browser.`;
+      updateLine(groups[0].ids.length + groups[1].ids.length + groups[2].ids.length, chart.dataset.sessionId);
     });
   };
   const recordChange = () => {

@@ -23,9 +23,9 @@ export function searchIndex(lang: 'es'|'en', base: string, pages: {route: string
     ['signals','Señales principales','Resumen con estado del programa, dominio, revisitas, publicación y sus fuentes'],
     ['status','Estado general del programa','Progreso canónico del programa'],
     ['mastery','Dominio respaldado','Evaluación de dominio L1–L5'],
-    ['artifacts','Artefactos públicos','Capítulo editorial y Engineering Book'],
+    ['artifacts','Artefactos públicos','Capítulo editorial y proyecto de portafolio'],
     ['revisit','Revisitas','Cola de revisiones pendientes'],
-    ['projects','Proyectos y sistemas','Estado de Engineering Book y Portafolio'],
+    ['projects','Proyectos y sistemas','Estado del Learning Site y Portafolio'],
     ['activity','Actividad y siguiente trabajo','Actividad registrada y trabajo siguiente']
   ]: [
     ['roadmap','Available sessions','Roadmap and PA-S001 editorial status'],
@@ -33,9 +33,9 @@ export function searchIndex(lang: 'es'|'en', base: string, pages: {route: string
     ['signals','Key signals','Summary of program status, mastery, revisits, publication, and their sources'],
     ['status','Overall program status','Canonical program progress'],
     ['mastery','Evidence-backed mastery','L1–L5 mastery assessment'],
-    ['artifacts','Public artifacts','Editorial chapter and Engineering Book'],
+    ['artifacts','Public artifacts','Editorial chapter and portfolio project'],
     ['revisit','Revisits','Pending review queue'],
-    ['projects','Projects and systems','Engineering Book and Portfolio status'],
+    ['projects','Projects and systems','Learning Site and Portfolio status'],
     ['activity','Activity and next work','Recorded activity and next work']
   ];
   const entries: SearchEntry[]=[

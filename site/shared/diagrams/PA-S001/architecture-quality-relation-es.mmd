@@ -1,0 +1,12 @@
+flowchart TB
+  quality["Contexto + cualidad esperada<br/>condición + respuesta + criterio observable"] -->|"influye en"| architecture["Arquitectura<br/>decisiones estructurales"]
+  architecture -->|"se observa en"| behavior["Comportamiento y consecuencias"]
+  architecture -->|"se comunica con"| description["Descripción<br/>documento o diagrama"]
+  description -.->|"orienta la evidencia; no prueba"| behavior
+
+  classDef context fill:#e7f1f5,stroke:#075f80,color:#182a36
+  classDef decision fill:#075f80,stroke:#075f80,color:#ffffff
+  classDef evidence fill:#eef1f2,stroke:#52637c,color:#182a36
+  class quality context
+  class architecture decision
+  class behavior,description evidence

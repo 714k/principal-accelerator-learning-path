@@ -1,0 +1,7 @@
+flowchart TD
+  reviewer["Reviewer"] -->|"requests summary"| web["Web interface"]
+  web -->|"application contract"| review["Review service"]
+  review --> storage["Document storage"]
+  review --> provider["AI provider"]
+  review --> log["Activity log"]
+  review --> result["Editable result + review context"]

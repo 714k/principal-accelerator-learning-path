@@ -38,7 +38,6 @@ npm run dev
 - http://localhost:4173/es/sessions/PA-S001/
 - http://localhost:4173/en/sessions/PA-S001/
 - http://localhost:4173/es/projects/
-- http://localhost:4173/es/projects/engineering-book/
 - http://localhost:4173/es/projects/p0/
 - http://localhost:4173/portfolio/
 
@@ -70,8 +69,9 @@ build and preview with `BASE_PATH=/accelerator/` and serve `dist/` below that ex
 prefix. The build refuses to replace a nonempty unmanaged `dist/` and refuses a
 symlinked `dist/`. It neither deploys, pushes, nor creates a commit.
 
-`/es/projects/engineering-book/` and `/en/projects/engineering-book/` are active
-P0 learning-project routes. `/projects/p0/` remains as a broader P0 overview.
+`/es/` and `/en/` are the active P0 Learning Site dashboards. `/projects/p0/`
+remains as the P0 overview, and `/projects/portfolio/` documents the separate
+portfolio product.
 
 ## Pending learner work
 
