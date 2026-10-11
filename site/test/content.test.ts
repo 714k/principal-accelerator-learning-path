@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { validatePage, assertPair, loadPage } from '../tooling/content.ts';
 import { escapeHtml, renderPage, basePath, sessionsIndex, projectsIndex, home } from '../tooling/render.ts';
 import { generateDiagrams } from '../tooling/diagrams.ts';
+import { searchIndex } from '../tooling/search.ts';
 import { resolve, dirname } from 'node:path';
 import { readFileSync, mkdtempSync, mkdirSync, writeFileSync, symlinkSync, copyFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -53,13 +54,27 @@ test('session navigation and progressive theme control are present',()=>{
   assert.ok(html.includes('localStorage.setItem'));
   assert.ok(html.includes('href="/es/sessions/"'));
   assert.ok(!html.includes('>Sessions</a>'));
-  assert.ok(html.includes('>Light/Dark</button>'));
+  assert.ok(html.includes('class="icon icon-moon"'));
+  assert.ok(html.includes('class="icon icon-sun"'));
   assert.ok(html.includes('r.dataset.theme=v'));
   assert.ok(html.includes('>Principal Accelerator Learning Path</a>'));
   assert.ok(html.includes('class="site-sidebar"'));
   assert.ok(html.includes('F0 · Plataforma Accelerator'));
+  assert.ok(html.includes('data-site-search'));
+  assert.ok(html.includes('assets/search-es.json'));
+  assert.ok(html.includes('<details class="nav-group" open>'));
   assert.ok(sessionsIndex('en','/').includes('PA-S001'));
   assert.ok(projectsIndex('en','/').includes('projects/portfolio/'));
+});
+test('search index links to published section content under a subpath',()=>{
+  const entries=searchIndex('es','/accelerator/',[{route:'sessions/PA-S001',page:es}]);
+  const main=entries.find(entry=>entry.href==='/accelerator/es/sessions/PA-S001/#main-topic');
+  assert.ok(main);
+  assert.equal(main.title,es.sections.find(section=>section.id==='main-topic')!.title);
+  assert.ok(main.text.includes(es.sections.find(section=>section.id==='main-topic')!.paragraphs[0]!));
+  assert.ok(entries.some(entry=>entry.href==='/accelerator/es/#study'));
+  assert.ok(entries.some(entry=>entry.href==='/accelerator/portfolio/#work'));
+  assert.throws(()=>searchIndex('en','/',[{route:'sessions/PA-S001',page:es}]),/language mismatch/);
 });
 test('session contents are a vertical semantic list with nested subtopics',()=>{
   for (const page of [es,en]) {
