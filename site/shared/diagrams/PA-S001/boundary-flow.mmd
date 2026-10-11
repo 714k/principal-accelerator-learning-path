@@ -1,7 +1,8 @@
 flowchart LR
-  Contract[Session content contract] --> Site[Learning Site]
-  Site --> Dashboard[Learning dashboard]
-  Evidence[Canonical evidence] --> Dashboard
-  Study[Local study state] -. does not modify .-> Evidence
-  Portfolio[Professional portfolio] -. public link only .-> Site
-  Site --> Public[Public static output]
+  reviewer["Reviewer"] -->|"requests summary"| ui["Web interface"]
+  ui -->|"application contract"| service["Review service"]
+  service -->|"authorized read"| documents["Document storage"]
+  service -->|"summary request"| provider["AI provider"]
+  service -->|"event without document body"| activity["Activity log"]
+  provider -->|"response, timeout, or failure"| service
+  service -->|"editable result or controlled error"| ui

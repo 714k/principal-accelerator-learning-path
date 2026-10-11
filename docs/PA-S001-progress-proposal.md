@@ -11,19 +11,19 @@ session: None`, and add this entry to Session history:
 ### PA-S001 — Engineering foundations + baseline evidence
 
 - Status: Partial
-- Date: 2026-10-10
+- Date: 2026-10-11
 - Phase: F0 — Accelerator Platform
 - Simultaneous areas: Frontend Platform Architecture (FPA), AI Product Engineering (AIPE), Staff; Principal scope introduced
 - App/Lab/System: P0 — professional portfolio and bilingual Principal Accelerator Learning Site
 - Mastery: Not assessed; `data/mastery/PA-S001.json` retains null levels.
-- Artifact(s): generated bilingual PA-S001 chapter; P0 project pages; portfolio draft; Mermaid sources and localized SVG; mechanical verification record.
+- Artifact(s): canonical bilingual PA-S001 chapter; P0 project pages; portfolio draft; Mermaid sources and localized SVG; mechanical verification record.
 - Implemented: static build from `site/tooling/`, learning dashboards, curriculum navigation, enabled study controls with local persistence, Visual Learning Studio, separate portfolio route.
-- Evidence: `artifacts/PA-S001/verification-2026-10-10.md` records only commands and observable mechanical behavior.
+- Evidence: `artifacts/PA-S001/verification-2026-10-11.md` records only commands and observable mechanical behavior.
 - Measurements: no learner or production measurements recorded.
 - Strengths: not assessed for learner mastery.
 - Needs reinforcement: not assessed; learner reasoning and review remain pending.
 - Decisions: ADR-001 pending learner decision; React/Astro remain TRIAL candidates.
-- Revisit in: learner ADR, controlled-failure diagnosis, semantic ES/EN review, full accessibility review, and stack decision.
+- Revisit in: Node 24 verification, learner ADR, controlled-failure diagnosis, semantic ES/EN review, full accessibility review, and stack decision.
 - Next: PA-S002 may proceed without a completion gate.
 ```
 

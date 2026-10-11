@@ -118,6 +118,8 @@ html{scroll-padding-top:6rem}
 .mobile-global .sidebar-brand,.mobile-global .sidebar-foot{display:none}
 .mobile-global .site-search{margin:.25rem .75rem .7rem}
 .mobile-global .curriculum{padding-bottom:.8rem}
+.instructional-blocks{display:grid;gap:.9rem;margin:1rem 0}.instructional-block{border-left:3px solid var(--line);padding:.2rem 0 .2rem 1rem}.instructional-block p{margin:.3rem 0;max-width:75ch}.instructional-label{margin:.1rem 0 .35rem;color:var(--accent);font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.instructional-guiding-question,.instructional-retrieval,.instructional-resolution{border-left-color:var(--accent)}.instructional-failure,.instructional-tradeoffs{border-left-color:var(--focus)}.instructional-guiding-question,.instructional-resolution{background:var(--soft);border-radius:0 .65rem .65rem 0;padding:.7rem 1rem}.instructional-retrieval{background:var(--soft);border-radius:0 .65rem .65rem 0;padding:.7rem 1rem}.instructional-retrieval summary{display:grid;gap:.35rem;cursor:pointer;max-width:75ch}.instructional-retrieval summary::marker{color:var(--accent)}.retrieval-answer{margin-top:.7rem;padding-top:.55rem;border-top:1px solid var(--line)}.instructional-answer-label{color:var(--accent);font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.session-diagram--relation{width:auto;max-height:48rem;margin-inline:auto}
 @media(min-width:60rem){
   .site-grid{grid-template-columns:17rem minmax(0,1fr)}
   .site-sidebar{display:block;position:sticky;top:0;align-self:start;width:17rem;height:100dvh;max-height:none;overflow-y:auto;border:0;border-right:1px solid var(--line);border-radius:0;padding:0;background:var(--surface)}

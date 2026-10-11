@@ -4,7 +4,7 @@ The scaffold uses a minimal TypeScript static renderer as an experimental baseli
 It does not select the final framework or establish a general platform.
 
 ## Context
-Canonical bilingual site/ content; runnable apps/book; static hosting compatibility.
+Canonical bilingual `site/` content, a separate runnable `apps/portfolio/`, and static hosting compatibility. `apps/book/` is retained only as historical migration evidence.
 ## Forces
 TODO LEARNER: prioritize quality scenarios and constraints.
 ## Options

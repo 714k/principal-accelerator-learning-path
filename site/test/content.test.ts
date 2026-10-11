@@ -29,9 +29,47 @@ test('session theory renders as paragraphs with concept-first openings',()=>{
   const html=renderPage(es,'/');
   assert.ok(html.includes('id="main-topic"'));
   assert.ok(html.includes('class="reading-lead"'));
-  assert.ok(html.includes('Concepto y alcance:'));
-  assert.ok(html.includes('Mecanismo:'));
+  assert.ok(html.includes('instructional-concept'));
+  assert.ok(html.includes('instructional-mechanism'));
   assert.ok(html.includes('class="reading-paragraph"'));
+  assert.ok(html.includes('Antes de empezar'));
+  assert.ok(html.includes('Pregunta guía'));
+  assert.ok(html.includes('Autoprueba'));
+  assert.ok(html.includes('Respuesta a la pregunta guía'));
+  assert.ok(!html.includes('>guiding question<'));
+  assert.ok(renderPage(en,'/').includes('Guiding question'));
+  assert.match(html,/Aplicación:<\/strong> software que ofrece capacidades/);
+});
+test('retrieval blocks require answers and render as revealable self-checks',()=>{
+  const changed=structuredClone(es);
+  const main=changed.sections.find(section=>section.id==='main-topic')!;
+  const retrieval=main.blocks!.find(block=>block.kind==='retrieval')!;
+  delete retrieval.answer;
+  assert.throws(()=>validatePage(changed),/Invalid section/);
+  const html=renderPage(es,'/');
+  assert.ok(html.includes('<details class="instructional-block instructional-retrieval">'));
+  assert.ok(html.includes('¿Qué pasos conectan el contexto con las consecuencias?'));
+  assert.ok(html.includes('<p class="instructional-answer-label">Respuesta</p>'));
+});
+test('Main Topic and subtopics preserve the guiding-question learning cycle',()=>{
+  for (const page of [es,en]) for (const section of page.sections.filter(section=>section.id==='main-topic' || /^s[1-7]$/.test(section.id))) {
+    assert.equal(section.blocks?.[0]?.kind,'guiding-question',section.id);
+    assert.equal(section.blocks?.at(-1)?.kind,'resolution',section.id);
+  }
+  const changed=structuredClone(es);
+  changed.sections.find(section=>section.id==='s1')!.blocks!.shift();
+  assert.throws(()=>validatePage(changed),/opening guiding question/);
+});
+test('pre-training and the architecture relationship diagram remain adjacent to the first concept',()=>{
+  const concept=es.sections.find(section=>section.id==='c1')!;
+  assert.equal(concept.blocks?.[0]?.kind,'pretraining');
+  assert.equal(concept.diagram?.source,'PA-S001/architecture-quality-relation-es.mmd');
+  const html=renderPage(es,'/');
+  const start=html.indexOf('id="c1"');
+  const end=html.indexOf('</section>',start);
+  const fragment=html.slice(start,end);
+  assert.ok(fragment.includes('Antes de empezar'));
+  assert.ok(fragment.includes('architecture-quality-relation-es.svg'));
 });
 test('diagram fields require a Mermaid source and render a responsive SVG image',()=>{
   const changed=structuredClone(es); changed.sections[0]!.diagram={source:'PA-S001/example.mmd',title:'Example',description:'Example diagram'};
@@ -94,11 +132,12 @@ test('project language switching preserves an explicit project route',()=>{
 test('visual learning modes are data-driven, paired, and source-linked',()=>{
   assert.equal(es.visualLearning?.modes.length,5);
   assert.deepEqual(es.visualLearning?.modes.map(mode=>mode.id),en.visualLearning?.modes.map(mode=>mode.id));
+  assert.deepEqual(es.visualLearning?.modes.map(mode=>mode.id),['mental-model','boundary-flow','scope-matrix','change-journey','recall-cards']);
   const recall=es.visualLearning!.modes.find(mode=>mode.id==='recall-cards')!;
   const deck=recall.blocks.find(block=>block.type==='flashcards');
   assert.ok(deck && deck.type==='flashcards');
-  assert.equal(deck.cards.length,9);
-  assert.deepEqual(deck.cards.map(card=>card.id),['F01','F02','F03','F04','F05','F06','F07','F08','F09']);
+  assert.equal(deck.cards.length,10);
+  assert.deepEqual(deck.cards.map(card=>card.id),['F01','F02','F03','F04','F05','F06','F07','F08','F09','F10']);
   const changed=structuredClone(es);
   changed.visualLearning!.modes[0]!.sourceSections=['unknown-section'];
   assert.throws(()=>validatePage(changed),/Invalid visual learning guide/);
@@ -111,18 +150,21 @@ test('visual learning modes are data-driven, paired, and source-linked',()=>{
   const missingMentalMap=structuredClone(es);
   const mentalMap=missingMentalMap.visualLearning!.modes.find(mode=>mode.id==='mental-model')!;
   mentalMap.blocks=mentalMap.blocks.filter(block=>block.type!=='diagram');
-  assert.throws(()=>validatePage(missingMentalMap),/mental-map diagram must cover every concept/);
+  assert.throws(()=>validatePage(missingMentalMap),/Invalid visual learning guide|mental-map diagram must cover every concept/);
 });
 test('study IDs match across languages and controls are enabled',()=>{
   const ids=(page: typeof es)=>page.sections.flatMap(section=>section.studyItems?.map(item=>item.id) ?? []);
   assert.deepEqual(ids(es),ids(en));
-  assert.equal(ids(es).length,13);
+  assert.equal(ids(es).length,15);
+  assert.equal(ids(es).filter(id=>id.includes(':success:')).length,5);
   const html=renderPage(es,'/');
-  assert.equal((html.match(/data-study-id="PA-S001:/g) ?? []).length,13);
+  assert.equal((html.match(/data-study-id="PA-S001:/g) ?? []).length,15);
   assert.ok(!/<input[^>]+data-study-id[^>]+disabled/.test(html));
   assert.ok(html.includes('src="/assets/study.js"'));
   const changed=structuredClone(en); changed.sections.find(section=>section.id==='mastery')!.studyItems![0]!.id='PA-S001:mastery:changed';
   assert.throws(()=>assertPair(es,changed),/ES\/EN structure/);
+  const changedSuccess=structuredClone(en); changedSuccess.sections.find(section=>section.id==='success')!.studyItems![0]!.id='PA-S001:success:changed';
+  assert.throws(()=>assertPair(es,changedSuccess),/ES\/EN structure/);
 });
 test('dashboard separates local study, canonical status, mastery, and artifacts',()=>{
   const html=home('en','/',en,'Not started','not-assessed','Not started');
@@ -137,18 +179,23 @@ test('dashboard separates local study, canonical status, mastery, and artifacts'
   assert.ok(html.includes('data-session-id="PA-S001"'));
   assert.ok(html.includes(`data-exercise-ids="${en.dashboard!.exerciseIds.join('|')}"`));
   assert.ok(html.includes(`data-criteria-ids="${en.dashboard!.checklistIds.join('|')}"`));
+  assert.ok(html.includes(`data-success-ids="${en.dashboard!.successIds.join('|')}"`));
   assert.equal((html.match(/<table class="dashboard-table">/g) ?? []).length,4);
   assert.ok(html.includes('Numeric local study detail'));
   assert.ok(html.includes('data-study-table-marked="exercise"'));
   assert.ok(html.includes('data-study-table-remaining="criteria"'));
+  assert.ok(html.includes('data-study-table-marked="success"'));
+  assert.ok(html.includes('data-study-table-remaining="success"'));
   assert.ok(html.includes('Status and source of key signals'));
   assert.ok(html.includes('data/mastery/PA-S001.json'));
   assert.ok(html.includes('<progress id="study-exercises"'));
   assert.ok(!html.includes('<progress id="study-exercises" data-study-progress="exercise" max="5" value='));
   assert.ok(html.includes('data-share-chart="exercise"'));
   assert.ok(html.includes('data-share-chart="criteria"'));
+  assert.ok(html.includes('data-share-chart="success"'));
   assert.ok(html.includes('Pie · Exercises'));
   assert.ok(html.includes('Donut · Review criteria'));
+  assert.ok(html.includes('Donut · Success criteria'));
   assert.ok(html.includes('data-study-line'));
   assert.ok(html.includes('Enable JavaScript to view local history.'));
   assert.ok(html.includes('PA-S001 editorial chapter'));
@@ -172,11 +219,11 @@ test('malformed Mermaid stops SVG publication with an explicit error',()=>{
     assert.throws(()=>generateDiagrams(temp,new Map(),resolve(temp,'generated')),/Mermaid conversion failed for site\/shared\/diagrams\/PA-S001\/broken.mmd/);
   } finally { rmSync(temp,{recursive:true,force:true}); }
 });
-test('mind map source names all concept/subtopic pairs and central model',()=>{
+test('mind map source names every canonical concept, subtopic, and central model',()=>{
   const source=readFileSync(resolve(root,'site/shared/diagrams/PA-S001/foundations.mmd'),'utf8');
-  for(let i=1;i<=8;i++) assert.ok(source.includes(`C${i} / S${i}`));
-  assert.ok(source.includes('Outcome → responsibility'));
-  assert.ok(source.includes('Change → verification'));
+  for(let i=1;i<=8;i++) assert.ok(source.includes(`C${i} `));
+  for(let i=1;i<=7;i++) assert.ok(source.includes(`S${i} `));
+  assert.ok(source.includes('Main Topic deciding with a system model'));
 });
 test('visual learning studio supplies static content and progressive tab/recall hooks',()=>{
   const html=renderPage(en,'/');
