@@ -29,3 +29,6 @@ python verify-learning-site-contract.py <repository-root>
 ```
 
 It inspects available generated HTML for several regressions. Repository-native tests remain authoritative and should be expanded to cover the full contract.
+
+## Learning-text migration
+This baseline also upgrades the content-generation contract. Existing and future theory pages must be migrated to the Learning Text Ergonomics Contract. Run the canonical Codex regeneration prompt to bring the renderer/schema forward; do not manually rewrite only PA-S001 and leave future sessions unchanged.

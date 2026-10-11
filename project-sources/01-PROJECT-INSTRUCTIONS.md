@@ -970,3 +970,26 @@ Every Codex prompt that can create/regenerate `site/` MUST inline the applicable
 - canonical checks/tests and a completion report.
 
 A session/site implementation is not complete merely because the static build succeeds.
+
+## Learning Text Ergonomics Contract — canonical
+
+This contract supersedes weaker generic readability guidance. Academic rigor and learning efficiency must coexist.
+
+For every theory-bearing `site/` page and every theory response:
+- begin with **pre-training**: introduce and define key terms before relying on them;
+- use a **guiding question** near the beginning of each Main Topic/Subtopic and resolve it explicitly by the end;
+- structure prose as **one primary idea per paragraph**, with the main idea stated early;
+- segment into short coherent blocks with meaningful headings/subheadings and natural pauses;
+- use **bold only for high-value terms, distinctions, invariants or consequences**, not decorative emphasis;
+- move from known → new and concrete → abstract when the material is unfamiliar;
+- define each new term at first meaningful use and keep definition/example close to the term;
+- place a concrete software example immediately after an important abstraction when useful;
+- interleave explanation → example → brief retrieval/self-check → explanation rather than long uninterrupted exposition;
+- use worked examples and, when pedagogically appropriate, fade support from complete → partially completed → learner-owned;
+- analogies are optional and must include explicit software mapping plus where the analogy stops being valid;
+- add diagrams/concept maps/tables/timelines/flows according to the information structure, and place them adjacent to the prose they explain;
+- graphics use direct labels, few meaningful colors, no decorative color, and explicit relationships/arrows where useful;
+- remove seductive/irrelevant details, anecdotes, decorative trivia and purposeless repetition;
+- adapt explanation density to learner evidence: do not force novice scaffolding when prior evidence shows expert familiarity, but do not omit foundations merely because the learner has adjacent experience.
+
+A page that is accurate but consists mostly of uninterrupted exposition is not considered pedagogically complete.

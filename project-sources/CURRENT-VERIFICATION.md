@@ -1,17 +1,30 @@
-# CURRENT VERIFICATION — Canonical Learning Site v3
+# CURRENT VERIFICATION — Canonical Learning Site v4
 
 - [x] settings_under_8000
-- PROJECT-INSTRUCTIONS-SETTINGS characters: **7433**
-- [x] roadmap_pa_s006_deepens
-- [x] pa_s001_initializes_dashboard
-- [x] preserve_extend
-- [x] generated_prompts_inline_gates
-- [x] reject_disabled_checkbox
-- [x] enabled_study_controls
-- [x] dashboard_not_hero_only
-- [x] hard_fail_audit
-- [x] codex_repair_prompt
-- [x] apply_notes
-- [x] verifier
-- [x] verifier_rejects_known_bad_output
-- [x] apps_book_only_negative_or_legacy
+- [x] 01_contract
+- [x] 04_gate
+- [x] 05_method
+- [x] 11_inline
+- [x] 12_publish
+- [x] 13_hardfail
+- [x] 03_all_sessions
+- [x] codex_migration
+- [x] decision_log
+- PROJECT-INSTRUCTIONS-SETTINGS characters: **7863**
+
+## Learning-text invariants checked
+
+- Pre-training before unfamiliar terminology.
+- One dominant idea per paragraph + early topic sentence.
+- Clear headings and selective bold signaling.
+- Immediate concrete examples after abstractions.
+- Guiding question + explicit resolution when useful.
+- Interleaved retrieval/self-check without blocking Theory.
+- Worked-example fading when a new procedural skill benefits from it.
+- Analogies optional and bounded by explicit non-mapping.
+- Visual type selected by knowledge structure and placed adjacent to prose.
+- Direct labels / restrained semantic color / meaningful arrows.
+- Coherence: remove filler, trivia, decorative anecdotes and purposeless repetition.
+- Scaffolding adapts to evidence rather than title/self-report.
+- Generated Codex prompts inline Learning Text hard gates.
+- Canonical audit hard-fails material pedagogical regressions.

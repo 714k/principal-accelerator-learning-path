@@ -64,3 +64,6 @@ Do not invent facts or measurements. Explicitly identify assumptions.
 Use primary/official sources for current external claims where
 appropriate. Separate confirmed facts, inference, estimates and
 recommendations. If a conclusion cannot be established, say so.
+
+## Instructional-text preference
+The learner prefers academically rigorous material optimized for efficient study: one main idea per paragraph, pre-training of unfamiliar terms, clear structural headings, sparse meaningful emphasis, immediate concrete examples, interleaved retrieval/self-check, adjacent explanatory graphics, and worked-example fading when a procedural skill is new. Avoid filler, decorative anecdotes, purposeless repetition and long uninterrupted exposition.

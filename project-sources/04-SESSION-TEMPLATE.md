@@ -899,3 +899,140 @@ Desktop global navigation exposes curriculum phases/sessions, projects/systems a
 
 ### Generated prompt handoff
 Any Codex prompt emitted by the session must repeat these executable gates directly so implementation cannot silently collapse them into a minimal scaffold.
+
+## Canonical Learning Text Ergonomics Gate
+
+This gate is mandatory for every theory-bearing session and supersedes weaker prose/readability guidance.
+
+### Pre-training before the main exposition
+Before `Main Topic` and before any subtopic that introduces unfamiliar terminology, provide a compact pre-training block when needed:
+- 2–6 key terms maximum for that local section;
+- each term defined in plain technical language;
+- acronym/initialism expanded on first use;
+- no unexplained standards, artifacts or architecture terms such as ADR, RFC, ISO/IEC/IEEE 42010, route map, contract, quality attribute, boundary, etc.;
+- definitions appear before those terms carry argumentative weight.
+
+Do not turn pre-training into a second glossary. It exists only to reduce prerequisite lookup cost.
+
+### Guiding-question pattern
+Each developed Main Topic and theoretical Subtopic should, when meaningful, open with one explicit **guiding question** that frames the engineering problem. The section must answer that question explicitly near its end.
+
+The question must be substantive, e.g.:
+- `What changes when this boundary is poorly chosen?`
+- `How does architecture differ from its description in observable software behavior?`
+
+Avoid rhetorical filler.
+
+### Paragraph and segmentation rule
+- one dominant idea per paragraph;
+- state the topic sentence/main idea early;
+- prefer short paragraphs, but do not fragment one causal explanation into sentence-per-line prose;
+- use descriptive subheadings to expose conceptual stages;
+- keep tightly related definition, example and diagram adjacent;
+- use lists only for true sets/dimensions/criteria;
+- use numbered steps only for sequence/mechanism/procedure;
+- avoid redundant restatement unless it serves spaced retrieval, contrast or synthesis.
+
+### Explanation rhythm
+Do not write long runs of exposition with the same rhetorical form. Vary the local rhythm deliberately:
+
+`concept → concrete example → mechanism → quick self-check → implication/trade-off`
+
+or, where better:
+
+`known case → new abstraction → diagram → counterexample → retrieval prompt`.
+
+A section may use another sequence when technically clearer, but pure exposition from start to finish is insufficient for important topics.
+
+### Immediate-example requirement
+After each important abstract concept, add a nearby concrete software example unless the concept is already concrete.
+
+The example must name real software elements such as component, package, service, API, schema, queue, database, event, model, route, build task or browser/runtime behavior.
+
+For concepts such as responsibility, contract, Architecture Decision Record (ADR), quality attribute, boundary, coupling/cohesion, platform, evidence or architecture description, generic prose alone is insufficient.
+
+### Worked-example fading
+When a skill requires procedural or decision practice and learner evidence does not already show mastery, prefer a short progression:
+1. **Worked example** — complete reasoning/solution with annotations.
+2. **Faded example** — some reasoning/steps omitted for the learner to complete.
+3. **Independent prompt** — learner performs the same class of reasoning with less scaffolding.
+
+Do not force fading where the session is definitional or where it would create artificial repetition.
+
+### Retrieval and self-test
+Within long Main Topics/Subtopics, add brief low-friction retrieval prompts at natural boundaries. These are not mastery assessments and do not interrupt the Theory Phase.
+
+Allowed forms:
+- one-sentence recall question;
+- choose-the-distinction prompt;
+- predict-what-changes prompt;
+- explain-the-diagram prompt;
+- identify-the-failure prompt.
+
+Provide the answer immediately after a short disclosure/reveal in the published page or in an adjacent answer block so the material remains self-contained. Do not require learner input before completing Theory.
+
+### Analogy rule
+Analogies are optional. When used, every analogy must include:
+- familiar source situation;
+- exact software mapping;
+- what the analogy explains;
+- **where it breaks / does not map**.
+
+Never use an analogy as the authoritative definition.
+
+### Graphic-proximity and graphic-selection rule
+Every meaningful visual must be placed next to the paragraph/section it explains, not collected far away merely for decoration.
+
+Choose the representation by information structure:
+- relationships/hierarchy → labeled concept map or dependency map;
+- temporal order → timeline/sequence;
+- process/control/data movement → flow diagram;
+- alternatives → comparison table/matrix;
+- states/lifecycle → state/lifecycle diagram;
+- causal propagation/failure → propagation flow;
+- architecture topology → component/boundary diagram.
+
+Graphics must:
+- label relationships directly where practical;
+- use arrows/visual signaling only to encode meaning;
+- use a restrained palette;
+- keep labels near the represented object rather than forcing distant legend lookup;
+- be explained in prose;
+- not repeat surrounding text verbatim.
+
+### Signaling and emphasis
+Use bold sparingly for:
+- term being defined;
+- crucial distinction;
+- invariant;
+- causal consequence;
+- decision criterion.
+
+Do not bold complete paragraphs or every keyword.
+
+### Coherence gate
+Remove before publishing:
+- decorative anecdotes;
+- trivia/curiosities unrelated to the objective;
+- motivational filler;
+- duplicate explanations that add no contrast, retrieval or synthesis value;
+- examples that introduce extra domain complexity without teaching the target concept.
+
+### Expertise adaptation
+Use available evidence from `07-PROGRESS.md`, prior session evidence and current learner work to adjust scaffolding depth.
+- If evidence is weak/new: more pre-training, worked examples and explicit transitions.
+- If evidence is strong: compress already-mastered foundations, preserve definitions/distinctions, and increase trade-off/decision depth.
+- Never infer expert mastery from job title or familiarity alone.
+
+### Learning-text completion check
+Before leaving Theory, verify:
+- [ ] key terms were pre-trained before heavy use;
+- [ ] every Main Topic/Subtopic has a visible conceptual structure;
+- [ ] one primary idea per paragraph dominates;
+- [ ] important abstractions have nearby concrete examples;
+- [ ] at least one meaningful diagram/table/flow appears where the concept structure warrants it;
+- [ ] long sections include retrieval/self-check opportunities;
+- [ ] guiding questions are answered;
+- [ ] analogies, if any, state their limit;
+- [ ] no decorative/redundant prose remains;
+- [ ] the explanation depth matches available learner evidence without inventing mastery.

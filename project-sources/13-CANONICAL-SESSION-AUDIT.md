@@ -322,3 +322,49 @@ Any failed item above means the Learning Site portion of the session is not comp
 
 When the repository has generated HTML available, the included `verify-learning-site-contract.py` may be run as an additional regression check. It does not replace repository-native tests or the audit above.
 
+## 14. Learning Text Ergonomics hard-fail audit
+
+For every theory-bearing session, inspect the actual rendered/visible theory—not only source-schema presence.
+
+### Structure and signaling
+- [ ] One dominant idea per paragraph is the norm; paragraphs do not bundle unrelated claims.
+- [ ] Main idea/topic sentence appears early in substantial paragraphs.
+- [ ] Long sections are segmented with descriptive subheadings and natural pauses.
+- [ ] Bold emphasis is selective rather than decorative/high-frequency.
+- [ ] Content is not mostly uninterrupted exposition, bullet-only summaries or card soup.
+
+### Pre-training and terminology
+- [ ] Unfamiliar terms required for the section are introduced before heavy use.
+- [ ] Every new technical term is defined at first meaningful use or linked immediately to its prior local definition.
+- [ ] Standards/artifacts such as ADR/RFC/ISO references are not dropped into prose unexplained.
+- [ ] Each acronym/initialism is expanded on the page before shorthand-only use.
+
+### Examples and learning rhythm
+- [ ] Every important abstraction has a nearby concrete software example unless inherently concrete.
+- [ ] Examples name concrete software elements and observable change/runtime behavior.
+- [ ] Substantial sections vary rhythm across explanation/example/visual/retrieval/implication rather than pure exposition.
+- [ ] Procedural/new skills use a worked → faded → independent sequence when pedagogically appropriate.
+- [ ] Long sections contain brief retrieval/self-check prompts that do not block Theory completion.
+- [ ] Main Topic/Subtopics use a substantive guiding question when appropriate and answer it explicitly near the end.
+
+### Analogies
+- [ ] Any analogy has explicit software mapping.
+- [ ] Any analogy states where it stops mapping / can mislead.
+- [ ] Analogy does not replace the formal definition.
+
+### Visuals
+- [ ] Diagram/table/timeline/flow type matches the structure of the knowledge.
+- [ ] Visual is adjacent to the prose it explains.
+- [ ] Concept/dependency maps label relationships where meaningful.
+- [ ] Labels are placed directly in/near the visual objects where practical; no unnecessary legend lookup.
+- [ ] Arrows/color have semantic meaning; palette is restrained and non-decorative.
+- [ ] Visual is explained in prose and does not simply duplicate nearby text.
+
+### Coherence and expertise adaptation
+- [ ] Decorative anecdotes, trivia, motivational filler and seductive details unrelated to the objective are absent.
+- [ ] Repetition has an explicit function (retrieval, contrast, deepening, synthesis or spaced revisit).
+- [ ] Scaffolding depth is based on actual learner evidence where available, not job title/self-report alone.
+- [ ] Previously demonstrated expertise may reduce redundant scaffolding but never remove required definitions/distinctions/source integrity.
+
+Any material failure above means the Theory/Publishing portion is incomplete and must be corrected before the session is considered canonical.
+

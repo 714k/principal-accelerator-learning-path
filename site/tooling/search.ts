@@ -20,6 +20,7 @@ export function searchIndex(lang: 'es'|'en', base: string, pages: {route: string
   const dashboard=es?[
     ['roadmap','Sesiones disponibles','Roadmap y estado editorial de PA-S001'],
     ['study','Actividad marcada','Ejercicios, criterios de repaso y gráficos de barras, pie, donut y línea'],
+    ['signals','Señales principales','Resumen con estado del programa, dominio, revisitas, publicación y sus fuentes'],
     ['status','Estado general del programa','Progreso canónico del programa'],
     ['mastery','Dominio respaldado','Evaluación de dominio L1–L5'],
     ['artifacts','Artefactos públicos','Capítulo editorial y Engineering Book'],
@@ -29,6 +30,7 @@ export function searchIndex(lang: 'es'|'en', base: string, pages: {route: string
   ]: [
     ['roadmap','Available sessions','Roadmap and PA-S001 editorial status'],
     ['study','Marked study activity','Exercises, review criteria, and bar, pie, donut and line charts'],
+    ['signals','Key signals','Summary of program status, mastery, revisits, publication, and their sources'],
     ['status','Overall program status','Canonical program progress'],
     ['mastery','Evidence-backed mastery','L1–L5 mastery assessment'],
     ['artifacts','Public artifacts','Editorial chapter and Engineering Book'],
@@ -37,7 +39,7 @@ export function searchIndex(lang: 'es'|'en', base: string, pages: {route: string
     ['activity','Activity and next work','Recorded activity and next work']
   ];
   const entries: SearchEntry[]=[
-    {title:es?'Panel de aprendizaje':'Learning dashboard',context:es?'Inicio':'Home',href:root,text:es?'Inicio, actividad local, progreso y proyectos':'Home, local activity, progress and projects'},
+    {title:es?'Panel de aprendizaje':'Learning dashboard',context:'Dashboard',href:root,text:es?'Dashboard, actividad local, progreso y proyectos':'Dashboard, local activity, progress and projects'},
     ...dashboard.map(([id,title,text])=>({title: title!,context:es?'Panel de aprendizaje':'Learning dashboard',href:`${root}#${id}`,text: text!})),
     {title:es?'Sesiones':'Sessions',context:es?'Índice':'Index',href:`${root}sessions/`,text:es?'Sesiones disponibles por fase':'Available sessions by phase'},
     {title:es?'Proyectos':'Projects',context:es?'Índice':'Index',href:`${root}projects/`,text:es?'Proyectos y sistemas P0':'P0 projects and systems'}

@@ -564,3 +564,27 @@ Reject completion if any of the following is true:
 - build/tests pass but the observable UI contract above is missing.
 
 Run `npm run check` or the canonical equivalent, then perform these rendered-output inspections separately.
+
+## Mandatory inline Learning Text payload in generated Codex prompts
+
+Whenever a Codex prompt creates, regenerates or materially changes theory/session rendering under `site/`, it MUST inline these acceptance gates in addition to the Learning Site hard gates:
+
+```text
+LEARNING TEXT HARD GATES
+- Preserve full sourced theory; improve learning ergonomics without summarizing away content.
+- Pre-train unfamiliar key terms before the section relies on them; expand acronyms on first use.
+- Main Topic and each theoretical Subtopic use one dominant idea per paragraph, clear topic sentences and descriptive subheadings.
+- Use bold sparingly for definitions, distinctions, invariants, causal consequences and decision criteria only.
+- Each substantial Main Topic/Subtopic has a meaningful guiding question and explicitly resolves it near the end when appropriate.
+- Important abstractions get a nearby concrete software example immediately after the concept/mechanism.
+- Long sections interleave explanation, example, diagram/visual, brief retrieval/self-check and trade-off/implication; do not render pure uninterrupted exposition.
+- Where a skill is procedural and new, support worked-example fading: complete → partial → learner-owned; do not fabricate mastery.
+- Analogies are optional; when present include exact software mapping and where the analogy breaks.
+- Choose graphic type by knowledge structure (concept/dependency map, flow, sequence/timeline, matrix/table, state/lifecycle, failure propagation, architecture topology).
+- Place diagrams/tables next to the prose they explain; use direct labels, restrained semantic color and meaningful arrows; avoid distant legends when practical.
+- Remove decorative anecdotes, trivia, motivational filler, seductive details and purposeless redundancy.
+- Adjust scaffolding depth using actual learner evidence; never infer mastery from title/familiarity alone.
+- Add/maintain content/render validation so a session cannot regress to shallow bullet-only or uninterrupted-exposition output.
+```
+
+Codex must implement reusable content-schema/rendering support where necessary rather than hard-coding these patterns only into PA-S001.
