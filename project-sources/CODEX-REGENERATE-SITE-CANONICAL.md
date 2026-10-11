@@ -1,4 +1,4 @@
-# Codex — Regenerate/upgrade Principal Accelerator Learning Site to canonical contract
+# Codex — Regenerate/upgrade Principal Accelerator Learning Site to canonical contract v5
 
 Work in the existing Principal Accelerator repository. This is a preserve-and-extend migration, NOT a clean rewrite.
 
@@ -8,6 +8,13 @@ Read the current Project Sources (`01`, `03`, `04`, `05`, `06`, `09`, `10`, `11`
 Inventory current capabilities first. Preserve all richer working behavior that conforms to the current contract. Do not replace the current site with a smaller PA-S001 scaffold.
 
 Search for legacy `apps/book` references. Preserve them only in explicit history/migration documentation; migrate current implementation/content references to `apps/portfolio/` + separate `site/`.
+
+
+## 0A. Execution ownership — no shell script for this migration
+
+This repository/site already exists. Perform the entire migration directly in Codex. Do not request, generate or depend on a `.sh` scaffold. Shell scripts are reserved only for first-time deterministic scaffolding of a NEW repository/app/lab/system when no compatible baseline exists.
+
+Codex owns the mechanical creation/update of all deliverables required by this migration: canonical content files supplied in the handoff, schemas, renderers, ES/EN pages, diagrams, generated SVG wiring, dashboard/tracking plumbing, tests, validation and publishing artifacts. Preserve learner-owned architecture decisions and canonical theory authorship boundaries.
 
 ## 1. Home = actual dashboard from PA-S001
 Both `/es/` and `/en/` must be learning dashboards. A hero may remain, but hero + “Sessions/Projects” cards alone is NON-COMPLIANT.
@@ -127,3 +134,24 @@ Required observable behavior:
 - scaffold depth adapted from actual learner evidence, never title alone.
 
 Do not implement this as PA-S001-specific prose. Extend the content model/renderer/validation so future sessions naturally comply. Inspect rendered PA-S001 as the first migration proof and add tests/validation where practical.
+
+
+
+## 12. CANONICAL THEORY FIREWALL — required
+
+This migration changes the authoring boundary.
+
+ChatGPT/session-authored theory is canonical. Codex is the publisher/renderer/implementation agent, not the primary theory author.
+
+For each current session:
+1. locate the canonical authored ES/EN content source if it exists;
+2. preserve its semantics and instructional structure;
+3. migrate the schema/renderer so it can represent that content without compression;
+4. do not infer missing rich theory from headings or roadmap bullets;
+5. if canonical source content is absent, report `MISSING_CANONICAL_THEORY_PAYLOAD` for that session instead of fabricating replacement prose.
+
+PUBLISH VERBATIM SEMANTICS; DO NOT REAUTHOR THEORY.
+
+The content model must be able to preserve, when applicable: pre-training, guiding question, concept definition/scope/distinctions, immediate concrete example, mechanism/visual, analysis, retrieval+self-check answer, counterexample/failure, trade-offs/production implications, guiding-question resolution, citations/source linkage and stable ES/EN IDs.
+
+Do not "improve readability" by shortening or converting authored prose into bullet/card summaries. Adapt the renderer to the content.

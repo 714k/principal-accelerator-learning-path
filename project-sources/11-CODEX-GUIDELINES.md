@@ -71,9 +71,10 @@ When a session includes creation or extension of an app/lab/package/system, Chat
 
 Use:
 
-- a `.sh` script for deterministic repository/workspace/app/package creation and baseline configuration;
-- a Codex prompt for bounded multi-file implementation/refactoring;
-- both when useful.
+- a **Codex prompt by default** for all session implementation, multi-file creation/refactoring, content materialization, diagrams, tests, artifacts and publishing when a compatible structure exists;
+- a `.sh` only for deterministic **first-time scaffolding of a NEW repository/app/lab/system** when no compatible baseline exists. The script prepares structure only; Codex performs the session implementation.
+
+Do not generate or require `.sh` for routine session updates, existing-app work, theory publication, migrations or deliverables.
 
 The script must be idempotent where reasonably practical, fail fast (`set -euo pipefail` when appropriate), avoid destructive deletion, and print clear next steps.
 
@@ -88,11 +89,9 @@ It must not create a separate diagnostic application. Baseline/mastery recording
 
 ## PA-S001 automatic handoff requirement
 
-After PA-S001 Theory is complete and the learner continues into Build, ChatGPT must provide both:
-- a runnable shell scaffold; and
-- a complete Codex prompt.
+After PA-S001 Theory is complete and the learner continues into Build, ChatGPT must provide a complete Codex prompt. A runnable shell scaffold is added only when the Accelerator repository/P0 structure is genuinely being created from zero.
 
-This is mandatory and automatic.
+The Codex handoff is mandatory and automatic; the shell script is conditional.
 
 The handoff must initialize the real repository/P0, not a diagnostic app, and must include `apps/portfolio/` plus separate bilingual Learning Site `site/` scaffolding.
 
@@ -588,3 +587,82 @@ LEARNING TEXT HARD GATES
 ```
 
 Codex must implement reusable content-schema/rendering support where necessary rather than hard-coding these patterns only into PA-S001.
+
+## Canonical theory authorship and publishing contract — v5
+
+This contract resolves the boundary between ChatGPT session teaching and Codex implementation.
+
+### Authority split
+
+**ChatGPT owns canonical theory authoring.** During the Theory Phase, ChatGPT must compose the complete source-backed ES session content to the required pedagogical standard and, before Build publication, produce or materialize the semantically equivalent EN content.
+
+**Codex does not own theory authoring.** Codex owns schema integration, rendering, diagrams, interaction, build plumbing, migration, tests and publication. Codex must not independently shorten, summarize, "improve", replace or regenerate canonical theory prose merely to fit a renderer.
+
+### Build handoff invariant
+
+When Build begins for a theory-bearing session, the Codex handoff must carry canonical theory in one of these forms, in priority order:
+1. the Codex prompt contains the exact approved ES/EN canonical content payload to materialize;
+2. the prompt points to exact canonical content files already present in the repository.
+
+A `.sh` is not a content/publication dependency. It is reserved for first-time mechanical scaffolding of a new repository/app/lab/system. A handoff that merely tells Codex to "write the session theory from the Sources" is incomplete.
+
+If the canonical content payload/files are missing, Codex must stop and report `MISSING_CANONICAL_THEORY_PAYLOAD`; it must not invent a substitute chapter.
+
+### Fidelity rule
+
+Mechanical transformations are allowed only when they preserve meaning and instructional structure: escaping, stable IDs, schema normalization, localized link wiring, diagram references, citation IDs and equivalent markup segmentation.
+
+Codex must preserve:
+- section order and hierarchy;
+- definitions/scope/distinctions;
+- guiding questions and explicit resolutions;
+- concrete examples and named software elements;
+- retrieval/self-check prompts and their answers;
+- counterexamples/failure modes;
+- trade-offs/limitations;
+- citations/source linkage;
+- visual adjacency intent;
+- epistemic labels and limitations.
+
+Codex must not collapse several authored blocks into a generic paragraph or bullet list.
+
+### Structured instructional content model
+
+The canonical content schema should preserve instructional function explicitly rather than relying only on free-form prose. For substantial Main Topics/Subtopics, support typed blocks or equivalent semantics such as:
+
+```text
+pretraining[]
+guidingQuestion
+concept { definition, scope, distinctions, sources }
+example { context, namedElements, behavior, consequence }
+mechanism { explanation, visualRef? }
+analysis[]
+retrieval { prompt, answer, explanation }
+counterexample/failure
+tradeoffs[]
+productionImplications[]
+guidingQuestionResolution
+```
+
+Exact field names may differ, but the functions must remain representable and renderer-visible. A single string field containing a shallow paragraph is not a sufficient replacement for this structure.
+
+### Validation principle
+
+Validation must check both **presence and rendered instructional function**. A section does not pass merely because keys named `concept`, `example` or `visual` exist. Rendered output must contain substantive authored content for the applicable functions and preserve their ordering/proximity.
+
+The canonical audit remains the semantic quality gate; machine checks provide regression protection, not proof of pedagogical quality.
+
+## CODEX THEORY FIREWALL — mandatory
+
+For current/future PA session publication:
+
+- Treat canonical session theory supplied by ChatGPT/the repository as immutable authored learning content unless the learner explicitly requests editorial rewriting.
+- Do not use Codex to synthesize missing theory from roadmap bullets.
+- Do not rewrite paragraphs merely to satisfy layout components.
+- Do not reduce prose to bullets/cards to fit the renderer.
+- Do not replace concrete examples, retrieval prompts, guiding questions, citations or trade-offs with shorter equivalents.
+- Renderer/schema must adapt to authored content, not force authored content to adapt to a thin schema.
+- If a schema cannot represent the canonical theory, extend the schema/renderer first.
+- If the canonical theory payload is absent, emit `MISSING_CANONICAL_THEORY_PAYLOAD` and stop theory publication work.
+
+Every generated Codex prompt that publishes a theory-bearing session MUST include a `CANONICAL THEORY PAYLOAD` section or point to exact canonical repository content files, plus the instruction `PUBLISH VERBATIM SEMANTICS; DO NOT REAUTHOR THEORY`. Codex must materialize the payload directly; no `.sh` is required when the repository structure already exists.
