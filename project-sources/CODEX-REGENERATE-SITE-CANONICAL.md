@@ -2,6 +2,10 @@
 
 Work in the existing Principal Accelerator repository. This is a preserve-and-extend migration, NOT a clean rewrite.
 
+## Atomic concept coverage: never derive theory from a title
+
+PUBLISH VERBATIM SEMANTICS; DO NOT REAUTHOR THEORY. Every session's canonical ES/EN theory contains an inventory of atomic concepts for its Main Topic and EACH composite Subtopic; render all individually and in order before the comparison/synthesis. For `Application, System, Platform and Ecosystem` publish four separate mini-lessons before integrating them. Preserve theory depth, definitions, named examples, local diagrams/tables/flows, source links, retrieval questions+answers, tradeoffs and three explicit lanes. Protect canonical concept IDs/ES-EN parity. Do not treat visual Studio summaries/cards or auto-generated bullets as replacements. Missing canonical theory → MISSING_CANONICAL_THEORY_PAYLOAD; missing component concepts → MISSING_ATOMIC_CONCEPT_COVERAGE. Inspect rendered output rather than only checking schema keys. Study-mode entry PA-Sxxx does not authorize this migration/prompt; Build is explicit only.
+
 ## 0. Inspect before editing
 Read the current Project Sources (`01`, `03`, `04`, `05`, `06`, `09`, `10`, `11`, `12`, `13`), the Technology Radar, `/ui-reference/`, current `site/`, content schemas, generated output, tests and any existing PA session pages.
 
@@ -155,3 +159,27 @@ PUBLISH VERBATIM SEMANTICS; DO NOT REAUTHOR THEORY.
 The content model must be able to preserve, when applicable: pre-training, guiding question, concept definition/scope/distinctions, immediate concrete example, mechanism/visual, analysis, retrieval+self-check answer, counterexample/failure, trade-offs/production implications, guiding-question resolution, citations/source linkage and stable ES/EN IDs.
 
 Do not "improve readability" by shortening or converting authored prose into bullet/card summaries. Adapt the renderer to the content.
+
+## 13. DOMAIN-LANE PRESERVATION — required
+
+Canonical session theory is authored in three explicit capability lanes before integration:
+
+1. Staff → Principal Software Engineering;
+2. Frontend Platform Architecture (FPA);
+3. AI Product Engineering (AIPE).
+
+Preserve these lane boundaries, headings/labels and concept ownership in the rendered site. Do not flatten them into one generic Concepts/Theory stream. Cross-domain synthesis is rendered only when present in the canonical payload and must remain visibly labeled as synthesis/integration.
+
+The session's canonical ChatGPT companions are `PA-Sxxx-theory-es.md` and `PA-Sxxx-theory-en.md`. Use/materialize their semantics in the existing content architecture. Do not require a new storage architecture solely because the conversation artifact is Markdown. If they/payload are absent, report `MISSING_CANONICAL_THEORY_PAYLOAD`.
+
+
+## 14. ACCELERATED LEARNING FORMAT — mandatory for this migration and future Codex session prompts
+1. **SÍNTESIS EN 30 SEGUNDOS / 30-SECOND SYNTHESIS:** exactly three meaningful points at the beginning of ES/EN canonical theory after metadata, before Objective. Do not replace full theory with this summary.
+2. **KEYWORD SIGNALING:** selectively bold the initial discriminative term of substantial topic sentences, not every sentence; keep paragraph idea clear and direct.
+3. **THREE-LAYER READING:** Level 1 Fundamento/Foundation (definition+example), Level 2 Mecanismo/Mechanism (concrete causal steps+adjacent explained diagram/table+retrieval answer), Level 3 Profundización/Deep Dive (only warranted edge/coding/maths/operational detail, accessible collapsible site panel with full no-JS fallback). Preserve all canonical content.
+4. **CAUSAL CHUNKS + CONTEXT HELP:** for actual process, 📥 ENTRADA/CAUSA → ⚙️ PROCESO/MECANISMO → 📤 SALIDA/RESULTADO → 💡 INSIGHT/REGLA DE ORO with textual labels; render `[Término:: definición <=10 palabras]` via accessible hover/focus/touch tooltips with readable fallback, never within code fences/inline code/URLs.
+5. **INTERACTIVE RECOMMENDATIONS:** preserve grounded `[Componente Interactivo Recomendado: Slider/Toggle/Simulador para ajustar X y observar Y]`, only implement justified X→Y interactions with approval, never invent data or fake enabled UI.
+
+**PUBLISH VERBATIM SEMANTICS; DO NOT REAUTHOR THEORY. DO NOT CHANGE APPLICATION CODE LOGIC FOR PRESENTATION.** These features are content-presentation changes only. If canonical ES/EN lacks these pedagogy structures, STOP for updated ChatGPT-authored theory rather than fabricating it. Retain domain lanes, all atomic concepts, examples, sources, sequence and ES/EN equivalence. The scaffold script is neither required nor authorized by this content migration. Inspect git diff, regression tests and the actual rendered HTML.
+
+Mermaid→SVG: preserve source `.mmd` and generate responsive accessible SVG; verify real HTML.

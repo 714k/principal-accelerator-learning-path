@@ -1,0 +1,7 @@
+flowchart LR
+  R[Requisitos y restricciones] --> D[Decisiones arquitectónicas]
+  D --> A[Arquitectura real: componentes y dependencias]
+  D --> AD[Descripción: diagramas y ADR]
+  A --> O[Comportamiento observado]
+  O --> E[Pruebas y evidencia de cualidades]
+  AD -. explica, no prueba .-> A

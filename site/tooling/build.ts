@@ -7,6 +7,7 @@ import { copyDiagrams, diagramMetadata, generateDiagrams } from './diagrams.ts';
 import { basePath, renderPage, home, sessionsIndex, projectsIndex } from './render.ts';
 import { searchIndex } from './search.ts';
 import { renderPortfolio } from '../../apps/portfolio/src/portfolio.ts';
+import { assertCanonicalPair, canonicalDiagramSources, renderCanonical } from './canonical.ts';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../..');
 const output=resolve(root,'dist');
 const base=basePath(process.env.BASE_PATH);
@@ -16,6 +17,20 @@ const pairs=routes.map(route=>({route,es:loadPage(resolve(root,`site/es/${route}
 for (const p of pairs) assertPair(p.es,p.en);
 const sessionPair=pairs.find(pair=>pair.route==='sessions/PA-S001');
 if (!sessionPair) throw new Error('PA-S001 session source is missing');
+const canonicalTheory={
+  es:readFileSync(resolve(root,'site/es/sessions/PA-S001/theory.md'),'utf8'),
+  en:readFileSync(resolve(root,'site/en/sessions/PA-S001/theory.md'),'utf8')
+};
+assertCanonicalPair(canonicalTheory.es,canonicalTheory.en);
+for(const lang of ['es','en'] as const){
+  renderCanonical(canonicalTheory[lang],lang,base);
+  const sources=canonicalDiagramSources(canonicalTheory[lang]);
+  sources.forEach((source,index)=>{
+    const number=String(index+1).padStart(2,'0');
+    const checkedIn=readFileSync(resolve(root,`site/shared/diagrams/PA-S001/theory-${lang}-${number}.mmd`),'utf8');
+    if(source.trim()!==checkedIn.trim())throw new Error(`Canonical Mermaid source drift: ${lang} diagram ${number}`);
+  });
+}
 const pages=pairs.flatMap(pair=>[pair.es,pair.en]);
 const progress=readFileSync(resolve(root,'project-sources/07-PROGRESS.md'),'utf8');
 const status=progress.match(/Current overall status:\s*(Not started|Partial|Completed|Revisit)/)?.[1];
@@ -45,11 +60,14 @@ emit('.nojekyll','');
 emit('index.html',home('es',base,sessionPair.es,status,mastery.status,systemsStatus));
 emit('portfolio/index.html',renderPortfolio(base));
 for (const lang of ['es','en'] as const) {
-  emit(`assets/search-${lang}.json`,JSON.stringify(searchIndex(lang,base,pairs.map(pair=>({route:pair.route,page:pair[lang]})))));
+  emit(`assets/search-${lang}.json`,JSON.stringify(searchIndex(lang,base,pairs.map(pair=>({route:pair.route,page:pair[lang]})),canonicalTheory[lang])));
   emit(`${lang}/index.html`,home(lang,base,sessionPair[lang],status,mastery.status,systemsStatus));
   emit(`${lang}/sessions/index.html`,sessionsIndex(lang,base));
   emit(`${lang}/projects/index.html`,projectsIndex(lang,base));
-  for (const p of pairs) emit(`${lang}/${p.route}/index.html`,renderPage(p[lang],base,p.route));
+  for (const p of pairs) {
+    const theory=p.route==='sessions/PA-S001'?canonicalTheory[lang]:undefined;
+    emit(`${lang}/${p.route}/index.html`,renderPage(p[lang],base,p.route,theory));
+  }
 }
 console.log(`Built ${8 + pages.length} HTML pages and ${generatedDiagrams.length} SVG diagram source(s) in ${output}; BASE_PATH=${base}; mastery=${mastery.status}.`);
 } finally { rmSync(generatedRoot,{recursive:true,force:true}); }

@@ -1,0 +1,5 @@
+flowchart LR
+  UI[CheckoutPage] --> PORT[PaymentPort: authorize]
+  PORT --> AD[StripeAdapter]
+  AD --> EXT[Servicio de pagos]
+  BAD["Anti-ejemplo: CheckoutPage"] -. depende de errores internos .-> EXT

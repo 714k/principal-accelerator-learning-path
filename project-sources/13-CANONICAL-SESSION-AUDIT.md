@@ -1,5 +1,25 @@
 # Principal Accelerator — Canonical Session Contract Audit
 
+## Atomic concept coverage — hard rejection gate (Study AND Build)
+For EVERY composite Main Topic and theoretical Subtopic independently: [ ] inventory names every important component concept/prerequisite with stable ES/EN ID; [ ] each component has its own *developed* academic definition and scope **before** integration; [ ] each explains mechanism in named software elements, with immediate concrete example, counterexample/tradeoff where appropriate, source citation, retrieval question and answer; [ ] a local semantic diagram/table/flow/code walkthrough is adjacent and explained for structural/process/contrast topics; [ ] comparison/integration begins only AFTER the individual concepts; [ ] Staff→Principal/FPA/AIPE source lane remains distinct until labeled synthesis; [ ] each concept and relationship exists in both ES/EN with identical IDs/coverage; [ ] no shallow heading-only or bullet/card-only content; [ ] later Codex prompt includes the firewall and content payload; [ ] site HTML visibly preserves order, depth and visuals. A combined "application/system/platform/ecosystem" paragraph is FAIL, regardless of style. Reject with `MISSING_ATOMIC_CONCEPT_COVERAGE`. Presence-only scripts cannot certify semantic depth and must not claim they do.
+
+## 0. Mode routing gate
+
+Determine mode before applying later gates.
+
+For a bare `PA-Sxxx`:
+- [ ] Mode = **Study**.
+- [ ] Produce only the two canonical ES/EN theory artifacts as substantive output.
+- [ ] Do not apply Build/Publish completion gates yet.
+
+For an explicit learner request for Codex/site/app/implementation/publish:
+- [ ] Mode = **Build/Publish**.
+- [ ] Use the latest synchronized theory artifacts as canonical payload.
+- [ ] Apply all relevant Build, site, evidence and publication gates.
+
+Theory completion alone never changes the mode.
+
+
 This file is a preflight checklist for every future `PA-Sxxx` conversation.
 It exists to prevent regression into earlier failure modes.
 
@@ -33,7 +53,7 @@ PA-S001:
 - [ ] never creates a throwaway diagnostic app.
 
 When PA-S001 enters Build:
-- [ ] automatically provide a complete Codex prompt;
+- [ ] do not provide a Codex prompt unless the learner explicitly requested Build/Codex/site/app work;
 - [ ] provide a runnable `.sh` only if the repository/P0 structure must be initialized from zero;
 - [ ] if compatible structure already exists, confirm that no shell script is required and Codex creates all session deliverables directly.
 
@@ -126,6 +146,15 @@ For each ES/EN page:
 
 ## 6. Concepts / Main Topic / Subtopics
 
+### Domain separation gate
+- [ ] `## Concepts` visibly separates Staff → Principal Software Engineering, Frontend Platform Architecture (FPA), and AI Product Engineering (AIPE).
+- [ ] Each relevant concept has one clear primary lane.
+- [ ] A lane with no new primary concept is not padded with invented theory.
+- [ ] Main Topic/Subtopics preserve primary-domain identity.
+- [ ] Cross-domain material appears only after the separate foundations and is labeled as synthesis/integration.
+- [ ] Cross-domain synthesis explains which concern/mechanism comes from which lane instead of blending them indistinguishably.
+
+
 ### Concepts
 - [ ] Formal foundations: definition, scope, terminology, mechanism,
       examples/counterexamples, trade-offs, production implications.
@@ -165,7 +194,7 @@ Avoid:
 
 Once the learner continues after Theory:
 - [ ] enter Design → Build → Prove → Think → Publish;
-- [ ] provide scaffold automatically when implementation applies;
+- [ ] provide scaffold/Codex handoff only after an explicit learner Build request;
 - [ ] explicitly separate CODEX-OWNED and LEARNER-OWNED;
 - [ ] preserve learning-critical implementation/decisions for learner;
 - [ ] preserve architecture variants as separate labs when comparison matters.
@@ -447,3 +476,40 @@ For every theory-bearing session publication:
 - [ ] No authored explanatory prose was collapsed into generic bullets/cards merely for layout convenience.
 
 Any failure means the session is not publication-complete.
+
+## Study-mode conversation artifact gate
+
+For a bare `PA-Sxxx` start:
+- [ ] `PA-Sxxx-theory-es.md` is created as a conversation artifact.
+- [ ] `PA-Sxxx-theory-en.md` is created as a separate conversation artifact.
+- [ ] Both can be reopened from the ongoing session conversation/context.
+- [ ] They contain the complete canonical study content, not summaries or Build logs.
+- [ ] ES/EN are semantically equivalent and preserve the same domain-lane hierarchy.
+- [ ] The initial chat response does not duplicate the full theory.
+- [ ] No Codex prompt, `.sh`, app/site modification, Build plan, mastery assessment or progress update is emitted unless explicitly requested.
+- [ ] The conversation remains open for study/questions without forcing a Build transition.
+- [ ] Any material theory correction is reflected in both artifacts before a later Build handoff.
+
+For a later explicit Build request:
+- [ ] The Codex handoff references/materializes the latest canonical payload rather than asking Codex to recreate theory.
+
+Build publication is not authorized merely because the theory companions exist.
+
+
+## Accelerated-learning audit — HARD gates for ALL new session theory and site publication
+In ChatGPT-authored `PA-Sxxx-theory-es.md` and `PA-Sxxx-theory-en.md`:
+- [ ] Exactly 3 substantive items under a `SÍNTESIS EN 30 SEGUNDOS` / `30-SECOND SYNTHESIS` block *before* Objective. ES/EN meanings match. Summary never replaces full teaching.
+- [ ] Every relevant atomic concept still has its own definition+scope+immediate named example, observable L2 mechanism+representation/self-check, and appropriate L3 deeper analysis with no invented technical details. Combined topic synthesis is after its components.
+- [ ] Important paragraph opening key phrases are selectively bold; excessive repeated emphasis and generic 'insight' slogans are rejected.
+- [ ] Real causal sequences have explicit input/cause → process/mechanism → output/result (plus contextual implication when useful); noncausal topics use another correct representation. Labels are explained and translated.
+- [ ] Glossary annotations `[term:: <=10-word definition]` are technically correct and do not replace formal cited definitions; inline-code/fenced-code/URLs are unaffected.
+- [ ] Widget recommendations specify **X control, Y observable effect, and a real explanatory relationship**; fictional metrics are absent; nonfunctional ideas are not presented as implemented widgets.
+- [ ] Source citations, counterexamples, trade-offs, active explanations, source IDs, ES/EN parity and Studio coverage survive all formatting transformations.
+- [ ] Reading of Levels 1/2 plus optional Level 3, tooltips, tables/diagrams and fallback is accessible on phone, tablet, keyboard, touch, reduced-motion and no-JS; Level 3 never hides prerequisites.
+
+For **EVERY session Codex prompt** touching theoretical material:
+- [ ] The five requirements of `14-ACCELERATED-LEARNING-UX.md` appear literally and operationally **inside the generated prompt**, not as a link-only reference.
+- [ ] Exact canonical payload or repository content reference is present. If absent: `MISSING_CANONICAL_THEORY_PAYLOAD`. Atomic gaps: `MISSING_ATOMIC_CONCEPT_COVERAGE`. Codex must not regenerate absent theory.
+- [ ] `PUBLISH VERBATIM SEMANTICS; DO NOT REAUTHOR THEORY` and `DO NOT CHANGE APPLICATION CODE LOGIC FOR PRESENTATION` appear unchanged.
+- [ ] `git diff` and tests show no unapproved application business-logic/runtime/algorithm/API changes attributable to the presentation module. Site/content renderer changes are allowed only under explicit Build permission.
+- [ ] Content accuracy/learning quality reviewed in authored Markdown AND published HTML; machine syntax checks alone do not certify pedagogy.

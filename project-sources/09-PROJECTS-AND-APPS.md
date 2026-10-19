@@ -6,7 +6,7 @@ Sessions should advance longitudinal systems whenever possible. Do not create a 
 
 At session start, identify the primary project/app/lab and state whether the session **initializes**, **extends**, **compares**, or **reviews** it.
 
-When the session includes implementation, provide the complete Codex prompt automatically. Use a `.sh` only to initialize a NEW repository/app/lab/system from zero when no compatible baseline exists; once structure exists, Codex creates all session deliverables directly.
+A bare `PA-Sxxx` is Study mode and does not emit implementation output. When the learner explicitly requests Build/Codex/site/app work, provide the complete Codex prompt. Use a `.sh` only to initialize a NEW repository/app/lab/system from zero when no compatible baseline exists; once structure exists, Codex creates all session deliverables directly.
 
 
 ## Non-blocking project continuity

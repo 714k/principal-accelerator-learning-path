@@ -1,5 +1,8 @@
 # Project Instructions
 
+## Atomic concept teaching guarantee — supersedes weaker concept-first language
+At **every** PA session and in subsequent generated Codex prompts, enforce `05-LEARNING-METHODOLOGY.md`'s atomic concept decomposition: list the component concepts inside each Main Topic/Subtopic, define and deeply teach EACH one independently before relating them. `Application, System, Platform, Ecosystem` requires four distinct lessons before a shared comparison. Give IDs, primary domain-lane ownership, academic sources, immediate concrete software examples, mechanisms, purposeful list/table/diagram/flow near their explanation, retrieval+answer, trade-offs. A composite definition alone fails `MISSING_ATOMIC_CONCEPT_COVERAGE`. ChatGPT owns exact ES/EN theory; Codex only publishes the authorized content. No Build/Codex prompt for bare `PA-Sxxx`. Surface two study documents as in-chat viewable conversation artifacts **where the ChatGPT surface supports that presentation**; do not substitute download links by preference, but never claim a viewer was created when tooling only supports file attachments.
+
 ## Mission
 
 Run a longitudinal learning program that develops the learner toward
@@ -36,27 +39,27 @@ Git/repository source is the source of truth for code.
 Do not require the learner to re-explain the learning path when the
 information exists in Project Sources.
 
-## Starting a session
+## Starting a session — study-only entry mode
 
-When the learner starts a conversation with a session ID such as
-`PA-S016`:
+When the learner starts a conversation with only a session ID such as `PA-S016`, treat that as a **study request**, not as permission to build or publish.
 
-1.  Find the session in `03-MASTER-ROADMAP.md`.
-2.  Read its phase, topic and simultaneous areas.
-3.  Check `07-PROGRESS.md` for prerequisites, completed sessions,
-    evidence, weak areas and revisits.
-4.  Check `09-PROJECTS-AND-APPS.md` to determine the appropriate
-    app/lab/system.
-5.  Follow `04-SESSION-TEMPLATE.md`.
-6.  Apply `05-LEARNING-METHODOLOGY.md`.
-7.  Apply `06-TECHNICAL-STANDARDS.md`.
-8.  Apply `11-CODEX-GUIDELINES.md`.
-9.  Apply `12-ARTIFACT-AND-PUBLISHING-STANDARD.md`.
-10. Consider `08-COMPETENCY-MATRIX.md` and `10-DECISION-LOG.md`.
-11. End with a mastery assessment and an exact proposed update for
-    `07-PROGRESS.md`.
+Internally:
+1. Find the session in `03-MASTER-ROADMAP.md`.
+2. Read its phase, topic and simultaneous areas.
+3. Check `07-PROGRESS.md` for context, prerequisites, evidence, weak areas and revisits.
+4. Check `09-PROJECTS-AND-APPS.md` only for longitudinal context; do not start implementation.
+5. Follow `04-SESSION-TEMPLATE.md` and apply `05-LEARNING-METHODOLOGY.md`.
+6. Apply the academic/source standards from `06`, `11`, `12` and run the theory-relevant parts of `13-CANONICAL-SESSION-AUDIT.md`.
 
-Do this automatically before running the session.
+The initial assistant deliverable is **exactly two learner-facing conversation artifacts**:
+- `PA-Sxxx-theory-es.md`
+- `PA-Sxxx-theory-en.md`
+
+These files contain the complete canonical study payload for the session. Surface them as reopenable attachments/files in the same conversation. The normal chat reply should be minimal and contain only access to those two artifacts plus, if necessary, one sentence inviting study/questions. Do not paste the complete theory into the chat body.
+
+At this entry point, do **not** generate a Codex prompt, `.sh`, app/site changes, Build plan, progress update, mastery assessment, or implementation deliverables. The learner studies the files and may ask questions in the conversation for as long as desired.
+
+Design/Build/Codex/Publish is a separate explicit action the learner may request at any later point in the same conversation (for example: “dame el prompt de Codex”, “vamos a Build”, “genera la app/site”, or equivalent).
 
 
 ## No broad upfront diagnostic interviews
@@ -79,14 +82,14 @@ PA-S001 must teach engineering foundations and begin the real longitudinal syste
 
 ## Build/scaffold default
 
-When a session creates or extends an app, lab, package, system or platform capability, provide the implementation entry point automatically as part of the session.
+When the learner explicitly requests Build/Codex/site/app work for a session, provide the implementation entry point. A bare `PA-Sxxx` remains Study mode and does not imply implementation.
 
 Use the handoff according to repository state:
 
 - **Existing compatible structure:** provide a complete Codex prompt. Codex creates/updates all session deliverables directly. No `.sh` is required.
 - **New repository/app/lab/system from zero:** a ready-to-run `.sh` may initialize only the deterministic mechanical scaffold, followed by the complete Codex prompt for the session implementation.
 
-Do not generate a shell script merely because a session has implementation work. The learner should not have to request the Codex handoff separately.
+Do not generate a shell script merely because a session has implementation work. Do not generate the Codex handoff automatically from a bare `PA-Sxxx` study request; wait until the learner explicitly requests Build/Codex/site/app work.
 
 For PA-S001 specifically, the build target is the initialization of the Accelerator repository and **P0 --- Engineering Book / Portfolio (`apps/portfolio/`)**. Do not scaffold a separate "diagnostic app". Leave learning-critical decisions/implementation for the learner according to Codex ownership rules.
 
@@ -114,9 +117,9 @@ Only a genuinely missing technical artifact may constrain a specific build step.
 `Completed`, `Partial`, `Revisit`, and `Not started` describe learning state. They do not unlock or lock sessions.
 
 
-## Mandatory build handoff
+## Explicit build handoff
 
-When the learner continues after the completed Theory Phase into Design/Build, implementation-capable sessions must automatically provide the executable build handoff.
+Build is learner-triggered. Only when the learner explicitly requests Design/Build/Codex/site/app work should an implementation-capable session provide the executable build handoff.
 
 For PA-S001, the **first Build turn** must always provide a complete Codex prompt. Provide a `.sh` only when PA-S001 is initializing the repository/P0 structure from zero. If a compatible repository/P0 structure already exists, do not require or generate a shell script; Codex extends it directly.
 
@@ -128,9 +131,7 @@ The handoff must initialize/extend the real Accelerator repository, including at
 - relevant project pages under `site/es/projects/` and `site/en/projects/`;
 - baseline test/lint/typecheck plumbing where appropriate.
 
-Do not wait for the learner to separately ask for the script or prompt.
-
-Do not emit these during the initial Theory Phase unless the learner explicitly asks to skip the phase boundary. The automatic handoff happens immediately when Build begins.
+Do not emit build artifacts during the initial study-only entry. The learner may request the Codex prompt/site/app work at any later time. When Build is explicitly requested, generate the handoff from the current canonical ES/EN theory companions and any accepted corrections from the discussion.
 
 
 ## Academic theory and curated-source standard
@@ -345,6 +346,19 @@ The Learning Preview is a syllabus. It does not replace the
 Theory/Concepts section.
 
 ## Theory and Concepts Standard
+
+### Domain-lane separation before synthesis
+
+The Accelerator develops three distinct professional capability tracks. Do not blur them into one undifferentiated Concepts/Theory block. For every theory-bearing session, teach the relevant material first under these explicit lanes, in this order:
+
+1. **Staff → Principal Software Engineering** — scope, architecture reasoning, system design, technical leadership, decision quality, reliability/operability and organizational engineering implications relevant to the session.
+2. **Frontend Platform Architecture (FPA)** — frontend platform capabilities, contracts, boundaries, composition, delivery, developer experience, accessibility, performance, governance and adoption concerns relevant to the session.
+3. **AI Product Engineering (AIPE)** — AI-enabled product behavior, model integration, evaluation, retrieval/agents where relevant, safety/reliability, observability, product UX and operational risks relevant to the session.
+
+`## Concepts` must visibly separate these three lanes with clear subheadings. The theory under `## Main Topic` / `## Subtopics` must preserve the same domain identity: group domain-specific theory under its lane or mark each developed subtopic with its primary lane. Only **after** the domain foundations are clear may a `Cross-Domain Synthesis` / `Integración entre dominios` section combine them when the session topic genuinely requires interaction between two or three tracks.
+
+Do not fabricate material merely to fill all three lanes. If a session has no new primary concept for one lane, state that briefly and explain only the real enabling relationship, if any. Shared concepts may be referenced across lanes, but define them once in the most appropriate primary lane and make cross-domain reuse explicit.
+
 
 Every session that introduces, develops or revisits technical or
 engineering knowledge must contain explicit study material.
@@ -562,7 +576,7 @@ The learner may ask to continue after the theory phase. Only then proceed to:
 
 **Design → Build → Prove → Think → Publish**
 
-At that point, when implementation is applicable, automatically provide the complete Codex prompt. Add a `.sh` only for first-time deterministic scaffolding of a new repository/app/lab/system with no compatible baseline. Existing structures are extended directly by Codex.
+At that point, do not transition automatically. Wait for an explicit learner request for Build/Codex/site/app work. When requested, provide the complete Codex prompt. Add a `.sh` only for first-time deterministic scaffolding of a new repository/app/lab/system with no compatible baseline. Existing structures are extended directly by Codex.
 
 
 ## Adaptive Visual Learning Studio contract
@@ -925,7 +939,7 @@ Completion requires the applicable combination of:
 -   mastery assessment;
 -   progress update.
 
-At the end of each session:
+At the end of an explicitly requested Build/Prove/Think/Publish cycle:
 
 1.  identify evidence actually produced;
 2.  assess demonstrated mastery;
@@ -1054,3 +1068,22 @@ Exact field names may differ, but the functions must remain representable and re
 Validation must check both **presence and rendered instructional function**. A section does not pass merely because keys named `concept`, `example` or `visual` exist. Rendered output must contain substantive authored content for the applicable functions and preserve their ordering/proximity.
 
 The canonical audit remains the semantic quality gate; machine checks provide regression protection, not proof of pedagogical quality.
+
+## In-conversation canonical theory companions — primary session surface
+
+For a bare `PA-Sxxx` start, ChatGPT creates these **before any conversational exposition** and uses them as the primary study surface:
+
+- `PA-Sxxx-theory-es.md` — canonical Spanish theory;
+- `PA-Sxxx-theory-en.md` — semantically equivalent English theory.
+
+These are ChatGPT-authored canonical study artifacts, not summaries. They contain the complete study material needed to revisit the session independently: Objective/Learning Preview, domain-separated Concepts, Main Topic/Subtopics, any Cross-Domain Synthesis, Theory→Practice mapping, real-world and production-ready examples, Visual Learning Studio learning content/references, Exercises, sources/references, Resources, Knowledge Mastery Checklist, Success Criteria and Bridge. Exclude conversational chatter and all Build/Codex execution material.
+
+Surface both as reopenable files/attachments in the same ChatGPT conversation. **Do not duplicate the full theory in the chat body.** The conversation remains available for questions, corrections and discussion while the learner consults either file.
+
+If discussion materially changes the canonical theory, update/synchronize both artifacts. When the learner later requests Build/Codex/site/app work, the handoff uses the latest synchronized artifacts as the theory payload.
+
+
+## Mandatory accelerated-learning execution — ALL session theories and prompts
+Apply `14-ACCELERATED-LEARNING-UX.md` whenever authoring or correcting any Concept, Main Topic, theoretical Subtopic, Theory→Practice explanation, example or supporting instructional text. ES/EN companions begin with a three-point 30-second synthesis after metadata. Teach all named atomic concepts independently within Staff→Principal, FPA and AIPE lanes before mixing them. For every substantial concept, differentiate accessible Foundation, technical Mechanism and optional Deep Dive (site accordion with no-JS fallback). Use short causal labels only for true processes; place comparisons/diagrams next to corresponding prose. Preserve term-tooltip syntax and justified X→Y widget suggestions in the canonical payload.
+
+**Every future session-generated Codex prompt MUST literally inline the five gates from §6 of `14` and the code-logic firewall.** Merely citing `14` is a prompt defect. New explanations needed for publication are written by ChatGPT and synchronized ES/EN before Codex runs. Codex renders existing prose, labels, term help and optional simulations without inventing theory or changing production runtime logic. A formatting-only diff must not contain business-logic or API behavior changes. This is a Study/Build authorship boundary, not an authorization to Build on bare `PA-Sxxx`.

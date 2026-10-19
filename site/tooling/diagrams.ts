@@ -28,6 +28,11 @@ function accessibleSvg(svg: string, id: string, title: string, description: stri
   return svg.replace(opening[0], replacement);
 }
 
+function monochromeMindMap(svg: string): string {
+  const rules='<style>.mindmapDiagram .mindmap-node .node-bkg,.mindmapDiagram .mindmap-node path,.mindmapDiagram .mindmap-node rect,.mindmapDiagram .mindmap-node circle,.mindmapDiagram .mindmap-node polygon{fill:#253440!important;stroke:#253440!important}.mindmapDiagram .mindmap-node .nodeLabel,.mindmapDiagram .mindmap-node .nodeLabel p,.mindmapDiagram .mindmap-node span{color:#fff!important;fill:#fff!important}.mindmapDiagram .mindmap-node line{stroke:#fff!important}.mindmapDiagram [class*="section-edge--"],.mindmapDiagram [class*="edge-depth--"]{stroke:#61717d!important}</style>';
+  return svg.replace('</svg>',`${rules}</svg>`);
+}
+
 export function outputForDiagram(source: string): string {
   return `shared/diagrams/${source.replace(/\.mmd$/, '.svg')}`;
 }
@@ -42,6 +47,21 @@ export function diagramMetadata(pages: Page[]): Map<string, DiagramMetadata> {
     for (const mode of page.visualLearning?.modes ?? []) for (const block of mode.blocks) {
       if (block.type === 'diagram') add(block.diagram);
     }
+    if (page.kind==='session') for (let i=1;i<=6;i++) {
+      const number=String(i).padStart(2,'0'); const source=`PA-S001/theory-${page.lang}-${number}.mmd`;
+      const title=page.lang==='es'?`PA-S001 — diagrama de teoría ${i}`:`PA-S001 — theory diagram ${i}`;
+      const description=i===6
+        ? page.lang==='es'?'Mapa mental canónico de PA-S001 con 24 conceptos, seis subtemas, Main Topic y síntesis entre dominios.':'Canonical PA-S001 mind map covering 24 concepts, six subtopics, Main Topic, and cross-domain synthesis.'
+        : page.lang==='es'?'Diagrama de apoyo de la teoría canónica PA-S001.':'Supporting diagram from canonical PA-S001 theory.';
+      add({source,title,description});
+    }
+    if(page.kind==='session')add({
+      source:'PA-S001/foundations.mmd',
+      title:page.lang==='es'?'PA-S001 — mapa mental de fundamentos':'PA-S001 — foundations mind map',
+      description:page.lang==='es'
+        ?'Mapa mental que cubre 24 conceptos, seis subtemas, Main Topic y síntesis entre dominios.'
+        :'Mind map covering 24 concepts, six subtopics, Main Topic, and cross-domain synthesis.'
+    });
   }
   return metadata;
 }
@@ -71,7 +91,9 @@ export function generateDiagrams(root: string, metadata: Map<string, DiagramMeta
     }
     try {
       const id = `diagram-${source.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '')}`;
-      writeFileSync(temporary, accessibleSvg(readFileSync(temporary, 'utf8'), id, detail.title, detail.description));
+      let svg=accessibleSvg(readFileSync(temporary, 'utf8'), id, detail.title, detail.description);
+      if (source.endsWith('theory-es-06.mmd') || source.endsWith('theory-en-06.mmd') || source==='PA-S001/foundations.mmd') svg=monochromeMindMap(svg);
+      writeFileSync(temporary, svg);
       renameSync(temporary, output);
     } catch (error) {
       rmSync(temporary, { force: true });

@@ -19,6 +19,13 @@ for p,t in texts.items():
         if not re.search(r'pregunta gu[ií]a|guiding question',t,re.I): warnings.append(f'{p}: no observable guiding-question marker found')
         if not re.search(r'auto.?prueba|self.?check|recuperaci[oó]n|retrieval',t,re.I): warnings.append(f'{p}: no observable retrieval/self-check marker found')
         if not re.search(r'ejemplo|example',t,re.I): errors.append(f'{p}: no concrete-example marker found')
+        lane_patterns=[
+            r'Staff.{0,40}Principal',
+            r'Frontend Platform Architecture|Arquitectura de Plataforma Frontend',
+            r'AI Product Engineering|Ingenier[ií]a de Producto (?:con )?(?:IA|AI)'
+        ]
+        missing=[pat for pat in lane_patterns if not re.search(pat,t,re.I|re.S)]
+        if missing: errors.append(f'{p}: missing one or more canonical theory domain lanes (Staff→Principal, FPA, AIPE)')
 settings=root/'PROJECT-INSTRUCTIONS-SETTINGS.md'
 if settings.exists() and len(settings.read_text(encoding='utf-8'))>=8000: errors.append('PROJECT-INSTRUCTIONS-SETTINGS.md is >= 8000 characters')
 # Handoff firewall check if canonical prompt exists
