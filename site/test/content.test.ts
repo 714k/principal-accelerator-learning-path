@@ -31,6 +31,22 @@ test('seventeen concepts, main topic, six subtopics, and study IDs have ES/EN pa
   }
 });
 
+test('chapter metadata and reading layers have a semantic heading hierarchy in both languages',()=>{
+  for(const lang of ['es','en'] as const){
+    const html=renderCanonical(source(lang),lang,'/').html;
+    const phase=lang==='es'?'Fase':'Phase';
+    const lanes=lang==='es'?'Carriles':'Lanes';
+    const foundation=lang==='es'?'Nivel 1 — Fundamento.':'Level 1 — Foundation.';
+    assert.match(html,/<h2 id="chapter-title" class="chapter-title">PA-S001 —/);
+    assert.match(html,new RegExp(`<h3>${phase}:</h3><p>`));
+    assert.match(html,new RegExp(`<h3>${lanes}:</h3><p>`));
+    assert.match(html,/<span class="concept-id"><code>scope\.system<\/code><\/span><h3 id="scope\.system">/);
+    assert.match(html,/<span class="concept-id"><code>sub\.software-vs-architecture<\/code><\/span><h3 id="sub\.software-vs-architecture">/);
+    assert.ok(html.includes(`<h4>${foundation}</h4>`));
+    assert.ok(!html.includes('<p><strong>Level 1')&&!html.includes('<p><strong>Nivel 1'));
+  }
+});
+
 function plainMarkdown(line:string):string{
   const code:string[]=[];
   let value=line.replace(/`([^`]+)`/g,(_,content:string)=>{code.push(content);return `@@CODE${code.length-1}@@`;});

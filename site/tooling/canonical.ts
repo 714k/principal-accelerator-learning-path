@@ -119,6 +119,17 @@ function inline(value:string):string{
   text=text.replace(/\[(R[1-8]|P1)\]/g,(_,id:string)=>`<a href="#source-${id}">[${id}]</a>`);
   return text.replace(/@@TOKEN(\d+)@@/g,(_,number:string)=>tokens[Number(number)]!);
 }
+function chapterMetadata(line:string):string | undefined{
+  if(!/^\*\*(?:Fase|Phase):\*\*/.test(line))return undefined;
+  const fields=[...line.matchAll(/\*\*([^*]+):\*\* ([\s\S]*?)(?= \*\*[^*]+:\*\*|$)/g)];
+  if(!fields.length)return undefined;
+  return `<div class="chapter-meta">${fields.map(([,label,value])=>`<div class="chapter-meta-item"><h3>${escapeHtml(label!)}:</h3><p>${inline(value!)}</p></div>`).join('')}</div>`;
+}
+function conceptHeading(heading:Heading):string | undefined{
+  const match=heading.title.match(/^`([^`]+)` — (.+)$/);
+  if(!match)return undefined;
+  return `<div class="concept-heading"><span class="concept-id"><code>${escapeHtml(match[1]!)}</code></span><h3 id="${heading.id}">${inline(match[2]!)}</h3></div>`;
+}
 function studio(source:string,lang:'es'|'en',base:string):string{
   const es=lang==='es',all=cards(source,lang);
   const buttons=all.map((card,index)=>`<article class="flashcard" data-flashcard data-flash-id="${card.id}"><a href="#${card.id}" class="studio-source">${card.id}</a><button type="button" data-flash-flip aria-pressed="false" data-reveal-label="${es?'Mostrar respuesta':'Reveal answer'}: ${escapeHtml(card.question)}" data-hide-label="${es?'Mostrar pregunta':'Show question'}: ${escapeHtml(card.question)}" aria-label="${es?'Mostrar respuesta':'Reveal answer'}: ${escapeHtml(card.question)}"><strong>${inline(card.question)}</strong></button><div class="flashcard-answer"><p><strong>${es?'Respuesta':'Answer'}:</strong> ${inline(card.answer)}</p><p>${inline(card.explanation)}</p></div><p class="sr-only">${index+1} / ${all.length}</p></article>`).join('');
@@ -135,8 +146,8 @@ export function renderCanonical(source:string,lang:'es'|'en',base:string):Canoni
     const heading=all.find(h=>h.line===i);
     if(heading){
       out.push(heading.level===1
-        ? `<p id="${heading.id}" class="canonical-source-title">${inline(heading.title)}</p>`
-        : `<h${heading.level} id="${heading.id}">${inline(heading.title)}</h${heading.level}>`);
+        ? `<h2 id="${heading.id}" class="chapter-title">${inline(heading.title)}</h2>`
+        : conceptHeading(heading)??`<h${heading.level} id="${heading.id}">${inline(heading.title)}</h${heading.level}>`);
       if(heading.id==='visual-learning-studio')out.push(studio(source,lang,base));
       i++;continue;
     }
@@ -176,8 +187,12 @@ export function renderCanonical(source:string,lang:'es'|'en',base:string):Canoni
     }
     if(/^\*\*(?:Nivel|Level) 3 —/.test(line)){
       const match=line.match(/^\*\*([^*]+)\*\* (.*)$/)!;
-      out.push(`<details class="deep-dive"><summary>${escapeHtml(match[1]!)}</summary><p>${inline(match[2]!)}</p></details>`);i++;continue;
+      out.push(`<details class="deep-dive"><summary><span class="reading-level-title">${escapeHtml(match[1]!)}</span></summary><p>${inline(match[2]!)}</p></details>`);i++;continue;
     }
+    const metadata=chapterMetadata(line);
+    if(metadata){out.push(metadata);i++;continue;}
+    const level=line.match(/^\*\*((?:Nivel|Level) [12] — [^*]+)\*\* (.*)$/);
+    if(level){out.push(`<div class="reading-level"><h4>${escapeHtml(level[1]!)}</h4><p>${inline(level[2]!)}</p></div>`);i++;continue;}
     out.push(`<p>${inline(line)}</p>`);i++;
   }
   return {html:out.join('\n'),toc};
