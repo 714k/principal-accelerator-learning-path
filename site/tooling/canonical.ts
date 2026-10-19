@@ -16,7 +16,7 @@ import { createHash } from 'node:crypto';
 export interface CanonicalRender { html:string; toc:string }
 export interface CanonicalSearchSection { id:string; title:string; text:string }
 interface Heading { level:number; id:string; title:string; line:number }
-interface Card { id:string; question:string; answer:string; explanation:string }
+interface Card { id:string; label:string; question:string; answer:string }
 const escapeHtml=(value:string)=>value.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
 const sourceLines=(source:string)=>source.split('\n');
 const idFromHeading=(title:string,lang:'es'|'en'):string=>{
@@ -73,7 +73,7 @@ function cards(source:string,lang:'es'|'en'):Card[]{
     const main=body.match(/\*\*(?:Pregunta guía|Guiding question):\*\* (.+?) \*\*(?:Definición y alcance|Definition and scope):\*\*/s);
     const mainAnswer=body.match(/\*\*(?:Respuesta a la pregunta guía|Answer to the guiding question):\*\* (.+?)(?=\n|$)/s);
     const first=body.match(/^(?:\*\*[^*]+\*\* )?(.+?)(?:\n|$)/m)?.[1]??'';
-    return {id:h.id,question:retrieval?.[1]??main?.[1]??'',answer:retrieval?.[2]??mainAnswer?.[1]??'',explanation:first};
+    return {id:h.id,label:h.title.replace(/^`[^`]+` — /,''),question:retrieval?.[1]??main?.[1]??'',answer:retrieval?.[2]??mainAnswer?.[1]??''};
   });
 }
 export function assertCanonicalPair(es:string,en:string):void{
@@ -125,29 +125,59 @@ function chapterMetadata(line:string):string | undefined{
   if(!fields.length)return undefined;
   return `<div class="chapter-meta">${fields.map(([,label,value])=>`<div class="chapter-meta-item"><h3>${escapeHtml(label!)}:</h3><p>${inline(value!)}</p></div>`).join('')}</div>`;
 }
-function conceptHeading(heading:Heading):string | undefined{
+function conceptHeading(heading:Heading,lang:'es'|'en'):string | undefined{
   const match=heading.title.match(/^`([^`]+)` — (.+)$/);
   if(!match)return undefined;
-  return `<div class="concept-heading"><span class="concept-id"><code>${escapeHtml(match[1]!)}</code></span><h3 id="${heading.id}">${inline(match[2]!)}</h3></div>`;
+  const sub=heading.id.startsWith('sub.');
+  const index=sub?TOPIC_IDS.indexOf(heading.id as typeof TOPIC_IDS[number]):CONCEPT_IDS.indexOf(heading.id as typeof CONCEPT_IDS[number]);
+  const label=lang==='es'?(sub?'SUBTEMA':'CONCEPTO'):(sub?'SUBTOPIC':'CONCEPT');
+  return `<div class="concept-heading" data-concept-id="${escapeHtml(heading.id)}"><p class="concept-eyebrow">${label} · ${String(index+(sub?0:1)).padStart(2,'0')}</p><h3 id="${heading.id}">${inline(match[2]!)}</h3></div>`;
 }
 function studio(source:string,lang:'es'|'en',base:string):string{
   const es=lang==='es',all=cards(source,lang);
-  const buttons=all.map((card,index)=>`<article class="flashcard" data-flashcard data-flash-id="${card.id}"><a href="#${card.id}" class="studio-source">${card.id}</a><button type="button" data-flash-flip aria-pressed="false" data-reveal-label="${es?'Mostrar respuesta':'Reveal answer'}: ${escapeHtml(card.question)}" data-hide-label="${es?'Mostrar pregunta':'Show question'}: ${escapeHtml(card.question)}" aria-label="${es?'Mostrar respuesta':'Reveal answer'}: ${escapeHtml(card.question)}"><strong>${inline(card.question)}</strong></button><div class="flashcard-answer"><p><strong>${es?'Respuesta':'Answer'}:</strong> ${inline(card.answer)}</p><p>${inline(card.explanation)}</p></div><p class="sr-only">${index+1} / ${all.length}</p></article>`).join('');
-  const map=`${base}${lang}/shared/diagrams/PA-S001/canonical-map.svg`;
-  return `<!-- STUDIO START --><div class="learning-studio" data-learning-studio><nav class="visual-mode-nav" data-mode-nav aria-label="${es?'Modos de estudio visual':'Visual study modes'}"><a id="visual-tab-mind-map" href="#visual-panel-mind-map" data-mode-control>${es?'Mapa mental':'Mind map'}</a><a id="visual-tab-flashcards" href="#visual-panel-flashcards" data-mode-control>${es?'Tarjetas':'Cards'}</a></nav><div id="visual-panel-mind-map" class="visual-mode-panel" data-visual-panel><h3>${es?'Mapa de conceptos':'Concept map'}</h3><p>${es?'Las conexiones indican orden de estudio hacia la síntesis; cada ID enlaza a su lección completa.':'Connections indicate study order toward synthesis; each ID links to its full lesson.'}</p><figure class="diagram"><img src="${map}" alt="${es?'Mapa mental de 17 conceptos, un tema principal y seis subtemas':'Mind map of 17 concepts, one main topic and six subtopics'}" loading="lazy"></figure><ul class="studio-coverage">${all.map(card=>`<li><a href="#${card.id}">${card.id}</a></li>`).join('')}</ul></div><div id="visual-panel-flashcards" class="visual-mode-panel" data-visual-panel><h3>${es?'Recuperación: 24 tarjetas':'Retrieval: 24 cards'}</h3><p>${es?'Las respuestas están disponibles en HTML incluso sin JavaScript.':'Answers remain in HTML without JavaScript.'}</p><div class="flashcard-deck" data-flashcards tabindex="0"><div class="flashcard-controls"><button type="button" data-flash-prev>${es?'Anterior':'Previous'}</button><output data-flashcard-count aria-live="polite">1 / 24</output><button type="button" data-flash-next>${es?'Siguiente':'Next'}</button></div>${buttons}</div></div></div><!-- STUDIO END -->`;
+  const buttons=all.map((card,index)=>`<article class="flashcard" data-flashcard data-flash-id="${card.id}"><a href="#${card.id}" class="studio-source">${es?'Ir al concepto':'View lesson'}: ${inline(card.label)}</a><button type="button" data-flash-flip aria-pressed="false" data-reveal-label="${es?'Mostrar respuesta':'Reveal answer'}: ${escapeHtml(card.question)}" data-hide-label="${es?'Mostrar pregunta':'Show question'}: ${escapeHtml(card.question)}" aria-label="${es?'Mostrar respuesta':'Reveal answer'}: ${escapeHtml(card.question)}"><strong>${inline(card.question)}</strong></button><div class="flashcard-answer"><p><strong>${es?'Respuesta':'Answer'}:</strong> ${inline(card.answer)}</p><p>${inline(card.explanation)}</p></div><p class="sr-only">${index+1} / ${all.length}</p></article>`).join('');
+  const map=`${base}${lang}/shared/diagrams/PA-S001/canonical-map-${lang}.svg`;
+  return `<!-- STUDIO START --><div class="learning-studio" data-learning-studio><nav class="visual-mode-nav" data-mode-nav aria-label="${es?'Modos de estudio visual':'Visual study modes'}"><a id="visual-tab-mind-map" href="#visual-panel-mind-map" data-mode-control>${es?'Mapa mental':'Mind map'}</a><a id="visual-tab-flashcards" href="#visual-panel-flashcards" data-mode-control>${es?'Tarjetas':'Cards'}</a></nav><div id="visual-panel-mind-map" class="visual-mode-panel" data-visual-panel><h3>${es?'Mapa de conceptos':'Concept map'}</h3><p>${es?'Las ramas organizan conceptos para repasarlos; abre una lección para estudiar su explicación.':'Branches organize concepts for review; open a lesson for its full explanation.'}</p><figure class="diagram"><img src="${map}" alt="${es?'Mapa mental de 17 conceptos, un tema principal y seis subtemas':'Mind map of 17 concepts, one main topic and six subtopics'}" loading="lazy"></figure><ul class="studio-coverage">${all.map(card=>`<li><a href="#${card.id}">${inline(card.label)}</a></li>`).join('')}</ul></div><div id="visual-panel-flashcards" class="visual-mode-panel" data-visual-panel><h3>${es?'Recuperación: 24 tarjetas':'Retrieval: 24 cards'}</h3><p>${es?'Las respuestas están disponibles en HTML incluso sin JavaScript.':'Answers remain in HTML without JavaScript.'}</p><div class="flashcard-deck" data-flashcards tabindex="0"><div class="flashcard-controls"><button type="button" data-flash-prev>${es?'Anterior':'Previous'}</button><output data-flashcard-count aria-live="polite">1 / 24</output><button type="button" data-flash-next>${es?'Siguiente':'Next'}</button></div>${buttons}</div></div></div><!-- STUDIO END -->`;
 }
 export function renderCanonical(source:string,lang:'es'|'en',base:string):CanonicalRender{
   const lines=sourceLines(source),all=headings(source,lang),out:string[]=[];
-  const toc=`<details class="toc"><summary>${lang==='es'?'Contenido':'Contents'}</summary><nav aria-label="${lang==='es'?'Contenido':'Contents'}"><ol class="toc-list">${all.filter(h=>h.level===2).map(h=>`<li><a href="#${h.id}">${inline(h.title)}</a></li>`).join('')}</ol></nav></details>`;
-  let i=0;
+  const toc=`<details class="toc"><summary>${lang==='es'?'Contenido':'Contents'}</summary><nav aria-label="${lang==='es'?'Contenido':'Contents'}"><ol class="toc-list">${all.filter(h=>h.level===2).map(h=>`<li><a href="#${h.id}">${inline(h.title.replace(/^`[^`]+` — /,''))}</a></li>`).join('')}</ol></nav></details>`;
+  let i=0, currentHeading='';
+  const figureFor=(id:string):string=>{
+    const figures:Record<string,[number,string,string]>={
+      'engineering.architecture':[1,'De requisitos a arquitectura, comportamiento y evidencia.','From requirements to architecture, behavior and evidence.'],
+      'scope.application':[2,'Aplicación, sistema, plataforma y ecosistema tienen alcances diferentes.','Application, system, platform and ecosystem have different scopes.'],
+      'design.boundary':[3,'Dependencias a través de un contrato explícito.','Dependencies through an explicit contract.'],
+      'fpa.frontend-platform':[4,'Responsabilidades distintas de FPA, AIPE y Staff.','Separate responsibilities of FPA, AIPE and Staff.'],
+      'aipe.ai-product':[5,'Una función de IA separa generación, validación y revisión.','An AI feature separates generation, validation and review.']
+    };const v=figures[id];if(!v)return '';
+    const caption=v[lang==='es'?1:2],number=String(v[0]).padStart(2,'0');
+    return `<figure class="concept-diagram"><img src="${base}${lang}/shared/diagrams/PA-S001/theory-${lang}-${number}.svg" loading="lazy" alt="${escapeHtml(caption)}"><figcaption>${escapeHtml(caption)}</figcaption></figure>`;
+  };
+  const decisionLab=():string=>{
+    const es=lang==='es';
+    return `<section class="decision-lab" data-ai-decision-lab aria-labelledby="ai-lab-heading">
+      <p class="concept-eyebrow">${es?'LABORATORIO DE DECISIONES':'DECISION LAB'}</p>
+      <h4 id="ai-lab-heading">${es?'Explora un límite de un producto con IA':'Explore an AI product boundary'}</h4>
+      <p>${es?'Ejemplo hipotético: un asistente propone un resumen documental. Modifica las condiciones y observa cómo afectan las reglas de este ejercicio. No es una política universal.':'Hypothetical example: an assistant proposes a document summary. Change conditions and observe how the exercise rules respond. These are not universal policy.'} <a href="#source-R7">[R7]</a>, <a href="#source-P1">[P1]</a>.</p>
+      <div class="lab-controls">
+        <label>${es?'Datos de entrada':'Input data'}<select data-lab-input><option value="public">${es?'Texto público autorizado':'Authorized public text'}</option><option value="sensitive">${es?'Datos privados sin autorización':'Private data without authorization'}</option></select></label>
+        <label>${es?'Citas verificadas':'Verified citations'}<select data-lab-citations><option value="yes">${es?'Comprobadas contra fuente':'Checked against source'}</option><option value="no">${es?'Sin comprobar':'Unchecked'}</option></select></label>
+        <label>${es?'Revisión humana':'Human review'}<select data-lab-review><option value="yes">${es?'Disponible':'Available'}</option><option value="no">${es?'No disponible':'Unavailable'}</option></select></label>
+      </div>
+      <p class="lab-feedback" role="status" aria-live="polite" data-ai-feedback>${es?'Puede prepararse un borrador para revisión, no publicarse automáticamente.':'A draft may be prepared for review, not published automatically.'}</p>
+      <p class="lab-fallback">${es?'Sin JavaScript: no enviar datos privados no autorizados; sin citas verificadas o revisión no presentar la salida como hecho.':'Without JavaScript: do not send unauthorized private data; without checked citations or review, do not publish the output as fact.'}</p>
+    </section>`;
+  };
   while(i<lines.length){
     const line=lines[i]!;
     if(!line){i++;continue;}
     const heading=all.find(h=>h.line===i);
     if(heading){
+      currentHeading=heading.id;
       out.push(heading.level===1
         ? `<h2 id="${heading.id}" class="chapter-title">${inline(heading.title)}</h2>`
-        : conceptHeading(heading)??`<h${heading.level} id="${heading.id}">${inline(heading.title)}</h${heading.level}>`);
+        : conceptHeading(heading,lang)??`<h${heading.level} id="${heading.id}">${inline(heading.title)}</h${heading.level}>`);
       if(heading.id==='visual-learning-studio')out.push(studio(source,lang,base));
       i++;continue;
     }
@@ -192,13 +222,13 @@ export function renderCanonical(source:string,lang:'es'|'en',base:string):Canoni
     const metadata=chapterMetadata(line);
     if(metadata){out.push(metadata);i++;continue;}
     const level=line.match(/^\*\*((?:Nivel|Level) [12] — [^*]+)\*\* (.*)$/);
-    if(level){out.push(`<div class="reading-level"><h4>${escapeHtml(level[1]!)}</h4><p>${inline(level[2]!)}</p></div>`);i++;continue;}
-    out.push(`<p>${inline(line)}</p>`);i++;
+    if(level){out.push(`<div class="reading-level"><h4>${escapeHtml(level[1]!)}</h4><p>${inline(level[2]!)}</p></div>`);if(/^(?:Nivel|Level) 2/.test(level[1]!))out.push(figureFor(currentHeading));i++;continue;}
+    out.push(`<p>${inline(line)}</p>`);if(currentHeading==='sub.ai-product'&&line.startsWith('**'))out.push(decisionLab());i++;
   }
   return {html:out.join('\n'),toc};
 }
 export function canonicalSearchSections(source:string):CanonicalSearchSection[]{
   const lang=source.includes('## Objetivo')?'es':'en',all=headings(source,lang);
   return all.filter(h=>h.level===2||[...CONCEPT_IDS,...TOPIC_IDS].includes(h.id as typeof CONCEPT_IDS[number]))
-    .map(h=>({id:h.id,title:h.title,text:sectionText(source,h,all).replace(/[#*`|]/g,' ').slice(0,1600)}));
+    .map(h=>({id:h.id,title:h.title.replace(/^`[^`]+` — /,''),text:sectionText(source,h,all).replace(/[#*`|]/g,' ').slice(0,1600)}));
 }
