@@ -1,0 +1,21 @@
+sequenceDiagram
+  participant UI as ReviewUI
+  participant API as ReviewAPI
+  participant RET as EvidenceRetriever
+  participant GW as ModelGateway
+  participant VAL as EvidenceValidator
+  participant HUM as HumanReviewer
+  UI->>API: requestReview(documentId)
+  API->>RET: retrieveAuthorized(documentId)
+  RET-->>API: fragments + evidenceIds
+  API->>GW: generate(context)
+  GW-->>API: candidate + claimedEvidenceIds
+  API->>VAL: validateSchemaAndCitations(candidate)
+  alt evidence supported
+    VAL-->>API: supported
+    API-->>UI: draft + citations
+    UI->>HUM: request decision
+  else missing/unverifiable evidence
+    VAL-->>API: insufficient_evidence
+    API-->>UI: abstain + reason
+  end

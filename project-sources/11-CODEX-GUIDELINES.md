@@ -1,5 +1,8 @@
 # Codex Guidelines
 
+## Atomic-theory publishing firewall (all generated session prompts)
+Every future generated Codex prompt for `site/` must inline this hard gate: "PUBLISH VERBATIM SEMANTICS; DO NOT REAUTHOR THEORY. Preserve every independently taught atomic concept and its ID in the exact ES/EN canonical payload. A compound heading such as Application, System, Platform and Ecosystem has four distinct theoretical mini-lessons **before** the joint comparison; do not replace them with a single summary/table/flashcard. Render authored concrete examples, adjacent diagrams/tables/flows, retrieval+answer, sources and three domain lanes without compression. Fail MISSING_CANONICAL_THEORY_PAYLOAD or MISSING_ATOMIC_CONCEPT_COVERAGE when absent." Include rendered-HTML tests verifying stable concept anchors/ordering and ES/EN parity; inspect actual visible prose. Codex may normalize markup and create presentation components but may not author missing explanations. A new app/lab `.sh` is permitted only for first-time scaffolding from zero. For an existing repository, Codex creates all deliverables directly.
+
 ## Purpose
 
 Codex in VS Code is the implementation/scaffolding agent. It should
@@ -65,9 +68,9 @@ needed; 11. publishing/dashboard plumbing if relevant; 12. commands to
 run; 13. completion report format.
 
 
-## Automatic scaffold delivery
+## Learner-triggered scaffold delivery
 
-When a session includes creation or extension of an app/lab/package/system, ChatGPT should provide the scaffold entry point automatically. The learner should not need to ask separately.
+Do not emit a scaffold or Codex handoff from a bare `PA-Sxxx`. Only after an explicit learner request for Build/Codex/site/app work should ChatGPT provide the implementation entry point.
 
 Use:
 
@@ -87,11 +90,11 @@ The PA-S001 scaffold initializes the **real Principal Accelerator repository** a
 It must not create a separate diagnostic application. Baseline/mastery recording may be scaffolded as data/content placeholders, but the learner's actual mastery conclusions remain evidence-driven and must not be invented.
 
 
-## PA-S001 automatic handoff requirement
+## PA-S001 explicit handoff requirement
 
 After PA-S001 Theory is complete and the learner continues into Build, ChatGPT must provide a complete Codex prompt. A runnable shell scaffold is added only when the Accelerator repository/P0 structure is genuinely being created from zero.
 
-The Codex handoff is mandatory and automatic; the shell script is conditional.
+Once the learner explicitly requests Build, the Codex handoff is mandatory; the shell script remains conditional on first-time scaffolding.
 
 The handoff must initialize the real repository/P0, not a diagnostic app, and must include `apps/portfolio/` plus separate bilingual Learning Site `site/` scaffolding.
 
@@ -666,3 +669,32 @@ For current/future PA session publication:
 - If the canonical theory payload is absent, emit `MISSING_CANONICAL_THEORY_PAYLOAD` and stop theory publication work.
 
 Every generated Codex prompt that publishes a theory-bearing session MUST include a `CANONICAL THEORY PAYLOAD` section or point to exact canonical repository content files, plus the instruction `PUBLISH VERBATIM SEMANTICS; DO NOT REAUTHOR THEORY`. Codex must materialize the payload directly; no `.sh` is required when the repository structure already exists.
+
+## Domain-lane and conversation-theory firewall
+
+Codex does not decide how theory is divided among Staff → Principal Software Engineering, Frontend Platform Architecture (FPA), and AI Product Engineering (AIPE). That categorization is part of the ChatGPT-authored canonical payload. Preserve it exactly in the published site.
+
+Every site-publishing Codex prompt must include/reference the canonical Spanish and English theory companions for the session and enforce:
+
+`PUBLISH VERBATIM SEMANTICS; PRESERVE DOMAIN LANES; DO NOT REAUTHOR THEORY.`
+
+Codex may normalize markup/schema, generate navigation, diagrams, indexes and interactive presentation, but must not merge the three lanes into a generic Concepts section, invent missing lane theory, move a concept to another lane without an explicit canonical correction, or replace cross-domain synthesis with blended prose. If the canonical ES/EN theory companions/payload are absent, stop with `MISSING_CANONICAL_THEORY_PAYLOAD`.
+
+
+## Codex invocation boundary
+
+A bare `PA-Sxxx` is a Study-mode request and does not authorize a Codex handoff. Do not generate a Codex prompt merely because the canonical theory files now exist. ChatGPT waits for an explicit learner request for Build, Codex, app, site, scaffold, implementation, regeneration or publication.
+
+When that explicit request arrives, the generated Codex prompt must materialize/reference the latest `PA-Sxxx-theory-es.md` and `PA-Sxxx-theory-en.md` semantics and all applicable hard gates. Codex still does not author theory.
+
+
+## Session-prompt injection — accelerated-learning hard gates (copy inline in EVERY generated Codex Build prompt)
+A generated Codex prompt that publishes theories MUST include the text of this block, even when it refers to `14-ACCELERATED-LEARNING-UX.md` and the master template. It must not rely on Codex to discover this requirement:
+
+1. **SÍNTESIS EN 30 SEGUNDOS / 30-SECOND SYNTHESIS**: exactly three concise key points after the canonical title/metadata, before Objective. This is a preview, not the entire teaching content.
+2. **KEYWORD SIGNALING**: use a clear first/topic sentence with selectively bolded opening key phrase in substantial paragraphs; never blanket-bold every sentence.
+3. **THREE READING LEVELS**: L1 Fundamento/Foundation (definition+concrete example), L2 Mecanismo/Mechanism (causal steps+adjacent explained visual+retrieval answer), L3 Profundización/Deep Dive (contextual edge/math/code/operations, accessible site accordion + no-JS full text). Preserve all canonical content.
+4. **CAUSAL LABELS + TOOLTIP**: meaningful `📥 ENTRADA/CAUSA → ⚙️ PROCESO/MECANISMO → 📤 SALIDA/RESULTADO → 💡 INSIGHT/REGLA DE ORO` only for actual mechanisms; render `[Término:: definición <=10 palabras]` as accessible hover/focus/touch term help with readable fallback. Do not parse inline code, code fences or URLs as tooltips.
+5. **INTERACTIVE RECOMMENDATIONS**: preserve `[Componente Interactivo Recomendado: Slider/Toggle/Simulador para ajustar X y observar Y]` only if canonically grounded. Implement only when technically approved and explanatory; label simulations; otherwise render a clear static counterpart, not inert UI or fictitious metrics.
+
+**PUBLISH VERBATIM SEMANTICS; DO NOT REAUTHOR THEORY. DO NOT CHANGE APPLICATION CODE LOGIC FOR PRESENTATION.** Preserve ES/EN domain lanes, per-topic atomic concepts and stable IDs, all citations, examples, decisions and ordering; confirm diff and rendered HTML. Format updates cannot change algorithms, business rules, runtime API contracts or test expectations. A separately explicit Build request can change code for its engineering objectives, but not as a side-effect of this learning-text module. If canonical companions lack these teaching functions, stop and request ChatGPT-authored corrected ES/EN content; do not have Codex improvise it. Use `CODEX-SESSION-MASTER-PROMPT.md` as the prompt skeleton for future sessions.

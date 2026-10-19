@@ -1,8 +1,11 @@
 # Artifact and Publishing Standard
 
+## Published atomic concept coverage (site + in-conversation study)
+The conversation companions `PA-Sxxx-theory-es.md` and `PA-Sxxx-theory-en.md` are the canonical source; prefer in-chat opening/reading where the product supports an inline document viewer, not download links as the intended primary study surface. Do not assert that a browser/download link is an inline viewer. Each Main Topic and Subtopic explicitly teaches its atomic component concepts **before** integrated theory; for a composite 4-part topic publish 4 complete labeled lessons followed by a comparison, not one composite definition. Use a stable `topic-id` + `concept-id` coverage manifest shared ES/EN; link component concepts to specific sources, example, nearby explanatory visual/table/flow, retrieval prompt and answer. The theory is not valid merely because a `concept` key exists. Codex must preserve the authored semantic sequence and content, not replace it with a card list or Studio tab. Required failure marker: `MISSING_ATOMIC_CONCEPT_COVERAGE`. Diagrams in the session body are supplemental to, not substitutes for, full prose; preserve responsive Mermaid→SVG and accessible alternatives in Build.
+
 ## One durable artifact per session
 
-Every session must produce at least one durable artifact.
+Every session must produce at least one durable artifact. In Study mode, the two canonical ES/EN theory companions satisfy this requirement. Additional implementation/evidence/publication artifacts are deferred until explicitly requested.
 
 Examples:
 
@@ -652,3 +655,27 @@ generated site
 ```
 
 Do not use the generated HTML as the only source of truth for theory. Keep editable canonical content in the repository. Do not ask Codex to reconstruct academic prose from rendered output.
+
+## Conversation theory companions
+
+Every theory-bearing PA session begins in Study mode by producing two learner-facing conversation artifacts; published site output is a later, separately requested Build concern:
+
+- `PA-Sxxx-theory-es.md`;
+- `PA-Sxxx-theory-en.md`.
+
+They are authored by ChatGPT as the primary initial session deliverable and surfaced in the same conversation for ongoing consultation. They must not require the learner to reconstruct theory from chat history or from the generated site. The initial chat response should not duplicate the full theory and must not include Build/Codex/site/app output unless explicitly requested.
+
+Each companion preserves the three domain lanes — Staff → Principal Software Engineering, Frontend Platform Architecture (FPA), AI Product Engineering (AIPE) — before any Cross-Domain Synthesis. ES/EN share the same conceptual hierarchy, stable section identifiers where represented, examples/visual references and conclusions.
+
+Repository storage may use the existing canonical content schema, but publication must preserve the exact semantics of these companions. Do not make a new storage architecture solely to satisfy the `.md` conversation artifact format.
+
+
+### Deferred publication rule
+
+Creation of the canonical theory companions does **not** trigger publication. The learner may study and discuss them for any length of time. Only an explicit later request for Build/Codex/site/app/publish work authorizes creation of the implementation handoff. That handoff uses the latest synchronized companions.
+
+
+## Accelerated reading and annotated theory publishing (all sessions)
+Publish the exact bilingual canonical content, starting with a semantic three-item **30-second synthesis**. Maintain the same logical hierarchy: Staff→Principal / FPA / AIPE, atomic concepts before synthesis, L1→L2→L3 depth with Level 3 progressively disclosed **without losing text for no-JS, print, keyboard or accessibility**. Details/summary (or equivalent accessible disclosure) is permitted only as a view of existing canonical text; do not hide L1/L2 prerequisites or truncate source paragraphs. Keep adjacent tables/diagrams/list items near the concept, not deferred to Studio only.
+
+Transform `[Term:: short definition]` annotations in prose AST, excluding code fences, inline code and URLs, into term affordances supporting pointer, keyboard/focus, touch and screen readers with readable text fallback; ≤10 whitespace-delimited words in microdefinition. For interactive directives `[Componente Interactivo Recomendado: ...]`, distinguish editorial suggestion from running widget: only implement grounded control X→effect Y with approved technology/real simulation labels; otherwise show a clearly non-interactive note/table. Render causal input/process/output/insight labels as semantic text + optional emoji; never color-only. The formatter's diffs must not alter application runtime logic, contracts, algorithms or unrelated tests. In `site/`, compare rendered output against the exact theory and inspect core content with JavaScript disabled.

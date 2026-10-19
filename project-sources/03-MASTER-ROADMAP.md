@@ -1,5 +1,8 @@
 # Master Roadmap --- v2
 
+## Roadmap compound-topic expansion — mandatory across 120 sessions
+Roadmap titles are curriculum labels, not atomic concept definitions. For every Main Topic/Subtopic derive and individually teach all important named concepts and hidden prerequisites before describing how they work together. Example: PA-S001's application/system/platform/ecosystem unit must define and exemplify ALL FOUR before its cross-concept model. Apply the detailed inventory/coverage gate in `05-LEARNING-METHODOLOGY.md`; translate identical concept IDs to ES/EN and include each in the later Codex handoff. Never publish a summary-only unit because the roadmap grouped terms on one line. Missing coverage fails with `MISSING_ATOMIC_CONCEPT_COVERAGE`.
+
 ## Area abbreviations
 
 -   **FPA** --- Frontend Platform Architecture
@@ -17,7 +20,7 @@ The session title identifies the engineering topic, not a replacement for teachi
 
 Mastery is assessed progressively through normal session evidence. Do **not** create broad upfront diagnostic sessions, quizzes or interviews that displace theory and building.
 
-A session should advance one or more longitudinal projects from `09-PROJECTS-AND-APPS.md`. When implementation is applicable, the session must identify the target app/lab/system and provide the scaffold/Codex entry point automatically.
+A session should advance one or more longitudinal projects from `09-PROJECTS-AND-APPS.md`. When implementation is explicitly requested, identify the target app/lab/system and provide the scaffold/Codex entry point. A bare `PA-Sxxx` remains Study mode.
 
 
 
@@ -33,9 +36,9 @@ Never require a previous session to be marked Completed before rendering or teac
 
 ### Public-site output rule
 
-Every theory-bearing session must leave a publishable ES/EN web section under the repository `site/` contract.
+Every theory-bearing session authors ES/EN theory that is ready for later publication. A bare `PA-Sxxx` does not touch the repository. When the learner explicitly requests Build/Publish, the session must leave a publishable ES/EN web section under the repository `site/` contract.
 
-When the session also creates or extends an app/lab/system, its scaffold must create/update both:
+When the requested Build also creates or extends an app/lab/system, its implementation must create/update both:
 - the executable implementation; and
 - the corresponding public theory/project pages under `site/`.
 
@@ -106,9 +109,9 @@ PA-S001 initializes the current Learning Site baseline, including dashboard home
 
 Therefore, PA-S006 **deepens** dashboard/theme/chart architecture and evidence visualization. A PA-S001 regeneration must not defer the dashboard or interactive tracking until PA-S006.
 
-### PA-S001 automatic scaffold rule
+### PA-S001 explicit Build rule
 
-After the complete PA-S001 Theory Phase and learner continuation into Build, automatically provide the complete Codex prompt. Provide a `.sh` only if the real Accelerator repository/P0 structure does not yet exist and must be initialized from zero.
+A bare `PA-S001` produces only the two canonical theory artifacts. When the learner later explicitly requests Build/Codex/site/app work, provide the complete Codex prompt. Provide a `.sh` only if the real Accelerator repository/P0 structure does not yet exist and must be initialized from zero.
 
 When used, the shell script is limited to deterministic initial scaffolding (`apps/portfolio/`, bilingual `site/`, workspace baseline). Codex then creates the actual PA-S001 session deliverables. If the compatible structure already exists, Codex performs the entire Build handoff without a shell script.
 
@@ -570,3 +573,8 @@ Its build should evolve the same Accelerator repository rather than create an un
 ### Learning-text execution rule — all 120 sessions
 
 For PA-S001–PA-S120, theory publishing must satisfy the canonical Learning Text Ergonomics Contract in `01`, `04`, `05`, `11`, `12`, and `13`: pre-training before unfamiliar terminology, one dominant idea per paragraph, clear structural signaling, immediate concrete examples for abstractions, guiding questions with explicit resolution where useful, low-friction retrieval/self-check, topic-appropriate adjacent visuals, and adaptive worked-example fading when appropriate. Accuracy alone is insufficient if the content remains difficult to learn from.
+
+
+
+## Program-wide content expansion: accelerated UX
+For every PA-S001–PA-S120 theory session, the roadmap titles/subtopics are minimum academic coverage, not prose generation commands for Codex. ChatGPT develops and synchronizes atomic-concept-first ES/EN canonical theory under `14-ACCELERATED-LEARNING-UX.md`: three-point summary, three reading levels per substantive concept, meaningful causal labels, contextual glossary help, and optional explanatory widget locations. Build remains a separate learner action; every later session Codex prompt embeds these gates directly and preserves application code logic.

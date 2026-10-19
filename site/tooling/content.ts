@@ -29,6 +29,7 @@ export interface Reference { id: string; title: string; url: string }
 export interface Page {
   id: string; lang: 'es' | 'en'; kind: 'session' | 'project'; title: string;
   description: string; status: 'editorial-draft'; sections: Section[]; references: Reference[];
+  canonicalContent?: string;
   visualLearning?: VisualLearning;
   dashboard?: {sessionId: string; projectId: string; checklistIds: string[]; exerciseIds: string[]; successIds: string[]; studyState: string; evidenceState: string};
 }
@@ -76,7 +77,7 @@ export function validatePage(value: unknown): asserts value is Page {
   if (!record(value) || !['es','en'].includes(String(value.lang)) ||
       !['session','project'].includes(String(value.kind)) || value.status !== 'editorial-draft' ||
       ![value.id,value.title,value.description].every(x => typeof x === 'string' && x.length > 0) ||
-      !Array.isArray(value.sections) || value.sections.length === 0 || !Array.isArray(value.references)) {
+      !Array.isArray(value.sections) || (value.sections.length === 0 && !(value.kind==='session'&&value.canonicalContent==='theory.md')) || !Array.isArray(value.references)) {
     throw new Error('Invalid page metadata');
   }
   const ids = new Set<string>();
@@ -95,6 +96,20 @@ export function validatePage(value: unknown): asserts value is Page {
       throw new Error('Invalid section');
     }
     ids.add(s.id);
+  }
+  if(value.kind==='session'){
+    const exercises=['atomic-scope','quality-scenario','contract-change','adr-critique','ai-failure','teach-back'].map(id=>`PA-S001:exercise:${id}`);
+    const criteria=['distinguish-levels','scope-four','quality','modularity','domain-lanes','evidence'].map(id=>`PA-S001:mastery:${id}`);
+    const dashboard=value.dashboard;
+    if(value.canonicalContent!=='theory.md'||value.sections.length!==0||value.references.length!==0||value.visualLearning!==undefined||
+      !record(dashboard)||dashboard.sessionId!==value.id||dashboard.projectId!=='P0'||
+      dashboard.studyState!=='local-only'||dashboard.evidenceState!=='not-assessed'||
+      !Array.isArray(dashboard.exerciseIds)||dashboard.exerciseIds.join('|')!==exercises.join('|')||
+      !Array.isArray(dashboard.checklistIds)||dashboard.checklistIds.join('|')!==criteria.join('|')||
+      !Array.isArray(dashboard.successIds)||dashboard.successIds.length!==0){
+      throw new Error('PA-S001 session metadata must point to theory.md and keep the canonical exercise/mastery IDs separate from evidence');
+    }
+    return;
   }
   if (value.kind === 'session' && value.visualLearning === undefined) throw new Error('Session pages require a visual learning guide with flashcards');
   if (value.kind === 'session') {
@@ -157,7 +172,7 @@ export function loadPage(path: string): Page {
   return value;
 }
 export function assertPair(es: Page, en: Page): void {
-  if (es.lang !== 'es' || en.lang !== 'en' || es.id !== en.id || es.kind !== en.kind ||
+  if (es.lang !== 'es' || en.lang !== 'en' || es.id !== en.id || es.kind !== en.kind || es.canonicalContent!==en.canonicalContent ||
       es.sections.map(s=>s.id).join('|') !== en.sections.map(s=>s.id).join('|') ||
       es.sections.map(s=>s.blocks?.map(block=>block.kind).join(',') ?? '').join('|') !== en.sections.map(s=>s.blocks?.map(block=>block.kind).join(',') ?? '').join('|') ||
       es.sections.flatMap(s=>s.studyItems?.map(x=>x.id) ?? []).join('|') !== en.sections.flatMap(s=>s.studyItems?.map(x=>x.id) ?? []).join('|') ||

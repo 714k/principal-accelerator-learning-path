@@ -1,0 +1,7 @@
+flowchart TB
+  ECO["Ecosistema: autores, hosting, bibliotecas, equipos y usuarios"]
+  ECO --> SYS["Sistema de publicación: fuentes + validación + build + entrega"]
+  SYS --> APP["Aplicación: Learning Site para el lector"]
+  PLAT["Plataforma: capacidades para consumidores"] --> APP
+  PLAT --> PORT["Aplicación: Portfolio"]
+  ECO -. incluye y condiciona .-> PLAT

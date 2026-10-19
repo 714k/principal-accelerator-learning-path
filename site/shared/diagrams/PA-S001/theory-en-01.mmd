@@ -1,0 +1,7 @@
+flowchart LR
+  R[Requirements and constraints] --> D[Architectural decisions]
+  D --> A[Actual architecture: elements and dependencies]
+  D --> AD[Description: diagrams and ADRs]
+  A --> O[Observed behavior]
+  O --> E[Tests and quality evidence]
+  AD -. describes but does not prove .-> A

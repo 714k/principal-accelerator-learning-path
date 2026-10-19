@@ -1,5 +1,8 @@
 # Principal Accelerator Learning Path --- Project Files
 
+## Updated content generation contract (v5 — atomic concepts)
+`05-LEARNING-METHODOLOGY.md` is authoritative for **component concepts before composite synthesis**, enforced by `04`, `11`, `12`, `13`. Compound themes are broken into individually taught conceptual units and only then combined; no label-only sections or generic bullet summaries. PA-S001's Application, System, Platform and Ecosystem lesson is the acceptance example (4 concepts → concrete examples → comparison/diagram → decision). Study mode creates only ES/EN theory documents; Build is explicit later and Codex never reauthors them.
+
 This folder is the source of truth for generating and running the
 Principal Accelerator sessions.
 
@@ -17,18 +20,13 @@ three areas.
 
 ## Session model
 
-Every session follows:
+Every session has two learner-controlled modes:
 
-**Learn → Design → Build → Prove → Think → Publish**
+**Study mode (default for bare `PA-Sxxx`)** → author the complete canonical theory into two reopenable ES/EN Markdown artifacts and pause for study/questions.
 
-Every session must produce, as applicable: - substantial theory and concepts; - Theory → Practice
-mapping; - a build, app, lab, package, experiment or platform
-capability that advances the longitudinal systems; - a Codex prompt; - explicit Codex-owned vs Learner-owned
-work; - tests/evidence; - at least one durable artifact; - Staff and
-Principal reasoning; - AI Product Engineering integration when
-technically meaningful; - Spanish and English publishable
-theory/content; - dashboard/mastery data; - an Engineering Book
-update; - mastery assessment L1--L5; - PROGRESS.md update.
+**Build mode (explicit request only)** → Design → Build → Prove → Think → Publish.
+
+Study mode produces theory only. Build/publishing artifacts, Codex prompts, tests/evidence, dashboard/project updates, mastery assessment and PROGRESS updates are produced only when the learner explicitly requests the corresponding later phase.
 
 
 
@@ -40,9 +38,9 @@ Session completion never acts as an unlock mechanism.
 The learner may start later sessions while earlier sessions are Partial, Revisit, Not started, or missing evidence. Bridge missing prerequisites and record revisits; do not block the requested session.
 
 
-## Automatic Build handoff invariant
+## Explicit Build handoff invariant
 
-When Build begins, implementation-capable sessions provide the executable scaffold automatically.
+Build begins only after an explicit learner request for Codex/site/app/implementation/publish work. At that point, implementation-capable sessions provide the executable handoff.
 
 The Codex prompt is the normal Build handoff once a compatible repository/app/lab structure exists. A `.sh` script is reserved for deterministic first-time scaffolding of a NEW repository/app/lab/system when no compatible baseline exists; it is not required for routine session deliverables or updates.
 
@@ -71,7 +69,7 @@ Then stop. Design/Build begins only after learner continuation.
 
 ## Public bilingual site invariant
 
-Every theory-bearing session must create/update a public ES/EN session section under `site/`, and every app/lab/system session must create/update its public project section. Scaffolding handles this automatically.
+The canonical theory must be publishable, but a bare Study-mode `PA-Sxxx` does not modify `site/`. When the learner later requests Build/Publish, every theory-bearing session creates/updates its ES/EN session section under `site/`, and app/lab/system work creates/updates the corresponding public project section.
 
 The public surface must be hostable on GitHub Pages or another static hosting service and must never require access to private chat context.
 
@@ -154,7 +152,7 @@ requiring the learner to restate the program.
 - Do not turn PA-S001 or any other session into a broad upfront diagnostic interview.
 - Competency/mastery is inferred progressively from normal learning work: concept checks, learner-owned implementation, debugging, tests, architecture/design decisions and durable evidence.
 - PA-S001 initializes the real Accelerator repository and P0 --- Engineering Book / Portfolio. It is not a separate diagnostic application.
-- When a session creates or extends an existing app/lab/system, the session provides the complete Codex prompt automatically. A shell script is reserved only for first-time scaffolding of a genuinely new repository/app/lab/system with no compatible baseline.
+- A bare `PA-Sxxx` never emits a Codex prompt. When the learner explicitly requests Build/Codex/site/app work, provide the complete Codex prompt. A shell script is reserved only for first-time scaffolding of a genuinely new repository/app/lab/system with no compatible baseline.
 - Theory comes before applying new concepts. `## Concepts` must teach the engineering topic, not merely explain the learning process or assessment model.
 
 ## P0 implementation baseline — effective from PA-S001
@@ -179,3 +177,11 @@ All theory-bearing sessions also follow the canonical Learning Text Ergonomics C
 ## v5 canonical-theory boundary
 
 v5 makes the theory-authoring boundary explicit: ChatGPT authors the complete canonical theory; Build materializes exact ES/EN source content; Codex publishes/integrates it without reauthoring. This prevents the renderer/implementation agent from degrading rich teaching into shallow headings, bullets or summaries.
+
+## v5 domain lanes + in-conversation theory companions
+
+Every theory-bearing session teaches Concepts/Theory first through three explicit lanes — Staff → Principal Software Engineering, Frontend Platform Architecture (FPA), and AI Product Engineering (AIPE) — then integrates them only when the session topic requires it. A bare `PA-Sxxx` now starts **Study mode**: ChatGPT returns only two reopenable canonical Markdown companions in the same conversation, `PA-Sxxx-theory-es.md` and `PA-Sxxx-theory-en.md`, then pauses for study/questions. Build/Codex/site/app work is generated only after an explicit later request. Codex publishes their semantics; it does not author or blend them.
+
+
+## Accelerated-learning format update
+The canonical format module is `14-ACCELERATED-LEARNING-UX.md`. ChatGPT applies it directly to ES/EN source theory; every later session Codex prompt embeds its five requirements, and `CODEX-SESSION-MASTER-PROMPT.md` provides the reusable explicit handoff. Codex applies semantic presentation only; it cannot regenerate missing theory or change app logic for a style feature. Existing published theory is not automatically compliant until its ChatGPT-owned canonical companions are updated and explicitly republished.

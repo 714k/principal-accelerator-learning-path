@@ -1,12 +1,13 @@
 # Mandatory Session Template
 
-Every `PA-Sxxx` conversation should use this structure, adapting depth
-to the topic. Sections that are not applicable should be marked as such
-rather than filled with invented content.
+## NON-NEGOTIABLE: atomic component concepts before combined topic teaching
+For each Main Topic and theoretical Subtopic, perform the full atomic concept inventory and teaching process in `05-LEARNING-METHODOLOGY.md` (Canonical atomic-concept decomposition). Treat compound headings as a list of concepts to **teach individually before integrating**. E.g. `Application, System, Platform and Ecosystem` requires four separate developed concept mini-lessons followed by a labeled comparison/synthesis. The global `## Concepts` section is necessary but not sufficient: repeat/deepen component definitions locally when a new composite topic introduces or requires them. Keep stable ES/EN concept IDs and source linkage; label each concept's primary Staff→Principal/FPA/AIPE lane. At each composite subtopic provide concrete named code/system elements, meaningful prose, at least one locally relevant table/diagram/flow where structure warrants it, an interleaved retrieval+answer and production consequences. Replacing component teaching with one integrated paragraph, shallow glossary, bullets, generic cards or a Studio-only graphic is NON-COMPLIANT. Failure: `MISSING_ATOMIC_CONCEPT_COVERAGE`.
 
-The default learning sequence is:
+Every `PA-Sxxx` conversation has two separately triggered modes.
 
-**Learn → Design → Build → Prove → Think → Publish**
+**Study mode (default for a bare `PA-Sxxx`)** → create only the two canonical ES/EN theory artifacts and pause for study/discussion.
+
+**Build mode (explicit learner request only)** → Design → Build → Prove → Think → Publish using the latest canonical theory artifacts.
 
 The detailed learning loop is:
 
@@ -128,6 +129,17 @@ The first teaching response must use this exact theory-phase structure:
 ## Concepts
 ## Main Topic
 ## Subtopics
+
+
+Within `## Concepts`, always render these domain lanes before synthesis:
+
+```text
+### Staff → Principal Software Engineering
+### Frontend Platform Architecture (FPA)
+### AI Product Engineering (AIPE)
+```
+
+Within Main Topic/Subtopics, preserve primary-domain identity. When two or more lanes interact, add `## Cross-Domain Synthesis` / `## Integración entre dominios` **after** the separated foundations; never begin with a mixed treatment that hides which capability track a concept belongs to.
 ## Theory → Practice Map
 ## Time Breakdown
 ## Real-World Example
@@ -566,7 +578,7 @@ appropriate design, analysis or evidence objective instead.
 
 Use incremental steps, files/packages/components and checkpoints.
 
-When implementation is applicable, **automatically provide the complete Codex implementation prompt in the first Build turn**. Do not wait for a separate learner request. A ready-to-run `.sh` is used only when a NEW repository/app/lab/system has no compatible baseline and requires deterministic first-time scaffolding. Routine session deliverables, migrations and extensions of existing structures are Codex-owned implementation work and require no shell script.
+When the learner **explicitly requests Build/Codex/site/app work**, provide the complete Codex implementation prompt in that Build turn. Do not infer Build from Theory completion. A ready-to-run `.sh` is used only when a NEW repository/app/lab/system has no compatible baseline and requires deterministic first-time scaffolding. Routine session deliverables, migrations and extensions of existing structures are Codex-owned implementation work and require no shell script.
 
 The scaffold must target the longitudinal project selected from `09-PROJECTS-AND-APPS.md`, not an unrelated throwaway app unless the roadmap explicitly calls for an isolated lab.
 
@@ -582,7 +594,7 @@ The handoff must target the real Accelerator repository and initialize/extend:
 - public project pages for the Engineering Book;
 - appropriate lint/typecheck/test/build plumbing.
 
-Do not create a diagnostic app. Do not ask the learner whether they want the scaffold; provide it automatically.
+Do not create a diagnostic app. Do not scaffold anything during Study mode. When Build is explicitly requested, apply the PA-S001 scaffold rule.
 
 
 ## 15. Codex Ownership
@@ -794,9 +806,9 @@ Create/update the semantically equivalent English counterpart.
 Do not mechanically translate Spanish phrasing; preserve technical
 meaning and professional English usage.
 
-## Public Site Update
+## Public Site Update — Build mode only
 
-For every theory-bearing session, define the public-site output before closing the session.
+Skip this section during a bare Study-mode `PA-Sxxx`. When the learner explicitly requests Build/Publish, define and implement the public-site output using the latest canonical ES/EN theory artifacts.
 
 Required outputs when applicable:
 
@@ -1110,3 +1122,24 @@ Before emitting the Build handoff for a theory-bearing session:
 6. Do not require a `.sh` for content materialization; a shell script is reserved for first-time app/lab/system scaffolding only.
 
 The learner must never depend on Codex to recreate from memory the richer theory that was already taught in ChatGPT.
+
+## Canonical theory companion artifacts — mandatory initial output
+
+When the learner starts with a bare `PA-Sxxx`, create and attach these two Markdown artifacts **as the entire substantive initial response**:
+
+- `PA-Sxxx-theory-es.md`
+- `PA-Sxxx-theory-en.md`
+
+They contain the complete canonical Theory Phase semantics, with the three domain lanes visibly separated before any cross-domain synthesis. They are not summaries and are never authored by Codex. Do not also paste the complete theory into chat, and do not generate Codex/site/app/build artifacts at this stage.
+
+After attaching them, pause for study/discussion. The learner may ask questions indefinitely. Build is not implied by completion of theory; it starts only after an explicit Build/Codex/site/app request.
+
+Keep both artifacts synchronized with accepted theory corrections. Immediately before any later Build handoff, ensure the artifacts reflect the current canonical theory.
+
+
+## Accelerated-learning template extension (all sessions)
+The initial response remains exactly the two canonical in-conversation artifacts. **Inside each artifact**, immediately after title/metadatos and before `Objective`, include a three-point `SÍNTESIS EN 30 SEGUNDOS` / `30-SECOND SYNTHESIS` block. This preview is not completion of Concepts, Main Topic, Subtopics or Sources.
+
+Each taught **atomic concept** has coherent Level 1 `Fundamento/Foundation` (definition, scope, immediate named software example), Level 2 `Mecanismo/Mechanism` (inputs/steps/outputs, model/diagram/contract, retrieval with answer) and Level 3 `Profundización/Deep Dive` (justified edge conditions, code/math/operational costs; reader-collapsible on the site but always available in the Markdown source). Prefer brief topic-leading phrases in bold, not bold on every sentence. For causal transformations only, use `📥 [ENTRADA / CAUSA] → ⚙️ [PROCESO / MECANISMO] → 📤 [SALIDA / RESULTADO] → 💡 [INSIGHT / REGLA DE ORO]` with justified explanatory prose (translated to EN). Put comparison tables, lists, diagrams or code walkthroughs as near as practical to the explained concept. Mark unfamiliar terms with `[Term:: at most ten words]` and optional concrete `[Componente Interactivo Recomendado: adjust X → observe Y]` annotations following `14`. Never require the learner to operate a widget to read core theory.
+
+When producing a **later, explicitly requested Codex session prompt**, inline all five accelerated-learning gates from `14` itself, not just a pointer to the module. Include `PUBLISH VERBATIM SEMANTICS; DO NOT REAUTHOR THEORY` and `DO NOT CHANGE APPLICATION CODE LOGIC FOR PRESENTATION`. Preserve each domain lane, atomic concept ID, ES/EN meaning and structure. Refuse publication rather than ask Codex to fill missing content.

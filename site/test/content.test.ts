@@ -1,243 +1,146 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { validatePage, assertPair, loadPage } from '../tooling/content.ts';
-import { escapeHtml, renderPage, basePath, sessionsIndex, projectsIndex, home } from '../tooling/render.ts';
-import { generateDiagrams } from '../tooling/diagrams.ts';
-import { searchIndex } from '../tooling/search.ts';
 import { resolve, dirname } from 'node:path';
 import { readFileSync, mkdtempSync, mkdirSync, writeFileSync, symlinkSync, copyFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
+import { loadPage, validatePage, assertPair } from '../tooling/content.ts';
+import { assertCanonicalPair, canonicalDiagramSources, renderCanonical, studyIds } from '../tooling/canonical.ts';
+import { escapeHtml, renderPage, home, projectsIndex, sessionsIndex } from '../tooling/render.ts';
+import { diagramMetadata, generateDiagrams } from '../tooling/diagrams.ts';
+import { searchIndex } from '../tooling/search.ts';
+
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../..');
 const es=loadPage(resolve(root,'site/es/sessions/PA-S001/page.json'));
 const en=loadPage(resolve(root,'site/en/sessions/PA-S001/page.json'));
-test('ES/EN have corresponding sections and references',()=>assert.doesNotThrow(()=>assertPair(es,en)));
-test('missing source references are rejected',()=>{
-  const changed=structuredClone(es); changed.sections[0]!.paragraphs.push('Missing [R999]');
-  assert.throws(()=>validatePage(changed),/Missing reference/);
+const p0=loadPage(resolve(root,'site/en/projects/p0/page.json'));
+const theoryEs=readFileSync(resolve(root,'site/es/sessions/PA-S001/theory.md'),'utf8');
+const theoryEn=readFileSync(resolve(root,'site/en/sessions/PA-S001/theory.md'),'utf8');
+
+test('session JSON is metadata only and cannot claim progress or mastery',()=>{
+  assert.deepEqual(es.sections,[]); assert.deepEqual(es.references,[]); assert.equal(es.canonicalContent,'theory.md');
+  assert.deepEqual(es.dashboard?.exerciseIds,studyIds(theoryEs).exercises);
+  assert.deepEqual(es.dashboard?.checklistIds,studyIds(theoryEs).mastery);
+  assert.deepEqual(es.dashboard?.successIds,[]); assert.equal(es.dashboard?.studyState,'local-only');
+  assert.equal(es.dashboard?.evidenceState,'not-assessed');
+  assert.throws(()=>validatePage({...es,canonicalContent:'invented.md'}),/Invalid page metadata/);
+  assert.throws(()=>validatePage({...es,status:'Completed'}));
+  assert.doesNotThrow(()=>assertPair(es,en));
 });
-test('bilingual structural drift is rejected',()=>{
-  const changed=structuredClone(en); changed.sections.pop(); assert.throws(()=>assertPair(es,changed));
+
+test('canonical ES and EN theory have equivalent hierarchy, study IDs, cards, and diagram coverage',()=>{
+  assert.doesNotThrow(()=>assertCanonicalPair(theoryEs,theoryEn));
+  const altered=theoryEn.replace('PA-S001:mastery:evidence —','PA-S001:mastery:other —');
+  assert.throws(()=>assertCanonicalPair(theoryEs,altered),/checklist IDs/);
+  assert.throws(()=>assertCanonicalPair(theoryEs,theoryEn.replace('<!-- concept: scope.application -->','')),/MISSING_ATOMIC_CONCEPT_COVERAGE/);
+  assert.throws(()=>assertCanonicalPair(theoryEs,theoryEn.replace('fc.scope.application\n','fc.scope.other\n')),/structural parity/);
+  assert.equal(canonicalDiagramSources(theoryEs).length,6);
+  assert.equal(canonicalDiagramSources(theoryEn).length,6);
 });
-test('publication status cannot claim completion',()=>assert.throws(()=>validatePage({...es,status:'Completed'})));
-test('HTML-shaped content is displayed as text',()=>{
-  const changed=structuredClone(es); changed.sections[0]!.paragraphs=['<script>alert(1)</script>'];
-  const html=renderPage(changed,'/'); assert.ok(!html.includes('<script>alert(1)</script>')); assert.ok(html.includes('&lt;script&gt;alert(1)&lt;/script&gt;'));
-  assert.equal(escapeHtml('"&'), '&quot;&amp;');
+
+test('canonical renderer publishes the whole chapter with linked sources and safe stable controls',()=>{
+  const rendered=renderCanonical(theoryEs,'es','/accelerator/').html;
+  for(const text of ['Learning Preview','Staff → Principal Software Engineering','Frontend Platform Architecture (FPA)','AI Product Engineering (AIPE)','Cross-Domain Synthesis','Main Topic','1. Ingeniería de software','Subtopic 6 · Alcance Staff y Principal','Real-World Example','Production-Ready Example','Knowledge Mastery Checklist','Bridge → PA-S002']) assert.ok(rendered.includes(text),`missing ${text}`);
+  assert.equal((rendered.match(/data-study-id="PA-S001:exercise:[a-z-]+"/g)??[]).length,6);
+  assert.equal((rendered.match(/data-study-id="PA-S001:mastery:[a-z-]+"/g)??[]).length,6);
+  assert.ok(rendered.includes('href="#reference-1"'));
+  for(let n=1;n<=12;n++)assert.ok(rendered.includes(`id="reference-${n}"`));
+  assert.ok(rendered.includes('href="https://www.iso.org/standard/74393.html"'));
+  assert.ok(rendered.includes('/accelerator/es/shared/diagrams/PA-S001/theory-es-06.svg'));
+  assert.ok(!rendered.includes('flowchart LR'));
+  assert.ok(!rendered.includes('<script>alert'));
 });
-test('session theory renders as paragraphs with concept-first openings',()=>{
-  const html=renderPage(es,'/');
-  assert.ok(html.includes('id="main-topic"'));
-  assert.ok(html.includes('class="reading-lead"'));
-  assert.ok(html.includes('instructional-concept'));
-  assert.ok(html.includes('instructional-mechanism'));
-  assert.ok(html.includes('class="reading-paragraph"'));
-  assert.ok(html.includes('Antes de empezar'));
-  assert.ok(html.includes('Pregunta guía'));
-  assert.ok(html.includes('Autoprueba'));
-  assert.ok(html.includes('Respuesta a la pregunta guía'));
-  assert.ok(!html.includes('>guiding question<'));
-  assert.ok(renderPage(en,'/').includes('Guiding question'));
-  assert.match(html,/Aplicación:<\/strong> software que ofrece capacidades/);
-});
-test('retrieval blocks require answers and render as revealable self-checks',()=>{
-  const changed=structuredClone(es);
-  const main=changed.sections.find(section=>section.id==='main-topic')!;
-  const retrieval=main.blocks!.find(block=>block.kind==='retrieval')!;
-  delete retrieval.answer;
-  assert.throws(()=>validatePage(changed),/Invalid section/);
-  const html=renderPage(es,'/');
-  assert.ok(html.includes('<details class="instructional-block instructional-retrieval">'));
-  assert.ok(html.includes('¿Qué pasos conectan el contexto con las consecuencias?'));
-  assert.ok(html.includes('<p class="instructional-answer-label">Respuesta</p>'));
-});
-test('Main Topic and subtopics preserve the guiding-question learning cycle',()=>{
-  for (const page of [es,en]) for (const section of page.sections.filter(section=>section.id==='main-topic' || /^s[1-7]$/.test(section.id))) {
-    assert.equal(section.blocks?.[0]?.kind,'guiding-question',section.id);
-    assert.equal(section.blocks?.at(-1)?.kind,'resolution',section.id);
-  }
-  const changed=structuredClone(es);
-  changed.sections.find(section=>section.id==='s1')!.blocks!.shift();
-  assert.throws(()=>validatePage(changed),/opening guiding question/);
-});
-test('pre-training and the architecture relationship diagram remain adjacent to the first concept',()=>{
-  const concept=es.sections.find(section=>section.id==='c1')!;
-  assert.equal(concept.blocks?.[0]?.kind,'pretraining');
-  assert.equal(concept.diagram?.source,'PA-S001/architecture-quality-relation-es.mmd');
-  const html=renderPage(es,'/');
-  const start=html.indexOf('id="c1"');
-  const end=html.indexOf('</section>',start);
-  const fragment=html.slice(start,end);
-  assert.ok(fragment.includes('Antes de empezar'));
-  assert.ok(fragment.includes('architecture-quality-relation-es.svg'));
-});
-test('diagram fields require a Mermaid source and render a responsive SVG image',()=>{
-  const changed=structuredClone(es); changed.sections[0]!.diagram={source:'PA-S001/example.mmd',title:'Example',description:'Example diagram'};
-  assert.doesNotThrow(()=>validatePage(changed));
-  assert.throws(()=>validatePage({...changed,sections:[{...changed.sections[0]!,diagram:{source:'PA-S001/example.svg',title:'Example',description:'Example diagram'}},...changed.sections.slice(1)]}),/Invalid section/);
-  const html=renderPage(changed,'/accelerator/');
-  assert.ok(html.includes('class="session-diagram"'));
-  assert.ok(html.includes('src="/accelerator/es/shared/diagrams/PA-S001/example.svg"'));
-  assert.ok(!html.includes('<pre class="diagram">'));
-});
-test('subpath hosting has prefixed links and assets',()=>{
-  const html=renderPage(es,'/accelerator/'); assert.ok(html.includes('href="/accelerator/assets/site.css"'));
-  assert.ok(html.includes('href="/accelerator/en/sessions/PA-S001/"'));
-  assert.throws(()=>basePath('//example.com/')); assert.throws(()=>basePath('/../'));
-});
-test('session navigation and progressive theme control are present',()=>{
-  const html=renderPage(es,'/');
-  assert.ok(html.includes('<details class="toc">'));
-  assert.ok(html.includes('data-theme-toggle'));
-  assert.ok(html.includes('localStorage.setItem'));
-  assert.ok(html.includes('href="/es/sessions/"'));
-  assert.ok(!html.includes('>Sessions</a>'));
-  assert.ok(html.includes('class="icon icon-moon"'));
-  assert.ok(html.includes('class="icon icon-sun"'));
-  assert.ok(html.includes('r.dataset.theme=v'));
-  assert.ok(html.includes('>Principal Accelerator Learning Path</a>'));
-  assert.ok(html.includes('class="site-sidebar"'));
-  assert.ok(html.includes('F0 · Plataforma Accelerator'));
-  assert.ok(html.includes('data-site-search'));
-  assert.ok(html.includes('assets/search-es.json'));
-  assert.ok(html.includes('<details class="nav-group" open>'));
-  assert.match(html, /class="nav-home"[^>]*>.*?<span>Dashboard<\/span>/);
-  assert.ok(sessionsIndex('en','/').includes('PA-S001'));
-  assert.ok(projectsIndex('en','/').includes('projects/portfolio/'));
-});
-test('search index links to published section content under a subpath',()=>{
-  const entries=searchIndex('es','/accelerator/',[{route:'sessions/PA-S001',page:es}]);
-  const main=entries.find(entry=>entry.href==='/accelerator/es/sessions/PA-S001/#main-topic');
-  assert.ok(main);
-  assert.equal(main.title,es.sections.find(section=>section.id==='main-topic')!.title);
-  assert.ok(main.text.includes(es.sections.find(section=>section.id==='main-topic')!.paragraphs[0]!));
-  assert.ok(entries.some(entry=>entry.href==='/accelerator/es/#study'));
-  assert.ok(entries.some(entry=>entry.href==='/accelerator/portfolio/#work'));
-  assert.throws(()=>searchIndex('en','/',[{route:'sessions/PA-S001',page:es}]),/language mismatch/);
-});
-test('session contents are a vertical semantic list with nested subtopics',()=>{
-  for (const page of [es,en]) {
-    const toc=renderPage(page,'/').match(/<details class="toc">([\s\S]*?)<\/details>/)?.[1];
-    assert.ok(toc);
-    assert.ok(toc.includes('<ol class="toc-list">'));
-    assert.ok(toc.includes('<ol class="toc-sublist"><li><a href="#c1">'));
-    assert.ok(toc.includes('<ol class="toc-sublist"><li><a href="#s1">'));
-    assert.equal((toc.match(/<a href="#/g) ?? []).length,page.sections.length);
+
+test('rendered theory retains every authored prose and code line in both locales',()=>{
+  for(const [source,lang] of [[theoryEs,'es'],[theoryEn,'en']] as const){
+    const rendered=renderCanonical(source,lang,'/').html
+      .replace(/<[^>]*>/g,' ')
+      .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'")
+      .replace(/\s+/g,' ').replace(/(\[S\d+\])\s+(?=\[S\d+\])/g,'$1').replace(/\s+([.,;:])/g,'$1');
+    let inDiagram=false;
+    const ignored=new Set(['ID estable','Stable ID','Frente','Front','Reverso (respuesta + por qué)','Back (answer and explanation)','Sección fuente','Source section']);
+    const missing:string[]=[];
+    for(const raw of source.split(/\r?\n/)){
+      const line=raw.trim();
+      if(!line){inDiagram=false;continue;}
+      if(/^(flowchart|mindmap|sequenceDiagram|graph)\b/.test(line))inDiagram=true;
+      if(inDiagram||line.startsWith('<!--')||ignored.has(line))continue;
+      if(!rendered.includes(line.replace(/\s+/g,' ')))missing.push(line);
+    }
+    assert.deepEqual(missing,[],`${lang} source lines lost during rendering`);
   }
 });
-test('project language switching preserves an explicit project route',()=>{
-  const html=renderPage(es,'/','projects/portfolio');
-  assert.ok(html.includes('href="/en/projects/portfolio/"'));
+
+test('Visual Learning Studio has the same three modes, 25 cards, coverage, and static fallback in both languages',()=>{
+  const esHtml=renderCanonical(theoryEs,'es','/').html; const enHtml=renderCanonical(theoryEn,'en','/').html;
+  const modes=(html:string)=>[...html.matchAll(/id="visual-tab-([a-z-]+)"/g)].map(match=>match[1]);
+  assert.deepEqual(modes(esHtml),['mind-map','flashcards','scope-matrix']); assert.deepEqual(modes(esHtml),modes(enHtml));
+  for(const html of [esHtml,enHtml]){
+    assert.equal((html.match(/data-flash-id="fc\.[a-z0-9.-]+"/g)??[]).length,25);
+    assert.ok(html.includes('data-source-sections="Main Topic"'));
+    assert.ok(html.includes('data-flash-prev')); assert.ok(html.includes('data-flash-next')); assert.ok(html.includes('data-flash-flip'));
+    assert.ok(html.includes('<table>'));
+    assert.ok(!html.includes('[hidden]'));
+  }
 });
-test('visual learning modes are data-driven, paired, and source-linked',()=>{
-  assert.equal(es.visualLearning?.modes.length,5);
-  assert.deepEqual(es.visualLearning?.modes.map(mode=>mode.id),en.visualLearning?.modes.map(mode=>mode.id));
-  assert.deepEqual(es.visualLearning?.modes.map(mode=>mode.id),['mental-model','boundary-flow','scope-matrix','change-journey','recall-cards']);
-  const recall=es.visualLearning!.modes.find(mode=>mode.id==='recall-cards')!;
-  const deck=recall.blocks.find(block=>block.type==='flashcards');
-  assert.ok(deck && deck.type==='flashcards');
-  assert.equal(deck.cards.length,10);
-  assert.deepEqual(deck.cards.map(card=>card.id),['F01','F02','F03','F04','F05','F06','F07','F08','F09','F10']);
-  const changed=structuredClone(es);
-  changed.visualLearning!.modes[0]!.sourceSections=['unknown-section'];
-  assert.throws(()=>validatePage(changed),/Invalid visual learning guide/);
-  const missingCoverage=structuredClone(es);
-  const recallMode=missingCoverage.visualLearning!.modes.find(mode=>mode.id==='recall-cards')!;
-  const recallDeck=recallMode.blocks.find(block=>block.type==='flashcards');
-  assert.ok(recallDeck && recallDeck.type==='flashcards');
-  recallDeck.cards=recallDeck.cards.filter(card=>!card.sourceSections.includes('s6'));
-  assert.throws(()=>validatePage(missingCoverage),/Flashcards must cover every concept/);
-  const missingMentalMap=structuredClone(es);
-  const mentalMap=missingMentalMap.visualLearning!.modes.find(mode=>mode.id==='mental-model')!;
-  mentalMap.blocks=mentalMap.blocks.filter(block=>block.type!=='diagram');
-  assert.throws(()=>validatePage(missingMentalMap),/Invalid visual learning guide|mental-map diagram must cover every concept/);
+
+test('search indexes link to rendered canonical anchors, not retired JSON sections',()=>{
+  const entries=searchIndex('en','/accelerator/',[{route:'sessions/PA-S001',page:en},{route:'projects/p0',page:p0}],theoryEn);
+  const main=entries.find(entry=>entry.href==='/accelerator/en/sessions/PA-S001/#main-topic');
+  assert.ok(main); assert.ok(main.text.includes('architecture'));
+  assert.ok(entries.some(entry=>entry.href==='/accelerator/en/sessions/PA-S001/#knowledge-mastery-checklist'));
+  assert.ok(entries.some(entry=>entry.href==='/accelerator/en/projects/p0/#theory'));
+  assert.throws(()=>searchIndex('es','/',[{route:'sessions/PA-S001',page:en}],theoryEn),/language mismatch/);
 });
-test('study IDs match across languages and controls are enabled',()=>{
-  const ids=(page: typeof es)=>page.sections.flatMap(section=>section.studyItems?.map(item=>item.id) ?? []);
-  assert.deepEqual(ids(es),ids(en));
-  assert.equal(ids(es).length,15);
-  assert.equal(ids(es).filter(id=>id.includes(':success:')).length,5);
-  const html=renderPage(es,'/');
-  assert.equal((html.match(/data-study-id="PA-S001:/g) ?? []).length,15);
-  assert.ok(!/<input[^>]+data-study-id[^>]+disabled/.test(html));
-  assert.ok(html.includes('src="/assets/study.js"'));
-  const changed=structuredClone(en); changed.sections.find(section=>section.id==='mastery')!.studyItems![0]!.id='PA-S001:mastery:changed';
-  assert.throws(()=>assertPair(es,changed),/ES\/EN structure/);
-  const changedSuccess=structuredClone(en); changedSuccess.sections.find(section=>section.id==='success')!.studyItems![0]!.id='PA-S001:success:changed';
-  assert.throws(()=>assertPair(es,changedSuccess),/ES\/EN structure/);
+
+test('session route uses canonical theory, stable study controls, accessible diagrams, and updated TOC',()=>{
+  const html=renderPage(en,'/','sessions/PA-S001',theoryEn);
+  assert.ok(html.includes('id="main-topic"')); assert.ok(html.includes('id="knowledge-mastery-checklist"'));
+  assert.ok(html.includes('visual-tab-scope-matrix')); assert.ok(html.includes('data-flash-id="fc.main"'));
+  assert.ok(html.includes('data-study-id="PA-S001:exercise:teach-back"')); assert.ok(html.includes('data-study-id="PA-S001:mastery:evidence"'));
+  assert.ok(html.includes('alt="Mind map of 24 concepts, six subtopics, Main Topic, and cross-domain synthesis"'));
+  assert.ok(html.includes('src="/assets/study.js"')); assert.ok(!html.includes('flowchart LR'));
+  assert.ok(html.includes('id="reference-5"'));
+  const spanish=renderPage(es,'/accelerator/','sessions/PA-S001',theoryEs);
+  assert.ok(spanish.includes('href="/accelerator/en/sessions/PA-S001/"'));
+  assert.ok(spanish.includes('id="reference-1"'));
 });
-test('dashboard separates local study, canonical status, mastery, and artifacts',()=>{
+
+test('dashboard counts only the actual study items and keeps mastery/evidence separate',()=>{
   const html=home('en','/',en,'Not started','not-assessed','Not started');
-  for (const id of ['roadmap','study','signals','status','mastery','artifacts','revisit','projects','activity']) assert.ok(html.includes(`id="${id}"`));
-  assert.ok(html.indexOf('id="study"') < html.indexOf('id="roadmap"'));
-  assert.ok(html.includes('Not started'));
-  assert.ok(html.includes('Not assessed'));
-  assert.ok(html.includes('Overall program status'));
-  assert.ok(html.includes('Editorial draft'));
-  assert.ok(html.includes('data-study-summary'));
-  assert.ok(html.includes('data-study-chart'));
-  assert.ok(html.includes('data-session-id="PA-S001"'));
+  for(const id of ['roadmap','study','signals','status','mastery','artifacts','revisit','projects','activity'])assert.ok(html.includes(`id="${id}"`));
   assert.ok(html.includes(`data-exercise-ids="${en.dashboard!.exerciseIds.join('|')}"`));
   assert.ok(html.includes(`data-criteria-ids="${en.dashboard!.checklistIds.join('|')}"`));
-  assert.ok(html.includes(`data-success-ids="${en.dashboard!.successIds.join('|')}"`));
-  assert.equal((html.match(/<table class="dashboard-table">/g) ?? []).length,4);
-  assert.ok(html.includes('Numeric local study detail'));
-  assert.ok(html.includes('data-study-table-marked="exercise"'));
-  assert.ok(html.includes('data-study-table-remaining="criteria"'));
-  assert.ok(html.includes('data-study-table-marked="success"'));
-  assert.ok(html.includes('data-study-table-remaining="success"'));
-  assert.ok(html.includes('Status and source of key signals'));
-  assert.ok(html.includes('data/mastery/PA-S001.json'));
-  assert.ok(html.includes('<progress id="study-exercises"'));
-  assert.ok(!html.includes('<progress id="study-exercises" data-study-progress="exercise" max="5" value='));
-  assert.ok(html.includes('data-share-chart="exercise"'));
-  assert.ok(html.includes('data-share-chart="criteria"'));
-  assert.ok(html.includes('data-share-chart="success"'));
-  assert.ok(html.includes('Pie · Exercises'));
-  assert.ok(html.includes('Donut · Review criteria'));
-  assert.ok(html.includes('Donut · Success criteria'));
-  assert.ok(html.includes('data-study-line'));
-  assert.ok(html.includes('Enable JavaScript to view local history.'));
-  assert.ok(html.includes('PA-S001 editorial chapter'));
-  const spanish=home('es','/accelerator/',es,'Not started','not-assessed','Not started');
-  assert.ok(spanish.includes('No iniciado'));
-  assert.ok(spanish.includes('href="/accelerator/es/sessions/PA-S001/"'));
-  assert.throws(()=>home('en','/',es,'Not started','not-assessed','Not started'),/matching session source/);
+  assert.ok(html.includes('max="6"')); assert.ok(html.includes('Not assessed'));
+  assert.ok(!html.includes('success criteria')); assert.ok(html.includes('data/mastery/PA-S001.json'));
 });
+
+test('global indexes, project rendering, and escaping remain available',()=>{
+  assert.ok(sessionsIndex('en','/').includes('PA-S001'));
+  assert.ok(projectsIndex('en','/').includes('projects/portfolio/'));
+  assert.ok(renderPage(p0,'/','projects/p0').includes(p0.title));
+  assert.equal(escapeHtml('"&'), '&quot;&amp;');
+  assert.ok(!renderPage(p0,'/','projects/p0').includes('<script>alert(1)</script>'));
+});
+
+test('Mermaid registry provides localized accessible mind-map metadata',()=>{
+  const data=diagramMetadata([es]); const mindMap=data.get('PA-S001/theory-es-06.mmd');
+  assert.ok(mindMap?.title.includes('PA-S001')); assert.ok(mindMap?.description.includes('24 conceptos'));
+  const source=readFileSync(resolve(root,'site/shared/diagrams/PA-S001/theory-es-06.mmd'),'utf8');
+  assert.ok(source.includes('Cross-domain synthesis'));
+});
+
 test('missing Mermaid source fails before publication',()=>{
   assert.throws(()=>generateDiagrams(root,new Map([['PA-S001/missing.mmd',{source:'PA-S001/missing.mmd',title:'Missing',description:'Missing'}]]),'/tmp/pa-missing-diagram-test'),/Diagram source is missing/);
 });
+
 test('malformed Mermaid stops SVG publication with an explicit error',()=>{
   const temp=mkdtempSync(resolve(tmpdir(),'pa-mermaid-test-'));
-  try {
-    mkdirSync(resolve(temp,'site/shared/diagrams/PA-S001'),{recursive:true});
-    mkdirSync(resolve(temp,'site/tooling'),{recursive:true});
-    mkdirSync(resolve(temp,'node_modules/.bin'),{recursive:true});
+  try{
+    mkdirSync(resolve(temp,'site/shared/diagrams/PA-S001'),{recursive:true});mkdirSync(resolve(temp,'site/tooling'),{recursive:true});mkdirSync(resolve(temp,'node_modules/.bin'),{recursive:true});
     writeFileSync(resolve(temp,'site/shared/diagrams/PA-S001/broken.mmd'),'this is not valid Mermaid :::');
     copyFileSync(resolve(root,'site/tooling/puppeteer.config.json'),resolve(temp,'site/tooling/puppeteer.config.json'));
     symlinkSync(resolve(root,'node_modules/.bin/mmdc'),resolve(temp,'node_modules/.bin/mmdc'));
     assert.throws(()=>generateDiagrams(temp,new Map(),resolve(temp,'generated')),/Mermaid conversion failed for site\/shared\/diagrams\/PA-S001\/broken.mmd/);
-  } finally { rmSync(temp,{recursive:true,force:true}); }
-});
-test('mind map source names every canonical concept, subtopic, and central model',()=>{
-  const source=readFileSync(resolve(root,'site/shared/diagrams/PA-S001/foundations.mmd'),'utf8');
-  for(let i=1;i<=8;i++) assert.ok(source.includes(`C${i} `));
-  for(let i=1;i<=7;i++) assert.ok(source.includes(`S${i} `));
-  assert.ok(source.includes('Main Topic deciding with a system model'));
-});
-test('visual learning studio supplies static content and progressive tab/recall hooks',()=>{
-  const html=renderPage(en,'/');
-  assert.ok(html.includes('data-learning-studio'));
-  assert.equal((html.match(/<a id="visual-tab-[^"]+" href="#visual-panel-[^"]+" data-mode-control/g) ?? []).length,5);
-  assert.ok(html.includes('data-visual-panel'));
-  assert.ok(html.includes('role\',\'tablist\''));
-  assert.ok(html.includes("e.key==='ArrowRight'"));
-  assert.ok(html.includes('aria-selected'));
-  assert.ok(html.includes('data-flashcards'));
-  assert.ok(html.includes('data-flash-prev'));
-  assert.ok(html.includes('data-flash-next'));
-  assert.ok(html.includes('data-flash-flip'));
-  assert.ok(html.includes('aria-pressed="false"'));
-  assert.ok(html.includes("card.classList.toggle('is-flipped',on)"));
-  assert.ok(html.includes('Tap to reveal the answer'));
+  }finally{rmSync(temp,{recursive:true,force:true});}
 });

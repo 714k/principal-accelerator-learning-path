@@ -1,5 +1,24 @@
 # Learning Methodology
 
+## Atomic concepts before integrated topics — authoritative methodology
+
+## Canonical atomic-concept decomposition (required for every theory-bearing session)
+
+**Problem this rule prevents:** a section titled `Application, System, Platform and Ecosystem` must NOT begin with a combined explanation of the four. First teach **Application**, **System**, **Platform** and **Ecosystem** as four independent concepts, in that order; only then explain relationships, contrasts, boundary decisions and system implications. The same applies to any composite heading joined by `and`, `vs`, commas, slashes, plus signs, or embedded prerequisites (e.g. `quality attributes and constraints`, `coupling/cohesion/boundaries`, `Staff vs Principal`, `model, prompt, output and evaluation`).
+
+**Step A — concept inventory before authoring.** For the Main Topic and EACH theoretical Subtopic, extract the underlying teachable atomic concepts, including prerequisites the topic silently assumes. Give each concept a stable semantic ID (e.g. `scope.application`, `scope.system`, `scope.platform`, `scope.ecosystem`), a primary Staff→Principal/FPA/AIPE lane, and linked authoritative reference(s). Keep IDs/order structurally equivalent ES/EN. Pretrain unfamiliar supporting vocabulary before first use, but a short glossary cannot replace the individual lesson.
+
+**Step B — independent mini-lesson for EACH atomic concept.** Before any multi-concept synthesis, create a named subsection explaining: precise academic definition + scope/nonexamples + purpose; mechanism with concrete named software elements; immediate worked software example with actual interaction/change and observable consequence; contrast/failure/trade-off where useful; one brief retrieval question WITH answer. Avoid one-sentence definitions or bullet glossaries. Important concepts need explanatory prose (not a rounded card or a bullet list) and adjacent representation appropriate to their knowledge structure: labeled relationship/dependency diagram for structure, table for distinctions, ordered flow for process, timeline for temporal behavior, code/schema excerpt for a contract. A visual may cover two neighboring concepts only when the relationship is clearly labeled and individual explanations precede the integration.
+
+**Step C — integrate only after all component concepts have been taught.** Show how the concepts differ, interact and constrain decisions. Use at least one meaningful compare/contrast table, annotated model/diagram, causal flow, failure scenario or decision matrix for substantive composite topics. Explain the representation in prose; labels should be near their elements. Add a guiding question and resolve it explicitly; interleave retrieval and a worked→faded→independent example when teaching a new procedure/decision skill. Use analogies only when helpful, mapping each analogical part to software and stating where it fails.
+
+**Step D — three lanes, then synthesis.** Teach Staff→Principal, FPA and AIPE independently first. Assign each atomic concept to its owning lane and preserve that origin when reusing it later. A different lane may mention the already-defined concept but must not silently blend it. After independent concepts and appropriate Main Topic/Subtopic development, add an explicitly labeled Cross-Domain Synthesis only when the lesson warrants it; no filler for non-applicable lanes.
+
+**Step E — coverage as an acceptance gate.** Each composite topic needs a concept coverage manifest (can be semantic Markdown anchors + equivalent schema) mapping `topic-id → required atomic concept IDs → source sections → ES/EN locations → representation/retrieval`. Audit **visible authored prose**, not merely keys/headings. Missing definitions, mechanism/example or premature integration fail with `MISSING_ATOMIC_CONCEPT_COVERAGE`; ES/EN IDs/ordering must match. Do not mark complete because a combined paragraph contains all four nouns.
+
+**Theory firewall remains mandatory:** ChatGPT writes these independent lessons as canonical ES/EN theory. The later generated Codex prompt must explicitly carry/reference ALL lesson text and concept IDs and publish it verbatim semantically: `PUBLISH VERBATIM SEMANTICS; DO NOT REAUTHOR THEORY`. Codex may generate layouts, anchors, SVG, interactive representations, tests and validation, but must NOT draft missing component concepts, summarize the theory, or collapse distinct concepts into a comparison card. If canonical theory is absent, stop with `MISSING_CANONICAL_THEORY_PAYLOAD`.
+
+
 ## Core learning model
 
 **Learn → Design → Build → Prove → Think → Publish**
@@ -266,7 +285,7 @@ In PA-S001, baseline evidence is a by-product of the work, not the main curricul
 
 Prefer advancing the longitudinal projects over throwaway exercises. Start P0 in PA-S001 and evolve it across sessions. Use isolated labs when the curriculum intentionally compares architectures, failure modes or specialized systems.
 
-When implementation is applicable, provide the complete Codex handoff automatically after the relevant theory/design checkpoint. Use a `.sh` only for deterministic first-time scaffolding of a new repository/app/lab/system when no compatible baseline exists.
+When implementation is explicitly requested by the learner, provide the complete Codex handoff using the latest canonical theory artifacts. Use a `.sh` only for deterministic first-time scaffolding of a new repository/app/lab/system when no compatible baseline exists.
 
 
 ## Non-blocking longitudinal learning
@@ -286,16 +305,16 @@ rather than:
 When prerequisite knowledge is weak, use just-in-time remediation. When prerequisite implementation is absent, scaffold/reconstruct the minimum compatible baseline. Do not force the learner to complete conversations in strict order.
 
 
-## Automatic implementation handoff
+## Learner-triggered implementation handoff
 
-Theory and Build are separate phases, but the transition must be automatic.
+Theory and Build are separate modes. The transition is never automatic; it requires an explicit learner request.
 
 After the learner continues from the completed Theory Phase:
 - enter Design/Build without asking whether they want scaffolding;
 - if implementation applies, provide the Codex handoff immediately;
 - for PA-S001, provide the complete Codex prompt; add a `.sh` only if P0/repository structure must be created from zero. If it already exists, Codex creates all session deliverables directly.
 
-The learner may still own architecture-critical decisions and implementation tasks; automatic scaffolding does not mean Codex owns the learning-critical work.
+The learner may still own architecture-critical decisions and implementation tasks; using Codex after an explicit Build request does not mean Codex owns the learning-critical work.
 
 ## Spiral learning
 
@@ -873,3 +892,32 @@ Exact field names may differ, but the functions must remain representable and re
 Validation must check both **presence and rendered instructional function**. A section does not pass merely because keys named `concept`, `example` or `visual` exist. Rendered output must contain substantive authored content for the applicable functions and preserve their ordering/proximity.
 
 The canonical audit remains the semantic quality gate; machine checks provide regression protection, not proof of pedagogical quality.
+
+## Three-lane learning progression
+
+For every theory-bearing session, reduce role ambiguity by teaching through three explicit capability lanes before integration:
+
+1. Staff → Principal Software Engineering;
+2. Frontend Platform Architecture (FPA);
+3. AI Product Engineering (AIPE).
+
+Within each lane, teach only concepts/theory genuinely relevant to that session. Use the lane to answer: **What is this concept in this discipline, what mechanism matters, what decision or failure does it change, and what evidence would matter?**
+
+After the learner has distinct mental models for the relevant lanes, add cross-domain synthesis when the session requires it. In synthesis, name the interaction explicitly (for example, “FPA ↔ AIPE: streaming model output through a shared frontend capability”) and explain which concern belongs to which lane. Do not use cross-domain synthesis as a reason to collapse all concepts into one blended narrative.
+
+This separation is pedagogical and architectural: it helps the learner distinguish transferable software-engineering reasoning from frontend-platform concerns and AI-product concerns before practicing Principal-level integration.
+
+
+## Study-surface delivery rule
+
+A bare `PA-Sxxx` starts **Study mode**. The learner should receive the complete theory as two reopenable Markdown artifacts (ES and EN), not as a long chat transcript. The conversation is then used for questions, clarification, retrieval practice and corrections while the artifacts remain the stable study reference.
+
+Do not create implementation pressure at the end of the study material. Theory completion is not an automatic transition to Build. The learner controls when the session moves from study/discussion to Design/Build/Codex/Publish.
+
+When later discussion improves or corrects the theory, synchronize the canonical artifacts before they are used as a Build payload.
+
+
+## Accelerated learning, not superficial decoration
+For each substantive atomic concept, preserve the causal learning progression `30-second orientation at chapter start → L1 definition/example → L2 observable mechanism + adjacent representation + retrieval/answer → optional L3 edge/complexity/operations → comparison/synthesis`. The three levels describe progressively deeper explanations, not three separate pieces of invented theory. Use varied reading modes (short paragraphs, lists of real dimensions, explanation-supported tables/diagrams, worked→faded examples). Leading-keyword emphasis should be sparse and meaningful; applying bold to every sentence would impair signaling. Causal emoji labels are semantic labels tied to actual input/process/output, never decoration.
+
+Tooltip ten-word microdefinitions supplement, never replace, sourced conceptual definitions. Hover-only UI is not acceptable: site term help needs keyboard, focus, touch and readable static fallback. Interactive recommendations describe a grounded variable and observable consequence and are NOT a license to generate evidence or inert controls. The requirement is an editorial and accessibility contract; no claim that every feature has proven neuroscience effects or guaranteed faster study is made. `14-ACCELERATED-LEARNING-UX.md` is the detailed authority.

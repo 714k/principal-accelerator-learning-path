@@ -119,15 +119,19 @@
       if (summary) summary.textContent = counts.includes(null)
         ? lang === 'es' ? 'Las marcas locales no están disponibles en este navegador.' : 'Local study marks are unavailable in this browser.'
         : lang === 'es'
-          ? `${counts[0]} de ${groups[0].ids.length} ejercicios; ${counts[1]} de ${groups[1].ids.length} criterios de repaso; ${counts[2]} de ${groups[2].ids.length} criterios de éxito marcados en este navegador.`
-          : `${counts[0]} of ${groups[0].ids.length} exercises; ${counts[1]} of ${groups[1].ids.length} review criteria; ${counts[2]} of ${groups[2].ids.length} success criteria marked in this browser.`;
+          ? `${counts[0]} de ${groups[0].ids.length} ejercicios y ${counts[1]} de ${groups[1].ids.length} criterios de estudio marcados en este navegador.`
+          : `${counts[0]} of ${groups[0].ids.length} exercises and ${counts[1]} of ${groups[1].ids.length} study criteria marked in this browser.`;
       updateLine(groups[0].ids.length + groups[1].ids.length + groups[2].ids.length, chart.dataset.sessionId);
     });
   };
   const recordChange = () => {
     const controls = [...document.querySelectorAll('input[data-study-id]')];
-    const sessionId = controls[0]?.dataset.studyId?.split(':')[0];
-    if (!sessionId || controls.some(control => !control.dataset.studyId?.startsWith(`${sessionId}:`))) return false;
+    const firstId = controls[0]?.dataset.studyId;
+    const sessionId = firstId?.includes(':') ? firstId.split(':')[0] : 'PA-S001';
+    if (!sessionId || controls.some(control => {
+      const id=control.dataset.studyId ?? '';
+      return id.includes(':') ? !id.startsWith(`${sessionId}:`) : !/^pa-s001-(ex|km)-\d{2}$/.test(id);
+    })) return false;
     const history = readHistory(sessionId);
     if (history === null) return false;
     const marks = controls.map(control => read(control.dataset.studyId));

@@ -1,4 +1,5 @@
 import type { Page } from './content.ts';
+import { canonicalSearchSections } from './canonical.ts';
 
 export interface SearchEntry {
   title: string;
@@ -14,7 +15,7 @@ function strings(value: unknown): string[] {
   return [];
 }
 
-export function searchIndex(lang: 'es'|'en', base: string, pages: {route: string; page: Page}[]): SearchEntry[] {
+export function searchIndex(lang: 'es'|'en', base: string, pages: {route: string; page: Page}[], canonicalSession?: string): SearchEntry[] {
   const es=lang==='es';
   const root=`${base}${lang}/`;
   const dashboard=es?[
@@ -48,7 +49,9 @@ export function searchIndex(lang: 'es'|'en', base: string, pages: {route: string
     if (page.lang!==lang) throw new Error(`Search page language mismatch: ${route}`);
     const href=`${root}${route}/`;
     entries.push({title:page.title,context:page.kind==='session'?(es?'Sesión':'Session'):(es?'Proyecto':'Project'),href,text:`${page.id} ${page.description}`});
-    for (const section of page.sections) {
+    const canonical=page.kind==='session'&&canonicalSession?canonicalSearchSections(canonicalSession):undefined;
+    if(canonical) for(const section of canonical) entries.push({title:section.title,context:page.title,href:`${href}#${section.id}`,text:section.text});
+    else for (const section of page.sections) {
       entries.push({title:section.title,context:page.title,href:`${href}#${section.id}`,text:[
         ...section.paragraphs,
         ...strings(section.checklist),
@@ -59,7 +62,7 @@ export function searchIndex(lang: 'es'|'en', base: string, pages: {route: string
         ...(section.id==='visual-learning-guide'?strings(page.visualLearning):[])
       ].join(' ')});
     }
-    for (const reference of page.references) {
+    for (const reference of canonical?[]:page.references) {
       entries.push({title:reference.title,context:es?'Fuente de '+page.title:'Source for '+page.title,href:`${href}#ref-${reference.id}`,text:`${reference.id} ${reference.url}`});
     }
   }
