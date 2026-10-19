@@ -56,6 +56,11 @@ export function diagramMetadata(pages: Page[]): Map<string, DiagramMetadata> {
       add({source,title,description});
     }
     if(page.kind==='session')add({
+      source:`PA-S001/canonical-map-${page.lang}.mmd`,
+      title:page.lang==='es'?'PA-S001 — mapa mental de conceptos':'PA-S001 — concept mind map',
+      description:page.lang==='es'?'Conceptos y subtemas con etiquetas legibles.':'Concepts and subtopics with readable labels.'
+    });
+    if(page.kind==='session')add({
       source:'PA-S001/canonical-map.mmd',
       title:page.lang==='es'?'PA-S001 — mapa de los 24 apartados':'PA-S001 — map of the 24 sections',
       description:page.lang==='es'

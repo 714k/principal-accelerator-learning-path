@@ -16,7 +16,7 @@ import { createHash } from 'node:crypto';
 export interface CanonicalRender { html:string; toc:string }
 export interface CanonicalSearchSection { id:string; title:string; text:string }
 interface Heading { level:number; id:string; title:string; line:number }
-interface Card { id:string; label:string; question:string; answer:string }
+interface Card { id:string; label:string; question:string; answer:string; explanation:string }
 const escapeHtml=(value:string)=>value.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
 const sourceLines=(source:string)=>source.split('\n');
 const idFromHeading=(title:string,lang:'es'|'en'):string=>{
@@ -73,7 +73,7 @@ function cards(source:string,lang:'es'|'en'):Card[]{
     const main=body.match(/\*\*(?:Pregunta guía|Guiding question):\*\* (.+?) \*\*(?:Definición y alcance|Definition and scope):\*\*/s);
     const mainAnswer=body.match(/\*\*(?:Respuesta a la pregunta guía|Answer to the guiding question):\*\* (.+?)(?=\n|$)/s);
     const first=body.match(/^(?:\*\*[^*]+\*\* )?(.+?)(?:\n|$)/m)?.[1]??'';
-    return {id:h.id,label:h.title.replace(/^`[^`]+` — /,''),question:retrieval?.[1]??main?.[1]??'',answer:retrieval?.[2]??mainAnswer?.[1]??''};
+    return {id:h.id,label:h.title.replace(/^`[^`]+` — /,''),question:retrieval?.[1]??main?.[1]??'',answer:retrieval?.[2]??mainAnswer?.[1]??'',explanation:first};
   });
 }
 export function assertCanonicalPair(es:string,en:string):void{

@@ -40,8 +40,8 @@ test('chapter metadata and reading layers have a semantic heading hierarchy in b
     assert.match(html,/<h2 id="chapter-title" class="chapter-title">PA-S001 —/);
     assert.match(html,new RegExp(`<h3>${phase}:</h3><p>`));
     assert.match(html,new RegExp(`<h3>${lanes}:</h3><p>`));
-    assert.match(html,/<span class="concept-id"><code>scope\.system<\/code><\/span><h3 id="scope\.system">/);
-    assert.match(html,/<span class="concept-id"><code>sub\.software-vs-architecture<\/code><\/span><h3 id="sub\.software-vs-architecture">/);
+    assert.match(html,/<div class="concept-heading" data-concept-id="scope\.system"><p class="concept-eyebrow">/);
+    assert.match(html,/<div class="concept-heading" data-concept-id="sub\.software-vs-architecture"><p class="concept-eyebrow">/);
     assert.ok(html.includes(`<h4>${foundation}</h4>`));
     assert.ok(!html.includes('<p><strong>Level 1')&&!html.includes('<p><strong>Nivel 1'));
   }
@@ -100,12 +100,16 @@ test('Studio exposes 24 source-linked cards and responsive SVG mind map',()=>{
     const html=renderCanonical(source(lang),lang,'/').html;
     assert.equal((html.match(/data-flash-id="/g)??[]).length,24);
     assert.deepEqual([...html.matchAll(/data-flash-id="([^"]+)"/g)].map(x=>x[1]),[...CONCEPT_IDS,...TOPIC_IDS]);
-    assert.ok(html.includes(`/${lang}/shared/diagrams/PA-S001/canonical-map.svg`));
+    assert.ok(html.includes(`/${lang}/shared/diagrams/PA-S001/canonical-map-${lang}.svg`));
+    assert.ok(html.includes(`/${lang}/shared/diagrams/PA-S001/theory-${lang}-01.svg`));
+    assert.ok(html.includes('data-ai-decision-lab'));
     assert.ok(html.includes('data-flash-prev')&&html.includes('data-flash-next')&&html.includes('data-flash-flip'));
     assert.ok(html.includes('id="visual-panel-mind-map"')&&html.includes('id="visual-panel-flashcards"'));
   }
-  const diagram=readFileSync(resolve(root,'site/shared/diagrams/PA-S001/canonical-map.mmd'),'utf8');
-  for(const id of [...CONCEPT_IDS,...TOPIC_IDS])assert.ok(diagram.includes(id));
+  for(const lang of ['es','en'] as const){
+    const diagram=readFileSync(resolve(root,`site/shared/diagrams/PA-S001/canonical-map-${lang}.mmd`),'utf8');
+    for(const id of [...CONCEPT_IDS,...TOPIC_IDS])assert.ok(diagram.includes(id));
+  }
   const data=diagramMetadata([pages.es,pages.en]);
   assert.ok(data.get('PA-S001/canonical-map.mmd')?.title);
 });
