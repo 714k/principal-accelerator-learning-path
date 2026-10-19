@@ -1,9 +1,9 @@
 (() => {
   const key = id => `pa-study-v1:${id}`;
-  const historyKey = sessionId => `pa-study-v1:${sessionId}:activity`;
+  const historyKey = sessionId => `pa-study-v2:${sessionId}:activity`;
   const lang = document.documentElement.lang;
   const charts = document.querySelectorAll('[data-study-chart]');
-  const read = id => { try { return localStorage.getItem(key(id)) === '1'; } catch { return null; } };
+  const read = id => { try { const value=localStorage.getItem(key(id)); return value===null?null:value==='1'; } catch { return null; } };
   const readHistory = sessionId => {
     if (!sessionId) return null;
     try {
@@ -102,7 +102,7 @@
       ];
       const counts = groups.map(group => {
         const marks = group.ids.map(read);
-        const count = marks.includes(null) ? null : marks.filter(Boolean).length;
+        const count = marks.every(mark => mark === null) ? null : marks.filter(Boolean).length;
         const progress = chart.querySelector(`[data-study-progress="${group.name}"]`);
         const output = chart.querySelector(`[data-study-count="${group.name}"]`);
         if (progress) {
@@ -127,15 +127,14 @@
   const recordChange = () => {
     const controls = [...document.querySelectorAll('input[data-study-id]')];
     const firstId = controls[0]?.dataset.studyId;
-    const sessionId = firstId?.includes(':') ? firstId.split(':')[0] : 'PA-S001';
+    const sessionId = firstId?.startsWith('PA-S001.') ? 'PA-S001' : '';
     if (!sessionId || controls.some(control => {
       const id=control.dataset.studyId ?? '';
-      return id.includes(':') ? !id.startsWith(`${sessionId}:`) : !/^pa-s001-(ex|km)-\d{2}$/.test(id);
+      return !id.startsWith(`${sessionId}.`);
     })) return false;
     const history = readHistory(sessionId);
     if (history === null) return false;
     const marks = controls.map(control => read(control.dataset.studyId));
-    if (marks.includes(null)) return false;
     try {
       localStorage.setItem(historyKey(sessionId), JSON.stringify([...history, {at:Date.now(), marked:marks.filter(Boolean).length}].slice(-30)));
       return true;

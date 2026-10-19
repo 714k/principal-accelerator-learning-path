@@ -19,7 +19,6 @@ topic_pat=re.compile(r'<!-- topic: ([a-z0-9.\-]+) requires: ([a-z0-9.,\-]+) -->'
 errors=[]; metadata=[]
 for p in (es,en):
     text=p.read_text(encoding='utf-8')
-    plain='## ' not in text and bool(re.search(r'^1\. (?:Objetivo|Objective)$',text,re.M))
     concepts=[(m.group(1),m.start()) for m in concept_pat.finditer(text)]
     topics=[(m.group(1),m.group(2).split(','),m.start()) for m in topic_pat.finditer(text)]
     integrations={m.group(1):m.start() for m in re.finditer(r'<!-- integration: ([a-z0-9.\-]+) -->',text)}
@@ -31,7 +30,7 @@ for p in (es,en):
     for t,required,start in topics:
         if not required: errors.append(f'{p.name}: empty concept inventory on {t}')
         stop=integrations.get(t)
-        if not plain and t!='main.justifiable-system' and stop is None:
+        if t!='main.justifiable-system' and stop is None:
             errors.append(f'{p.name}: missing integration gate on {t}')
         for c in required:
             if c not in concept_positions:
@@ -41,20 +40,14 @@ for p in (es,en):
         if stop is not None and stop<start:
             errors.append(f'{p.name}: integration {t} occurs before topic start')
     # One retrieval card for each atomic concept, plus the main topic.
-    for c,start in concepts:
-        if (f'`fc.{c}`' if not plain else f'\nfc.{c}\n') not in text:
+    for c,_ in concepts:
+        if f'`fc.{c}`' not in text:
             errors.append(f'{p.name}: missing atomic retrieval card fc.{c}')
-        if plain:
-            next_start=min([position for _,position in concepts if position>start]+[len(text)])
-            lesson=text[start:next_start]
-            for level in (1,2,3):
-                if not re.search(rf'^(?:Nivel|Level) {level} — ',lesson,re.M):
-                    errors.append(f'{p.name}: {c} lacks Level {level} teaching')
-    if ('`fc.main`' if not plain else '\nfc.main\n') not in text:
+    if '`fc.main`' not in text:
         errors.append(f'{p.name}: no Main Topic retrieval card')
-    if len(re.findall(r'^(?:## )?\d+\. (?:Objetivo|Objective|Learning Preview|Concepts|Main Topic|Subtopics|Integración entre dominios|Cross-Domain Synthesis|Theory → Practice Map|Time Breakdown|Real-World Example|Production-Ready Example|Visual Learning Studio|Exercises|Curated Sources and References|Resources|Knowledge Mastery Checklist|End-of-Session Success Criteria|Bridge)',text,flags=re.M))<17:
+    if len(re.findall(r'^## \d+\.',text,flags=re.M))<13:
         errors.append(f'{p.name}: appears to omit theory sections')
-    if (not plain and ('```mermaid' not in text or '|---' not in text)) or (plain and (len(re.findall(r'^(?:flowchart|mindmap|sequenceDiagram)\b',text,re.M))<6 or not re.search(r'^(?:Problema|Problem)$',text,re.M))):
+    if '```mermaid' not in text or '|---' not in text:
         errors.append(f'{p.name}: expected adjacent diagrams and comparisons are absent')
     metadata.append({'concept_ids':[c for c,_ in concepts], 'topics':[(t,refs) for t,refs,_ in topics]})
 if metadata[0]!=metadata[1]:

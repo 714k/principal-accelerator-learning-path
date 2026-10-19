@@ -1,31 +1,7 @@
-# Proposed update for `project-sources/07-PROGRESS.md`
+# PA-S001 progress proposal for learner review
 
-This is a review proposal, not a change to canonical progress. The learner decides
-whether the mechanical artifact is enough to record `Partial`; mastery remains
-unassessed and the session must not be marked `Completed`.
+The canonical record in `project-sources/07-PROGRESS.md` remains **Not started**. The 2026-10-19 mechanical Build produced a bilingual chapter and executable P0 draft; it did not produce learner answers, accepted architecture decisions, verified professional cases, or L1–L5 mastery evidence. Local exercise and checklist marks are study state only.
 
-If accepted, change `Current overall status` to `Partial`, keep `Last completed
-session: None`, and add this entry to Session history:
+After the learner supplies and reviews real evidence, consider `Partial` if some session goals are demonstrated but others remain open. Record the actual artifacts, commands, outcomes, limitations, decision rationale and review date. Use `Completed` only after the session's goals have sufficient distinct evidence. Do not infer either status from the existence of the website or from checked boxes.
 
-```md
-### PA-S001 — Engineering foundations + baseline evidence
-
-- Status: Partial
-- Date: 2026-10-11
-- Phase: F0 — Accelerator Platform
-- Simultaneous areas: Frontend Platform Architecture (FPA), AI Product Engineering (AIPE), Staff; Principal scope introduced
-- App/Lab/System: P0 — professional portfolio and bilingual Principal Accelerator Learning Site
-- Mastery: Not assessed; `data/mastery/PA-S001.json` retains null levels.
-- Artifact(s): canonical bilingual PA-S001 chapter; P0 project pages; portfolio draft; Mermaid sources and localized SVG; mechanical verification record.
-- Implemented: static build from `site/tooling/`, learning dashboards, curriculum navigation, enabled study controls with local persistence, Visual Learning Studio, separate portfolio route.
-- Evidence: `artifacts/PA-S001/verification-2026-10-11.md` records only commands and observable mechanical behavior.
-- Measurements: no learner or production measurements recorded.
-- Strengths: not assessed for learner mastery.
-- Needs reinforcement: not assessed; learner reasoning and review remain pending.
-- Decisions: ADR-001 pending learner decision; React/Astro remain TRIAL candidates.
-- Revisit in: Node 24 verification, learner ADR, controlled-failure diagnosis, semantic ES/EN review, full accessibility review, and stack decision.
-- Next: PA-S002 may proceed without a completion gate.
-```
-
-If the learner does not accept `Partial`, keep the current `Not started` status and
-record the code artifact in a separate implementation note until review.
+The current mechanical record is [verification-2026-10-19.md](../artifacts/PA-S001/verification-2026-10-19.md). The learner still needs to decide the P0 boundary and alternatives, answer the four exercises, assess any AI proposal, review ES/EN nuance, verify public portfolio claims, and interpret evidence before updating progress.

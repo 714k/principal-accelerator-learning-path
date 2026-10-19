@@ -25,6 +25,9 @@
 .canonical-theory .term-note>button{display:inline;padding:0;border:0;background:transparent;color:var(--accent);font:inherit;cursor:pointer;text-decoration:underline dotted;text-underline-offset:.18em}
 .canonical-theory .term-note>span{display:none;position:absolute;z-index:5;left:0;top:1.6em;min-width:min(14rem,70vw);max-width:min(20rem,80vw);padding:.5rem .65rem;background:var(--surface);border:1px solid var(--line);border-radius:.5rem;box-shadow:var(--shadow);color:var(--ink);font-size:.88rem;line-height:1.4}
 .canonical-theory .term-note:hover>span,.canonical-theory .term-note:focus-within>span{display:block}
+.canonical-theory .term-note>span{display:inline;position:static;min-width:0;max-width:none;padding:0;border:0;box-shadow:none;background:none;color:var(--muted);font-size:inherit}
+.canonical-theory .term-note abbr{cursor:help;text-decoration:underline dotted;text-underline-offset:.18em}
+.canonical-theory .term-note abbr:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 .canonical-theory .widget-proposal{border-left:3px solid var(--accent);padding-left:.75rem}
 .canonical-theory pre{max-width:100%;overflow-x:auto;white-space:pre}
 .canonical-theory li{margin:.4rem 0}
@@ -32,6 +35,13 @@
 .canonical-theory figure.diagram img{display:block;width:100%;height:auto;max-width:100%}
 .canonical-study-item label{display:flex;gap:.7rem;align-items:flex-start;padding:.55rem .7rem;border:1px solid var(--line);border-radius:.7rem;background:var(--surface);cursor:pointer}
 .canonical-study-item input{flex:none;width:1.25rem;height:1.25rem;margin-top:.25rem;accent-color:var(--accent)}
+.canonical-theory .studio-coverage{columns:2;padding-left:1.4rem;font-size:.85rem}
+.canonical-theory .studio-coverage li{break-inside:avoid}
+.canonical-theory .flashcard button[data-flash-flip]{display:block;width:100%;min-height:44px;text-align:left;border:1px solid var(--line);border-radius:.55rem;background:var(--surface);color:var(--ink);padding:.75rem}
+.canonical-theory .flashcard-answer{display:block}
+[data-flashcards][data-enhanced=true] .flashcard-answer{display:none}
+[data-flashcards][data-enhanced=true] .flashcard.is-flipped .flashcard-answer{display:block}
+@media(max-width:40rem){.canonical-theory .studio-coverage{columns:1}}
 .dashboard-table-wrap{max-width:100%;overflow-x:auto}
 .dashboard-table{min-width:0;width:100%;font-size:.92rem}
 .dashboard-table caption{text-align:left;color:var(--muted);font-size:.83rem;padding:0 0 .35rem}

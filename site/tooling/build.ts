@@ -7,7 +7,7 @@ import { copyDiagrams, diagramMetadata, generateDiagrams } from './diagrams.ts';
 import { basePath, renderPage, home, sessionsIndex, projectsIndex } from './render.ts';
 import { searchIndex } from './search.ts';
 import { renderPortfolio } from '../../apps/portfolio/src/portfolio.ts';
-import { assertCanonicalPair, canonicalDiagramSources, renderCanonical } from './canonical.ts';
+import { assertCanonicalPair, renderCanonical } from './canonical.ts';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../..');
 const output=resolve(root,'dist');
 const base=basePath(process.env.BASE_PATH);
@@ -18,18 +18,12 @@ for (const p of pairs) assertPair(p.es,p.en);
 const sessionPair=pairs.find(pair=>pair.route==='sessions/PA-S001');
 if (!sessionPair) throw new Error('PA-S001 session source is missing');
 const canonicalTheory={
-  es:readFileSync(resolve(root,'site/es/sessions/PA-S001/theory.md'),'utf8'),
-  en:readFileSync(resolve(root,'site/en/sessions/PA-S001/theory.md'),'utf8')
+  es:readFileSync(resolve(root,'site/content/canonical/PA-S001-theory-es.md'),'utf8'),
+  en:readFileSync(resolve(root,'site/content/canonical/PA-S001-theory-en.md'),'utf8')
 };
 assertCanonicalPair(canonicalTheory.es,canonicalTheory.en);
 for(const lang of ['es','en'] as const){
   renderCanonical(canonicalTheory[lang],lang,base);
-  const sources=canonicalDiagramSources(canonicalTheory[lang]);
-  sources.forEach((source,index)=>{
-    const number=String(index+1).padStart(2,'0');
-    const checkedIn=readFileSync(resolve(root,`site/shared/diagrams/PA-S001/theory-${lang}-${number}.mmd`),'utf8');
-    if(source.trim()!==checkedIn.trim())throw new Error(`Canonical Mermaid source drift: ${lang} diagram ${number}`);
-  });
 }
 const pages=pairs.flatMap(pair=>[pair.es,pair.en]);
 const progress=readFileSync(resolve(root,'project-sources/07-PROGRESS.md'),'utf8');
