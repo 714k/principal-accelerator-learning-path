@@ -56,6 +56,13 @@ export function diagramMetadata(pages: Page[]): Map<string, DiagramMetadata> {
       add({source,title,description});
     }
     if(page.kind==='session')add({
+      source:'PA-S001/canonical-map.mmd',
+      title:page.lang==='es'?'PA-S001 — mapa de los 24 apartados':'PA-S001 — map of the 24 sections',
+      description:page.lang==='es'
+        ?'Mapa mental de los 17 conceptos, un tema principal y seis subtemas. Las ramas muestran orden de estudio, no causalidad.'
+        :'Mind map of 17 concepts, one main topic and six subtopics. Branches show study order, not causation.'
+    });
+    if(page.kind==='session')add({
       source:'PA-S001/foundations.mmd',
       title:page.lang==='es'?'PA-S001 — mapa mental de fundamentos':'PA-S001 — foundations mind map',
       description:page.lang==='es'
@@ -92,7 +99,7 @@ export function generateDiagrams(root: string, metadata: Map<string, DiagramMeta
     try {
       const id = `diagram-${source.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '')}`;
       let svg=accessibleSvg(readFileSync(temporary, 'utf8'), id, detail.title, detail.description);
-      if (source.endsWith('theory-es-06.mmd') || source.endsWith('theory-en-06.mmd') || source==='PA-S001/foundations.mmd') svg=monochromeMindMap(svg);
+      if (source.endsWith('theory-es-06.mmd') || source.endsWith('theory-en-06.mmd') || source==='PA-S001/foundations.mmd' || source==='PA-S001/canonical-map.mmd') svg=monochromeMindMap(svg);
       writeFileSync(temporary, svg);
       renameSync(temporary, output);
     } catch (error) {

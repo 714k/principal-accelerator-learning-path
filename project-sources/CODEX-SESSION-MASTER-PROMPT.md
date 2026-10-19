@@ -1,6 +1,8 @@
-# Prompt maestro de Codex para CUALQUIER PA-Sxxx — Build explícito (v5 + aprendizaje acelerado)
+> **CONTRATO V6 VIGENTE (2026-10-18):** `15-ADAPTIVE-LEARNING-EXPERIENCE.md` prevalece sobre las reglas históricas incompatibles de este documento. Una entrada `PA-Sxxx` entrega directamente el handoff de Codex con teoría canónica ES/EN completa y accesible para Codex; no se detiene en Study-only ni exige una segunda petición. ChatGPT sigue siendo autor exclusivo de la teoría; Codex solo la publica. Todas las sesiones usan selección de técnicas pedagógicas por concepto, con práctica de recuperación, repaso y simulaciones solo donde se justifiquen. Cualquier regla antigua que prohíba ese prompt está **derogada**.
 
-> **Uso:** Sustituye los placeholders `{...}` antes de ejecutar. Este prompt es un **template de Build**, no parte de una sesión invocada solo con `PA-Sxxx`. Debe emitirse con los cinco hard gates *inline* y adjuntar el texto completo ES/EN o las rutas reales y ya existentes; no permite que Codex escriba la teoría.
+# Prompt maestro de Codex para CUALQUIER PA-Sxxx — PA-Sxxx como disparador de prompt (v6 + aprendizaje adaptativo)
+
+> **Uso:** Sustituye los placeholders `{...}` antes de ejecutar. Este prompt es la respuesta estándar a una sesión invocada solo con `PA-Sxxx`. Debe emitirse con los cinco hard gates *inline* y adjuntar el texto completo ES/EN o las rutas reales y ya existentes; no permite que Codex escriba la teoría.
 
 ## Entrada y autorización
 - Sesión: `{PA-Sxxx}`; título oficial: `{título}`; alcance Build aprobado por el learner: `{alcance concreto}`.
@@ -40,3 +42,7 @@ Validar: 3 ideas de síntesis en ambos idiomas y antes de Objective; niveles rec
 - **Mermaid→SVG:** conservar `.mmd` fuente, compilar SVG con `viewBox`, ancho ajustado a contenedor, altura proporcional, accesibilidad, sin require pan/zoom, sin raw Mermaid en UI.
 - **Accesibilidad/UI:** inspeccionar `/ui-reference/`; patrones Light/Dark responsive y semánticos, diseño móvil primero; no decoraciones multicolor arbitrarias ni información codificada solo mediante color. Usar tecnología aprobada por Technology Radar y preservar funcionalidades ya existentes.
 - **Pruebas:** ejecutar checks reales, validar ES/EN, inspect rendered HTML y chequear que dashboard, tracking, Studio, diagrams, acordeón nivel 3 y tooltips funcionan; comparar cada texto publicado con los `.md` canónicos, incluyendo pantalla con JS desactivado. Si falla, no declarar publicación terminada.
+
+
+## V6 — Reglas adicionales ineludibles al generar el prompt
+Una entrada `PA-Sxxx` **sí** inicia el handoff. ChatGPT autorará la teoría ES/EN completa y entregará bytes/rutas verificables de ambos archivos al workspace; el prompt no podrá suponer que Codex lee un `sandbox:` link. Usar `15` como norma prevalente. Incluir inventario y justificación por concepto de técnicas elegidas, especificación X→Y para simuladores, evaluación de comprensión y transferencia, recuperación espaciada, accesibilidad, sin widgets inertes ni métricas inventadas.

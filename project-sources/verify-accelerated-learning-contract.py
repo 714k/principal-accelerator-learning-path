@@ -38,10 +38,6 @@ if a.es and a.en:
   t=p.read_text(encoding='utf-8')
   summary='SÍNTESIS EN 30 SEGUNDOS' if language=='es' else '30-SECOND SYNTHESIS'
   m=re.search(r'^\s*>\s*\*\*'+re.escape(summary)+r'\*\*',t,flags=re.M|re.I)
-  plain=False
-  if not m:
-   m=re.search(r'^'+re.escape(summary)+r'\s*$',t,flags=re.M|re.I)
-   plain=bool(m)
   if not m: errors.append(f'{p.name}: missing exact summary block');continue
   ob=re.search(r'^\s*##\s+(?:\d+\.\s*)?(?:Objetivo|Objective)\b',t,flags=re.M|re.I)
   if ob and m.start()>ob.start(): errors.append(f'{p.name}: summary appears after Objective')
@@ -49,19 +45,14 @@ if a.es and a.en:
   trailing=t[m.end():].splitlines()
   lines=[]
   for line in trailing:
-   if plain:
-    if line.strip(): lines.append((len(lines)+1,line.strip()))
-    if len(lines)==4: break
-   elif line.startswith('>'):
+   if line.startswith('>'):
     mm=re.match(r'^>\s*([1-9])\.\s+(.+)',line)
     if mm: lines.append((int(mm.group(1)),mm.group(2)))
    elif line.strip(): break
-  if plain:
-   # The fourth nonempty line is the reading convention, not a synthesis idea.
-   lines=lines[:3] if len(lines)==4 and re.match(r'^(Convención de lectura|Reading convention)\.',lines[3][1],re.I) else lines
   if [number for number,_ in lines]!=[1,2,3]:errors.append(f'{p.name}: synthesis must contain exactly three numbered ideas; got {len(lines)}')
-  for n in (1,2,3):
-   if not has(t,rf'^(?:#{{2,5}}\s+)?(?:Nivel {n}|Level {n})\s+—'): errors.append(f'{p.name}: no Level {n} content')
+  if not has(t,r'^#{2,5}\s+(?:Nivel 1|Level 1)\b'): errors.append(f'{p.name}: no Level 1 content')
+  if not has(t,r'^#{2,5}\s+(?:Nivel 2|Level 2)\b'): errors.append(f'{p.name}: no Level 2 content')
+  if not has(t,r'^#{2,5}\s+(?:Nivel 3|Level 3)\b'): errors.append(f'{p.name}: no Level 3 content')
   # Check author-level inline term help examples outside fenced blocks.
   outside=re.sub(r'```[\s\S]*?```','',t)
   for term,description in re.findall(r'\[([^\[\]\n:]+)::\s*([^\[\]\n]+)\]',outside):

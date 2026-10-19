@@ -1,3 +1,5 @@
+> **CONTRATO V6 VIGENTE (2026-10-18):** `15-ADAPTIVE-LEARNING-EXPERIENCE.md` prevalece sobre las reglas históricas incompatibles de este documento. Una entrada `PA-Sxxx` entrega directamente el handoff de Codex con teoría canónica ES/EN completa y accesible para Codex; no se detiene en Study-only ni exige una segunda petición. ChatGPT sigue siendo autor exclusivo de la teoría; Codex solo la publica. Todas las sesiones usan selección de técnicas pedagógicas por concepto, con práctica de recuperación, repaso y simulaciones solo donde se justifiquen. Cualquier regla antigua que prohíba ese prompt está **derogada**.
+
 # Decision Log
 
 ## Accepted editorial architecture decision — atomic concepts before synthesis
@@ -67,3 +69,8 @@ A bare `PA-Sxxx` starts Study mode. ChatGPT immediately creates separate ES and 
 
 ## Accepted — accelerated-learning format across canonical theory and Codex prompts
 **CONTENT-006 — Accepted.** Every future theory session opens with a three-point 30-second synthesis, uses restrained paragraph-entry key-phrase emphasis and three reading levels, contextual causal labels, accessible inline 10-word glossaries, and context-grounded widget suggestions where appropriate. This applies in ChatGPT-authored ES/EN companions and is inlined into every later Codex publishing prompt. This is instructional presentation, not a license to alter application business logic or to let Codex author missing canonical theory. Detailed source: `14-ACCELERATED-LEARNING-UX.md`.
+
+## Accepted — V6 automatic Codex handoff + adaptive pedagogy — 2026-10-18
+- **FLOW-006 — Accepted:** bare `PA-Sxxx` generates the full Codex handoff directly, with ChatGPT-authored canonical ES/EN payload available to Codex; old Study-only prohibition superseded.
+- **LEARN-006 — Accepted:** all 120 sessions adopt universal learning fundamentals plus evidence-aware selection of additional methods per atomic concept, with justified interactions and spaced retrieval; do not require all widgets.
+- **CONTENT-007 — Accepted:** canonical authorship firewall stays intact; no Codex theory reauthoring.

@@ -77,7 +77,7 @@ export function validatePage(value: unknown): asserts value is Page {
   if (!record(value) || !['es','en'].includes(String(value.lang)) ||
       !['session','project'].includes(String(value.kind)) || value.status !== 'editorial-draft' ||
       ![value.id,value.title,value.description].every(x => typeof x === 'string' && x.length > 0) ||
-      !Array.isArray(value.sections) || (value.sections.length === 0 && !(value.kind==='session'&&value.canonicalContent==='theory.md')) || !Array.isArray(value.references)) {
+      !Array.isArray(value.sections) || (value.sections.length === 0 && !(value.kind==='session'&&/^PA-S001-theory-(es|en)\.md$/.test(String(value.canonicalContent)))) || !Array.isArray(value.references)) {
     throw new Error('Invalid page metadata');
   }
   const ids = new Set<string>();
@@ -98,10 +98,10 @@ export function validatePage(value: unknown): asserts value is Page {
     ids.add(s.id);
   }
   if(value.kind==='session'){
-    const exercises=['atomic-scope','quality-scenario','contract-change','adr-critique','ai-failure','teach-back'].map(id=>`PA-S001:exercise:${id}`);
-    const criteria=['distinguish-levels','scope-four','quality','modularity','domain-lanes','evidence'].map(id=>`PA-S001:mastery:${id}`);
+    const exercises=['classify','boundary-map','quality','ai-decision'].map(id=>`PA-S001.exercise.${id}`);
+    const criteria=['engineering','scope','quality','boundary','fpa','aipe','roles','evidence'].map(id=>`PA-S001.check.${id}`);
     const dashboard=value.dashboard;
-    if(value.canonicalContent!=='theory.md'||value.sections.length!==0||value.references.length!==0||value.visualLearning!==undefined||
+    if(value.canonicalContent!==`PA-S001-theory-${value.lang}.md`||value.sections.length!==0||value.references.length!==0||value.visualLearning!==undefined||
       !record(dashboard)||dashboard.sessionId!==value.id||dashboard.projectId!=='P0'||
       dashboard.studyState!=='local-only'||dashboard.evidenceState!=='not-assessed'||
       !Array.isArray(dashboard.exerciseIds)||dashboard.exerciseIds.join('|')!==exercises.join('|')||
@@ -172,7 +172,8 @@ export function loadPage(path: string): Page {
   return value;
 }
 export function assertPair(es: Page, en: Page): void {
-  if (es.lang !== 'es' || en.lang !== 'en' || es.id !== en.id || es.kind !== en.kind || es.canonicalContent!==en.canonicalContent ||
+  if (es.lang !== 'es' || en.lang !== 'en' || es.id !== en.id || es.kind !== en.kind ||
+      (es.kind==='session' && (es.canonicalContent!==`PA-S001-theory-es.md` || en.canonicalContent!==`PA-S001-theory-en.md`)) ||
       es.sections.map(s=>s.id).join('|') !== en.sections.map(s=>s.id).join('|') ||
       es.sections.map(s=>s.blocks?.map(block=>block.kind).join(',') ?? '').join('|') !== en.sections.map(s=>s.blocks?.map(block=>block.kind).join(',') ?? '').join('|') ||
       es.sections.flatMap(s=>s.studyItems?.map(x=>x.id) ?? []).join('|') !== en.sections.flatMap(s=>s.studyItems?.map(x=>x.id) ?? []).join('|') ||

@@ -5,27 +5,27 @@
   "title": "Fundamentos de ingeniería de software: arquitectura, plataforma y alcance Staff → Principal",
   "description": "Construir un modelo técnico para razonar sobre software como sistema que evoluciona bajo necesidades, restricciones y atributos de calidad; distinguir ingeniería, arquitectura y escalas de sistema; y relacionar esas bases con FPA, AIPE y el alcance Staff → Principal.",
   "status": "editorial-draft",
-  "canonicalContent": "theory.md",
+  "canonicalContent": "PA-S001-theory-es.md",
   "sections": [],
   "references": [],
   "dashboard": {
     "sessionId": "PA-S001",
     "projectId": "P0",
     "exerciseIds": [
-      "PA-S001:exercise:atomic-scope",
-      "PA-S001:exercise:quality-scenario",
-      "PA-S001:exercise:contract-change",
-      "PA-S001:exercise:adr-critique",
-      "PA-S001:exercise:ai-failure",
-      "PA-S001:exercise:teach-back"
+      "PA-S001.exercise.classify",
+      "PA-S001.exercise.boundary-map",
+      "PA-S001.exercise.quality",
+      "PA-S001.exercise.ai-decision"
     ],
     "checklistIds": [
-      "PA-S001:mastery:distinguish-levels",
-      "PA-S001:mastery:scope-four",
-      "PA-S001:mastery:quality",
-      "PA-S001:mastery:modularity",
-      "PA-S001:mastery:domain-lanes",
-      "PA-S001:mastery:evidence"
+      "PA-S001.check.engineering",
+      "PA-S001.check.scope",
+      "PA-S001.check.quality",
+      "PA-S001.check.boundary",
+      "PA-S001.check.fpa",
+      "PA-S001.check.aipe",
+      "PA-S001.check.roles",
+      "PA-S001.check.evidence"
     ],
     "successIds": [],
     "studyState": "local-only",
