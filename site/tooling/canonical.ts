@@ -1,3 +1,4 @@
+import { renderReferenceExperience } from './concept-explorers.ts';
 /** Renderer and coverage gate for the learner supplied PA-S001 Markdown. */
 export const CONCEPT_IDS = [
   'engineering.software','engineering.architecture','scope.application','scope.system',
@@ -222,7 +223,7 @@ export function renderCanonical(source:string,lang:'es'|'en',base:string):Canoni
     const metadata=chapterMetadata(line);
     if(metadata){out.push(metadata);i++;continue;}
     const level=line.match(/^\*\*((?:Nivel|Level) [12] — [^*]+)\*\* (.*)$/);
-    if(level){out.push(`<div class="reading-level"><h4>${escapeHtml(level[1]!)}</h4><p>${inline(level[2]!)}</p></div>`);if(/^(?:Nivel|Level) 2/.test(level[1]!))out.push(figureFor(currentHeading));i++;continue;}
+    if(level){out.push(`<div class="reading-level"><h4>${escapeHtml(level[1]!)}</h4><p>${inline(level[2]!)}</p></div>`);if(/^(?:Nivel|Level) 2/.test(level[1]!)){out.push(figureFor(currentHeading));out.push(renderReferenceExperience(currentHeading,lang));}i++;continue;}
     out.push(`<p>${inline(line)}</p>`);if(currentHeading==='sub.ai-product'&&line.startsWith('**'))out.push(decisionLab());i++;
   }
   return {html:out.join('\n'),toc};
