@@ -132,3 +132,16 @@ test('metadata, routes, citations, dashboard, and search retain product boundari
     assert.ok(searchIndex(lang,'/',[{route:'sessions/PA-S001',page:pages[lang]}],source(lang)).some(entry=>entry.href===`/${lang}/sessions/PA-S001/#design.boundary`));
   }
 });
+
+test('four bilingual reference experiences render with real controls and fallback',()=>{
+  for(const lang of ['es','en'] as const){
+    const html=renderCanonical(source(lang),lang,'/').html;
+    for(const kind of ['conceptual','structural','causal','decisional'])assert.match(html,new RegExp('data-explorer="'+kind+'"'));
+    assert.equal((html.match(/class="reference-explorer"/g)??[]).length,4);
+    assert.equal((html.match(/class="reference-fallback"/g)??[]).length,4);
+    assert.ok(html.includes('data-choice="platform"')&&html.includes('data-graph'));
+  }
+  const script=readFileSync(resolve(root,'site/shared/assets/concept-explorers.js'),'utf8');
+  assert.ok(script.includes('addEventListener'));
+  assert.ok(script.includes('data-explorer-output'));
+});
