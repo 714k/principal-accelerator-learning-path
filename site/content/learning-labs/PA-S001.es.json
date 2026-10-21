@@ -1,0 +1,333 @@
+{
+  "session": "PA-S001",
+  "lang": "es",
+  "labs": [
+    {
+      "id": "sub.scope-layers",
+      "kind": "scope",
+      "concepts": [
+        "scope.application",
+        "scope.system",
+        "scope.platform",
+        "scope.ecosystem"
+      ],
+      "sources": [
+        "R2",
+        "R4",
+        "P1"
+      ],
+      "title": "Un producto, cuatro perspectivas",
+      "eyebrow": "Explorador conceptual",
+      "objective": "Distinguir aplicación, sistema, plataforma y ecosistema sobre un mismo caso.",
+      "intro": "Caso P0: el portafolio y el sitio de estudio comparten repositorio. Cambia la perspectiva de análisis: el código no cambia, pero sí cambia qué incluyes en la frontera.",
+      "assumption": "Ejemplo conceptual: un repositorio compartido no prueba que exista una plataforma; hacen falta capacidades y consumidores reales.",
+      "controls": [
+        {
+          "id": "lens",
+          "label": "Perspectiva de análisis",
+          "options": [
+            [
+              "application",
+              "Aplicación"
+            ],
+            [
+              "system",
+              "Sistema"
+            ],
+            [
+              "platform",
+              "Plataforma"
+            ],
+            [
+              "ecosystem",
+              "Ecosistema"
+            ]
+          ]
+        }
+      ],
+      "outcomes": [
+        {
+          "id": "application",
+          "title": "Aplicación: experiencia",
+          "cause": "Quieres que el visitante consulte trabajos.",
+          "mechanism": "La frontera abarca interfaz y tareas del visitante, no todo el sistema de publicación.",
+          "effect": "Evalúa navegación, contenido y accesibilidad del portafolio."
+        },
+        {
+          "id": "system",
+          "title": "Sistema: colaboración",
+          "cause": "Quieres explicar cómo se publica una sesión.",
+          "mechanism": "La frontera reúne fuentes, validación, renderizado, salida HTML y entrega.",
+          "effect": "Puedes seguir fallos del proceso sin llamar plataforma a cada pieza."
+        },
+        {
+          "id": "platform",
+          "title": "Plataforma: capacidad reutilizable",
+          "cause": "Varias sesiones necesitan publicar contenido.",
+          "mechanism": "Considera contrato editorial, renderer, compatibilidad y consumidores identificables.",
+          "effect": "Justifica compartir la capacidad por adopción real, no por carpetas repetidas."
+        },
+        {
+          "id": "ecosystem",
+          "title": "Ecosistema: actores y dependencias",
+          "cause": "Investigas qué condiciona la publicación.",
+          "mechanism": "Incluyes autores, aprendices, navegador, hosting y normas externas.",
+          "effect": "Analizas restricciones y fallos fuera de los módulos internos."
+        }
+      ]
+    },
+    {
+      "id": "sub.boundary-dependencies",
+      "kind": "dependency",
+      "concepts": [
+        "design.boundary",
+        "design.coupling",
+        "design.cohesion"
+      ],
+      "sources": [
+        "R1",
+        "R2",
+        "P1"
+      ],
+      "title": "Explora la propagación del cambio",
+      "eyebrow": "Explorador estructural",
+      "objective": "Rastrear consumidores potencialmente afectados sin confundir dependencias internas con enlaces públicos.",
+      "intro": "Grafo hipotético simplificado de P0: el contenido pasa por esquema, validador, renderer y HTML; el portafolio es independiente. Elige un cambio y observa qué piezas revisarías.",
+      "assumption": "Resaltado = posibles puntos de revisión, no fallos observados ni grafo extraído del repositorio. Un cambio compatible puede tener menos impacto.",
+      "controls": [
+        {
+          "id": "change",
+          "label": "Cambio propuesto",
+          "options": [
+            [
+              "schema",
+              "Renombrar un campo obligatorio del esquema"
+            ],
+            [
+              "portfolio",
+              "Editar la biografía del portafolio"
+            ]
+          ]
+        }
+      ],
+      "graph": [
+        [
+          "schema",
+          "Esquema editorial"
+        ],
+        [
+          "validator",
+          "Validador"
+        ],
+        [
+          "renderer",
+          "Renderer"
+        ],
+        [
+          "page",
+          "HTML publicado"
+        ],
+        [
+          "portfolio",
+          "Portafolio"
+        ]
+      ],
+      "outcomes": [
+        {
+          "id": "schema",
+          "title": "Cambio contractual: revisar consumidores",
+          "cause": "Cambias un campo obligatorio.",
+          "mechanism": "Validador, renderer y salida podrían necesitar una migración coordinada; hay que comprobar compatibilidad.",
+          "effect": "Revisa contrato, contenido y pruebas. El portafolio no debería depender de ese esquema.",
+          "affected": [
+            "schema",
+            "validator",
+            "renderer",
+            "page"
+          ]
+        },
+        {
+          "id": "portfolio",
+          "title": "Cambio editorial local: límite preservado",
+          "cause": "Modificas texto profesional.",
+          "mechanism": "El cambio pertenece a la app de portafolio y no al contrato de las sesiones.",
+          "effect": "Comprueba su vista y enlaces; no deduzcas que no habrá un build general.",
+          "affected": [
+            "portfolio"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sub.quality-constraints",
+      "kind": "quality",
+      "concepts": [
+        "quality.attribute",
+        "quality.constraint"
+      ],
+      "sources": [
+        "R3",
+        "R5",
+        "P1"
+      ],
+      "title": "¿Qué cambia si JavaScript no se ejecuta?",
+      "eyebrow": "Modelo causal",
+      "objective": "Predecir cuándo el texto sigue disponible según la estrategia de entrega y la ejecución de JavaScript.",
+      "intro": "Cambia dos variables de un escenario hipotético: dónde se crea el texto y si se ejecuta JavaScript. Compara el mecanismo con el efecto, no con un porcentaje de calidad.",
+      "assumption": "Este modelo solo representa presencia potencial de texto en el DOM; no calcula accesibilidad WCAG, tiempos de carga o confiabilidad de red.",
+      "controls": [
+        {
+          "id": "delivery",
+          "label": "Entrega del contenido",
+          "options": [
+            [
+              "static",
+              "Texto en HTML inicial"
+            ],
+            [
+              "client",
+              "Texto creado solo con JS"
+            ]
+          ]
+        },
+        {
+          "id": "js",
+          "label": "JavaScript",
+          "options": [
+            [
+              "on",
+              "Disponible"
+            ],
+            [
+              "off",
+              "No disponible"
+            ]
+          ]
+        }
+      ],
+      "outcomes": [
+        {
+          "id": "static-on",
+          "title": "Texto disponible, mejoras progresivas",
+          "cause": "HTML inicial y JS disponible.",
+          "mechanism": "El navegador puede leer texto existente; JS añade mejoras sin ser la fuente única.",
+          "effect": "La teoría es legible; los controles requieren pruebas independientes."
+        },
+        {
+          "id": "static-off",
+          "title": "Texto disponible sin JavaScript",
+          "cause": "HTML inicial y JS desactivado.",
+          "mechanism": "No se requiere código para insertar el texto en el documento.",
+          "effect": "La teoría permanece legible, aunque los controles no guarden marcas."
+        },
+        {
+          "id": "client-on",
+          "title": "Contenido dependiente del script",
+          "cause": "Texto solo por JS y ejecución disponible.",
+          "mechanism": "El script debe cargarse y funcionar para crear el DOM de la lección.",
+          "effect": "El contenido podría aparecer; este modelo no garantiza ejecución exitosa."
+        },
+        {
+          "id": "client-off",
+          "title": "Texto ausente, restricción incumplida",
+          "cause": "Texto solo por JS y ejecución no disponible.",
+          "mechanism": "Nada inserta el texto de la lección en el documento.",
+          "effect": "La solución no cumple el requisito de teoría legible sin JavaScript."
+        }
+      ]
+    },
+    {
+      "id": "sub.ai-product",
+      "kind": "ai",
+      "concepts": [
+        "aipe.ai-product",
+        "design.boundary",
+        "quality.constraint"
+      ],
+      "sources": [
+        "R7",
+        "R8",
+        "P1"
+      ],
+      "title": "¿Puede avanzar el borrador de IA?",
+      "eyebrow": "Laboratorio decisional",
+      "objective": "Justificar la frontera de un producto con IA mediante autorización, verificación y revisión humana.",
+      "intro": "Ejemplo hipotético: un asistente propone un resumen documental. Cambia las condiciones y observa las reglas del ejercicio. Ningún dato se envía a servicios externos.",
+      "assumption": "Reglas didácticas, no política universal, dictamen legal ni evaluación real de seguridad. Superar estos controles NO autoriza publicar.",
+      "controls": [
+        {
+          "id": "data",
+          "label": "Permiso de entrada",
+          "options": [
+            [
+              "public",
+              "Texto público autorizado"
+            ],
+            [
+              "private",
+              "Datos privados sin autorización"
+            ]
+          ]
+        },
+        {
+          "id": "citations",
+          "label": "Citas comprobadas",
+          "options": [
+            [
+              "yes",
+              "Sí, contra fuente"
+            ],
+            [
+              "no",
+              "No"
+            ]
+          ]
+        },
+        {
+          "id": "review",
+          "label": "Revisión humana",
+          "options": [
+            [
+              "yes",
+              "Disponible"
+            ],
+            [
+              "no",
+              "No disponible"
+            ]
+          ]
+        }
+      ],
+      "outcomes": [
+        {
+          "id": "blocked",
+          "title": "Detener transferencia",
+          "cause": "Los datos no están autorizados.",
+          "mechanism": "La validación de permisos ocurre antes de enviar o generar; buenas citas no anulan este bloqueo.",
+          "effect": "No enviar datos. Buscar alternativa sin IA u obtener autorización."
+        },
+        {
+          "id": "unverified",
+          "title": "No publicar afirmaciones sin verificar",
+          "cause": "Datos autorizados, citas sin comprobar.",
+          "mechanism": "La fluidez del texto no demuestra que las afirmaciones estén respaldadas.",
+          "effect": "Validar evidencia antes de presentar el contenido como hecho."
+        },
+        {
+          "id": "unreviewed",
+          "title": "Mantener como borrador",
+          "cause": "Entrada autorizada, citas comprobadas y sin revisor.",
+          "mechanism": "Las citas correctas no reemplazan la decisión editorial humana.",
+          "effect": "No publicar automáticamente bajo estas reglas."
+        },
+        {
+          "id": "reviewable",
+          "title": "Listo para revisión editorial",
+          "cause": "Datos autorizados, citas comprobadas y revisor disponible.",
+          "mechanism": "Se cumplen mínimos del ejercicio para considerar el borrador; no se demuestra calidad definitiva.",
+          "effect": "Un humano debe decidir. No se publica automáticamente."
+        }
+      ]
+    }
+  ]
+}
