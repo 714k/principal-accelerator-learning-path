@@ -145,3 +145,59 @@ test('four bilingual reference experiences render with real controls and fallbac
   assert.ok(script.includes('addEventListener'));
   assert.ok(script.includes('data-explorer-output'));
 });
+
+test('stage 2 bilingual lab specifications cover all four instructional knowledge types',()=>{
+  const langs=['es','en'] as const;
+  const expected=[
+    ['sub.scope-layers','scope'],
+    ['sub.boundary-dependencies','dependency'],
+    ['sub.quality-constraints','quality'],
+    ['sub.ai-product','ai']
+  ];
+  const stored=langs.map(lang=>JSON.parse(readFileSync(resolve(root,`site/content/learning-labs/PA-S001.${lang}.json`),'utf8')) as {
+    session:string;lang:string;labs:Array<{id:string;kind:string;concepts:string[];sources:string[];title:string;objective:string;intro:string;assumption:string;controls:Array<{id:string;label:string;options:string[][]}>;outcomes:Array<{id:string;title:string;cause:string;mechanism:string;effect:string;affected?:string[]}>}>
+  });
+  for(let index=0;index<stored.length;index++){
+    const spec=stored[index]!;
+    assert.equal(spec.session,'PA-S001');
+    assert.equal(spec.lang,langs[index]);
+    assert.deepEqual(spec.labs.map(l=>[l.id,l.kind]),expected);
+    for(const lab of spec.labs){
+      for(const property of ['title','objective','intro','assumption'] as const)assert.ok(lab[property].length>35,`${spec.lang} ${lab.id}: ${property}`);
+      assert.ok(lab.sources.length>0 && lab.concepts.length>0);
+      assert.ok(lab.controls.length>0 && lab.outcomes.length>1);
+      for(const control of lab.controls){
+        assert.ok(control.label.length>0);
+        assert.ok(control.options.length>=2);
+        assert.equal(new Set(control.options.map(o=>o[0])).size,control.options.length);
+      }
+      for(const outcome of lab.outcomes){
+        assert.ok(outcome.cause.length>0 && outcome.mechanism.length>0 && outcome.effect.length>0);
+      }
+      assert.equal(new Set(lab.outcomes.map(o=>o.id)).size,lab.outcomes.length);
+      assert.ok(lab.concepts.some(id=>CONCEPT_IDS.includes(id as typeof CONCEPT_IDS[number])));
+    }
+  }
+  for(let i=0;i<expected.length;i++){
+    const es=stored[0]!.labs[i]!,en=stored[1]!.labs[i]!;
+    assert.deepEqual(es.controls.map(c=>[c.id,c.options.map(o=>o[0])]),en.controls.map(c=>[c.id,c.options.map(o=>o[0])]));
+    assert.deepEqual(es.outcomes.map(o=>o.id),en.outcomes.map(o=>o.id));
+  }
+});
+test('stage 2 reference explorers are adjacent to canonical source concepts, not only in Studio',()=>{
+  const mapping=[
+    ['scope.application','conceptual'],
+    ['design.coupling','structural'],
+    ['quality.attribute','causal'],
+    ['aipe.ai-product','decisional']
+  ];
+  for(const lang of ['es','en'] as const){
+    const html=renderCanonical(source(lang),lang,'/').html;
+    for(const [id,kind] of mapping){
+      const start=html.indexOf(`id="${id}"`);
+      const widget=html.indexOf(`data-explorer="${kind}"`,start);
+      const next=html.indexOf('class="concept-heading"',start+1);
+      assert.ok(start>=0 && widget>start && (next<0 || widget<next),`${lang} ${kind} not adjacent to ${id}`);
+    }
+  }
+});
