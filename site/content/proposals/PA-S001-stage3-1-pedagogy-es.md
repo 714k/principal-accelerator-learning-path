@@ -33,7 +33,7 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Límites e implicación en producción.** Revisa una ruta que carga correctamente pero cuyo enlace no recibe foco: el ciclo de ingeniería todavía no está cerrado.
 
-**Recuperación.** Explica el mecanismo con tus palabras e identifica una observación necesaria para verificar el resultado. **Retroalimentación:** distingue el cambio desencadenante del contrato o dependencia que propaga su efecto; no presentes resultados hipotéticos como hechos observados.
+**Recuperación — ¿Por qué una ruta que compila no demuestra que el requisito de navegación esté cumplido?** **Respuesta explicada:** Porque compilar no comprueba que el enlace llegue al destino correcto, sea operable con teclado y responda al caso de uso; hay que probar el comportamiento observable.
 
 **Nivel 3 — Profundización (opcional).** Más comprobaciones tienen coste; selecciona las que cubran riesgos reales. Un test de ruta no confirma que una persona pueda operar la navegación por teclado. Tipo: procedimental; objetivo: trazar cambio a verificación; técnica: recorrido resuelto y posterior práctica independiente; fuente [R1]; revisión: explicar de nuevo después de construir P0. Interacción: no aplica, porque una secuencia textual y una prueba real bastan.
 
@@ -49,7 +49,7 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Límites e implicación en producción.** Antes de afirmar independencia, inspecciona las importaciones reales; compartir repositorio no prueba dependencia ni aislamiento.
 
-**Recuperación.** Explica el mecanismo con tus palabras e identifica una observación necesaria para verificar el resultado. **Retroalimentación:** distingue el cambio desencadenante del contrato o dependencia que propaga su efecto; no presentes resultados hipotéticos como hechos observados.
+**Recuperación — ¿Qué evidencia permite distinguir una frontera arquitectónica de una mera separación de carpetas?** **Respuesta explicada:** Los contratos y dependencias reales: una importación interna entre productos propaga cambios aunque sus carpetas estén separadas.
 
 **Nivel 3 — Profundización (opcional).** Documenta contexto, alternativas, consecuencia y forma de validar una decisión; no deduzcas calidad solo por tener carpetas distintas. Tipo: estructural y decisional; objetivo: relacionar límites con propagación; técnica: mapa de dependencias y contraejemplo; fuentes [R1, R2]; revisión: comprobar imports y rutas tras P0. Interacción sugerida: selector de una dependencia, que resalte consumidores alcanzables *solo si* se deriva del grafo real; alternativa sin JavaScript: mapa estático.
 
@@ -65,7 +65,7 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Límites e implicación en producción.** Un paquete de estilos no se convierte en aplicación solo por tener rutas de desarrollo.
 
-**Recuperación.** Explica el mecanismo con tus palabras e identifica una observación necesaria para verificar el resultado. **Retroalimentación:** distingue el cambio desencadenante del contrato o dependencia que propaga su efecto; no presentes resultados hipotéticos como hechos observados.
+**Recuperación — ¿Qué debe revisarse al renombrar una ruta de una aplicación?** **Respuesta explicada:** El router, los enlaces entrantes y la navegación; la vista puede seguir funcionando y, aun así, romperse la entrada del usuario.
 
 **Nivel 3 — Profundización (opcional).** Una aplicación puede contener servicios y una organización puede llamar “app” a algo distinto: declara el alcance antes de dibujarla. Tipo: conceptual; objetivo: identificar responsabilidad de usuario; técnica: contraste con librería; fuentes [R1, R2] y convención P0 [P1]; revisión: clasificar `apps/portfolio/` al implementarlo. Interacción: no aplica.
 
@@ -81,7 +81,7 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Límites e implicación en producción.** Si falla Mermaid, una compilación que publica la página sin el diagrama no satisface el contrato de publicación.
 
-**Recuperación.** Explica el mecanismo con tus palabras e identifica una observación necesaria para verificar el resultado. **Retroalimentación:** distingue el cambio desencadenante del contrato o dependencia que propaga su efecto; no presentes resultados hipotéticos como hechos observados.
+**Recuperación — ¿Por qué un fallo de conversión Mermaid puede invalidar una publicación aunque exista HTML?** **Respuesta explicada:** Porque el contrato del sistema exige ambos artefactos; una publicación incompleta no cumple el resultado definido.
 
 **Nivel 3 — Profundización (opcional).** Explicita inclusiones, exclusiones y entorno para evitar atribuir fallas externas al componente equivocado. Tipo: estructural; objetivo: dibujar la frontera del sistema de publicación; técnica: mapa de elementos y fallo; fuentes [R2, P1]; revisión: repetir el mapa con una falla real. Interacción: no aplica.
 
@@ -97,7 +97,7 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Límites e implicación en producción.** Una única sesión demuestra un prototipo reutilizable, no adopción ni productividad de plataforma.
 
-**Recuperación.** Explica el mecanismo con tus palabras e identifica una observación necesaria para verificar el resultado. **Retroalimentación:** distingue el cambio desencadenante del contrato o dependencia que propaga su efecto; no presentes resultados hipotéticos como hechos observados.
+**Recuperación — ¿Qué diferencia un renderer compartido de una plataforma ya validada?** **Respuesta explicada:** La adopción y utilidad verificadas para consumidores reales; reutilización potencial por sí sola no prueba valor.
 
 **Nivel 3 — Profundización (opcional).** Abstraer demasiado temprano puede imponer convenciones costosas; un consumidor divergente puede requerir extensión o un límite distinto. Tipo: estructural y decisional; objetivo: evaluar capacidad reusable frente a coste; técnica: matriz de consumidores y trade-off; fuentes [R4, P1]; revisión: observar una segunda sesión antes de generalizar. Interacción: no aplica.
 
@@ -113,7 +113,7 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Límites e implicación en producción.** No confundas el perímetro del repositorio con el ecosistema de personas y servicios.
 
-**Recuperación.** Explica el mecanismo con tus palabras e identifica una observación necesaria para verificar el resultado. **Retroalimentación:** distingue el cambio desencadenante del contrato o dependencia que propaga su efecto; no presentes resultados hipotéticos como hechos observados.
+**Recuperación — ¿Por qué un actor externo al repositorio puede afectar el cambio de esquema?** **Respuesta explicada:** Porque las dependencias contractuales y operativas cruzan repositorios; traducción, despliegue y lectores siguen siendo afectados.
 
 **Nivel 3 — Profundización (opcional).** El límite de ecosistema es una decisión de análisis: incluir todo vuelve el modelo inútil; excluir dependencias críticas oculta riesgos. Tipo: estructural; objetivo: identificar actores y contratos; técnica: mapa de cambio; fuentes [R2, P1]; revisión: añadir dependencias reales cuando existan. Interacción: no aplica.
 
@@ -129,7 +129,7 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Límites e implicación en producción.** Una página rápida puede ser inaccesible; un atributo no garantiza otro.
 
-**Recuperación.** Explica el mecanismo con tus palabras e identifica una observación necesaria para verificar el resultado. **Retroalimentación:** distingue el cambio desencadenante del contrato o dependencia que propaga su efecto; no presentes resultados hipotéticos como hechos observados.
+**Recuperación — ¿Cómo transformarías «accesibilidad» en un criterio verificable?** **Respuesta explicada:** Especificando contexto, acción y observación: navegar con teclado el índice en móvil sin pérdida de foco ni contenido oculto.
 
 **Nivel 3 — Profundización (opcional).** Atributos pueden entrar en tensión: cargar widgets puede afectar el tiempo de respuesta; comprueba ambos con mediciones antes de optimizar. Tipo: decisional; objetivo: formular escenario de prueba; técnica: ejemplo resuelto y comparación; fuentes [R3, R5, R6]; revisión: revalidar tras cambios del sitio. Interacción: no aplica.
 
@@ -145,7 +145,7 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Límites e implicación en producción.** La elección de React no es un atributo de calidad ni una restricción sin justificación.
 
-**Recuperación.** Explica el mecanismo con tus palabras e identifica una observación necesaria para verificar el resultado. **Retroalimentación:** distingue el cambio desencadenante del contrato o dependencia que propaga su efecto; no presentes resultados hipotéticos como hechos observados.
+**Recuperación — ¿Por qué renderizar toda la teoría solo mediante JavaScript incumple el requisito de lectura sin JS?** **Respuesta explicada:** Porque la explicación desaparecería cuando el script falla; el contenido esencial debe estar presente en HTML inicial.
 
 **Nivel 3 — Profundización (opcional).** Registra origen y dueño de cada restricción; una restricción falsa puede descartar una opción mejor. Tipo: decisional; objetivo: separar objetivo y condición; técnica: clasificación con justificación; fuentes [R3, P1]; revisión: consultar los criterios del repo real. Interacción: no aplica.
 
@@ -161,7 +161,7 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Límites e implicación en producción.** Una frontera no significa ausencia de comunicación; significa contratos explícitos.
 
-**Recuperación.** Explica el mecanismo con tus palabras e identifica una observación necesaria para verificar el resultado. **Retroalimentación:** distingue el cambio desencadenante del contrato o dependencia que propaga su efecto; no presentes resultados hipotéticos como hechos observados.
+**Recuperación — ¿Cómo permite una frontera la comunicación sin propagar cambios internos?** **Respuesta explicada:** Mediante contratos públicos estables, como enlaces, en lugar de leer directamente estructuras privadas del otro producto.
 
 **Nivel 3 — Profundización (opcional).** La separación trae duplicación potencial de estilos y trabajo de despliegue; compartir tokens solo cuando su contrato sea estable. Tipo: estructural; objetivo: anticipar propagación; técnica: cambio hipotético y mapa; fuentes [R2, P1]; revisión: inspeccionar diferencias reales de importación. Interacción: no aplica.
 
@@ -177,7 +177,7 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Límites e implicación en producción.** Compara actualizar ambos extremos, mantener un alias temporal o introducir un adaptador; cada alternativa tiene costes de migración.
 
-**Recuperación.** Explica el mecanismo con tus palabras e identifica una observación necesaria para verificar el resultado. **Retroalimentación:** distingue el cambio desencadenante del contrato o dependencia que propaga su efecto; no presentes resultados hipotéticos como hechos observados.
+**Recuperación — ¿Cuál es la causa arquitectónica de que `page.title` deje de funcionar tras un renombrado?** **Respuesta explicada:** El consumidor depende del contrato interno anterior. Renombrar es el desencadenante; la incompatibilidad se propaga por esa dependencia. Un alias o adaptador puede facilitar la migración.
 
 **Nivel 3 — Profundización (opcional).** La dirección y estabilidad de la dependencia importan más que contar imports; verifica la ruptura con una prueba de contrato antes de concluir. Tipo: causal/estructural; objetivo: predecir impacto del cambio; técnica: predict→reveal con dos grafos; fuentes [R1, R2]; revisión: ejecutar un cambio controlado. Interacción editorial posible: elegir una arista y resaltar consumidores transitivos del grafo explícito; sin grafo real, usar dos dibujos estáticos.
 
@@ -193,7 +193,7 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Límites e implicación en producción.** Dividir todo en archivos diminutos no garantiza cohesión y puede aumentar coordinación.
 
-**Recuperación.** Explica el mecanismo con tus palabras e identifica una observación necesaria para verificar el resultado. **Retroalimentación:** distingue el cambio desencadenante del contrato o dependencia que propaga su efecto; no presentes resultados hipotéticos como hechos observados.
+**Recuperación — ¿Qué revela que cambiar citas y contactos obligue a modificar siempre el mismo módulo?** **Respuesta explicada:** Que mezcla responsabilidades con motivos de cambio independientes; dividirlas por propósito puede mejorar cohesión, con el coste de nuevas interfaces.
 
 **Nivel 3 — Profundización (opcional).** Separar en exceso crea interfaces y coordinación adicionales; comprueba casos reales antes de extraer módulos. Tipo: conceptual/decisional; objetivo: agrupar responsabilidades; técnica: contraste de cambios; fuente [R1]; revisión: revisar el primer diff de P0. Interacción: no aplica.
 
@@ -209,7 +209,7 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Límites e implicación en producción.** Una propuesta sin adopción es evidencia de razonamiento, no de liderazgo ya demostrado.
 
-**Recuperación.** Explica el mecanismo con tus palabras e identifica una observación necesaria para verificar el resultado. **Retroalimentación:** distingue el cambio desencadenante del contrato o dependencia que propaga su efecto; no presentes resultados hipotéticos como hechos observados.
+**Recuperación — ¿Qué prueba falta cuando una persona Staff propone un contrato pero nadie lo adopta?** **Respuesta explicada:** Evidencia de colaboración, adopción y resultado compartido; una propuesta demuestra razonamiento, no impacto verificado.
 
 **Nivel 3 — Profundización (opcional).** El título no certifica competencia; diferenciar propuesta de adopción real evita atribuir liderazgo no observado. Tipo: decisional; objetivo: formular evidencia; técnica: análisis de caso; fuente [P1]; revisión: documentar decisión y feedback real. Interacción: no aplica.
 
@@ -225,7 +225,7 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Límites e implicación en producción.** Un framework elegido para una página no demuestra alcance Principal.
 
-**Recuperación.** Explica el mecanismo con tus palabras e identifica una observación necesaria para verificar el resultado. **Retroalimentación:** distingue el cambio desencadenante del contrato o dependencia que propaga su efecto; no presentes resultados hipotéticos como hechos observados.
+**Recuperación — ¿Qué convierte una regla técnica local en una decisión de alcance Principal?** **Respuesta explicada:** Evaluación y evolución entre sistemas, con restricciones, costes, acuerdos y adopción verificables; no basta elegir una herramienta para una página.
 
 **Nivel 3 — Profundización (opcional).** El alcance depende de organización y contexto; aquí es objetivo de aprendizaje, no pronóstico de carrera. Tipo: decisional; objetivo: comparar radio de decisión; técnica: matriz de alcances; fuente [P1]; revisión: contrastar decisión P0 y su evolución en PA-S002. Interacción: no aplica.
 
@@ -243,7 +243,7 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Límites e implicación en producción.** Marcar una casilla registra actividad y nunca certifica L1–L5.
 
-**Recuperación.** Explica el mecanismo con tus palabras e identifica una observación necesaria para verificar el resultado. **Retroalimentación:** distingue el cambio desencadenante del contrato o dependencia que propaga su efecto; no presentes resultados hipotéticos como hechos observados.
+**Recuperación — ¿Por qué las traducciones no deben cambiar los IDs de las marcas de estudio?** **Respuesta explicada:** Porque la identidad persistida del ejercicio es independiente del texto mostrado; de otro modo ES y EN producirían estados divergentes.
 
 **Nivel 3 — Profundización (opcional).** Considera fallo de JavaScript, compatibilidad de esquema, foco, contraste y peso de scripts; no declare “accesible” una página solo por pasar un escáner. Tipo: estructural/procedimental; objetivo: seguir contrato autor→lector; técnica: diagrama y prueba de teclado; fuentes [R2, R4, R5, P1]; revisión: segunda sesión bilingüe. Interacción: selector de idioma para ver que ID y estado permanecen, únicamente si el sitio implementa la persistencia real; alternativa sin JS: tabla de IDs.
 
@@ -261,7 +261,7 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Límites e implicación en producción.** Es un modelo hipotético, no una función de IA desplegada ni una evaluación de exactitud.
 
-**Recuperación.** Explica el mecanismo con tus palabras e identifica una observación necesaria para verificar el resultado. **Retroalimentación:** distingue el cambio desencadenante del contrato o dependencia que propaga su efecto; no presentes resultados hipotéticos como hechos observados.
+**Recuperación — ¿Qué debe ocurrir si un borrador de IA es fluido pero sus afirmaciones no están verificadas?** **Respuesta explicada:** No publicarlo: contrastar con fuentes, corregir o rechazar y exigir revisión humana y autorización editorial separada.
 
 **Nivel 3 — Profundización (opcional).** Salidas pueden variar y contener datos incorrectos; delimitar privacidad, fallos, costo y evaluación antes de un despliegue. Tipo: causal/decisional; objetivo: distinguir demostración de producto; técnica: recorrido de fallo y decisión con criterios; fuentes [R7, R8]; revisión: solo si aparece un caso de uso real. Interacción: no aplica ahora; no hay modelo ni dataset aprobado para simular calidad.
 
@@ -279,7 +279,7 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Límites e implicación en producción.** Una casilla marcada no equivale a una implementación demostrada.
 
-**Recuperación.** Explica el mecanismo con tus palabras e identifica una observación necesaria para verificar el resultado. **Retroalimentación:** distingue el cambio desencadenante del contrato o dependencia que propaga su efecto; no presentes resultados hipotéticos como hechos observados.
+**Recuperación — ¿Por qué marcar `PA-S001.exercise.boundary-map` no demuestra L2?** **Respuesta explicada:** Porque la marca registra una acción declarada, mientras L2 requiere una implementación y evidencia verificable registrada por separado.
 
 **Nivel 3 — Profundización (opcional).** Sin artefacto o criterio observable, el nivel queda pendiente; también cabe “no se puede determinar”. Tipo: conceptual/decisional; objetivo: separar estados; técnica: clasificación y feedback; fuente [P1]; revisión: tras construir y revisar. Interacción: controles de estudio reversibles porque la variable es declaración de seguimiento; sin JS mostrar estado no editable, sin falsas afirmaciones.
 
@@ -295,7 +295,7 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Límites e implicación en producción.** Un tutorial completado no demuestra liderazgo ni operación en producción.
 
-**Recuperación.** Explica el mecanismo con tus palabras e identifica una observación necesaria para verificar el resultado. **Retroalimentación:** distingue el cambio desencadenante del contrato o dependencia que propaga su efecto; no presentes resultados hipotéticos como hechos observados.
+**Recuperación — ¿Por qué completar un tutorial no acredita L5?** **Respuesta explicada:** Porque L5 exige evidencia de liderazgo e influencia con adopción observada, distinta de explicar, implementar, operar o decidir.
 
 **Nivel 3 — Profundización (opcional).** Puede haber evidencia parcial o contradictoria; registra el alcance y no infieras niveles superiores. Tipo: estructural; objetivo: vincular afirmación a prueba; técnica: matriz evidencia→nivel; fuente [P1]; revisión: reevaluar tras nuevos artefactos. Interacción: no aplica hasta contar con registros reales.
 
