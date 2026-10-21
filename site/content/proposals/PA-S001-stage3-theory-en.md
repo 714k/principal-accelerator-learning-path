@@ -427,7 +427,7 @@ The estimate is a guide: reading and retrieval 60â€“90 min; map and decision 40â
 
 ```text
 Consumer team A -------\
-Consumer team B -------- > Shared capability with a contract
+Consumer team B --------+--> Shared capability with a contract
 Consumer team C -------/                   |
                                            v
                                Validation -> publication -> observation
