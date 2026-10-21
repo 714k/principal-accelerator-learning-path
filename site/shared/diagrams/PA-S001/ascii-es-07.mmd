@@ -1,0 +1,16 @@
+flowchart TB
+  n0["Equipo consumidor A"]
+  n1["Capacidad compartida con contrato"]
+  n2["Validación"]
+  n3["Publicación"]
+  n4["Observación"]
+  n5["Equipo consumidor B"]
+  n6["Equipo consumidor C"]
+  n0 --> n1
+  n1 --> n2
+  n2 --> n3
+  n3 --> n4
+  n5 --> n1
+  n6 --> n1
+  n0 ~~~ n5
+  n5 ~~~ n6

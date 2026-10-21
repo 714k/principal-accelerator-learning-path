@@ -1,6 +1,6 @@
 import type { Page } from './content.ts';
 import { outputForDiagram } from './diagrams.ts';
-import { renderCanonical } from './canonical.ts';
+import { renderCanonical, SUCCESS_IDS } from './canonical.ts';
 export function escapeHtml(value: string): string {
   return value.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
 }
@@ -51,7 +51,7 @@ function learningStudioScript(): string {
 export function shell(lang: 'es'|'en', title: string, body: string, base: string, other: string): string {
   const es=lang==='es';
   const current=other.replace(/^(?:es|en)\//,'');
-  return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)} · Principal Accelerator Learning Path</title><link rel="stylesheet" href="${base}assets/site.css"><script defer src="${base}assets/study.js"></script><script defer src="${base}assets/search.js"></script></head><body><a class="skip" href="#main">${es?'Saltar al contenido':'Skip to content'}</a><div class="site-grid"><aside class="site-sidebar">${globalNav(lang,base,current,'desktop')}</aside><div class="site-main-column"><header class="site-header"><a class="brand" href="${base}${lang}/">Principal Accelerator Learning Path</a><nav class="header-actions" aria-label="${es?'Idioma y tema':'Language and theme'}"><a lang="${es?'en':'es'}" hreflang="${es?'en':'es'}" href="${base}${other}">${es?'en':'es'}</a>${themeControl()}</nav></header><details class="mobile-global"><summary>${icon('menu')}${es?'Navegación':'Navigation'}${icon('chevron')}</summary>${globalNav(lang,base,current,'mobile')}</details><main id="main">${body}</main><footer>Principal Accelerator Learning Path · F0 · ${es?'Evidencia antes que afirmaciones.':'Evidence before claims.'}</footer></div></div>${themeScript()}${learningStudioScript()}</body></html>`;
+  return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)} · Principal Accelerator Learning Path</title><link rel="stylesheet" href="${base}assets/site.css"><script type="module" src="${base}assets/concept-explorers.js"></script><script defer src="${base}assets/study.js"></script><script defer src="${base}assets/search.js"></script></head><body><a class="skip" href="#main">${es?'Saltar al contenido':'Skip to content'}</a><div class="site-grid"><aside class="site-sidebar">${globalNav(lang,base,current,'desktop')}</aside><div class="site-main-column"><header class="site-header"><a class="brand" href="${base}${lang}/">Principal Accelerator Learning Path</a><nav class="header-actions" aria-label="${es?'Idioma y tema':'Language and theme'}"><a lang="${es?'en':'es'}" hreflang="${es?'en':'es'}" href="${base}${other}">${es?'en':'es'}</a>${themeControl()}</nav></header><details class="mobile-global"><summary>${icon('menu')}${es?'Navegación':'Navigation'}${icon('chevron')}</summary>${globalNav(lang,base,current,'mobile')}</details><main id="main">${body}</main><footer>Principal Accelerator Learning Path · F0 · ${es?'Evidencia antes que afirmaciones.':'Evidence before claims.'}</footer></div></div>${themeScript()}${learningStudioScript()}</body></html>`;
 }
 function inlineReferences(value: string): string {
   return escapeHtml(value).replace(/\[([A-Z][0-9]+)\]/g,'<a href="#ref-$1">[$1]</a>');
@@ -166,7 +166,7 @@ export function home(lang: 'es'|'en',base: string, session: Page, canonicalStatu
   const statusLabel=(status: string)=>es?({'Not started':'No iniciado','Partial':'Parcial','Completed':'Completado','Revisit':'Revisitar'}[status] ?? status):status;
   const exerciseIds=session.dashboard.exerciseIds.join('|');
   const checklistIds=session.dashboard.checklistIds.join('|');
-  const successIds='';
+  const successIds=SUCCESS_IDS.join('|');
   const exerciseTotal=session.dashboard.exerciseIds.length;
   const checklistTotal=session.dashboard.checklistIds.length;
   const body=`<div class="home-hero"><p class="eyebrow">F0 / PA-S001</p><h1>${es?'Panel de aprendizaje':'Learning dashboard'}</h1><p class="lead">${es?'Actividad de estudio local, estado canónico y evidencia se presentan por separado.':'Local study activity, canonical status, and evidence are shown separately.'}</p></div><div class="dashboard-grid">

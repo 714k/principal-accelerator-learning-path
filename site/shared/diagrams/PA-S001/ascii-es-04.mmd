@@ -1,0 +1,20 @@
+flowchart TB
+  n0["Escenario A: contrato editorial"]
+  n1["Fuente de sesión"]
+  n2["Validación"]
+  n3["Renderer"]
+  n4["HTML publicado"]
+  n5["Escenario B: contenido profesional independiente"]
+  n6["Ficha del portafolio"]
+  n7["Página de portafolio"]
+  n0 --> n1
+  n1 --> n2
+  n2 --> n3
+  n3 --> n4
+  n5 --> n6
+  n6 --> n7
+  note0["Cambio: renombrar campo obligatorio; revisar esquema, consumidores del campo y pruebas de publicación"]
+  note1["Cambio: editar biografía; revisar representación y enlaces del portafolio"]
+  n4 ~~~ note0
+  note0 ~~~ n5
+  n7 ~~~ note1
