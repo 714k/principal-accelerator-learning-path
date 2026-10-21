@@ -91,9 +91,9 @@
       ],
       "title": "Explora la propagación del cambio",
       "eyebrow": "Explorador estructural",
-      "objective": "Rastrear consumidores potencialmente afectados sin confundir dependencias internas con enlaces públicos.",
-      "intro": "Grafo hipotético simplificado de P0: el contenido pasa por esquema, validador, renderer y HTML; el portafolio es independiente. Elige un cambio y observa qué piezas revisarías.",
-      "assumption": "Resaltado = posibles puntos de revisión, no fallos observados ni grafo extraído del repositorio. Un cambio compatible puede tener menos impacto.",
+      "objective": "Comparar escenarios ilustrativos de propagación de cambios y explicar por qué una modificación puede requerir revisar otros componentes, sin atribuir dependencias no verificadas al repositorio.",
+      "intro": "Compara dos escenarios hipotéticos. En el primero, cambia un campo obligatorio del contrato editorial y se identifican posibles puntos de revisión. En el segundo, cambia el texto profesional del portafolio. Observa cómo las responsabilidades y los contratos determinan qué debe inspeccionarse. Estos escenarios no representan un análisis ejecutado del grafo real de dependencias.",
+      "assumption": "Los diagramas representan ejemplos conceptuales estáticos, no dependencias verificadas del repositorio. No se calcula alcanzabilidad real ni se resaltan nodos como consumidores afectados. Los posibles puntos de revisión no equivalen a errores observados ni a cambios obligatorios. Solo la inspección del código y las pruebas pueden confirmar el impacto efectivo.",
       "controls": [
         {
           "id": "change",
@@ -110,50 +110,39 @@
           ]
         }
       ],
-      "graph": [
-        [
-          "schema",
-          "Esquema editorial"
-        ],
-        [
-          "validator",
-          "Validador"
-        ],
-        [
-          "renderer",
-          "Renderer"
-        ],
-        [
-          "page",
-          "HTML publicado"
-        ],
-        [
-          "portfolio",
-          "Portafolio"
-        ]
-      ],
       "outcomes": [
         {
           "id": "schema",
           "title": "Cambio contractual: revisar consumidores",
           "cause": "Cambias un campo obligatorio.",
           "mechanism": "Validador, renderer y salida podrían necesitar una migración coordinada; hay que comprobar compatibilidad.",
-          "effect": "Revisa contrato, contenido y pruebas. El portafolio no debería depender de ese esquema.",
-          "affected": [
-            "schema",
-            "validator",
-            "renderer",
-            "page"
-          ]
+          "effect": "Revisa contrato, contenido y pruebas. El portafolio no debería depender de ese esquema."
         },
         {
           "id": "portfolio",
           "title": "Cambio editorial local: límite preservado",
           "cause": "Modificas texto profesional.",
           "mechanism": "El cambio pertenece a la app de portafolio y no al contrato de las sesiones.",
-          "effect": "Comprueba su vista y enlaces; no deduzcas que no habrá un build general.",
-          "affected": [
-            "portfolio"
+          "effect": "Comprueba su vista y enlaces; no deduzcas que no habrá un build general."
+        }
+      ],
+      "illustrations": [
+        {
+          "id": "schema",
+          "title": "Escenario A: flujo editorial simplificado",
+          "steps": [
+            "Contenido de la sesión",
+            "Validación",
+            "Renderizado",
+            "HTML publicado"
+          ]
+        },
+        {
+          "id": "portfolio",
+          "title": "Escenario B: flujo independiente del portafolio",
+          "steps": [
+            "Contenido profesional",
+            "Portafolio publicado"
           ]
         }
       ]

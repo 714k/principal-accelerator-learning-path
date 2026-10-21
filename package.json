@@ -16,7 +16,7 @@
     "lint": "eslint site/tooling site/test site/shared/assets/study.js site/shared/assets/search.js apps/portfolio/src",
     "typecheck": "tsc --noEmit",
     "test": "node --test site/test/*.test.ts",
-    "check": "npm run lint && npm run typecheck && npm test && npm run build"
+    "check": "npm run lint && npm run typecheck && npm test && npm run build && node --test site/test/build-output.test.mjs"
   },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "^12.0.0",

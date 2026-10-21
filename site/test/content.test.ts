@@ -88,7 +88,7 @@ test('all four exercises and eight checkboxes are reversible controls with stati
     assert.equal((html.match(/<input type="checkbox"/g)??[]).length,12);
     assert.ok(!/<input[^>]*\bdisabled\b/.test(html));
     assert.ok(html.includes('class="flashcard-answer"'));
-    assert.ok(!html.includes('<script'));
+    assert.ok(!/<script(?! type="application\/json")/.test(html));
   }
   const script=readFileSync(resolve(root,'site/shared/assets/study.js'),'utf8');
   assert.ok(script.includes('localStorage.setItem(key(id)'));
@@ -102,7 +102,7 @@ test('Studio exposes 24 source-linked cards and responsive SVG mind map',()=>{
     assert.deepEqual([...html.matchAll(/data-flash-id="([^"]+)"/g)].map(x=>x[1]),[...CONCEPT_IDS,...TOPIC_IDS]);
     assert.ok(html.includes(`/${lang}/shared/diagrams/PA-S001/canonical-map-${lang}.svg`));
     assert.ok(html.includes(`/${lang}/shared/diagrams/PA-S001/theory-${lang}-01.svg`));
-    assert.ok(html.includes('data-ai-decision-lab'));
+    assert.ok(html.includes('data-lab-key="sub.ai-product"'));
     assert.ok(html.includes('data-flash-prev')&&html.includes('data-flash-next')&&html.includes('data-flash-flip'));
     assert.ok(html.includes('id="visual-panel-mind-map"')&&html.includes('id="visual-panel-flashcards"'));
   }
@@ -138,8 +138,8 @@ test('four bilingual reference experiences render with real controls and fallbac
     const html=renderCanonical(source(lang),lang,'/').html;
     for(const kind of ['conceptual','structural','causal','decisional'])assert.match(html,new RegExp('data-explorer="'+kind+'"'));
     assert.equal((html.match(/class="reference-explorer"/g)??[]).length,4);
-    assert.equal((html.match(/class="reference-fallback"/g)??[]).length,4);
-    assert.ok(html.includes('data-choice="platform"')&&html.includes('data-graph'));
+    assert.equal((html.match(/class="reference-cases"/g)??[]).length,4);
+    assert.ok(html.includes('value="platform"')&&html.includes('data-graph'));
   }
   const script=readFileSync(resolve(root,'site/shared/assets/concept-explorers.js'),'utf8');
   assert.ok(script.includes('addEventListener'));
@@ -199,5 +199,42 @@ test('stage 2 reference explorers are adjacent to canonical source concepts, not
       const next=html.indexOf('class="concept-heading"',start+1);
       assert.ok(start>=0 && widget>start && (next<0 || widget<next),`${lang} ${kind} not adjacent to ${id}`);
     }
+  }
+});
+
+test('reference rules select the specified outcomes for every input combination',async()=>{
+  const modulePath='../shared/assets/concept-explorers.js';
+  const {selectOutcome}=await import(modulePath);
+  for(const lang of ['es','en'] as const){
+    const {labs}=JSON.parse(readFileSync(resolve(root,`site/content/learning-labs/PA-S001.${lang}.json`),'utf8'));
+    const expected:Record<string,Record<string,string>>={
+      scope:{application:'application',system:'system',platform:'platform',ecosystem:'ecosystem'},
+      dependency:{schema:'schema',portfolio:'portfolio'},
+      quality:{'static,on':'static-on','static,off':'static-off','client,on':'client-on','client,off':'client-off'},
+      ai:{'public,yes,yes':'reviewable','public,yes,no':'unreviewed','public,no,yes':'unverified','public,no,no':'unverified','private,yes,yes':'blocked','private,yes,no':'blocked','private,no,yes':'blocked','private,no,no':'blocked'}
+    };
+    for(const lab of labs){
+      const combinations=lab.controls.reduce((rows:Record<string,string>[],control:{id:string;options:string[][]})=>rows.flatMap(row=>control.options.map(([value])=>({...row,[control.id]:value}))),[{}]);
+      for(const values of combinations){
+        const key=lab.controls.map((c:{id:string})=>values[c.id]).join(',');
+        const outcome=selectOutcome(lab,values);
+        assert.equal(outcome.id,expected[lab.kind]![key],`${lang} ${lab.kind} ${key}`);
+        for(const field of ['cause','mechanism','effect'])assert.ok(outcome[field]);
+      }
+      const html=renderCanonical(source(lang),lang,'/').html;
+      for(const id of lab.sources)assert.ok(html.includes(`id="source-${id}"`) && html.includes(`href="#source-${id}"`));
+      for(const id of lab.concepts)assert.ok(html.includes(`id="${id}"`));
+    }
+    const structural=labs[1];
+    assert.equal('graph' in structural,false);
+    assert.ok(structural.outcomes.every((outcome:object)=>!('affected' in outcome)));
+    assert.deepEqual(structural.illustrations.map((item:{id:string;steps:string[]})=>[item.id,item.steps.length]),[['schema',4],['portfolio',2]]);
+    const html=renderCanonical(source(lang),lang,'/').html;
+    for(const illustration of structural.illustrations){
+      assert.ok(html.includes(`data-illustration="${illustration.id}"`));
+      for(const step of illustration.steps)assert.ok(html.includes(step));
+    }
+    assert.ok(html.includes('data-limitation'));
+    assert.ok(!html.includes('data-possible-review'));
   }
 });

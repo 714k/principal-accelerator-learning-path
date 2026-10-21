@@ -91,9 +91,9 @@
       ],
       "title": "Explore change propagation",
       "eyebrow": "Structural explorer",
-      "objective": "Trace potentially affected consumers without confusing internal dependencies with public links.",
-      "intro": "A simplified hypothetical P0 graph: content goes through schema, validation, rendering and HTML; the portfolio is separate. Choose a change and inspect potential review points.",
-      "assumption": "Highlights are possible review points, not observed failures or a graph extracted from the repository. Compatible changes may have less impact.",
+      "objective": "Compare illustrative change-propagation scenarios and explain why modifying one component may require reviewing others, without attributing unverified dependencies to the repository.",
+      "intro": "Compare two hypothetical scenarios. In the first, a required field in the editorial contract changes, revealing potential review points. In the second, the portfolio's professional copy changes. Observe how responsibilities and contracts determine what should be inspected. These scenarios do not represent an executed analysis of the real dependency graph.",
+      "assumption": "The diagrams represent static conceptual examples, not verified repository dependencies. They do not compute actual reachability or highlight nodes as affected consumers. Potential review points are not observed failures or mandatory changes. Only source-code inspection and tests can confirm the effective impact.",
       "controls": [
         {
           "id": "change",
@@ -110,50 +110,39 @@
           ]
         }
       ],
-      "graph": [
-        [
-          "schema",
-          "Editorial schema"
-        ],
-        [
-          "validator",
-          "Validator"
-        ],
-        [
-          "renderer",
-          "Renderer"
-        ],
-        [
-          "page",
-          "Published HTML"
-        ],
-        [
-          "portfolio",
-          "Portfolio"
-        ]
-      ],
       "outcomes": [
         {
           "id": "schema",
           "title": "Contract change: inspect consumers",
           "cause": "You rename a required field.",
           "mechanism": "Validator, renderer and generated output might require coordinated migration; compatibility needs checking.",
-          "effect": "Check contract, content and tests. The portfolio should not depend on this schema.",
-          "affected": [
-            "schema",
-            "validator",
-            "renderer",
-            "page"
-          ]
+          "effect": "Check contract, content and tests. The portfolio should not depend on this schema."
         },
         {
           "id": "portfolio",
           "title": "Local editorial change: boundary preserved",
           "cause": "You change professional copy.",
           "mechanism": "The change belongs to the portfolio app rather than the session contract.",
-          "effect": "Check its view and links; do not infer that no general build will run.",
-          "affected": [
-            "portfolio"
+          "effect": "Check its view and links; do not infer that no general build will run."
+        }
+      ],
+      "illustrations": [
+        {
+          "id": "schema",
+          "title": "Scenario A: simplified editorial publishing flow",
+          "steps": [
+            "Session content",
+            "Validation",
+            "Rendering",
+            "Published HTML"
+          ]
+        },
+        {
+          "id": "portfolio",
+          "title": "Scenario B: independent portfolio content flow",
+          "steps": [
+            "Professional content",
+            "Published portfolio"
           ]
         }
       ]

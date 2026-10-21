@@ -155,21 +155,6 @@ export function renderCanonical(source:string,lang:'es'|'en',base:string):Canoni
     const caption=v[lang==='es'?1:2],number=String(v[0]).padStart(2,'0');
     return `<figure class="concept-diagram"><img src="${base}${lang}/shared/diagrams/PA-S001/theory-${lang}-${number}.svg" loading="lazy" alt="${escapeHtml(caption)}"><figcaption>${escapeHtml(caption)}</figcaption></figure>`;
   };
-  const decisionLab=():string=>{
-    const es=lang==='es';
-    return `<section class="decision-lab" data-ai-decision-lab aria-labelledby="ai-lab-heading">
-      <p class="concept-eyebrow">${es?'LABORATORIO DE DECISIONES':'DECISION LAB'}</p>
-      <h4 id="ai-lab-heading">${es?'Explora un límite de un producto con IA':'Explore an AI product boundary'}</h4>
-      <p>${es?'Ejemplo hipotético: un asistente propone un resumen documental. Modifica las condiciones y observa cómo afectan las reglas de este ejercicio. No es una política universal.':'Hypothetical example: an assistant proposes a document summary. Change conditions and observe how the exercise rules respond. These are not universal policy.'} <a href="#source-R7">[R7]</a>, <a href="#source-P1">[P1]</a>.</p>
-      <div class="lab-controls">
-        <label>${es?'Datos de entrada':'Input data'}<select data-lab-input><option value="public">${es?'Texto público autorizado':'Authorized public text'}</option><option value="sensitive">${es?'Datos privados sin autorización':'Private data without authorization'}</option></select></label>
-        <label>${es?'Citas verificadas':'Verified citations'}<select data-lab-citations><option value="yes">${es?'Comprobadas contra fuente':'Checked against source'}</option><option value="no">${es?'Sin comprobar':'Unchecked'}</option></select></label>
-        <label>${es?'Revisión humana':'Human review'}<select data-lab-review><option value="yes">${es?'Disponible':'Available'}</option><option value="no">${es?'No disponible':'Unavailable'}</option></select></label>
-      </div>
-      <p class="lab-feedback" role="status" aria-live="polite" data-ai-feedback>${es?'Puede prepararse un borrador para revisión, no publicarse automáticamente.':'A draft may be prepared for review, not published automatically.'}</p>
-      <p class="lab-fallback">${es?'Sin JavaScript: no enviar datos privados no autorizados; sin citas verificadas o revisión no presentar la salida como hecho.':'Without JavaScript: do not send unauthorized private data; without checked citations or review, do not publish the output as fact.'}</p>
-    </section>`;
-  };
   while(i<lines.length){
     const line=lines[i]!;
     if(!line){i++;continue;}
@@ -224,7 +209,7 @@ export function renderCanonical(source:string,lang:'es'|'en',base:string):Canoni
     if(metadata){out.push(metadata);i++;continue;}
     const level=line.match(/^\*\*((?:Nivel|Level) [12] — [^*]+)\*\* (.*)$/);
     if(level){out.push(`<div class="reading-level"><h4>${escapeHtml(level[1]!)}</h4><p>${inline(level[2]!)}</p></div>`);if(/^(?:Nivel|Level) 2/.test(level[1]!)){out.push(figureFor(currentHeading));out.push(renderReferenceExperience(currentHeading,lang));}i++;continue;}
-    out.push(`<p>${inline(line)}</p>`);if(currentHeading==='sub.ai-product'&&line.startsWith('**'))out.push(decisionLab());i++;
+    out.push(`<p>${inline(line)}</p>`);i++;
   }
   return {html:out.join('\n'),toc};
 }
