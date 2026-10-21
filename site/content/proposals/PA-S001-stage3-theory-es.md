@@ -426,10 +426,11 @@ La estimación se distribuye como guía: lectura y recuperación 60–90 min; ma
 **Paso 2 — Definir una capacidad con contrato.** Un equipo de plataforma puede ofrecer un proceso de creación y publicación con entrada acordada, validaciones, resultados observables y documentación. El consumidor debe saber qué puede solicitar, cómo utilizarlo, qué está garantizado y qué hacer si falla. La plataforma no es solamente código común: es una oferta que necesita soporte, evolución y límites de responsabilidad.
 
 ```text
-Equipo consumidor A ----Equipo consumidor B ----- > Capacidad compartida con contrato
-Equipo consumidor C ----/      |
-                               v
-                     Validación -> publicación -> observación
+Equipo consumidor A ---\
+Equipo consumidor B ----+--> Capacidad compartida con contrato
+Equipo consumidor C ---/                   |
+                                           v
+                         Validación -> publicación -> observación
 ```
 
 **Paso 3 — Analizar las alternativas.** La primera opción es mantener implementaciones independientes. Conservará flexibilidad local, a cambio de repetir prácticas y mantenimiento. La segunda opción es compartir paquetes o plantillas sin crear todavía un servicio de plataforma. La tercera es ofrecer una capacidad de autoservicio con responsabilidad de evolución. La decisión depende de consumidores, heterogeneidad, riesgo y capacidad de mantenimiento; no hay un ganador universal [R4].
