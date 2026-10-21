@@ -44,3 +44,45 @@ Potential parser regression: the current source has eight original `PA-S001.chec
 ### State of this document
 
 This specification is a Stage 3 **academic and rendering contract**, not proof of a compiled or deployed site. The proposals have been stored on the remote branch but have not yet been adopted into the canonical input files. Stage 2 code remains independently testable; Stage 3 is awaiting implementation and verification.
+
+## Phase 1 validation — 2026-10-21
+
+**Status: STAGE_3_BLOCKED.** The authored Spanish and English proposals cannot yet be promoted as a validated pair. In the CNCF illustrative scenario, the Spanish text diagram joins `Equipo consumidor A ----Equipo consumidor B` on the same line, instead of showing A and B as separate inputs to the shared capability. The English diagram shows three separate consumer-team branches. This changes the illustrated relationship and conflicts with the Spanish prose describing three teams. See `site/content/proposals/PA-S001-stage3-theory-es.md` lines 426–431 and the English proposal lines 426–432. Academic authorship is outside this implementation's authority; the diagram requires an author-supplied correction or explicit clarification before promotion.
+
+Structural checks on the supplied proposals found 17 unique atomic concepts, one main topic and six subtopics in the same order in both languages; all 24 sections contain a retrieval question and answer. Both contain the original eight `PA-S001.check.*` IDs, eight success-criterion items, and source entries R1–R8 and P1. These checks do not establish full ES/EN semantic equivalence. The eight success items are unnumbered in the source; the handoff authorizes assigning the specified stable IDs by order during rendering.
+
+Proposal integrity at inspection: ES 69,986 bytes, SHA-256 `0981e52ae72228ac53686782c775aa426011cf29d81fc68105cb7286aad603ad`; EN 64,544 bytes, SHA-256 `1f87b16d474f4ceee5daa9a42a600ce0847bf4ec76d94c344275026b7cea5b9c`. Production canonical sources, renderer, and Project Sources were not changed. No build, `npm run check`, browser tests, or Stage 3 screenshots were executed for this validation-only stop; historical Stage 2 results do not prove Stage 3 acceptance.
+
+## Stage 3 implementation and verification — 2026-10-21
+
+**Acceptance: STAGE_3_PASSED.** The author corrected both CNCF diagrams, superseding the earlier Phase 1 blocker. The three separate consumer branches now agree with the surrounding illustrative scenario. This status concerns the requested implementation and checks; it does not certify learner mastery or mark the session Completed.
+
+### Academic and integrity review
+
+The two proposals have 17 atomic concepts, one main topic and six subtopics in the same order, with 24 retrieval questions and answers in each language. Both retain the eight original study-check IDs, eight parallel success criteria, and R1–R8/P1 source entries. The concepts and subtopics were compared for instructional coverage and citations, and the corrected CNCF context, hypothetical scenario, alternatives, transfer and retrieval were reviewed across languages. The check is an implementation review, not an independent professional translation certification.
+
+Promoted proposal bytes without rewriting them. Old canonical inputs: ES **45,577 bytes**, SHA-256 `4a29a68ec5ca5ed0b73c19c45ce7f4c18f3dba7824cfd8944c90db2e1a04af99`; EN **41,953 bytes**, SHA-256 `b63622e5fc36c562c83b7cc6c62a7858d4bf6aee99a8f2680267b367d15eb333`. New canonical inputs: ES **70,016 bytes**, SHA-256 `9a7c96cabc984a2e0a7d08c22475e28fd9815b4c6b2d177ba6509b562868abf5`; EN **64,546 bytes**, SHA-256 `ba9865813943c67f7aac8c906eeecf8e70bdf0bcd9563109bc9f6e60e48bdb34`. Tests assert equality with the proposal files and the build retains exact length/hash guards.
+
+### Modified files
+
+- `site/content/canonical/PA-S001-theory-es.md`, `site/content/canonical/PA-S001-theory-en.md`: exact authorized proposal bytes.
+- `site/tooling/canonical.ts`: integrity values, bilingual headings, separate causal/retrieval paragraphs, linked grouped citations, and eight stable success controls.
+- `site/tooling/concept-explorers.ts`: prerequisite labels resolved from canonical headings; unknown prerequisite IDs fail rendering.
+- `site/tooling/render.ts`: include success IDs in existing local study activity accounting.
+- `site/test/content.test.ts`: success criteria, proposal equality, code/diagram, source-link, list and table coverage.
+- `docs/audits/PA-S001-stage3-editorial-handoff.md`: historical blocker and this result.
+- Browser evidence under `artifacts/PA-S001/stage3-2026-10-21/`: `{es,en}-{390,1440}-{conceptual,causal}.png` and `{es,en}-390-page.png`.
+
+The article keeps source order, full explanations, context-adjacent authored text diagrams and existing compiled SVG diagrams. The mind map and prerequisite links use human-readable names. Existing palette, typography, routes and four educational models remain in place. The new checkboxes share IDs across languages, are independent of the existing eight checks and do not modify mastery or canonical status. Grouped citation markers were linked individually after identifying that the renderer previously left them as unlinked text.
+
+### Executed validation
+
+- Node `v24.21.0`: `npm ci --ignore-scripts --no-audit --no-fund` succeeded (293 packages); preinstalled Mermaid Chromium was used.
+- `npm run check`: succeeded after the final test changes: ESLint, TypeScript, 13 Node tests, 14 HTML pages and 23 Mermaid SVG sources, plus the generated-asset test. Paragraph-order, list/table, code-block, URLs, study IDs, 24 cards and source byte equality were checked.
+- `node /tmp/pa-s001-stage3-matrix.cjs`: Chromium/Playwright passed ES/EN × 360/390/768/1440 × light/dark. The four explorers' options and results, status regions, labels, focus, keyboard arrow, emulated touch, reduced motion, body size (20 px mobile and 22 px wider), overflow, no-JS fallback, routes, cards and SVG presence were checked.
+- `node /tmp/pa-s001-stage3.cjs`: all eight success controls were checked, persisted after reload, shared across locales and unchecked; the original study state also persisted. In both languages local anchors resolved, the SVG images actually decoded, and no-JS content and fallback cases remained available.
+- `node /tmp/pa-s001-regression.cjs`: both languages passed search, theme switching/persistence, cross-language study state and Studio navigation/flip checks. Browser captures are at the evidence paths above; the ES mobile conceptual and EN desktop causal captures were visually inspected.
+- External reference link checks: seven URLs returned HTTP 200 to HEAD. Both ISO URLs returned 403 to local HEAD and GET; an independent web reader opened both ISO landing pages successfully. Local automated access to those two pages remains restricted and the full standards may require a license. This is a source-access limitation, not evidence that those links are broken.
+- `git diff --check` passed. No commit, push, deployment or merge was performed.
+
+**Remaining limitations:** touch was emulated; no physical-device or real screen-reader test was executed. Live-region attributes and result updates were checked in Chromium, not actual assistive-technology speech. Browser tests do not establish WCAG conformance, learner comprehension or measured learning gains.

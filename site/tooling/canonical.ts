@@ -1,4 +1,5 @@
 import { renderReferenceExperience } from './concept-explorers.ts';
+import { asciiDiagrams } from './ascii-diagrams.ts';
 /** Renderer and coverage gate for the learner supplied PA-S001 Markdown. */
 export const CONCEPT_IDS = [
   'engineering.software','engineering.architecture','scope.application','scope.system',
@@ -10,8 +11,9 @@ export const TOPIC_IDS = ['main.p0-boundaries','sub.software-vs-architecture','s
   'sub.quality-constraints','sub.boundary-dependencies','sub.frontend-platform','sub.ai-product'] as const;
 export const EXERCISE_IDS = ['classify','boundary-map','quality','ai-decision'].map(id=>`PA-S001.exercise.${id}`);
 export const CHECK_IDS = ['engineering','scope','quality','boundary','fpa','aipe','roles','evidence'].map(id=>`PA-S001.check.${id}`);
-const EXPECTED_ES = { bytes:45577, sha:'4a29a68ec5ca5ed0b73c19c45ce7f4c18f3dba7824cfd8944c90db2e1a04af99' };
-const EXPECTED_EN = { bytes:41953, sha:'b63622e5fc36c562c83b7cc6c62a7858d4bf6aee99a8f2680267b367d15eb333' };
+export const SUCCESS_IDS = ['engineering','scope','quality','boundary','fpa','aipe','retrieval','evidence'].map(id=>`PA-S001.success.${id}`);
+const EXPECTED_ES = { bytes:70016, sha:'9a7c96cabc984a2e0a7d08c22475e28fd9815b4c6b2d177ba6509b562868abf5' };
+const EXPECTED_EN = { bytes:64546, sha:'ba9865813943c67f7aac8c906eeecf8e70bdf0bcd9563109bc9f6e60e48bdb34' };
 import { createHash } from 'node:crypto';
 
 export interface CanonicalRender { html:string; toc:string }
@@ -25,6 +27,8 @@ const idFromHeading=(title:string,lang:'es'|'en'):string=>{
   const explicit=title.match(/^`((?:engineering|scope|quality|design|role|fpa|aipe|learning|sub)\.[a-z.-]+)`/);
   if(explicit)return explicit[1]!;
   if(/^(Tema principal|Main Topic)/.test(title))return 'main.p0-boundaries';
+  if(/^(Contexto documentado: plataformas internas|Documented context: internal engineering platforms)/.test(title))return 'platform-context';
+  if(/^(Transferencia explícita al proyecto P0|Explicit transfer to P0)/.test(title))return 'transfer-p0';
   if(/^(Carril Staff|Staff → Principal lane)/.test(title))return 'lane-staff';
   if(/^(Carril Frontend|Frontend Platform Architecture \(FPA\) lane)/.test(title))return 'lane-fpa';
   if(/^(Carril AI|AI Product Engineering \(AIPE\) lane)/.test(title))return 'lane-aipe';
@@ -117,7 +121,7 @@ function inline(value:string):string{
     return hold(`<span class="term-note"><abbr title="${escapeHtml(definition)}" tabindex="0">${escapeHtml(term)}</abbr><span> — ${escapeHtml(definition)}</span></span>`);
   });
   text=escapeHtml(text).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\*([^*]+)\*/g,'<em>$1</em>');
-  text=text.replace(/\[(R[1-8]|P1)\]/g,(_,id:string)=>`<a href="#source-${id}">[${id}]</a>`);
+  text=text.replace(/\[((?:R[1-8]|P1)(?:,\s*(?:R[1-8]|P1))*)\]/g,(_,ids:string)=>`[${ids.split(/,\s*/).map(id=>`<a href="#source-${id}">${id}</a>`).join(', ')}]`);
   return text.replace(/@@TOKEN(\d+)@@/g,(_,number:string)=>tokens[Number(number)]!);
 }
 function chapterMetadata(line:string):string | undefined{
@@ -144,6 +148,8 @@ export function renderCanonical(source:string,lang:'es'|'en',base:string):Canoni
   const lines=sourceLines(source),all=headings(source,lang),out:string[]=[];
   const toc=`<details class="toc"><summary>${lang==='es'?'Contenido':'Contents'}</summary><nav aria-label="${lang==='es'?'Contenido':'Contents'}"><ol class="toc-list">${all.filter(h=>h.level===2).map(h=>`<li><a href="#${h.id}">${inline(h.title.replace(/^`[^`]+` — /,''))}</a></li>`).join('')}</ol></nav></details>`;
   let i=0, currentHeading='';
+  const labels=Object.fromEntries(all.filter(h=>[...CONCEPT_IDS,...TOPIC_IDS].includes(h.id as typeof CONCEPT_IDS[number])).map(h=>[h.id,h.title.replace(/^`[^`]+` — /,'')]));
+  let successIndex=0,diagramIndex=0;
   const figureFor=(id:string):string=>{
     const figures:Record<string,[number,string,string]>={
       'engineering.architecture':[1,'De requisitos a arquitectura, comportamiento y evidencia.','From requirements to architecture, behavior and evidence.'],
@@ -177,7 +183,16 @@ export function renderCanonical(source:string,lang:'es'|'en',base:string):Canoni
       const language=line.slice(3);const code:string[]=[];i++;
       while(i<lines.length&&lines[i]!== '```')code.push(lines[i++]!);
       if(i===lines.length)throw new Error(`Unclosed ${lang} code fence`);
-      out.push(`<pre class="code"><code class="language-${escapeHtml(language)}">${escapeHtml(code.join('\n'))}</code></pre>`);i++;continue;
+      const original=code.join('\n');
+      if(language==='text'){
+        const diagram=asciiDiagrams[lang][diagramIndex++];
+        if(!diagram||createHash('sha256').update(original).digest('hex')!==diagram.hash)throw new Error(`Unrecognized ${lang} text diagram ${diagramIndex}`);
+        const number=String(diagramIndex).padStart(2,'0');
+        const caption=escapeHtml(diagram.caption);
+        const label=lang==='es'?'Descripción textual original':'Original text description';
+        out.push(`<figure class="concept-diagram"><img src="${base}${lang}/shared/diagrams/PA-S001/ascii-${lang}-${number}.svg" loading="lazy" alt="${caption}"><figcaption>${caption}</figcaption><details><summary>${label}</summary><pre class="code"><code class="language-text">${escapeHtml(original)}</code></pre></details></figure>`);
+      }else out.push(`<pre class="code"><code class="language-${escapeHtml(language)}">${escapeHtml(original)}</code></pre>`);
+      i++;continue;
     }
     if(line.startsWith('|')){
       const table:string[]=[];while(lines[i]?.startsWith('|'))table.push(lines[i++]!);
@@ -197,6 +212,7 @@ export function renderCanonical(source:string,lang:'es'|'en',base:string):Canoni
       out.push(`<ul>${items.map(item=>{
         const content=item.slice(2),check=content.match(/^\[ \] `(PA-S001\.check\.[a-z-]+)` (.+)$/);
         const citation=content.match(/^\[(R[1-8]|P1)\] /);
+        if(currentHeading==='success-criteria' && content.startsWith('[ ] ')){const id=SUCCESS_IDS[successIndex++];if(!id)throw new Error('Too many success criteria');return `<li class="canonical-study-item"><label><input type="checkbox" data-study-id="${id}"><span>${inline(content.slice(4))}</span></label></li>`;}
         if(check)return `<li class="canonical-study-item"><label><input type="checkbox" data-study-id="${check[1]}"><span><strong>${check[1]}</strong> ${inline(check[2]!)}</span></label></li>`;
         return `<li${citation?` id="source-${citation[1]}"`:''}>${inline(content)}</li>`;
       }).join('')}</ul>`);continue;
@@ -208,9 +224,18 @@ export function renderCanonical(source:string,lang:'es'|'en',base:string):Canoni
     const metadata=chapterMetadata(line);
     if(metadata){out.push(metadata);i++;continue;}
     const level=line.match(/^\*\*((?:Nivel|Level) [12] — [^*]+)\*\* (.*)$/);
-    if(level){out.push(`<div class="reading-level"><h4>${escapeHtml(level[1]!)}</h4><p>${inline(level[2]!)}</p></div>`);if(/^(?:Nivel|Level) 2/.test(level[1]!)){out.push(figureFor(currentHeading));out.push(renderReferenceExperience(currentHeading,lang));}i++;continue;}
+    if(level){const blocks=level[2]!.split(/(?=📥|⚙️|📤|💡|\*\*(?:Recuperación|Retrieval):\*\*)/).map(part=>part.trim()).filter(Boolean);out.push(`<div class="reading-level"><h4>${escapeHtml(level[1]!)}</h4>${blocks.map(part=>`<p>${inline(part)}</p>`).join('')}</div>`);if(/^(?:Nivel|Level) 2/.test(level[1]!)){out.push(figureFor(currentHeading));out.push(renderReferenceExperience(currentHeading,lang,labels));}i++;continue;}
+    const lead=line.match(/^\*\*([^*]+\.)\*\* (.+)$/);
+    if(lead){
+      const title=lead[1]!.replace(/:\s*(?:definición|definition)\.$/i,'').replace(/\.$/,'');
+      const parent=all.find(h=>h.id===currentHeading);
+      const depth=parent&&parent.level>=3?4:3;
+      out.push(`<h${depth} class="instructional-heading">${inline(title)}</h${depth}><p>${inline(lead[2]!)}</p>`);i++;continue;
+    }
     out.push(`<p>${inline(line)}</p>`);i++;
   }
+  if(successIndex!==SUCCESS_IDS.length)throw new Error(`Canonical ${lang} success criteria count differs`);
+  if(diagramIndex!==asciiDiagrams[lang].length)throw new Error(`Canonical ${lang} text diagram count differs`);
   return {html:out.join('\n'),toc};
 }
 export function canonicalSearchSections(source:string):CanonicalSearchSection[]{

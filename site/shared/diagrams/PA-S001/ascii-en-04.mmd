@@ -1,0 +1,20 @@
+flowchart TB
+  n0["Scenario A: editorial contract"]
+  n1["Session source"]
+  n2["Validation"]
+  n3["Renderer"]
+  n4["Published HTML"]
+  n5["Scenario B: independent professional content"]
+  n6["Portfolio case"]
+  n7["Portfolio page"]
+  n0 --> n1
+  n1 --> n2
+  n2 --> n3
+  n3 --> n4
+  n5 --> n6
+  n6 --> n7
+  note0["Change: rename required field; review schema, field consumers, and publishing tests"]
+  note1["Change: edit biography; review portfolio presentation and links"]
+  n4 ~~~ note0
+  note0 ~~~ n5
+  n7 ~~~ note1

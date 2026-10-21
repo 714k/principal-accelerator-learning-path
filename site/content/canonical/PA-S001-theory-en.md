@@ -1,6 +1,6 @@
 # PA-S001 — Engineering foundations, frontend platform architecture, and AI product engineering
 
-**Phase:** F0 — Accelerator Platform. **Lanes:** Staff→Principal, Frontend Platform Architecture (FPA), AI Product Engineering (AIPE). **Prerequisite:** basic familiarity with components, routes, and application programming interfaces; no earlier session must be certified. **Longitudinal system:** P0, the professional portfolio at `apps/portfolio/` and the separate learning site at `site/`. **Intended artifact, not yet produced:** a first runnable slice and bilingual chapter. **Indicative study and practice time:** 3 h 20 min–5 h 10 min; an estimate, not an observation.
+**Phase:** F0 — Accelerator Platform. **Lanes:** Staff→Principal, Frontend Platform Architecture (FPA), AI Product Engineering (AIPE). **Prerequisite:** basic familiarity with components, routes, and application programming interfaces; no earlier session must be certified. **Longitudinal system:** P0, the professional portfolio at `apps/portfolio/` and the separate learning site at `site/`. **Expected study outcome:** explain, test, and defend P0 boundaries with evidence separated from personal study tracking. **Indicative study and practice time:** 3 h 20 min–5 h 10 min; an estimate, not an observation.
 
 > **30-SECOND SYNTHESIS**
 > 1. Software engineering spans the life cycle; architecture concerns structural decisions that shape change and quality attributes.
@@ -12,6 +12,8 @@
 Explain and distinguish the scope concepts, identify a boundary and its dependencies, reason about a quality attribute under a constraint, and defend an initial P0 boundary. Future evidence must show decisions, working behavior, and checked outcomes; reading this theory does not certify mastery.
 
 ## Learning Preview
+
+**Before you begin.** A *dependency* is a relationship in which an element relies on another element's contract; a *consumer* uses that contract. A *quality attribute* describes an observable property, whereas a *constraint* limits acceptable solutions. No previous session must be completed: these terms are taught below.
 
 First you will study engineering, architecture, four scopes, quality, constraints, boundaries, coupling, and cohesion in the Staff→Principal lane. Then you will study the frontend platform and, independently, the AI product. The guiding question is: **which responsibilities should be grouped, and which should be separated, when several products start?** The application exercise examines `apps/portfolio/`, `site/`, and a hypothetical assisted-summary function, without assuming that the last one exists. Here, a “contract” means an observable expectation between components, such as input, output, and error behavior.
 
@@ -163,68 +165,230 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 ### Atomic coverage manifest
 
-Each row links a semantic ID to its namesake `####` section, which contains a definition, mechanism, example, retrieval, answer, source, technique, and revisit. Prerequisites are conceptual, not access gates. “Visual” refers to nearby representation or conditional proposal; an annotation does not prove a widget was built.
+**How to use this map.** The concepts are taught in the order below. Prerequisites are suggested reading sequences, not access gates. Each concept has a stable internal identifier for links and state tracking; this table presents **readable names**, not software keys. Techniques indicate ways to practise a kind of knowledge; they do not certify that a widget has been deployed.
 
-| ID (source section) | Lane / knowledge type | Prerequisite | Source | Representation or technique |
+| Concept | Lane | Knowledge type | Suggested prerequisite | Learning method |
 |---|---|---|---|---|
-| `engineering.software` | Staff→Principal / procedural | none | R1 | life cycle and worked walkthrough |
-| `engineering.architecture` | Staff→Principal / structural, decisional | `engineering.software` | R1,R2 | dependency map |
-| `scope.application` | Staff→Principal / conceptual | `engineering.software` | R1,R2,P1 | contrast with library |
-| `scope.system` | Staff→Principal / structural | `scope.application` | R2,P1 | boundary and flow |
-| `scope.platform` | Staff→Principal / structural, decisional | `scope.system` | R4,P1 | consumer→contract |
-| `scope.ecosystem` | Staff→Principal / structural | `scope.system` | R2,P1 | actor→contract |
-| `quality.attribute` | Staff→Principal / decisional | `engineering.architecture` | R3,R5,R6 | scenario and test |
-| `quality.constraint` | Staff→Principal / decisional | `quality.attribute` | R3,P1 | condition→option |
-| `design.boundary` | Staff→Principal / structural | `scope.system` | R2,P1 | contract map |
-| `design.coupling` | Staff→Principal / causal, structural | `design.boundary` | R1,R2 | change→propagation |
-| `design.cohesion` | Staff→Principal / conceptual, decisional | `design.boundary` | R1 | change reasons |
-| `role.staff` | Staff→Principal / decisional | `engineering.software` | P1 | case and evidence |
-| `role.principal` | Staff→Principal / decisional | `role.staff` | P1 | scope matrix |
-| `fpa.frontend-platform` | FPA / structural, procedural | `scope.platform`, `design.boundary` | R2,R4,R5,P1 | author→renderer→reader |
-| `aipe.ai-product` | AIPE / causal, decisional | `quality.constraint`, `design.boundary` | R7,R8 | draft/failure flow |
-| `learning.evidence` | Auxiliary / conceptual, decisional | none | P1 | state ≠ evidence |
-| `learning.levels` | Auxiliary / structural | `learning.evidence` | P1 | evidence→level |
+| Software engineering | Staff → Principal | Procedural | None | SWEBOK; guided change walkthrough |
+| Software architecture | Staff → Principal | Structural and decisional | Software engineering | Contracts and dependencies |
+| Application | Staff → Principal | Conceptual | Software engineering | User task |
+| System | Staff → Principal | Structural | Application | Analysis boundary |
+| Platform | Staff → Principal | Structural and decisional | System | Capability and consumers |
+| Ecosystem | Staff → Principal | Structural | System | External actors and services |
+| Quality attribute | Staff → Principal | Decisional | Architecture | Testable scenario |
+| Engineering constraint | Staff → Principal | Decisional | Quality attribute | Acceptable options |
+| Boundary | Staff → Principal | Structural | System | Contracts |
+| Coupling | Staff → Principal | Causal and structural | Boundary | Change propagation |
+| Cohesion | Staff → Principal | Conceptual and decisional | Boundary | Reasons for change |
+| Staff scope | Staff → Principal | Decisional | Software engineering | Influence and evidence |
+| Principal scope | Staff → Principal | Decisional | Staff scope | Multi-system evolution |
+| Frontend platform architecture | FPA | Structural and procedural | Platform and boundary | Author → publishing → reader |
+| AI product engineering | AIPE | Causal and decisional | Constraint and boundary | Permissions, verification and review |
+| Evidence and study state | Auxiliary | Conceptual and decisional | None | Activity ≠ outcome |
+| Levels L1–L5 | Auxiliary | Structural | Evidence and study state | Distinct demonstrations |
+
+**How to read the matrix.** Conceptual contrasts distinguish similar terms; a dependency map represents relationships; a worked example demonstrates a procedure; a decision matrix compares alternatives. None of these representations replaces the full definition and explanation provided in its corresponding section [R1, R2, P1].
 
 ## Main Topic — Choosing P0's initial boundaries
 
-**Guiding question:** how should we separate responsibilities in the first slice without calling a folder an imaginary “platform”? **Definition and scope:** initial architecture selects revisable elements, interactions, and principles enabling delivery of the portfolio and bilingual theory [R2, P1]. Shared need is verifiable delivery; constraints include content available without JavaScript and no fabricated evidence. This map follows the separate definitions above:
+**Definition and purpose.** P0's initial architecture establishes responsibilities, contracts and decisions whose changes could affect multiple components. P0 contains two distinct public products: the professional portfolio at `apps/portfolio/` for visitors and the learning website at `site/` for readers and learners. Sharing a repository does not automatically make these products one application or a platform. Those labels depend on purpose and actual consumers [R2, R4, P1].
 
-| Element | Immediate purpose | Consumer / boundary | Change it should contain |
-|---|---|---|---|
-| Application `apps/portfolio/` | Present professional work | Visitors, public links | A new professional case |
-| Publishing system `site/` | Publish ES/EN chapters | Learner and reader | New concept or citation |
-| Potential editorial platform | Reusable schema and renderer | Later sessions | New session without renderer duplication |
-| P0 ecosystem | People, repository, hosting, browser | Various actors | External rule or service change |
+**Step 1: identify user outcomes.** The portfolio allows visitors to understand professional work, systems and evidence. The learning website publishes chapters, examples, diagrams, navigation, exercises and study tracking. Both may share deployment infrastructure or accessibility requirements, but they serve different needs. Combining their navigation or content logic would make independent evolution harder.
 
-**Worked example.** If a session's Spanish prose changes, the author edits ES content; the renderer keeps the same ID in EN, and the portfolio remains untouched unless a link needs updating. If translating text resets checkboxes, the ID probably depended on translated text: the boundary between presentation and tracking was poorly chosen. Check the proposed architecture against code and rendered HTML; today it is a **design, not a verified outcome**.
+**Step 2: draw the boundary.** Within `site/`, an editorial pipeline accepts theory, validates it and uses a renderer to produce an HTML page with SVG diagrams. The page is read in a browser; local exercise-state data remains separate. The portfolio application should not need to import internal chapter-renderer machinery to publish project descriptions. The diagram below is a **teaching model of responsibilities**, not an inspected import graph.
 
-**Counterexample.** Declaring “microservices for everything” without operational need adds deployments, contracts, and failures. Keeping the products in separate folders is also insufficient if they exchange internal data without a contract. A boundary costs integration work; an absent boundary costs change propagation. **Answer to the guiding question:** start from responsibilities and verifiable contracts, share a capability after seeing real consumers, and revisit dependencies after the first slice.
+```text
+THEORY AUTHOR                           WEBSITE READER
+      |                                       ^
+      v                                       |
+ES / EN content -> validation -> renderer -> HTML + SVG
+                                           |
+                                           v
+                                   Local study marks
+                                     (not mastery)
+
+PORTFOLIO: professional cases -> independent public output
+```
+
+**Step 3: define contracts before sharing code.** An editorial contract should specify a stable session identity, locale, sections, references and exercise keys. The renderer should produce semantic HTML and resolvable references. Study tracking should persist reversible marks without interpreting them as mastery evidence. If two sessions consume the same stable contract, a shared renderer can be justified. Sharing it without real consumers would be an architectural hypothesis, not a demonstrated platform [R2, R4, P1].
+
+**Step 4: examine constraints and quality attributes.** Theory must be readable without JavaScript; controls must be operable by keyboard and touch; concept coverage must remain semantically equivalent in ES/EN. “Theory exists in initial HTML” constrains the implementation. “The interface is accessible in defined scenarios” is a property evaluated through observable tests. A passing `npm run check` alone cannot certify accessibility or comprehension [R3, R5, P1].
+
+| Decision | Alternative | Potential benefit | Cost or risk | How to check |
+|---|---|---|---|---|
+| Keep portfolio and learning site separate | One application with shared navigation | Independent editorial changes | Some duplicated infrastructure | Inspect imports, routes and cross-product changes |
+| Reuse a stable editorial contract | Different content format per session | Consistent publishing and less repetition | Migrations when the contract changes | Publish a second session without duplicating the renderer |
+| Serve readable HTML without JS | Generate all theory in the client | Reading and links survive missing scripts | Fewer enhancements without JS | Disable JS and read the complete lesson |
+| Track reversible study marks | Infer mastery from each click | Voluntary study activity tracking | Confusing activity with evidence | Verify L1–L5 do not change on a mark |
+| Keep AI as a proposal | Immediately integrate a provider | Avoid risks before need is validated | Defer hypothetical automation | Evaluate use case, data, alternatives and review |
+
+**Worked example: changing locale.** If Spanish prose in an exercise changes, its persistent key should stay stable. The English version uses that same key so learners do not lose the mark when switching languages. If instead the translated question is used as a storage key, an editorial change can invalidate progress: the design created an unstable boundary between presentation and state.
+
+**Architectural counterexample.** Separate directories do not suffice when the portfolio imports private editorial-site objects without a contract. Declaring “microservices for everything” does not guarantee quality either: it adds deployments, calls, failure modes and coordination. A defensible boundary follows responsibilities, dependency direction and the ability to verify consequences [R1, R2].
+
+**Retrieval:** what must be checked before extracting a shared module? **Answer:** prove that more than one consumer needs a stable capability, define the contract and evaluate the cost of changing it. An abstraction without a consumer does not demonstrate architectural value.
+
+**Staff → Principal implication.** Staff scope includes defending the first boundary and establishing tests that make it operable; Principal scope addresses evolution of contracts across additional sessions and products. **FPA implication:** deliver accessible chapters and UI components under explicit contracts. **AIPE implication:** do not introduce an AI function before checking authorized inputs, risks and evaluation. This is a labeled synthesis of the three separate lanes, not a replacement for their definitions.
 
 ## Subtopics
 
 ### `sub.software-vs-architecture` — Software engineering and architecture
 
-**Guiding question:** what does each decide when we add a session? Engineering covers requirement, design, implementation, test, and maintenance [R1]; architecture focuses on elements and relationships affecting change [R2]. Example: whether a link opens a page is behavior to verify; whether every session uses a common schema is a structural decision. **Mechanism:** changing a schema field requires migrating its consumers, whereas a local spelling fix should not. A correct diagram without link tests does not deliver behavior; a working page without contracts may be hard to extend. **Trade-off:** documenting every choice costs time; document choices affecting consumers or quality. **Retrieval:** does a green build establish architectural fitness? **Answer:** no, only properties covered by its checks. **Resolution:** engineering manages the entire life cycle; architecture examines structure and evolution within it.
+**Software engineering: definition.** This discipline includes eliciting and specifying needs, designing, implementing, verifying, deploying, operating and maintaining software. Some engineering activities can change without changing a system's structure, such as correcting copy or fixing a broken link [R1]. Engineering is not merely the act of writing code.
+
+**Software architecture: definition.** Architecture is reasoning about system elements, their relationships and the principles guiding their evolution. It explains why contracts and boundaries exist, not merely how directories are drawn [R2]. An architecture description is a document whose correspondence with working code must be checked.
+
+**Mechanism applied to P0.** Adding a session requires a testable requirement (“the reader can open PA-S002”), a structure (“chapters follow a shared section contract”), implementation, tests and maintenance. The requirement belongs to the engineering life cycle. The editorial contract and relationships among renderer, sources and browser are architectural decisions within that life cycle. A site can pass link tests yet depend on a brittle schema; it can also have a polished architecture diagram and broken links.
+
+```text
+Need -> verifiable criterion -> implementation -> test
+                 |                                 |
+                 v                                 v
+        structural decision               behavioral evidence
+                 |
+        shared editorial contract
+```
+
+**Contrasting example.** Correcting a card's font size is usually a local product change; renaming a required schema field requires inspecting consumers and potential migrations. The second action is architectural because it may cross component boundaries. Propagation remains a possibility to be checked through imports and tests, not an already measured impact.
+
+**Trade-off and production implications.** Documenting every line of code provides little value. Record decisions with consequences for evolution, security, operation or user experience: context, alternatives, decision, risks and verification method. This keeps documentation useful and avoids confusing diagram quantity with quality [R1, R2].
+
+**Guided practice.** Classify (a) repairing a broken route, (b) changing the shared contract for persistent IDs, and (c) checking keyboard use on mobile. **Explanatory answer:** (a) and (c) are engineering-life-cycle tasks; (b) is a structural decision within that same engineering process. Engineering tasks may also provide evidence about architecture.
+
+**Retrieval:** does a green build demonstrate appropriate architecture? **Answer:** no. It establishes only the properties covered by the checks that actually ran; relevant change and quality scenarios remain necessary.
 
 ### `sub.scope-layers` — Application, system, platform, and ecosystem
 
-**Guiding question:** are these four increasing sizes of the same object? No: they are **different perspectives**. Application identifies user experience; system selects elements for a purpose; platform offers capabilities to consumers; ecosystem includes external agents and dependencies. In P0 a portfolio app may belong to the public-delivery system, the site may offer editorial capability to many sessions, and hosting matters without being an internal module. **Counterexample:** calling a shared button a “platform” does not establish product, support, or consumers. **Trade-off:** expanding the system under analysis reveals interactions but makes testing harder. **Retrieval:** can something be a system without being a platform? **Answer:** yes; elements can serve a purpose without reusable self-service. **Resolution:** choose each term according to the question and draw the boundary.
+**Application.** Software designed to support recognizable tasks for a person. The portfolio lets visitors browse professional cases and follow contact links. Its practical boundary derives from visitor experience. A button library is not automatically an application because it does not satisfy that complete user outcome by itself [R1, P1].
+
+**System.** A delimited set of elements interacting toward a purpose. When the question is “how is PA-S001 published?”, the system under analysis may include the source, validator, renderer, HTML and hosting. A system may span several applications, and its boundary depends on the question—not on whether a directory is called `system` [R2].
+
+**Platform.** Offers shared capabilities through contracts for identifiable consumers. In P0, the editorial contract and renderer could become a reusable capability if another session actually consumes them. A shared dependency alone does not demonstrate a mature platform: consumability, evolution and support matter [R4, P1].
+
+**Ecosystem.** Includes actors and relationships that shape outcomes: author, learner, teams, browsers, hosting, standards, external links and related systems. This is a perspective, not simply “the largest system.” It can include dependencies outside the team's control [R2].
+
+| Perspective | Question answered | P0 example | What lies outside for this question |
+|---|---|---|---|
+| Application | What task does the user perform? | Browse portfolio cases | Internal editorial pipeline |
+| System | Which elements cooperate for a purpose? | Source, validator, renderer, HTML | Actors unrelated to this publication |
+| Platform | Which capability serves multiple internal consumers? | Session schema + renderer | A function with no consumers |
+| Ecosystem | Which actors and dependencies shape the solution? | Authors, browser, hosting and standards | Elements unrelated to the decision under analysis |
+
+**Mechanism and edge case.** Moving from an accessibility question to a deployment question can expand the system boundary to include infrastructure and browser. That does not turn the application into a platform: the analyst changed perspective. Rigid concentric circles would be misleading because these categories overlap and answer different questions.
+
+**Practice through contrast.** “The renderer serves PA-S001” describes a technical capability. “The renderer serves multiple sessions through a stable contract and demonstrated adoption” makes its platform role worth evaluating. **Explanatory answer:** the distinguishing features are consumers and shared contract, not a directory name.
+
+**Retrieval:** can something be a system without being a platform? **Answer:** yes. Coordinating elements for a purpose does not imply offering reusable capabilities to separate consumers.
 
 ### `sub.quality-constraints` — Quality attributes and constraints
 
-**Guiding question:** how can we decide whether an interface “is good”? Separate desired property, checkable scenario, and mandatory condition. ISO provides a quality model [R3]; W3C specifies accessibility criteria [R5]; the project requires no-JavaScript access [P1]. **Worked example:** “the outline works by keyboard on a phone” supplies context, action, and observation; “content readable without JS” constrains the solution. Keyboard testing and HTML inspection provide evidence limited to these scenarios, not universal certification. **Failure:** an invented “95% mastery” score confuses interface quality with learner evidence. **Trade-off:** more scenarios take time; prioritize explicit requirements and risks. **Retrieval:** is an attribute an implementation? **Answer:** no; several solutions can satisfy it. **Resolution:** state a verifiable criterion and the constraint limiting options.
+**Quality attribute.** A property worth evaluating, such as accessibility, reliability, performance or maintainability. ISO/IEC 25010 provides quality categories; it does not assign automatic scores to our application. An attribute becomes actionable when expressed as an observable scenario [R3].
+
+**Engineering constraint.** A condition limiting permitted solutions. “Academic content must exist in readable HTML without JavaScript” rules out approaches in which theory is created only after browser code runs. This differs from seeking “an accessible experience,” which requires explicit criteria and tests in concrete scenarios [R5, P1].
+
+**Turn an aspiration into a test.** A scenario contains context, stimulus and expected observation. Example: on a phone with an external keyboard, the learner opens the contents, navigates to “Boundary” and returns without a focus trap. Expected results include visible focus, operable sequence and correct destination. This checks one delimited scenario, not complete WCAG conformance.
+
+```text
+Quality objective -> observable scenario -> test -> evidence
+                                  ^
+                                  |
+                        solution constraints
+                 (static HTML; keyboard; ES/EN)
+```
+
+**Delimited causal model.** With text already present in initial HTML, disabling JavaScript does not remove the theory; it may disable script-based persistence and controls. When text is created exclusively with JavaScript, disabling scripts leaves the theory absent. These statements concern content availability, not measured accessibility or a network guarantee [R5, P1].
+
+**Trade-off and edge case.** Static generation requires a build and can make some content less dynamic, but supports a verifiable reading baseline. Client-only rendering may simplify certain runtime updates, but without a real fallback it would violate this project's requirement. Do not assign quality because the code “uses React” or “uses HTML”: test user behavior and constraints.
+
+**Practice with feedback.** Classify “load within an agreed measured duration,” “require JavaScript,” and “the contents can be navigated by keyboard.” **Answer:** the first and third can become quality scenarios when their conditions are specified; the second is a technology constraint. Do not invent a timing target without agreeing its context.
+
+**Retrieval:** is a constraint equivalent to a quality attribute? **Answer:** no. The attribute expresses a property worth achieving; the constraint delimits acceptable implementations.
 
 ### `sub.boundary-dependencies` — Boundaries, coupling, and cohesion
 
-**Guiding question:** what breaks when a boundary is misplaced? Boundary defines contract; coupling exposes dependencies to change; cohesion asks whether a module groups related change reasons [R1, R2]. **Worked example:** separating `session-renderer` from `portfolio-contact` contains a citation change. **Faded example:** imagine a translation changes an exercise ID; write down affected storage and pages before reading the answer: if the ID derives from text, states diverge; a shared semantic ID keeps the key stable. **Failure:** splitting each line into its own package increases interfaces without coherent responsibility. **Retrieval:** does a public link violate the boundary? **Answer:** not if intentional. **Resolution:** use change reasons and contract checks to locate boundaries.
+**Boundary.** Determines what responsibility belongs to a component and which interactions are allowed through a contract. In P0, the portfolio manages professional presentation while the academic site manages theory, exercises and study state. Sharing a public link is not the same as importing another product's private structures [R2, P1].
+
+**Coupling.** Describes dependencies between parts: a producer change can require consumer changes. Counting imports alone does not capture the risk; dependency direction, stability and contract scope matter. An exercise ID derived from translated copy introduces accidental coupling between locale and persistence [R1, R2].
+
+**Cohesion.** Describes whether module responsibilities support a recognizable purpose. A renderer concerned with sections, tables, citations and diagrams groups related reasons for change. Adding portfolio contact-message processing would introduce a separate reason for change [R1].
+
+**Hypothetical mechanism, not a verified graph.** Two conceptual diagrams show possible review surfaces; **they do not compute actually reachable consumers in the repository**:
+
+```text
+SCENARIO A: editorial contract
+Session source -> validation -> renderer -> published HTML
+  Change: rename required field
+  Review: schema, field consumers, and publishing tests
+
+SCENARIO B: independent professional content
+Portfolio case -> portfolio page
+  Change: edit biography
+  Review: portfolio presentation and links
+```
+
+**Observation and consequence.** Scenario A might require migrations when compatibility breaks; scenario B should remain local under the intended boundary. Effective impact requires inspecting the actual import graph, diff and tests. A selector may compare scenarios and explain consequences, **but must not highlight nodes as verified dependencies without evidence**.
+
+**Counterexample.** Splitting every function into a separate package maximizes boundaries but also adds interfaces, tooling and coordination. Good architecture balances independence with integration cost. In production, inspect cross-cutting changes, accessibility, contract tests and ownership before extracting more modules.
+
+**Practice.** A translation changes the visible “Confirm” label but not its persistent key. **Explanatory answer:** in a sound design, study state remains intact; if the key derives from the label, state could fork. The mitigation is shared semantic IDs and locale-switch regression tests.
+
+**Retrieval:** does every cross-product link violate a boundary? **Answer:** no. A stable, intentional public link may be a valid contract; what matters is whether the relationship is permitted and stable.
 
 ### `sub.frontend-platform` — First frontend platform slice
 
-**Guiding question:** what should be shared beginning in PA-S001? Share mechanisms multiple sessions need: semantic shell, phase navigation, chapter template, stable IDs, theme, SVG build, and study controls [P1]. `apps/portfolio/` remains a distinct product. **Mechanism:** canonical content → validation → accessible HTML and SVG → local study state; L1–L5 records come from separate evidence. **Failure:** disabled checkboxes, flashcard answers existing only after JS, or uncompiled Mermaid violate the contract. **Trade-off:** a common schema requires consumer migration when it evolves. **Retrieval:** should an empty dashboard invent progress? **Answer:** no; say “no evidence recorded.” **Resolution:** share a small usable base and expand from real use.
+**Definition within its lane.** Frontend Platform Architecture (FPA) examines shared interface capabilities, contracts, developer experience, accessibility and evolution. In P0 the frontend foundation includes the layout, navigation, theming, bilingual chapter model and diagram compilation. It is not equivalent to a component catalog without consumers [R2, R4, R5, P1].
+
+**Responsibilities taught separately.** The editorial schema specifies what an author can publish: stable ID, title, sections, sources, visualizations and exercises. The validator checks that shape and rejects incomplete inputs. The renderer turns validated input into semantic HTML and ES/EN routes. The browser displays the lesson and may store reversible marks. None of those mechanisms should invent mastery levels.
+
+```text
+AUTHOR -> canonical ES/EN content
+                  |
+              validation
+                  |
+                 build
+                  v
+        Accessible HTML + SVG diagrams
+                  |
+                  v
+             mobile/desktop reader
+                  |
+            local study marks
+          (separate from L1–L5 evidence)
+```
+
+**Evolution mechanism.** If PA-S002 follows the same contract, it can publish a chapter without copying the renderer. If it needs a new visualization type, a block with semantics and fallback is defined, the schema is explicitly migrated and previous sessions retested. This reuse hypothesis must be demonstrated by PA-S002; it is not evidence of success without a second actual consumer [R4, P1].
+
+**Failures and decisions.** It is incorrect for theory to disappear when JS is disabled, for study checkboxes to be disabled, or for a Mermaid map to lack an accessible SVG. Hiding all theory behind cards that only appear after interaction is also wrong. Prioritize readable publication, stable navigation and progressively enhanced controls; keep activity metrics distinct from L1–L5 evidence.
+
+**Practice with answer.** A team suggests introducing another framework just to render content tables. **Explanatory answer:** the requirement is readable, accessible and maintainable tables; a new dependency needs a justification of its cost and compatibility. A table alone does not require a framework.
+
+**Retrieval:** when is it defensible to call the editorial renderer a platform? **Answer:** when multiple consumers use its contracts with evolution and operational support; one session is an initial prototype, not sufficient proof.
 
 ### `sub.ai-product` — Boundary of an AI function
 
-**Guiding question:** does the first slice need AI? No verified requirement exists; assess a proposal by use case, data, risk, tests, and output review [R7, P1]. **Hypothetical example:** if a public case-study summary is wanted later, set allowed text and draft output; check claims against sources and enable human rejection. **Failure:** publish an unreviewed summary as fact or send private data to a provider without an explicit decision. **Trade-off:** possible automation versus variability, risk, and cost requiring verification. **Retrieval:** does a convincing prototype prove production suitability? **Answer:** no; evaluation and operational conditions are missing. **Resolution:** PA-S001 defines the conceptual boundary and records the feature as unimplemented.
+**Definition within its lane.** AI Product Engineering (AIPE) integrates artificial intelligence into product workflows with use cases, allowed inputs, evaluation, risks, review, costs and operation. It is not synonymous with “calling a model,” nor does P0 require a provider by default. NIST's AI Risk Management Framework organizes governance, context, measurement and risk management [R7, R8].
+
+**Problem first, model second.** A possible future use case is summarizing a public portfolio system description. Before implementation, establish the need: which task does it save, who benefits, which deterministic alternative exists, and which failures matter? A manual summary or editorial template may be more controllable in the first slice [R7].
+
+**Hypothetical mechanism.** For authorized content, the workflow can enforce explicit boundaries. A source is identified and prepared; generation creates a **draft**; claims are checked against cited sources; a person may reject or approve content editorially. Approval is neither automatic nor implemented in PA-S001.
+
+```text
+Authorized source -> data permission check -> suggested draft
+                                                  |
+                                           verify claims
+                                                  |
+                                             human review
+                                                  |
+                                      separate editorial decision
+```
+
+**Failures that block the flow.** If data is not authorized for provider transfer, stop it. If citations do not support claims, keep a draft and correct it. If human review is required but unavailable, do not publish. A simulator illustrating these controls does not perform a real safety, privacy or quality evaluation.
+
+**Trade-offs and operation.** Automation may save writing effort but introduces variability, risk of unsupported claims, observability and maintenance needs. Production requires evaluation criteria, data controls, rejection mechanisms, monitoring and accountable owners [R7, R8]. This session contains no measured savings or accuracy figures.
+
+**Practice with feedback.** The draft uses a public source but invents a number. **Answer:** it must not be published as fact; plausible output does not replace evidence validation. The non-AI alternative remains available.
+
+**Retrieval:** is a prototype that “sounds convincing” production-ready? **Answer:** no. Need, safety, evaluation, review, operation and costs must be defended before recommending integration.
 
 ### Cross-domain synthesis (after the three lanes)
 
@@ -232,12 +396,18 @@ Staff→Principal frames who argues for and reviews scope decisions; FPA defines
 
 ## Theory → Practice Map
 
-| Concepts | Later work | Observable signal |
-|---|---|---|
-| `scope.*`, `design.*` | Draw P0 boundary and inspect imports | comparable graph and diff |
-| `quality.*`, `fpa.frontend-platform` | Check ES/EN routes, keyboard, no-JS, and phone | actual test report |
-| `aipe.ai-product` | Assess proposal before integrating a provider | decision with use case and risks |
-| `learning.*`, `role.*` | Separate study tracking and evidence | reviewable data and arguments |
+**Applying the distinctions requires turning them into verifiable decisions.** This matrix connects knowledge to tasks and observations; no row automatically grants a mastery level.
+
+| Concepts studied | Practical work | What to check | Acceptable evidence |
+|---|---|---|---|
+| Application, system, platform and ecosystem | Delimit P0 products, elements and actors | The boundary answers a concrete question | Annotated map, assumptions and explanation |
+| Architecture, boundary, coupling and cohesion | Compare a contract change with a local editorial change | Real consumers, migrations and tests; keep illustrative and actual graphs distinct | Diff, import inspection and recorded decision |
+| Quality attributes and constraints | Test no-JS theory, keyboard navigation and mobile reading | Outcomes observed under delimited scenarios | Browser test results |
+| Frontend platform | Publish an ES/EN chapter under one contract | Shared IDs and no missing theory | Built HTML and reviewed semantic parity |
+| AI product engineering | Compare manual and hypothetical generated summary | Permissions, citations, human review and alternatives | Explicit analysis and decision |
+| Staff/Principal scope and evidence levels | Defend a decision and explain its evolution | Evidence independent from study checkmarks | Reviewed decision record, not invented percentages |
+
+**Linking evidence to learning.** A study activity may be marked while L1–L5 evidence remains empty. Claims of levels require a separately observed, reviewable demonstration [P1].
 
 ## Time estimate
 
@@ -245,7 +415,39 @@ The estimate is a guide: reading and retrieval 60–90 min; map and decision 40�
 
 ## Real-World Example
 
-**Documented case, not evidence about P0.** CNCF's white paper presents internal platforms as capabilities consumed by teams and emphasizes self-service [R4]. Translated **by design analogy** to this site, sessions consume an editorial contract, without necessarily being independent product teams. The analogy fails if no second session uses the renderer or if abstraction adds work instead of removing it. Value would require observing usage and maintenance; the source cannot guarantee improvement in this project.
+### Documented context: internal engineering platforms
+
+**The problem addressed by internal platforms.** The CNCF TAG App Delivery white paper discusses internal platforms as capabilities consumed by engineering teams, emphasizing consumable offerings and self-service. It provides a framework for thinking about platform responsibilities; it **does not report measured outcomes for P0**, nor does it guarantee that every shared tool is a platform [R4].
+
+**Illustrative organizational scenario.** Imagine three teams publishing web products, with each team independently configuring routes, build automation, security checks, deployment conventions and access to operational signals. They preserve local autonomy but repeatedly solve cross-team concerns. This is an invented scenario for applying CNCF's approach, **not** a reported company, incident or empirical case study.
+
+**Step 1 — Identify consumers.** Before extracting shared functionality, a platform team asks what tasks product teams perform, what knowledge these tasks require and which needs recur. Two applications sharing a language does not prove a platform need. Repeated flows under compatible constraints provide a hypothesis that can be investigated [R4].
+
+**Step 2 — Define a capability with a contract.** A platform team may offer a creation and publication process with agreed inputs, validations, observable outputs and documentation. A consumer should know how to request the capability, what behavior is guaranteed, what its limitations are and what happens on failure. A platform is not merely common code; it requires support, evolution and boundaries of responsibility.
+
+```text
+Consumer team A -------\
+Consumer team B --------+--> Shared capability with a contract
+Consumer team C -------/                   |
+                                           v
+                               Validation -> publication -> observation
+```
+
+**Step 3 — Evaluate alternatives.** One option preserves independent implementations: flexible locally but potentially repetitive to maintain. Another shares packages or templates without introducing a platform service. A third offers a self-service capability with explicit ownership. The decision depends on consumers, differences between their needs, risk and operational capacity. There is no universal winner [R4].
+
+**Step 4 — Examine costs and failure modes.** Centralization can become a bottleneck if one team must approve every change. An unversioned shared contract may break several consumers. An overly general offering may fail to serve real needs. Duplicating everything may also raise maintenance costs. These are plausible architectural effects to validate in observed situations—not quantified outcomes reported here.
+
+### Explicit transfer to P0
+
+**Partial analogy.** In P0, each later learning session acts as a consumer of the site's editorial schema and renderer. When PA-S002 is introduced, its author supplies new theory while the build maintains navigation, source handling, table of contents and study mechanisms. This illustrates reuse. **It does not make individual sessions independent product teams**, nor does it establish the maturity of an internal platform.
+
+**Traceable example.** A new monorepo-architecture section is introduced in Spanish and English. Validation checks that it has stable identity and sources; the renderer turns text and diagrams into HTML/SVG; navigation links to the chapter; study checkboxes share IDs across languages. If the author must copy and edit renderer internals for every new chapter, the purported shared capability is insufficiently decoupled. If another chapter can be added declaratively while previous chapters still work, there is stronger evidence of reuse. Maintenance costs would still need evaluation.
+
+**What can and cannot be concluded.** CNCF supports approaching platforms as consumable capabilities with customers and contracts [R4]. It does **not prove** that P0 has increased productivity, reduced failures or saved money. Such claims would require comparable observations, change records and agreed criteria. The analogy helps formulate a design hypothesis and test, not fabricate results.
+
+**Staff and Principal implications.** Staff scope can define an editorial contract and defend responsibility boundaries. Principal scope examines whether that contract can evolve across many consumers, what governance it requires and when centralization should be avoided. FPA turns the contract into accessible web publishing. AIPE remains a separate lane: an AI feature requires its own use case and evaluation before integration.
+
+**Case retrieval:** what distinguishes a potential editorial platform from a renderer used only once? **Answer:** evidence of consumers, stable contracts, adoption and maintainability. Folder counts and a 'platform' name prove nothing.
 
 ## Production-Ready Example (verifiable design, not yet executed)
 
@@ -263,11 +465,15 @@ type EvidenceRecord = { artifactId: string; claim: string; verification?: string
 
 ## Visual Learning Guide / Visual Learning Studio
 
-**Concept map to compile as SVG:** `engineering.software → engineering.architecture → {scope.application, scope.system, scope.platform, scope.ecosystem} → {quality.attribute, quality.constraint, design.boundary, design.coupling, design.cohesion, role.staff, role.principal}`; independent branches `fpa.frontend-platform` and `aipe.ai-product`; auxiliary branch `learning.evidence, learning.levels`; nodes `main.p0-boundaries` and all six `sub.*`. Arrows mean “studied before synthesis,” not physical causation. Each node's source is the section with the same ID.
+**Interactive concept map.** The map should show understandable labels and separate groupings: engineering and scope foundations, frontend platform, AI product and learning evidence. A study arrow means "understand before integrating," not physical causation. Accessible nodes link to their definition and source; a readable navigation list provides a small-screen alternative. Internal machine keys belong in HTML attributes and structured data, **not in the reader-facing labels**.
 
-**Retrieval cards:** one card for each of the 17 `Concepts` IDs, one for `main.p0-boundaries`, and one for each of the six `sub.*`: **24 cards total**. Each front reuses its section's retrieval or guiding question; each back keeps the answer and explanation. Coverage links to source IDs and never replaces prose. Previous/next, flip, counter, keyboard, touch, reduced motion, and answers readable without JavaScript are publication requirements [P1].
+**Diagrams adjacent to theory.** Publication flows, boundaries and AI scenarios belong beside the mechanisms they illustrate. The final mind map complements those local diagrams; it never replaces them. SVGs need titles, meaningful text descriptions, source traceability and responsive sizes. Unverified structures and relationships must be labeled as teaching models or hypothetical scenarios.
 
-**Justified additional mode:** boundary/change-propagation map based on `design.boundary`, `design.coupling`, and `sub.boundary-dependencies`; input X = select a declared dependency, output Y = highlight reachable consumers in that graph. It neither measures quality nor purports to represent an uninspected repository. Accessible alternative: edge/consequence table. No other widget is required.
+**Retrieval flashcards.** One card covers each of 17 concepts, one covers the main topic, and one covers each of six subtopics: **24 cards**. The front asks for explanation or judgment after theory; the reverse contains an answer and explains why a common alternative fails. Learners can navigate and flip with keyboard or touch; answers remain available without JavaScript.
+
+**Justified experiences, not decoration.** The conceptual explorer contrasts four perspectives; the structural explorer compares two static scenarios without claiming to inspect a real graph; the causal explorer explains text availability under JS/no-JS assumptions; and the decision explorer evaluates input permission, citation verification and human review without authorizing automatic publication. Each experience exposes its input, mechanism, outcome, source, limits and textual fallback [R1, R2, R3, R4, R5, R7, P1].
+
+**Later retrieval.** After a session, recall concepts without looking, read explanatory feedback and retry at PA-S002 and after a real contract change. Revisits are opportunities, not learning-style diagnoses or mastery scores.
 
 ## Exercises
 
@@ -307,7 +513,22 @@ The following IDs are reversible and shared across ES/EN; a mark expresses perso
 
 ## End-of-session success criteria
 
-A reviewer can inspect a boundary map with named contracts, a first executable portfolio and ES/EN site slice, a keyboard/no-JavaScript check, and an account of what was actually run. **None is claimed complete now:** the real repository was not supplied in this chat, and `07-PROGRESS` says “Not started.” L1–L5 are recorded only after distinct evidence: explain, implement, operate, decide, and lead are different claims [P1].
+**Using these checkboxes.** The items record reversible personal study checks, with internal stable keys shared across languages. **They do not establish automatic approval, Completed status or L1–L5 mastery.** Implementation, operation, decisions and leadership require separate evidence [P1].
+
+- [ ] I can explain software engineering versus architecture with a concrete contract-affecting change.
+- [ ] I have distinguished application, system, platform and ecosystem using four concrete P0 examples.
+- [ ] I have defined a quality attribute, a constraint and an observable test scenario without fabricating results.
+- [ ] I have compared two boundaries and explained which contracts or consumers need inspection.
+- [ ] I have reviewed a publishing flow and explained what depends on initial HTML versus JavaScript.
+- [ ] I have defended why a hypothetical AI feature needs permission, verification, a non-AI alternative and review.
+- [ ] I have answered and corrected at least one retrieval question from each lane.
+- [ ] I have kept personal study marks distinct from actual L1–L5 evidence.
+
+**How an outcome would be observed, without claiming it now.** Explaining boundaries may support L1 only after review. Tested code can support L2; real operational fault diagnosis, L3; alternatives justified with verified consequences, L4; documented adoption and cross-team influence, L5. Checking these boxes awards none of these levels.
+
+**Reviewable deliverable.** A P0 boundary map with contracts, a justified decision about sharing versus separation, a recorded keyboard/no-JS test once executed, and an AI proposal analysis with sources and constraints. Historical tests or future plans do not substitute current execution evidence.
+
+**Editorial readiness criteria.** This chapter is ready for learner review when all 24 sections contain substantial teaching, definitions precede retrieval questions, contextual diagrams are accessible where useful, and ES/EN preserve concepts and cited sources. Successful publication does not by itself demonstrate learning.
 
 ## Bridge to PA-S002
 

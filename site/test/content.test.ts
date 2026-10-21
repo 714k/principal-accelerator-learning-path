@@ -4,7 +4,7 @@ import { resolve, dirname } from 'node:path';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { loadPage, assertPair, validatePage } from '../tooling/content.ts';
-import { assertCanonicalPair, renderCanonical, studyIds, CONCEPT_IDS, TOPIC_IDS, EXERCISE_IDS, CHECK_IDS } from '../tooling/canonical.ts';
+import { assertCanonicalPair, renderCanonical, studyIds, CONCEPT_IDS, TOPIC_IDS, EXERCISE_IDS, CHECK_IDS, SUCCESS_IDS } from '../tooling/canonical.ts';
 import { renderPage, home, sessionsIndex, projectsIndex } from '../tooling/render.ts';
 import { diagramMetadata } from '../tooling/diagrams.ts';
 import { searchIndex } from '../tooling/search.ts';
@@ -47,7 +47,19 @@ test('chapter metadata and reading layers have a semantic heading hierarchy in b
   }
 });
 
+test('paragraph lead-ins become headings without redundant definition labels',()=>{
+  for(const [lang,titles] of [
+    ['es',['Ingeniería de software','Arquitectura de software','Aplicación']],
+    ['en',['Software engineering','Software architecture','Application']],
+  ] as const){
+    const html=renderCanonical(source(lang),lang,'/').html;
+    for(const title of titles)assert.ok(html.includes(`class="instructional-heading">${title}</h4><p>`),`${lang}: ${title}`);
+    assert.doesNotMatch(html,/<strong>[^<]+:\s*(?:definición|definition)\.\s*<\/strong>/i);
+  }
+});
+
 function plainMarkdown(line:string):string{
+  if(!/^\*\*(?:Nivel|Level) [123] —/.test(line))line=line.replace(/^\*\*([^*]+?)(?::\s*(?:definición|definition))?\.\*\* /i,'**$1** ');
   const code:string[]=[];
   let value=line.replace(/`([^`]+)`/g,(_,content:string)=>{code.push(content);return `@@CODE${code.length-1}@@`;});
   value=value.replace(/\[([^\]]+)\]\(https?:\/\/[^)]+\)/g,'$1')
@@ -83,9 +95,10 @@ test('every substantive authored paragraph and instruction appears in rendered o
 test('all four exercises and eight checkboxes are reversible controls with static fallback',()=>{
   for(const lang of ['es','en'] as const){
     const html=renderCanonical(source(lang),lang,'/').html;
-    for(const id of [...EXERCISE_IDS,...CHECK_IDS])assert.ok(html.includes(`data-study-id="${id}"`));
+    for(const id of [...EXERCISE_IDS,...CHECK_IDS,...SUCCESS_IDS])assert.ok(html.includes(`data-study-id="${id}"`));
     assert.equal((html.match(/data-study-id="PA-S001\.(?:exercise|check)\.[a-z-]+"/g)??[]).length,12);
-    assert.equal((html.match(/<input type="checkbox"/g)??[]).length,12);
+    assert.equal((html.match(/<input type="checkbox"/g)??[]).length,20);
+    assert.equal((html.match(/data-study-id="PA-S001\.success\.[a-z-]+"/g)??[]).length,8);
     assert.ok(!/<input[^>]*\bdisabled\b/.test(html));
     assert.ok(html.includes('class="flashcard-answer"'));
     assert.ok(!/<script(?! type="application\/json")/.test(html));
@@ -236,5 +249,48 @@ test('reference rules select the specified outcomes for every input combination'
     }
     assert.ok(html.includes('data-limitation'));
     assert.ok(!html.includes('data-possible-review'));
+  }
+});
+
+test('expanded canonical sources are exact proposals and retain success criteria, examples and references',()=>{
+  for(const lang of ['es','en'] as const){
+    const text=source(lang),html=renderCanonical(text,lang,'/').html;
+    assert.equal(text,readFileSync(resolve(root,`site/content/proposals/PA-S001-stage3-theory-${lang}.md`),'utf8'));
+    const criteria=text.split(lang==='es'?'## Criterios de éxito de la sesión':'## End-of-session success criteria')[1]!.split('\n## ')[0]!;
+    const items=[...criteria.matchAll(/^- \[ \] (.+)$/gm)].map(m=>m[1]!);
+    assert.equal(items.length,8);
+    for(let i=0;i<8;i++)assert.ok(html.includes(`data-study-id="${SUCCESS_IDS[i]}"><span>${items[i]}`));
+    for(const url of text.matchAll(/\]\((https?:\/\/[^)]+)\)/g))assert.ok(html.includes(`href="${url[1]}"`),`${lang} missing source ${url[1]}`);
+    for(const block of text.matchAll(/```[^\n]*\n([\s\S]*?)\n```/g)){
+      const code=block[1]!.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+      assert.ok(html.includes(code),`${lang} missing code/diagram`);
+    }
+  }
+});
+
+test('authored text diagrams render as localized SVGs with original text fallback',()=>{
+  for(const lang of ['es','en'] as const){
+    const text=source(lang),html=renderCanonical(text,lang,'/').html;
+    for(let i=1;i<=7;i++){
+      const name=`ascii-${lang}-${String(i).padStart(2,'0')}`;
+      assert.ok(html.includes(`/shared/diagrams/PA-S001/${name}.svg`));
+      assert.ok(readFileSync(resolve(root,`site/shared/diagrams/PA-S001/${name}.mmd`),'utf8').startsWith('flowchart TB\n'));
+    }
+    assert.equal((html.match(/<code class="language-text">/g)??[]).length,7);
+    assert.throws(()=>renderCanonical(text.replace('```text\n','```text\nChanged '),lang,'/'),/Unrecognized .* text diagram/);
+  }
+});
+
+test('authored list items and table cells survive rendering',()=>{
+  for(const lang of ['es','en'] as const){
+    const html=visibleHtml(renderCanonical(source(lang),lang,'/').html);
+    let inCode=false,checked=0;
+    for(const raw of source(lang).split('\n')){
+      if(raw.startsWith('```')){inCode=!inCode;continue;}
+      if(inCode)continue;
+      const parts=raw.startsWith('|')&&!/^\|[-| :]+\|$/.test(raw)?raw.slice(1,-1).split('|'):raw.startsWith('- ')?[raw.slice(2).replace(/^\[ \] /,'')]:/^\d+\. /.test(raw)?[raw.replace(/^\d+\. /,'')]:[];
+      for(const part of parts){const value=plainMarkdown(part);if(value.length<3)continue;assert.ok(html.includes(value),`${lang} omitted: ${value.slice(0,100)}`);checked++;}
+    }
+    assert.ok(checked>100,`${lang}: insufficient list/table coverage`);
   }
 });

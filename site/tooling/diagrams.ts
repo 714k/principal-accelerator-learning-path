@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, w
 import { spawnSync } from 'node:child_process';
 import { dirname, relative, resolve, sep } from 'node:path';
 import type { Page } from './content.ts';
+import { asciiDiagrams } from './ascii-diagrams.ts';
 
 export interface DiagramMetadata { source: string; title: string; description: string }
 
@@ -59,6 +60,10 @@ export function diagramMetadata(pages: Page[]): Map<string, DiagramMetadata> {
       source:`PA-S001/canonical-map-${page.lang}.mmd`,
       title:page.lang==='es'?'PA-S001 — mapa mental de conceptos':'PA-S001 — concept mind map',
       description:page.lang==='es'?'Conceptos y subtemas con etiquetas legibles.':'Concepts and subtopics with readable labels.'
+    });
+    if(page.kind==='session')asciiDiagrams[page.lang].forEach((diagram,index)=>{
+      const source=`PA-S001/ascii-${page.lang}-${String(index+1).padStart(2,'0')}.mmd`;
+      add({source,title:diagram.caption,description:diagram.caption});
     });
     if(page.kind==='session')add({
       source:'PA-S001/canonical-map.mmd',

@@ -25,11 +25,11 @@ function prerequisiteIds(lab:Lab):string[]{
   const byKind:Record<string,string[]>={scope:['engineering.software'],dependency:['scope.system','design.boundary'],quality:['engineering.architecture','quality.attribute'],ai:['quality.constraint','design.boundary']};
   return byKind[lab.kind]??[];
 }
-export function renderReferenceExperience(id:string,lang:Locale):string{
+export function renderReferenceExperience(id:string,lang:Locale,labels:Record<string,string>):string{
   const lab=specs[lang].labs.find(entry=>entry.id===referenceExperiences[id]);if(!lab)return '';
   const es=lang==='es',initial=lab.outcomes[0]!;
   const controls=lab.controls.map(control=>'<label>'+escape(control.label)+'<select data-lab-control="'+escape(control.id)+'">'+control.options.map(([value,text])=>'<option value="'+escape(value)+'">'+escape(text)+'</option>').join('')+'</select></label>').join('');
-  const prerequisites=prerequisiteIds(lab).map(concept=>'<a href="#'+escape(concept)+'">'+escape(concept)+'</a>').join(', ');
+  const prerequisites=prerequisiteIds(lab).map(concept=>'<a href="#'+escape(concept)+'">'+escape(labels[concept]??(()=>{throw new Error('Unknown prerequisite: '+concept)})())+'</a>').join(', ');
   const graph=lab.illustrations?'<div class="reference-graph" data-graph>'+lab.illustrations.map(item=>'<figure data-illustration="'+escape(item.id)+'"><figcaption><strong>'+escape(item.title)+'</strong></figcaption><p>'+item.steps.map(step=>'<span>'+escape(step)+'</span>').join(' → ')+'</p></figure>').join('')+'</div>':'';
   const limitation=lab.kind==='dependency'?lab.assumption:undefined;
   const cases=lab.outcomes.map((outcome,index)=>'<li><strong>'+(es?'Regla':'Rule')+' '+(index+1)+': '+escape(outcome.title)+'</strong>'+outcomeHtml(outcome,es,limitation)+'</li>').join('');

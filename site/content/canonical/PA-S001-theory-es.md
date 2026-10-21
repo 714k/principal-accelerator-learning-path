@@ -1,6 +1,6 @@
 # PA-S001 — Fundamentos de ingeniería, arquitectura de plataforma frontend e ingeniería de producto con IA
 
-**Fase:** F0 — Plataforma Accelerator. **Carriles:** Staff→Principal, Frontend Platform Architecture (FPA), AI Product Engineering (AIPE). **Prerrequisito:** lectura básica de componentes, rutas e interfaces de programación; ninguno de los anteriores exige acreditar otra sesión. **Sistema longitudinal:** P0, portafolio profesional en `apps/portfolio/` y sitio de aprendizaje separado en `site/`. **Artefacto previsto, aún no producido:** primer corte ejecutable y capítulo bilingüe. **Tiempo orientativo de estudio y práctica:** 3 h 20 min–5 h 10 min; estimación, no medición.
+**Fase:** F0 — Plataforma Accelerator. **Carriles:** Staff→Principal, Frontend Platform Architecture (FPA), AI Product Engineering (AIPE). **Prerrequisito:** lectura básica de componentes, rutas e interfaces de programación; ninguno de los anteriores exige acreditar otra sesión. **Sistema longitudinal:** P0, portafolio profesional en `apps/portfolio/` y sitio de aprendizaje separado en `site/`. **Resultado de estudio esperado:** explicar, probar y defender los límites de P0 con evidencia separada del seguimiento personal. **Tiempo orientativo de estudio y práctica:** 3 h 20 min–5 h 10 min; estimación, no medición.
 
 > **SÍNTESIS EN 30 SEGUNDOS**
 > 1. La ingeniería de software abarca el ciclo de vida; la arquitectura describe decisiones estructurales que condicionan cambios y atributos de calidad.
@@ -12,6 +12,8 @@
 Explicar y distinguir los conceptos de alcance, identificar una frontera y sus dependencias, razonar sobre un atributo de calidad bajo una restricción, y defender un primer límite para P0. La evidencia futura debe mostrar decisiones, funcionamiento y resultados comprobados; leer esta teoría no acredita dominio.
 
 ## Vista previa del aprendizaje
+
+**Antes de comenzar.** Una *dependencia* es una relación en la que un elemento necesita un contrato de otro; un *consumidor* es quien usa ese contrato. Un *atributo de calidad* describe una propiedad observable, mientras que una *restricción* limita las soluciones permitidas. No se requiere haber completado otra sesión: estos términos se enseñan a continuación.
 
 Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calidad, restricciones, frontera, acoplamiento y cohesión en el carril Staff→Principal. Después estudiarás la plataforma frontend y, de manera independiente, el producto con inteligencia artificial. La pregunta conductora es: **¿qué responsabilidades conviene reunir y cuáles conviene separar cuando arrancan varios productos?** El ejercicio de aplicación analiza `apps/portfolio/`, `site/` y una hipotética función de resumen asistido, sin presumir que esta última exista. “Contrato” significa aquí una expectativa observable entre componentes: por ejemplo, formato de entrada, salida y errores.
 
@@ -163,68 +165,230 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 ### Manifiesto de cobertura atómica
 
-Cada fila enlaza el ID semántico con su apartado `####` del mismo nombre, que contiene definición, mecanismo, ejemplo, recuperación, respuesta, fuente, técnica y revisión. Los prerrequisitos son conceptuales, no bloqueos de acceso. “Visual” indica representación cercana o propuesta condicional; una anotación no prueba widget construido.
+**Cómo utilizar este mapa.** Los conceptos se enseñan en el orden siguiente. Los prerrequisitos son recomendaciones de lectura, no bloqueos. Cada concepto tiene un identificador estable interno para enlaces y seguimiento, pero la tabla muestra **nombres comprensibles**, no claves de software. Las técnicas indican cómo puede practicarse cada tipo de conocimiento, no certifican que exista un widget ejecutado.
 
-| ID (sección fuente) | Carril / tipo de conocimiento | Prerrequisito | Fuente | Representación o técnica |
+| Concepto | Carril | Tipo | Concepto previo | Método de comprensión |
 |---|---|---|---|---|
-| `engineering.software` | Staff→Principal / procedimental | ninguno | R1 | ciclo y recorrido resuelto |
-| `engineering.architecture` | Staff→Principal / estructural, decisional | `engineering.software` | R1,R2 | mapa de dependencias |
-| `scope.application` | Staff→Principal / conceptual | `engineering.software` | R1,R2,P1 | contraste con librería |
-| `scope.system` | Staff→Principal / estructural | `scope.application` | R2,P1 | frontera y flujo |
-| `scope.platform` | Staff→Principal / estructural, decisional | `scope.system` | R4,P1 | consumidor→contrato |
-| `scope.ecosystem` | Staff→Principal / estructural | `scope.system` | R2,P1 | actor→contrato |
-| `quality.attribute` | Staff→Principal / decisional | `engineering.architecture` | R3,R5,R6 | escenario y prueba |
-| `quality.constraint` | Staff→Principal / decisional | `quality.attribute` | R3,P1 | condición→opción |
-| `design.boundary` | Staff→Principal / estructural | `scope.system` | R2,P1 | mapa de contratos |
-| `design.coupling` | Staff→Principal / causal, estructural | `design.boundary` | R1,R2 | cambio→propagación |
-| `design.cohesion` | Staff→Principal / conceptual, decisional | `design.boundary` | R1 | motivos de cambio |
-| `role.staff` | Staff→Principal / decisional | `engineering.software` | P1 | caso y evidencia |
-| `role.principal` | Staff→Principal / decisional | `role.staff` | P1 | matriz de alcance |
-| `fpa.frontend-platform` | FPA / estructural, procedimental | `scope.platform`, `design.boundary` | R2,R4,R5,P1 | autor→renderer→lector |
-| `aipe.ai-product` | AIPE / causal, decisional | `quality.constraint`, `design.boundary` | R7,R8 | flujo de borrador y fallo |
-| `learning.evidence` | Auxiliar / conceptual, decisional | ninguno | P1 | estado ≠ evidencia |
-| `learning.levels` | Auxiliar / estructural | `learning.evidence` | P1 | evidencia→nivel |
+| Ingeniería de software | Staff → Principal | Procedimental | Sin prerrequisito | SWEBOK; recorrido de cambio |
+| Arquitectura de software | Staff → Principal | Estructural y decisional | Ingeniería de software | Contrato y dependencias |
+| Aplicación | Staff → Principal | Conceptual | Ingeniería de software | Tarea del usuario |
+| Sistema | Staff → Principal | Estructural | Aplicación | Límite de análisis |
+| Plataforma | Staff → Principal | Estructural y decisional | Sistema | Capacidad y consumidores |
+| Ecosistema | Staff → Principal | Estructural | Sistema | Actores y servicios externos |
+| Atributo de calidad | Staff → Principal | Decisional | Arquitectura | Escenario comprobable |
+| Restricción de ingeniería | Staff → Principal | Decisional | Atributo de calidad | Opciones admitidas |
+| Frontera | Staff → Principal | Estructural | Sistema | Contratos |
+| Acoplamiento | Staff → Principal | Causal y estructural | Frontera | Propagación de cambio |
+| Cohesión | Staff → Principal | Conceptual y decisional | Frontera | Motivos de cambio |
+| Alcance Staff | Staff → Principal | Decisional | Ingeniería de software | Influencia y evidencia |
+| Alcance Principal | Staff → Principal | Decisional | Alcance Staff | Evolución multisistema |
+| Arquitectura de plataforma frontend | FPA | Estructural y procedimental | Plataforma y frontera | Autor → publicación → lector |
+| Ingeniería de producto con IA | AIPE | Causal y decisional | Restricción y frontera | Permisos, verificación y revisión |
+| Evidencia y estado de estudio | Auxiliar | Conceptual y decisional | Sin prerrequisito | Actividad ≠ resultado |
+| Niveles L1–L5 | Auxiliar | Estructural | Evidencia y estado | Pruebas diferentes |
+
+**Lectura de la matriz.** Una técnica de contraste sirve para distinguir términos similares; un mapa de dependencias representa relaciones; un ejemplo resuelto enseña un procedimiento; una matriz de decisión examina alternativas. Ninguna de estas representaciones sustituye la definición desarrollada en su apartado correspondiente [R1, R2, P1].
 
 ## Tema principal — Decidir los límites iniciales de P0
 
-**Pregunta guía:** ¿cómo separar responsabilidades desde el primer corte sin convertir una carpeta en una “plataforma” imaginaria? **Definición y alcance:** arquitectura inicial significa elegir elementos, interacciones y principios revisables que permitan entregar el portafolio y publicar teoría bilingüe [R2, P1]. La necesidad compartida es una entrega comprobable; las restricciones incluyen contenido disponible sin JavaScript y no inventar evidencias. El mapa se construye después de las definiciones individuales anteriores:
+**Definición y propósito.** La arquitectura inicial de P0 consiste en delimitar responsabilidades, contratos y decisiones cuya modificación afectaría a varios componentes. P0 contempla dos productos públicos diferentes: el portafolio profesional de `apps/portfolio/`, utilizado por visitantes, y el sitio de aprendizaje de `site/`, utilizado por lectores y estudiantes. Un repositorio compartido no convierte automáticamente estos productos en una única aplicación ni en una plataforma; esos nombres dependen del propósito y de sus consumidores [R2, R4, P1].
 
-| Elemento | Propósito inmediato | Consumidor / límite | Cambio que debería contener |
-|---|---|---|---|
-| Aplicación `apps/portfolio/` | Presentar trabajo profesional | Visitantes, enlaces públicos | Una nueva ficha profesional |
-| Sistema de publicación `site/` | Publicar capítulos ES/EN | Aprendiz y lector | Nuevo concepto o cita |
-| Plataforma editorial potencial | Esquema y renderer reutilizables | Sesiones posteriores | Nueva sesión sin duplicar renderer |
-| Ecosistema P0 | Personas, repositorio, hospedaje, navegador | Varios actores | Cambio de norma o servicio externo |
+**Paso 1: identificar resultados de usuario.** El portafolio permite conocer trabajos, sistemas y evidencia profesional. El sitio de aprendizaje publica capítulos, ejemplos, diagramas, navegación, ejercicios y seguimiento de estudio. Aunque ambos pueden compartir infraestructura de despliegue o criterios de accesibilidad, responden a necesidades distintas. Mezclarlos impediría evolucionar su navegación o contenido independientemente.
 
-**Ejemplo resuelto.** Si cambia el texto ES de una sesión, el autor edita el contenido ES; el renderer conserva el mismo ID en EN y el portafolio permanece igual salvo que quiera actualizar un enlace. Si un cambio de traducción reinicia checkboxes, el ID dependía probablemente del texto traducido: la frontera entre presentación y seguimiento quedó mal elegida. La arquitectura propuesta se contrasta inspeccionando código y HTML; hoy es **diseño, no resultado probado**.
+**Paso 2: dibujar la frontera.** Dentro de `site/` hay un flujo editorial. Una fuente de teoría validada llega al renderer y se convierte en una página HTML acompañada de diagramas SVG. Esa página se lee en un navegador; el estado local de ejercicios es un dato separado. La aplicación de portafolio no necesita importar el renderer de capítulos para publicar sus fichas. La siguiente representación es un **modelo de responsabilidades para enseñar**, no un grafo real de importaciones comprobado.
 
-**Contraejemplo.** Declarar “microservicios para todos” sin requisito operativo introduce despliegue, contratos y fallos adicionales. También es insuficiente poner ambos productos en carpetas separadas si intercambian datos internos sin contrato. El coste de una frontera se paga en integración; el de no definirla aparece al propagar cambios. **Respuesta a la pregunta guía:** partir de responsabilidades y contratos verificables, compartir una capacidad después de observar consumidores reales, y revisar las dependencias tras el primer corte.
+```text
+AUTOR DE TEORÍA                         LECTOR DEL SITIO
+       |                                       ^
+       v                                       |
+Contenido ES / EN -> Validación -> Renderer -> HTML + SVG
+                                           |
+                                           v
+                                  Estado local de estudio
+                                          (no mastery)
+
+PORTAFOLIO: fichas y casos -> salida pública independiente
+```
+
+**Paso 3: documentar contratos antes de compartir código.** El contrato editorial debe especificar identidad estable de la sesión, idioma, secciones, referencias y claves de ejercicio. El renderer debe producir estructura semántica y referencias resolubles. El seguimiento debe persistir marcas reversibles sin interpretarlas como evidencia de dominio. Si dos sesiones consumen el mismo contrato, compartir un renderer puede justificarse. Compartirlo sin consumidores reales sería una hipótesis arquitectónica, no una plataforma demostrada [R2, R4, P1].
+
+**Paso 4: examinar restricciones y atributos de calidad.** La teoría debe poder leerse sin JavaScript, los controles deben ser utilizables con teclado y pantalla táctil, y los conceptos deben conservar paridad semántica ES/EN. La condición «la teoría existe en HTML inicial» restringe el diseño; «la interfaz es accesible en los escenarios definidos» es una propiedad que debemos evaluar mediante pruebas observables. Un `npm run check` exitoso no certifica por sí solo accesibilidad ni comprensión [R3, R5, P1].
+
+| Decisión | Alternativa | Beneficio potencial | Coste o riesgo | Cómo comprobarla |
+|---|---|---|---|---|
+| Mantener portafolio y sitio separados | Una sola aplicación con navegación compartida | Cambios editoriales aislados | Duplicación limitada de infraestructura | Inspeccionar imports, rutas y cambios cruzados |
+| Reutilizar un contrato editorial estable | Un formato diferente por sesión | Publicación consistente y menor repetición | Migraciones si cambia el contrato | Publicar una segunda sesión sin duplicar renderer |
+| Usar HTML legible sin JS | Generar toda la teoría solo en cliente | Lectura y enlaces disponibles sin scripts | Menos interacción sin JS | Desactivar JS y leer íntegra la lección |
+| Registrar casillas de estudio | Inferir dominio de cada clic | Seguimiento voluntario reversible | Confundir actividad con evidencia | Verificar que L1–L5 no cambien por marcar |
+| Mantener la IA como propuesta | Integrar un proveedor inmediatamente | Evita riesgos antes de validar la necesidad | Se pospone automatización hipotética | Analizar caso de uso, datos, alternativas y revisión |
+
+**Ejemplo resuelto: cambio de idioma.** Si el texto español de un ejercicio cambia, su clave persistente debe conservarse. La versión inglesa usa la misma clave, de modo que el estudiante no pierde su marca al alternar idiomas. Si en cambio el código utiliza la pregunta traducida como clave, una edición de estilo puede invalidar el registro: se colocó una frontera inestable entre presentación y estado.
+
+**Contraejemplo arquitectónico.** Separar carpetas no basta cuando el portafolio importa objetos internos del sitio editorial sin contrato. Tampoco crear «microservicios» como solución universal garantiza calidad: amplía despliegue, llamadas, fallos e integración. El criterio defendible es elegir fronteras por responsabilidad, dirección de dependencia y capacidad de verificar consecuencias [R1, R2].
+
+**Recuperación:** ¿qué decisión debería revisarse antes de extraer un módulo compartido? **Respuesta:** comprobar que más de un consumidor requiere una capacidad estable, definir su contrato y evaluar el costo de evolucionarlo. Una abstracción sin consumidor no demuestra valor arquitectónico.
+
+**Implicación Staff → Principal.** A nivel Staff se defiende el primer límite y se establecen pruebas que lo hagan operable; a nivel Principal se decide cómo evolucionan esos contratos cuando nuevas sesiones y productos los consumen. **Implicación FPA:** publicar teoría y componentes accesibles con contratos. **Implicación AIPE:** no introducir una función de IA antes de verificar entradas autorizadas, riesgos y evaluación. Esta es la síntesis de los tres carriles, no una fusión de sus definiciones.
 
 ## Subtemas
 
 ### `sub.software-vs-architecture` — Ingeniería de software y arquitectura
 
-**Pregunta guía:** ¿qué decide cada una cuando añadimos una sesión? Ingeniería cubre requisito, diseño, implementación, prueba y mantenimiento [R1]; arquitectura concentra elementos y relaciones que afectan el cambio [R2]. Ejemplo: que el enlace abra una página es un comportamiento a verificar; que cada sesión use un esquema común es decisión estructural. **Mecanismo:** cambiar un campo del esquema obliga a migrar todos los consumidores, mientras una corrección tipográfica local no debería hacerlo. Un diagrama correcto pero sin test de enlaces no entrega el comportamiento; una página que “funciona” sin contrato puede ser difícil de extender. **Trade-off:** documentar toda decisión es costoso; registra las que afectan consumidores o calidad. **Recuperación:** ¿el build en verde prueba idoneidad arquitectónica? **Respuesta:** no, solo las propiedades cubiertas por esas pruebas. **Resolución:** ingeniería gestiona el ciclo completo; arquitectura examina la estructura y evolución dentro de él.
+**Ingeniería de software: definición.** Esta disciplina comprende especificar una necesidad, diseñar, implementar, verificar, desplegar, operar y mantener una solución. Incluye actividades que pueden cambiar sin alterar la estructura del sistema, por ejemplo corregir un texto o reparar un enlace roto [R1]. No equivale exclusivamente a escribir código.
+
+**Arquitectura de software: definición.** Es el razonamiento acerca de los elementos del sistema, sus relaciones y los principios que organizan su evolución. La arquitectura explica por qué existen contratos y fronteras, no solo cómo se dibujan carpetas [R2]. Una descripción arquitectónica es un documento; su correspondencia con el código debe comprobarse.
+
+**Mecanismo aplicado a P0.** Añadir una sesión exige un requisito verificable («el lector puede abrir PA-S002»), una estructura («todos los capítulos usan un contrato de secciones»), implementación, pruebas y mantenimiento. El requisito pertenece al ciclo de ingeniería. El contrato editorial y la relación entre renderer, fuentes y navegador son decisiones arquitectónicas dentro de ese ciclo. Una publicación puede pasar pruebas de enlaces y seguir teniendo un esquema difícil de evolucionar; también puede poseer un diagrama elegante y publicar enlaces rotos.
+
+```text
+Necesidad -> criterio verificable -> implementación -> prueba
+                |                                   |
+                v                                   v
+       decisión de estructura             evidencia de comportamiento
+                |
+       contrato editorial común
+```
+
+**Caso comparado.** Corregir el tamaño tipográfico de una ficha es una intervención local de producto; cambiar el nombre de un campo obligatorio del esquema exige inspeccionar consumidores y posibles migraciones. En el segundo caso interesa la arquitectura porque el cambio puede cruzar límites. La propagación es una posibilidad que deben comprobar imports y tests, no un impacto ya medido.
+
+**Trade-off y producción.** Documentar cada línea de código no es útil. Conviene registrar decisiones con consecuencias de evolución, seguridad, operabilidad o experiencia: contexto, alternativas, decisión, riesgos y forma de verificación. Este criterio mantiene viva la documentación y evita confundir acumulación de diagramas con calidad [R1, R2].
+
+**Práctica guiada.** Clasifica estas acciones: (a) reparar una ruta; (b) cambiar el contrato compartido de identificadores; (c) comprobar el teclado en móvil. **Respuesta explicada:** (a) y (c) son tareas del ciclo de ingeniería; (b) es una decisión estructural dentro de ese mismo ciclo. Las tareas de ingeniería también pueden aportar evidencia sobre las decisiones arquitectónicas.
+
+**Recuperación:** ¿un build verde demuestra una arquitectura apropiada? **Respuesta:** no. Solo demuestra las propiedades efectivamente cubiertas por las comprobaciones ejecutadas; hacen falta escenarios de cambio y calidad relevantes.
 
 ### `sub.scope-layers` — Aplicación, sistema, plataforma y ecosistema
 
-**Pregunta guía:** ¿son cuatro tamaños crecientes del mismo objeto? No: son **perspectivas distintas**. La aplicación identifica experiencia; el sistema define elementos para analizar un propósito; la plataforma ofrece capacidades con consumidores; el ecosistema incluye también agentes y dependencias externos. En P0 una app de portafolio puede ser parte del sistema de entrega pública, el sitio puede ofrecer capacidad editorial para múltiples sesiones y el entorno de hospedaje influye sin ser módulo interno. **Contraejemplo:** llamar “plataforma” a un botón compartido no establece producto, soporte ni consumidores. **Trade-off:** ampliar el sistema bajo estudio revela interacciones pero vuelve más complejas las pruebas. **Recuperación:** ¿se puede ser sistema sin ser plataforma? **Respuesta:** sí; un conjunto de elementos puede cumplir un propósito sin ofrecer autoservicio reusable. **Resolución:** elige cada término según la pregunta y dibuja qué incluye la frontera.
+**Aplicación.** Es el software preparado para que una persona realice tareas identificables. El portafolio permite explorar casos profesionales y navegar a contactos. Su frontera práctica se establece desde la experiencia del visitante. Una librería de botones no es automáticamente una aplicación porque, por sí sola, no satisface ese objetivo completo [R1, P1].
+
+**Sistema.** Es un conjunto delimitado de elementos que interactúan con un propósito. Al preguntar «¿cómo se publica PA-S001?», el sistema bajo análisis puede incluir fuente, verificador, renderer, HTML y hosting. El sistema puede contener varias aplicaciones y su frontera depende de la pregunta, no de que exista una carpeta llamada `system` [R2].
+
+**Plataforma.** Ofrece capacidades compartidas mediante contratos para consumidores identificables. En P0, el contrato editorial y el renderer podrían constituir una capacidad reutilizable si otra sesión los utiliza. Una dependencia compartida no demuestra que exista una plataforma madura: importa si hay oferta utilizable, evolución y soporte a consumidores [R4, P1].
+
+**Ecosistema.** Abarca actores y relaciones que condicionan el resultado: autor, estudiante, equipos, navegador, hospedaje, estándares, enlaces externos y sistemas relacionados. Es una perspectiva de análisis, no simplemente «el sistema más grande». Incluye dependencias que podrían no estar controladas por el equipo [R2].
+
+| Perspectiva | Pregunta que responde | Ejemplo de P0 | Qué queda fuera según esa pregunta |
+|---|---|---|---|
+| Aplicación | ¿Qué tarea realiza el usuario? | Consultar casos del portafolio | Pipeline interno editorial |
+| Sistema | ¿Qué elementos colaboran para un fin? | Fuente, validador, renderer, HTML | Actores sin relación con esa publicación |
+| Plataforma | ¿Qué capacidad consumen varios usuarios internos? | Esquema + renderer de sesiones | Una función sin consumidores |
+| Ecosistema | ¿Qué actores y dependencias condicionan la solución? | Autores, navegador, hosting, normas | Elementos ajenos a la decisión analizada |
+
+**Mecanismo y caso borde.** Al cambiar la pregunta de accesibilidad a despliegue, se expande la frontera del sistema para incluir infraestructura y navegador. La aplicación no se convierte por eso en plataforma: cambió el punto de vista del analista. Una analogía de círculos concéntricos rígidos induce error, porque las categorías se solapan y responden a propósitos distintos.
+
+**Práctica con contraste.** «El renderer sirve a PA-S001» describe una capacidad técnica; «el renderer sirve a varias sesiones con un contrato estable y adopción demostrada» permite estudiar su función de plataforma. **Respuesta explicada:** la diferencia es la existencia de consumidores y un contrato compartido, no el nombre de la carpeta.
+
+**Recuperación:** ¿un sistema puede no ser una plataforma? **Respuesta:** sí. Coordinar elementos para un propósito no implica ofrecer capacidades reutilizables a consumidores independientes.
 
 ### `sub.quality-constraints` — Atributos de calidad y restricciones
 
-**Pregunta guía:** ¿cómo se decide si una interfaz “es buena”? Separa propiedad deseada, escenario verificable y condición obligatoria. ISO ofrece un modelo de calidad [R3]; W3C especifica criterios de accesibilidad [R5]; el proyecto pide acceso sin JavaScript [P1]. **Ejemplo resuelto:** “el índice se opera con teclado en teléfono” define situación, acción y observación; “contenido legible sin JS” condiciona la solución. Prueba con teclado y revisión HTML dan evidencia limitada a esos escenarios, no certificación universal. **Fallo:** una puntuación inventada de “95% de dominio” confunde calidad de interfaz con evidencia del aprendiz. **Trade-off:** validar más escenarios consume tiempo; prioriza requisitos explícitos y riesgos. **Recuperación:** ¿un atributo es una implementación? **Respuesta:** no; varias soluciones pueden satisfacerlo. **Resolución:** formula un criterio comprobable y registra la restricción que limita opciones.
+**Atributo de calidad.** Describe una propiedad que interesa evaluar: accesibilidad, confiabilidad, desempeño o mantenibilidad. El modelo ISO/IEC 25010 ofrece categorías de calidad, pero no asigna puntuaciones automáticas a nuestra aplicación. Un atributo se vuelve útil cuando se traduce en un escenario observable [R3].
+
+**Restricción de ingeniería.** Es una condición que limita qué soluciones se admiten. «El contenido académico debe existir en HTML legible sin JavaScript» descarta estrategias cuyo contenido solo aparece tras ejecutar código en el navegador. Esto es distinto de exigir «una experiencia accesible», que requiere criterios y pruebas en escenarios concretos [R5, P1].
+
+**Cómo convertir una aspiración en prueba.** Un escenario contiene contexto, estímulo y observación esperada. Ejemplo de accesibilidad: con un móvil y teclado externo, el lector abre el índice, navega a «Frontera» y vuelve sin quedar atrapado. Resultado esperado: foco visible, orden operable y destino correcto. Eso comprueba un escenario delimitado, no toda la conformidad con WCAG.
+
+```text
+Objetivo de calidad -> escenario observable -> prueba -> evidencia
+                                   ^
+                                   |
+                      restricciones de solución
+                 (HTML estático; teclado; ES/EN)
+```
+
+**Modelo causal delimitado.** Con texto presente desde el HTML inicial, desactivar JavaScript no elimina la teoría; sí puede deshabilitar persistencia y controles añadidos por scripts. Con texto generado exclusivamente por JavaScript, desactivarlo deja la teoría ausente. Esta afirmación se refiere a presencia de contenido, no a una medición de accesibilidad ni a garantía de red [R5, P1].
+
+**Trade-off y caso borde.** La generación estática exige un build y a veces contenido menos dinámico; permite una base de lectura verificable. La renderización exclusivamente en cliente puede simplificar ciertos cambios en tiempo de ejecución, pero aquí incumpliría el contrato sin un fallback real. No atribuyas calidad a «usar React» o «usar HTML»: verifica comportamientos de usuario y restricciones.
+
+**Práctica con retroalimentación.** Clasifica: «cargar en menos de cierto tiempo medido», «usar JavaScript como requisito», «el índice puede recorrerse con teclado». **Respuesta:** el primer y tercer enunciado pueden expresarse como escenarios de calidad tras concretar condiciones; el segundo es una restricción tecnológica. No inventes valores objetivo sin acordar su contexto.
+
+**Recuperación:** ¿una restricción es lo mismo que un atributo? **Respuesta:** no. El atributo expresa qué propiedad importa; la restricción delimita las implementaciones admisibles.
 
 ### `sub.boundary-dependencies` — Fronteras, acoplamiento y cohesión
 
-**Pregunta guía:** ¿qué se rompe cuando el límite está mal ubicado? La frontera define contrato; el acoplamiento expone dependencias a cambios; la cohesión pregunta si el módulo reúne motivos de cambio relacionados [R1, R2]. **Ejemplo resuelto:** separar `session-renderer` de `portfolio-contact` limita la propagación de un cambio de cita. **Ejemplo atenuado:** imagina que la traducción cambia un ID de ejercicio; anota qué almacenamiento y páginas se afectarán antes de mirar la solución: si el ID proviene del texto, ambos estados divergen; un ID semántico compartido mantiene la clave. **Fallo:** separar cada línea en un paquete nuevo aumenta interfaces sin crear responsabilidades coherentes. **Recuperación:** ¿un enlace público entre productos viola la frontera? **Respuesta:** no si el contrato es intencional. **Resolución:** usa motivos de cambio y pruebas de contrato para ubicar los límites.
+**Frontera.** Delimita qué responsabilidad pertenece a un componente y qué interacción admite mediante contrato. Para P0, el portafolio administra presentación profesional, mientras que el sitio académico organiza teoría, ejercicios y estado de estudio. Compartir un enlace público no equivale a importar estructuras internas del otro producto [R2, P1].
+
+**Acoplamiento.** Describe dependencias entre partes: una modificación en un productor puede exigir cambios a sus consumidores. El riesgo no se resume en contar imports; importa la dirección, estabilidad y alcance del contrato. Un identificador de ejercicio basado en texto traducido crea acoplamiento accidental entre idioma y persistencia [R1, R2].
+
+**Cohesión.** Expresa si las responsabilidades de un módulo responden a un propósito reconocible. Un renderer centrado en secciones, tablas, referencias y diagramas mantiene responsabilidades relacionadas. Añadirle además procesamiento de mensajes de contacto del portafolio introduciría un motivo de cambio ajeno [R1].
+
+**Mecanismo hipotético, no grafo verificado.** Dos diagramas conceptuales muestran posibles puntos de revisión; **no calculan consumidores realmente alcanzables del repositorio**:
+
+```text
+ESCENARIO A: contrato editorial
+Fuente de sesión -> validación -> renderer -> HTML publicado
+  Cambio: renombrar campo obligatorio
+  Revisar: esquema, consumidores del campo y pruebas de publicación
+
+ESCENARIO B: contenido profesional independiente
+Ficha del portafolio -> página de portafolio
+  Cambio: editar biografía
+  Revisar: representación y enlaces del portafolio
+```
+
+**Observación y consecuencia.** El escenario A puede exigir migraciones si la compatibilidad se rompe; el escenario B debería permanecer local según la frontera pretendida. El impacto efectivo requiere inspección del grafo real de importaciones, diff y pruebas. Un selector puede comparar los dos escenarios y mostrar explicación, **pero no debe resaltar nodos como dependencias reales sin verificación**.
+
+**Contraejemplo.** Partir cada función en un paquete separado maximiza fronteras pero también aumenta contratos, herramientas y coordinación. La arquitectura apropiada equilibra independencia con coste de integración. En producción conviene vigilar cambios transversales, accesibilidad, pruebas de contrato y ownership antes de extraer más módulos.
+
+**Práctica.** Una traducción cambia la etiqueta visible de «Confirmar», pero no su clave persistente. **Respuesta explicada:** en un diseño correcto, el seguimiento permanece; si la clave se deriva de la etiqueta, el estado podría duplicarse. La mitigación es usar IDs semánticos compartidos y pruebas de cambio de idioma.
+
+**Recuperación:** ¿todo enlace entre productos viola una frontera? **Respuesta:** no. Importa que la relación esté permitida y sea estable; un vínculo público intencional puede ser un contrato válido.
 
 ### `sub.frontend-platform` — Primer corte de plataforma frontend
 
-**Pregunta guía:** ¿qué se comparte desde PA-S001? Comparte el mecanismo que varias sesiones deben usar: shell semántico, navegación por fase, plantilla de capítulo, IDs estables, tema, construcción de SVG y controles de estudio [P1]. `apps/portfolio/` sigue como producto distinto. **Mecanismo:** contenido canónico → validación → HTML y SVG accesibles → estado local de estudio; los registros L1–L5 proceden de evidencias distintas. **Fallo:** checkboxes `disabled`, tarjetas cuyo reverso solo existe tras JS o mermaid sin compilar incumplen el contrato. **Trade-off:** mantener un esquema común obliga a migrar consumidores cuando evoluciona. **Recuperación:** ¿un dashboard vacío debe inventar avances? **Respuesta:** no; debe expresar “sin evidencia registrada”. **Resolución:** comparte una base mínima usable y amplíala desde casos reales.
+**Definición en su carril.** Frontend Platform Architecture (FPA) estudia capacidades de interfaz compartidas, contratos, experiencia de desarrollador, accesibilidad y evolución. En P0, la base frontend incluye el layout, la navegación, la tematización, el modelo de capítulos bilingües y la compilación de diagramas. No equivale a un catálogo de componentes sin consumidores [R2, R4, R5, P1].
+
+**Responsabilidades enseñadas por separado.** El esquema editorial describe qué puede publicar un autor: ID estable, título, secciones, fuentes, visualizaciones y ejercicios. El validador comprueba esa forma y rechaza entradas incompletas. El renderer transforma datos validados en HTML semántico y rutas ES/EN. El navegador presenta la lectura y puede almacenar marcas reversibles. Ninguna de estas funciones necesita inventar niveles de dominio.
+
+```text
+AUTOR -> contenido canónico ES/EN
+                |
+             validación
+                |
+               build
+                v
+     HTML accesible + diagramas SVG
+                |
+                v
+       lector móvil / escritorio
+                |
+       marcas locales de estudio
+       (separadas de evidencia L1–L5)
+```
+
+**Mecanismo de evolución.** Si PA-S002 comparte el contrato, podrá publicar un capítulo nuevo sin copiar el renderer. Si necesita un nuevo tipo de visualización, se define un bloque con semántica y fallback, se migra el esquema explícitamente y se prueban sesiones anteriores. Esta es una hipótesis de reutilización que PA-S002 deberá demostrar; no se declara éxito sin un segundo consumidor real [R4, P1].
+
+**Fallos y decisiones.** Es incorrecto que la teoría desaparezca cuando JavaScript se desactiva, que los checkboxes estén deshabilitados o que el mapa Mermaid no tenga SVG accesible. También es incorrecto esconder texto completo detrás de tarjetas que solo aparecen tras interactuar. Prioriza publicación legible, navegación estable y controles progresivos; separa métricas de actividad de evidencia L1–L5.
+
+**Práctica con respuesta.** Un equipo propone introducir otro framework solo para imprimir tablas de contenido. **Respuesta explicada:** el requisito es producir tablas legibles, accesibles y mantenibles; una dependencia nueva necesita justificar su coste y compatibilidad, no se deduce de la necesidad de una tabla.
+
+**Recuperación:** ¿cuándo se justifica llamar plataforma al renderer editorial? **Respuesta:** cuando varios consumidores usan sus contratos con garantías de evolución y operación; una sola sesión es una prueba inicial, no demostración suficiente.
 
 ### `sub.ai-product` — Límite de una función de IA
 
-**Pregunta guía:** ¿hace falta IA para el primer corte? No hay requisito verificado; una propuesta se evalúa por caso de uso, datos, riesgo, pruebas y revisión de salida [R7, P1]. **Ejemplo hipotético:** si más adelante se quiere resumir un caso de estudio público, fija texto permitido y salida de borrador; comprueba citas contra fuente y habilita rechazo humano. **Fallo:** publicar un resumen no revisado como hecho o enviar datos privados a un proveedor sin decisión explícita. **Trade-off:** automatización posible frente a variabilidad, riesgo y costo por comprobar. **Recuperación:** ¿un prototipo convincente prueba aptitud para producción? **Respuesta:** no; faltan evaluaciones y condiciones de operación. **Resolución:** PA-S001 fija la frontera conceptual y registra la función como no implementada.
+**Definición en su carril.** AI Product Engineering (AIPE) integra capacidades de inteligencia artificial en un flujo de producto con necesidades, entradas permitidas, evaluación, riesgos, revisión, costos y operación. No equivale a «llamar un modelo» ni se deduce que P0 deba usar un proveedor. El AI Risk Management Framework de NIST organiza actividades de gobierno, contexto, medición y gestión de riesgo [R7, R8].
+
+**Problema primero, modelo después.** Un posible caso futuro es resumir una descripción pública de un sistema del portafolio. Antes de implementarlo, hay que demostrar necesidad: ¿qué tarea ahorra?, ¿a quién beneficia?, ¿qué alternativa determinista existe?, ¿qué errores importan? Un resumen manual o una plantilla editorial pueden ser alternativas más controlables en un primer corte [R7].
+
+**Mecanismo hipotético.** Para contenido autorizado, el flujo puede establecer límites explícitos. El texto de origen se identifica y se prepara; una generación produce un **borrador**; las afirmaciones se contrastan con fuentes; una persona puede rechazar o aprobar editorialmente el contenido. La aprobación no es automática ni está implementada en PA-S001.
+
+```text
+Fuente autorizada -> control de datos -> borrador sugerido
+                                          |
+                                 comprobar afirmaciones
+                                          |
+                                   revisión humana
+                                          |
+                               decisión editorial separada
+```
+
+**Fallos que bloquean el flujo.** Si los datos no están autorizados para enviarse al proveedor, se detiene la transferencia. Si las citas no sustentan las afirmaciones, se mantiene como borrador y se corrigen. Si falta revisión humana cuando el proceso la exige, no se publica. Un simulador con esos controles ilustra decisiones, pero no realiza una evaluación real de seguridad, privacidad o calidad.
+
+**Trade-offs y operación.** Automatizar puede reducir trabajo de redacción, pero agrega variabilidad, riesgo de afirmaciones falsas, observabilidad y necesidades de mantenimiento. Para pasar a producción se requieren criterios de evaluación, controles de datos, mecanismos de rechazo, monitoreo y responsables claros [R7, R8]. No hay métricas de ahorro ni calidad medidas en esta sesión.
+
+**Práctica con retroalimentación.** Escenario: el borrador usa una fuente pública pero inventa una cifra. **Respuesta:** no puede publicarse como hecho; una salida convincente no sustituye contraste con evidencia. La alternativa sin IA sigue disponible.
+
+**Recuperación:** ¿un prototipo que «suena bien» ya es apto para producción? **Respuesta:** no. Deben justificarse necesidad, seguridad, evaluación, revisión, operación y costo antes de recomendar integración.
 
 ### Síntesis entre dominios (después de los tres carriles)
 
@@ -232,12 +396,18 @@ Staff→Principal define quién argumenta y revisa decisiones de alcance; FPA de
 
 ## Mapa de teoría a práctica
 
-| Conceptos | Trabajo posterior | Señal observable |
-|---|---|---|
-| `scope.*`, `design.*` | Dibujar frontera P0 y comprobar imports | grafo y diff comparables |
-| `quality.*`, `fpa.frontend-platform` | Probar rutas ES/EN, teclado, no-JS y móvil | reporte de pruebas efectivas |
-| `aipe.ai-product` | Evaluar propuesta antes de integrar proveedor | decisión con caso de uso y riesgos |
-| `learning.*`, `role.*` | Separar seguimiento de estudio y evidencia | datos y argumentos revisables |
+**Aplicar lo aprendido exige traducir distinciones en decisiones comprobables.** Esta matriz vincula conocimientos con tareas y observaciones que pueden registrarse, pero ninguna fila concede niveles de dominio por sí sola.
+
+| Conceptos estudiados | Trabajo práctico | Qué comprobar | Evidencia admisible |
+|---|---|---|---|
+| Aplicación, sistema, plataforma y ecosistema | Delimitar productos, elementos y actores de P0 | La frontera responde a una pregunta concreta | Mapa anotado, supuestos y explicación |
+| Arquitectura, fronteras, acoplamiento y cohesión | Evaluar un cambio de contrato frente a un cambio editorial | Consumidores reales, migraciones y pruebas, sin confundir el grafo hipotético con el real | Diff, inspección de imports y decisión |
+| Atributos de calidad y restricciones | Probar teoría sin JavaScript, navegación con teclado y lectura móvil | Resultado observado en escenarios delimitados | Registro de pruebas en navegador |
+| Plataforma frontend | Publicar un capítulo ES/EN desde la misma estructura | IDs compartidos y ausencia de texto omitido | HTML construido y paridad revisada |
+| Ingeniería de producto con IA | Comparar resumen manual y generación hipotética | Permisos, citas, revisión humana y alternativas | Análisis y decisión explícita |
+| Alcance Staff/Principal y niveles de evidencia | Defender una decisión y explicar su evolución | Evidencia separada de marcas de estudio | Registro de decisión y revisión, no porcentaje inventado |
+
+**Relación entre evidencia y aprendizaje.** El estudio puede marcarse como realizado mientras que la evidencia L1–L5 permanece vacía; para una afirmación de nivel hace falta observar el trabajo que la respalda [P1].
 
 ## Tiempo estimado
 
@@ -245,7 +415,39 @@ La estimación se distribuye como guía: lectura y recuperación 60–90 min; ma
 
 ## Ejemplo del mundo real
 
-**Caso documentado, no evidencia sobre P0.** El white paper de CNCF presenta plataformas internas como capacidades consumibles por equipos y enfatiza autoservicio [R4]. Trasladado **por analogía de diseño** al sitio: las sesiones son consumidores del contrato editorial, no equipos de producto necesariamente independientes. La analogía falla si ninguna segunda sesión usa el renderer o si se impone una abstracción que no reduce trabajo real. Verificar valor exige observar uso y mantenimiento; la fuente no garantiza mejora en este proyecto.
+### Contexto documentado: plataformas internas de ingeniería
+
+**El problema que abordan las plataformas internas.** El white paper de CNCF TAG App Delivery analiza la plataforma como oferta de capacidades consumibles para equipos, apoyada en una experiencia que reduce la necesidad de reconstruir tareas recurrentes de entrega y operación. La fuente describe un enfoque de plataforma y sus responsabilidades; **no documenta resultados medidos del repositorio P0** ni asegura que cualquier herramienta compartida constituya una plataforma [R4].
+
+**Situación organizacional típica, ilustrativa.** Supongamos que tres equipos publican productos web y cada uno configura de manera independiente rutas, automatización de build, controles de seguridad, acceso a métricas y convenciones de despliegue. Cada equipo mantiene autonomía, pero debe resolver decisiones transversales. Este escenario es una ilustración para aplicar el enfoque de CNCF; no se presenta como una empresa, incidente o estudio de caso observado.
+
+**Paso 1 — Identificar a los consumidores.** Antes de extraer una capacidad común, la organización debe preguntar qué tareas realizan los equipos, qué conocimientos requieren y cuáles son recurrentes. Que dos aplicaciones utilicen el mismo lenguaje no prueba una necesidad de plataforma; que repitan un flujo con requisitos compatibles ofrece una hipótesis para investigar [R4].
+
+**Paso 2 — Definir una capacidad con contrato.** Un equipo de plataforma puede ofrecer un proceso de creación y publicación con entrada acordada, validaciones, resultados observables y documentación. El consumidor debe saber qué puede solicitar, cómo utilizarlo, qué está garantizado y qué hacer si falla. La plataforma no es solamente código común: es una oferta que necesita soporte, evolución y límites de responsabilidad.
+
+```text
+Equipo consumidor A ---\
+Equipo consumidor B ----+--> Capacidad compartida con contrato
+Equipo consumidor C ---/                   |
+                                           v
+                         Validación -> publicación -> observación
+```
+
+**Paso 3 — Analizar las alternativas.** La primera opción es mantener implementaciones independientes. Conservará flexibilidad local, a cambio de repetir prácticas y mantenimiento. La segunda opción es compartir paquetes o plantillas sin crear todavía un servicio de plataforma. La tercera es ofrecer una capacidad de autoservicio con responsabilidad de evolución. La decisión depende de consumidores, heterogeneidad, riesgo y capacidad de mantenimiento; no hay un ganador universal [R4].
+
+**Paso 4 — Examinar costos y fallos posibles.** Centralizar puede introducir un cuello de botella si todo cambio depende de un solo equipo. Un contrato sin versionado puede propagar rupturas a varios consumidores. Una solución demasiado general puede no atender bien los casos reales. A la inversa, duplicarlo todo puede elevar el mantenimiento. Estas son consecuencias arquitectónicas plausibles que deben contrastarse con situaciones observadas antes de declarar ventajas.
+
+### Transferencia explícita al proyecto P0
+
+**Equivalencia parcial.** En P0, cada sesión futura funciona como consumidor editorial del esquema y del renderer del sitio. Al crear PA-S002, el autor aporta teoría nueva; el build conserva navegación, tratamiento de fuentes, índice y mecanismos de interacción. Esa analogía ilustra el concepto de reutilización. **No convierte las sesiones en equipos de producto independientes** ni demuestra madurez de una plataforma interna.
+
+**Caso concreto con trazabilidad.** Se añade una sección de arquitectura de monorepo en español e inglés. La validación comprueba que tiene identificador estable y fuentes; el renderer convierte el texto y sus diagramas a HTML/SVG; la navegación enlaza el capítulo; los checkboxes usan claves comunes. Si el nuevo capítulo obliga a copiar y editar internamente el renderer, la supuesta capacidad compartida no está suficientemente desacoplada. Si se publica declarativamente y los capítulos existentes continúan funcionando, existe evidencia más sólida de reutilización, aunque aún queda por medir coste de mantenimiento.
+
+**Qué sí y qué no podemos concluir.** La documentación CNCF apoya tratar una plataforma como capacidad consumible con clientes y contratos [R4]. Que P0 ya haya ganado productividad, reducido errores o ahorrado costos **no está probado**. Esas afirmaciones exigirían observaciones comparables, registros de cambios y criterios acordados. La analogía sirve para diseñar una hipótesis y una prueba, no para fabricar resultados.
+
+**Discusión de nivel Staff/Principal.** Staff puede definir un contrato editorial y defender la separación frente a los equipos implicados. Principal examina si ese contrato podrá evolucionar para muchos consumidores, qué gobernanza necesita y cuándo conviene no centralizar. FPA convierte el contrato en experiencia web accesible. AIPE sigue siendo otro carril: una funcionalidad con IA solo se añade si tiene caso de uso y evaluación propia.
+
+**Recuperación del caso:** ¿qué diferencia una plataforma editorial potencial de un renderer usado una sola vez? **Respuesta:** evidencia de consumidores y contratos estables, adopción y mantenimiento observables. El número de carpetas y el nombre «platform» no son pruebas de valor.
 
 ## Ejemplo listo para producción (diseño verificable, aún no ejecutado)
 
@@ -263,11 +465,15 @@ type EvidenceRecord = { artifactId: string; claim: string; verification?: string
 
 ## Guía visual de aprendizaje / Visual Learning Studio
 
-**Mapa conceptual que deberá compilarse como SVG:** `engineering.software → engineering.architecture → {scope.application, scope.system, scope.platform, scope.ecosystem} → {quality.attribute, quality.constraint, design.boundary, design.coupling, design.cohesion, role.staff, role.principal}`; ramas independientes `fpa.frontend-platform` y `aipe.ai-product`; rama auxiliar `learning.evidence, learning.levels`; nodos `main.p0-boundaries` y los seis `sub.*`. Las flechas significan “se estudia antes de integrar”, no causalidad física. La fuente de cada nodo es el apartado con el mismo ID.
+**Mapa mental interactivo.** El mapa debe mostrar nombres comprensibles y grupos separados: fundamentos de ingeniería y alcance, plataforma frontend, producto con IA, y evidencia de aprendizaje. Una flecha de estudio significa «comprender antes de integrar», no causalidad física. Cada nodo accesible enlaza con su definición y fuente; una lista navegable ofrece alternativa para pantallas pequeñas. Las claves internas de software permanecen en los atributos y el manifiesto de datos, **no en las etiquetas visibles**.
 
-**Tarjetas de recuperación:** una tarjeta por cada uno de los 17 IDs de `Conceptos`, por `main.p0-boundaries` y por cada uno de los seis `sub.*`: **24 tarjetas en total**. Cada frente reutiliza la pregunta de recuperación o pregunta guía del apartado; cada reverso conserva respuesta y explicación. La cobertura se vincula al ID de origen y no reemplaza su texto. Prev/sig, volteo, contador, teclado, táctil, movimiento reducido y respuestas legibles sin JavaScript son requisitos de la publicación [P1].
+**Diagramas dentro del artículo.** Los flujos de publicación, las fronteras y los escenarios de IA deben aparecer junto al mecanismo que ilustran. El mapa mental final complementa esos diagramas locales; no los reemplaza. Los SVG deben tener títulos, descripción textual, fuente y ancho adaptable. Cuando la estructura o sus conexiones no estén verificadas, se etiqueta como modelo didáctico o escenario hipotético.
 
-**Modo adicional justificado:** mapa de fronteras y propagación del cambio basado en `design.boundary`, `design.coupling` y `sub.boundary-dependencies`; entrada X = elegir una dependencia declarada, salida Y = resaltar consumidores alcanzables conforme a ese grafo. No promete medir calidad ni representar el repo antes de inspeccionarlo. Alternativa accesible: tabla de aristas y consecuencias. No se requiere otro widget.
+**Tarjetas de recuperación.** Se ofrece una tarjeta por cada uno de los 17 conceptos, una por el tema principal y una por cada uno de los seis subtemas: **24 tarjetas**. El frente solicita explicación o decisión después de la teoría; el reverso conserva respuesta y por qué una alternativa frecuente falla. Las tarjetas se pueden avanzar, retroceder y voltear con teclado o touch; sin JavaScript, su contenido permanece accesible.
+
+**Experiencias justificadas, no decorativas.** El explorador conceptual contrasta cuatro perspectivas; el estructural compara escenarios estáticos sin fingir un grafo real; el causal prueba reglas de presencia de texto con/sin JavaScript bajo supuestos visibles; el decisional compara autorización, verificación de citas y revisión humana sin publicar automáticamente. Todos exponen entrada, mecanismo, resultado, fuente, límites y alternativa textual [R1, R2, R3, R4, R5, R7, P1].
+
+**Repaso posterior.** Tras una sesión, recuperar los conceptos sin mirar y consultar la retroalimentación; volver al comenzar PA-S002 y tras un cambio real de contrato. El repaso es una oportunidad, no un diagnóstico de estilo de aprendizaje ni una puntuación de dominio.
 
 ## Ejercicios
 
@@ -307,7 +513,22 @@ Estos IDs son reversibles y compartidos ES/EN; una marca expresa seguimiento per
 
 ## Criterios de éxito de la sesión
 
-Se podrá revisar un mapa de límites con contratos nombrados, el primer corte ejecutable de portafolio y sitio ES/EN, una prueba de teclado/no-JS y el registro de lo que sí se ejecutó. **No se atribuye cumplimiento ahora:** el repositorio real no se entregó en este chat y `07-PROGRESS` marca “Not started”. L1–L5 se registran solo después de evidencia independiente: explicar, implementar, operar, decidir y liderar son afirmaciones diferentes [P1].
+**Uso de las casillas.** Estas marcas son un registro reversible de comprobaciones personales de estudio, compartido entre idiomas mediante claves internas estables. **No representan aprobación automática, estado Completed ni dominio L1–L5.** La evidencia de implementación, operación, decisión y liderazgo se evalúa de manera independiente [P1].
+
+- [ ] Puedo explicar con mis palabras ingeniería de software y arquitectura, incluyendo un cambio que afecte contratos.
+- [ ] He distinguido aplicación, sistema, plataforma y ecosistema con cuatro ejemplos concretos de P0.
+- [ ] He definido un atributo de calidad, una restricción y un escenario de prueba observable sin inventar resultados.
+- [ ] He comparado dos fronteras y explicado qué contratos o consumidores habría que inspeccionar.
+- [ ] He revisado un diagrama de publicación y explicado qué depende de HTML inicial y qué de JavaScript.
+- [ ] He argumentado por qué una función de IA hipotética necesita permisos, verificación, alternativa sin IA y revisión.
+- [ ] He respondido y corregido al menos una pregunta de recuperación de cada carril.
+- [ ] He separado mis marcas de estudio de cualquier evidencia real para L1–L5.
+
+**Cómo se observa un resultado, sin atribuírselo todavía.** Una explicación de fronteras puede respaldar una evaluación L1 solo después de ser revisada. Un cambio con pruebas ejecutadas puede aportar evidencia L2; operar y analizar fallos reales, L3; justificar alternativas con consecuencias verificadas, L4; lograr adopción e influencia documentadas, L5. Ningún nivel se concede al marcar estas casillas.
+
+**Entregable evaluable.** Un mapa de límites de P0 con contratos, una decisión razonada sobre qué compartir y qué separar, una prueba de teclado y lectura sin JavaScript registrada cuando se ejecute, y un análisis de la función de IA propuesta con fuentes y restricciones. Las pruebas históricas o planes no reemplazan evidencia de ejecución actual.
+
+**Criterio de revisión editorial.** La sesión se considera preparada para ser estudiada cuando todos sus 24 apartados son sustantivos, las explicaciones preceden a preguntas, existen diagramas contextuales accesibles cuando aportan, y las versiones ES/EN preservan conceptos y fuentes. Publicar correctamente no demuestra por sí solo que el estudiante ya aprendió.
 
 ## Puente a PA-S002
 

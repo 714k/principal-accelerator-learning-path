@@ -1,6 +1,6 @@
 import type { Page } from './content.ts';
 import { outputForDiagram } from './diagrams.ts';
-import { renderCanonical } from './canonical.ts';
+import { renderCanonical, SUCCESS_IDS } from './canonical.ts';
 export function escapeHtml(value: string): string {
   return value.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
 }
@@ -166,7 +166,7 @@ export function home(lang: 'es'|'en',base: string, session: Page, canonicalStatu
   const statusLabel=(status: string)=>es?({'Not started':'No iniciado','Partial':'Parcial','Completed':'Completado','Revisit':'Revisitar'}[status] ?? status):status;
   const exerciseIds=session.dashboard.exerciseIds.join('|');
   const checklistIds=session.dashboard.checklistIds.join('|');
-  const successIds='';
+  const successIds=SUCCESS_IDS.join('|');
   const exerciseTotal=session.dashboard.exerciseIds.length;
   const checklistTotal=session.dashboard.checklistIds.length;
   const body=`<div class="home-hero"><p class="eyebrow">F0 / PA-S001</p><h1>${es?'Panel de aprendizaje':'Learning dashboard'}</h1><p class="lead">${es?'Actividad de estudio local, estado canónico y evidencia se presentan por separado.':'Local study activity, canonical status, and evidence are shown separately.'}</p></div><div class="dashboard-grid">
