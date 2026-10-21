@@ -33,7 +33,7 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Limits and production implication.** Inspect a route that loads but whose link cannot receive focus: the engineering cycle is not complete.
 
-**Retrieval.** Explain the mechanism in your own words and identify one observation needed to verify its outcome. **Explanatory feedback:** distinguish the triggering change from the contract or dependency through which its effect can propagate; do not present hypothetical outcomes as observed facts.
+**Retrieval — Why does a route compiling not prove the navigation requirement was met?** **Explanatory answer:** Compilation does not test whether links reach the intended destination, work with a keyboard, or serve the user task; observable behavior must be checked.
 
 **Level 3 — Deep Dive (optional).** More checks cost time; select those addressing actual risks. A route test does not establish keyboard usability. Type: procedural; objective: trace change to verification; technique: worked walkthrough followed by independent practice; source [R1]; revisit: explain again after building P0. Interaction: not applicable, since a textual sequence and real test suffice.
 
@@ -49,7 +49,7 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Limits and production implication.** Inspect actual imports before asserting independence; a shared repository proves neither coupling nor isolation.
 
-**Retrieval.** Explain the mechanism in your own words and identify one observation needed to verify its outcome. **Explanatory feedback:** distinguish the triggering change from the contract or dependency through which its effect can propagate; do not present hypothetical outcomes as observed facts.
+**Retrieval — What evidence distinguishes an architectural boundary from a folder split?** **Explanatory answer:** Actual contracts and dependencies: internal imports between products propagate changes even when folders are separate.
 
 **Level 3 — Deep Dive (optional).** Record context, alternatives, consequences, and ways to check a decision; distinct folders alone cannot prove quality. Type: structural and decisional; objective: connect boundaries to propagation; technique: dependency map and counterexample; sources [R1, R2]; revisit: inspect imports and routes after P0. Suggested interaction: select a dependency to highlight reachable consumers *only if* derived from a real graph; no-JavaScript alternative: static map.
 
@@ -65,7 +65,7 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Limits and production implication.** A style package does not become an application merely by having development routes.
 
-**Retrieval.** Explain the mechanism in your own words and identify one observation needed to verify its outcome. **Explanatory feedback:** distinguish the triggering change from the contract or dependency through which its effect can propagate; do not present hypothetical outcomes as observed facts.
+**Retrieval — What must be checked when an application route is renamed?** **Explanatory answer:** Router mappings, inbound links and navigation; the view may still work while the user entry path breaks.
 
 **Level 3 — Deep Dive (optional).** An application may include services, and organizations use the word differently; declare the analytical scope before drawing it. Type: conceptual; objective: identify user responsibility; technique: contrast with a library; sources [R1, R2] and P0 convention [P1]; revisit: classify `apps/portfolio/` during implementation. Interaction: not applicable.
 
@@ -81,7 +81,7 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Limits and production implication.** If Mermaid fails, publishing a page without its diagram violates the publishing contract.
 
-**Retrieval.** Explain the mechanism in your own words and identify one observation needed to verify its outcome. **Explanatory feedback:** distinguish the triggering change from the contract or dependency through which its effect can propagate; do not present hypothetical outcomes as observed facts.
+**Retrieval — Why can Mermaid conversion failure invalidate a release even when HTML exists?** **Explanatory answer:** The publishing contract requires both artifacts; incomplete publication does not satisfy the defined system output.
 
 **Level 3 — Deep Dive (optional).** Make inclusions, exclusions, and environment explicit to avoid assigning external failures to the wrong component. Type: structural; objective: draw the publication-system boundary; technique: element and failure map; sources [R2, P1]; revisit: redraw for an actual failure. Interaction: not applicable.
 
@@ -97,7 +97,7 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Limits and production implication.** A single session demonstrates a reusable prototype, not platform adoption or productivity.
 
-**Retrieval.** Explain the mechanism in your own words and identify one observation needed to verify its outcome. **Explanatory feedback:** distinguish the triggering change from the contract or dependency through which its effect can propagate; do not present hypothetical outcomes as observed facts.
+**Retrieval — What distinguishes a shared renderer from a validated platform?** **Explanatory answer:** Verified adoption and usefulness for real consumers; potential reuse alone is not proof of value.
 
 **Level 3 — Deep Dive (optional).** Premature abstraction can impose expensive conventions; a divergent consumer may need an extension or different boundary. Type: structural and decisional; objective: weigh reuse against cost; technique: consumer/trade-off matrix; sources [R4, P1]; revisit: observe a second session before generalizing. Interaction: not applicable.
 
@@ -113,7 +113,7 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Limits and production implication.** Do not confuse repository boundaries with the ecosystem of people and services.
 
-**Retrieval.** Explain the mechanism in your own words and identify one observation needed to verify its outcome. **Explanatory feedback:** distinguish the triggering change from the contract or dependency through which its effect can propagate; do not present hypothetical outcomes as observed facts.
+**Retrieval — Why can an actor outside the repository be affected by a schema change?** **Explanatory answer:** Contractual and operational dependencies cross repositories; translation, deployment and readers can still be affected.
 
 **Level 3 — Deep Dive (optional).** The ecosystem boundary is a modeling choice: including everything makes the model useless; excluding critical dependencies hides risks. Type: structural; objective: identify actors and contracts; technique: change map; sources [R2, P1]; revisit: add real dependencies when they exist. Interaction: not applicable.
 
@@ -129,7 +129,7 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Limits and production implication.** A fast page may be inaccessible; one attribute does not guarantee another.
 
-**Retrieval.** Explain the mechanism in your own words and identify one observation needed to verify its outcome. **Explanatory feedback:** distinguish the triggering change from the contract or dependency through which its effect can propagate; do not present hypothetical outcomes as observed facts.
+**Retrieval — How would you turn accessibility into a verifiable criterion?** **Explanatory answer:** Specify context, action and observation: navigate the outline by keyboard on mobile without losing focus or hiding content.
 
 **Level 3 — Deep Dive (optional).** Attributes may conflict: loading widgets may affect responsiveness; measure both before optimizing. Type: decisional; objective: state a test scenario; technique: worked example and comparison; sources [R3, R5, R6]; revisit: revalidate after site changes. Interaction: not applicable.
 
@@ -145,7 +145,7 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Limits and production implication.** Choosing React is neither a quality attribute nor a constraint without justification.
 
-**Retrieval.** Explain the mechanism in your own words and identify one observation needed to verify its outcome. **Explanatory feedback:** distinguish the triggering change from the contract or dependency through which its effect can propagate; do not present hypothetical outcomes as observed facts.
+**Retrieval — Why does rendering all theory only with JavaScript violate no-JS reading?** **Explanatory answer:** The explanation disappears if scripts fail; essential content must exist in the initial HTML.
 
 **Level 3 — Deep Dive (optional).** Record each constraint's origin and owner; a false constraint may discard a better option. Type: decisional; objective: separate aim from condition; technique: justified classification; sources [R3, P1]; revisit: consult real repository criteria. Interaction: not applicable.
 
@@ -161,7 +161,7 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Limits and production implication.** A boundary does not forbid communication; it specifies permitted contracts.
 
-**Retrieval.** Explain the mechanism in your own words and identify one observation needed to verify its outcome. **Explanatory feedback:** distinguish the triggering change from the contract or dependency through which its effect can propagate; do not present hypothetical outcomes as observed facts.
+**Retrieval — How can a boundary permit communication without propagating internal changes?** **Explanatory answer:** Use stable public contracts, such as links, rather than directly consuming the other product's private structures.
 
 **Level 3 — Deep Dive (optional).** Separation may duplicate styles and deployment work; share tokens only when their contract is stable. Type: structural; objective: anticipate propagation; technique: hypothetical change and map; sources [R2, P1]; revisit: inspect actual import differences. Interaction: not applicable.
 
@@ -177,7 +177,7 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Limits and production implication.** Compare coordinated updates, a temporary alias and an adapter; each has migration costs.
 
-**Retrieval.** Explain the mechanism in your own words and identify one observation needed to verify its outcome. **Explanatory feedback:** distinguish the triggering change from the contract or dependency through which its effect can propagate; do not present hypothetical outcomes as observed facts.
+**Retrieval — What architecturally causes `page.title` to fail after a rename?** **Explanatory answer:** The consumer depends on the previous internal contract. The rename triggers the issue; incompatibility propagates through the dependency. An alias or adapter can support migration.
 
 **Level 3 — Deep Dive (optional).** Dependency direction and stability matter more than counting imports; verify breakage with a contract test before concluding. Type: causal/structural; objective: predict change impact; technique: predict→reveal with two graphs; sources [R1, R2]; revisit: run a controlled change. Editorial interaction possible: choose an edge to highlight transitive consumers of an explicit graph; without a real graph, use two static drawings.
 
@@ -193,7 +193,7 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Limits and production implication.** Splitting everything into tiny files does not guarantee cohesion and can increase coordination.
 
-**Retrieval.** Explain the mechanism in your own words and identify one observation needed to verify its outcome. **Explanatory feedback:** distinguish the triggering change from the contract or dependency through which its effect can propagate; do not present hypothetical outcomes as observed facts.
+**Retrieval — What does it reveal if citation and contact changes always require edits to one module?** **Explanatory answer:** It combines responsibilities with independent reasons to change; separating by purpose may improve cohesion at the cost of more interfaces.
 
 **Level 3 — Deep Dive (optional).** Excessive splitting creates more interfaces and coordination; examine real cases before extraction. Type: conceptual/decisional; objective: group responsibilities; technique: contrast change reasons; source [R1]; revisit: review P0's first diff. Interaction: not applicable.
 
@@ -209,7 +209,7 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Limits and production implication.** A proposal without adoption demonstrates reasoning, not verified leadership.
 
-**Retrieval.** Explain the mechanism in your own words and identify one observation needed to verify its outcome. **Explanatory feedback:** distinguish the triggering change from the contract or dependency through which its effect can propagate; do not present hypothetical outcomes as observed facts.
+**Retrieval — What evidence is missing when a Staff engineer proposes a contract nobody adopts?** **Explanatory answer:** Evidence of collaboration, adoption and shared outcomes; a proposal shows reasoning, not verified impact.
 
 **Level 3 — Deep Dive (optional).** A title does not certify competence; distinguish proposal from actual adoption to avoid claiming unobserved leadership. Type: decisional; objective: frame evidence; technique: case analysis; source [P1]; revisit: document a decision and real feedback. Interaction: not applicable.
 
@@ -225,7 +225,7 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Limits and production implication.** Choosing a framework for one page does not demonstrate Principal scope.
 
-**Retrieval.** Explain the mechanism in your own words and identify one observation needed to verify its outcome. **Explanatory feedback:** distinguish the triggering change from the contract or dependency through which its effect can propagate; do not present hypothetical outcomes as observed facts.
+**Retrieval — What makes a local technical rule a Principal-scope decision?** **Explanatory answer:** Cross-system evaluation and evolution with constraints, costs, agreements and verified adoption; picking a tool for one page is insufficient.
 
 **Level 3 — Deep Dive (optional).** Scope depends on organization and context; here it is a learning aim, not a career prediction. Type: decisional; objective: compare decision radius; technique: scope matrix; source [P1]; revisit: compare P0's decision with its evolution in PA-S002. Interaction: not applicable.
 
@@ -243,7 +243,7 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Limits and production implication.** Checking a box records activity and never certifies L1–L5.
 
-**Retrieval.** Explain the mechanism in your own words and identify one observation needed to verify its outcome. **Explanatory feedback:** distinguish the triggering change from the contract or dependency through which its effect can propagate; do not present hypothetical outcomes as observed facts.
+**Retrieval — Why must translations preserve study-mark IDs?** **Explanatory answer:** Persisted exercise identity is separate from displayed language; otherwise ES and EN create divergent state.
 
 **Level 3 — Deep Dive (optional).** Consider JavaScript failure, schema compatibility, focus, contrast, and script weight; do not call a page “accessible” based solely on a scanner. Type: structural/procedural; objective: follow author→reader contract; technique: diagram and keyboard check; sources [R2, R4, R5, P1]; revisit: second bilingual session. Interaction: language selector showing that ID and state persist, only if the site implements actual persistence; no-JavaScript alternative: ID table.
 
@@ -261,7 +261,7 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Limits and production implication.** This is a hypothetical model, not a deployed AI feature or measured accuracy evaluation.
 
-**Retrieval.** Explain the mechanism in your own words and identify one observation needed to verify its outcome. **Explanatory feedback:** distinguish the triggering change from the contract or dependency through which its effect can propagate; do not present hypothetical outcomes as observed facts.
+**Retrieval — What if an AI draft is fluent but its claims remain unverified?** **Explanatory answer:** Do not publish: check against sources, correct or reject it, and require human review plus separate editorial authorization.
 
 **Level 3 — Deep Dive (optional).** Outputs may vary or be wrong; bound privacy, failure, cost, and evaluation before deployment. Type: causal/decisional; objective: distinguish demo from product; technique: failure walkthrough and criteria-based decision; sources [R7, R8]; revisit: only if a real use case emerges. Interaction: not applicable now; no model or approved dataset exists to simulate quality.
 
@@ -279,7 +279,7 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Limits and production implication.** A checked box does not equal demonstrated implementation.
 
-**Retrieval.** Explain the mechanism in your own words and identify one observation needed to verify its outcome. **Explanatory feedback:** distinguish the triggering change from the contract or dependency through which its effect can propagate; do not present hypothetical outcomes as observed facts.
+**Retrieval — Why does checking `PA-S001.exercise.boundary-map` not prove L2?** **Explanatory answer:** The mark records a declared activity, while L2 requires an implementation and separately verified evidence.
 
 **Level 3 — Deep Dive (optional).** Without an artifact or observable criterion, the level remains pending; “cannot be determined” is valid. Type: conceptual/decisional; objective: separate states; technique: classification and feedback; source [P1]; revisit: after building and review. Interaction: reversible study controls because the variable is a tracking declaration; without JS show readable non-editable state, without false claims.
 
@@ -295,7 +295,7 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Limits and production implication.** Completing a tutorial does not demonstrate leadership or production operation.
 
-**Retrieval.** Explain the mechanism in your own words and identify one observation needed to verify its outcome. **Explanatory feedback:** distinguish the triggering change from the contract or dependency through which its effect can propagate; do not present hypothetical outcomes as observed facts.
+**Retrieval — Why does finishing a tutorial not certify L5?** **Explanatory answer:** L5 requires evidence of leadership and observed adoption, distinct from explaining, implementing, operating or deciding.
 
 **Level 3 — Deep Dive (optional).** Evidence can be partial or contradictory; record its scope and do not infer higher levels. Type: structural; objective: link claim to proof; technique: evidence→level matrix; source [P1]; revisit: reevaluate after new artifacts. Interaction: not applicable until real records exist.
 
