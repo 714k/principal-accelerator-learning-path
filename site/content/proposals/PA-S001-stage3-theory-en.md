@@ -415,7 +415,39 @@ The estimate is a guide: reading and retrieval 60–90 min; map and decision 40�
 
 ## Real-World Example
 
-**Documented case, not evidence about P0.** CNCF's white paper presents internal platforms as capabilities consumed by teams and emphasizes self-service [R4]. Translated **by design analogy** to this site, sessions consume an editorial contract, without necessarily being independent product teams. The analogy fails if no second session uses the renderer or if abstraction adds work instead of removing it. Value would require observing usage and maintenance; the source cannot guarantee improvement in this project.
+### Documented context: internal engineering platforms
+
+**The problem addressed by internal platforms.** The CNCF TAG App Delivery white paper discusses internal platforms as capabilities consumed by engineering teams, emphasizing consumable offerings and self-service. It provides a framework for thinking about platform responsibilities; it **does not report measured outcomes for P0**, nor does it guarantee that every shared tool is a platform [R4].
+
+**Illustrative organizational scenario.** Imagine three teams publishing web products, with each team independently configuring routes, build automation, security checks, deployment conventions and access to operational signals. They preserve local autonomy but repeatedly solve cross-team concerns. This is an invented scenario for applying CNCF's approach, **not** a reported company, incident or empirical case study.
+
+**Step 1 — Identify consumers.** Before extracting shared functionality, a platform team asks what tasks product teams perform, what knowledge these tasks require and which needs recur. Two applications sharing a language does not prove a platform need. Repeated flows under compatible constraints provide a hypothesis that can be investigated [R4].
+
+**Step 2 — Define a capability with a contract.** A platform team may offer a creation and publication process with agreed inputs, validations, observable outputs and documentation. A consumer should know how to request the capability, what behavior is guaranteed, what its limitations are and what happens on failure. A platform is not merely common code; it requires support, evolution and boundaries of responsibility.
+
+```text
+Consumer team A -------\
+Consumer team B -------- > Shared capability with a contract
+Consumer team C -------/                   |
+                                           v
+                               Validation -> publication -> observation
+```
+
+**Step 3 — Evaluate alternatives.** One option preserves independent implementations: flexible locally but potentially repetitive to maintain. Another shares packages or templates without introducing a platform service. A third offers a self-service capability with explicit ownership. The decision depends on consumers, differences between their needs, risk and operational capacity. There is no universal winner [R4].
+
+**Step 4 — Examine costs and failure modes.** Centralization can become a bottleneck if one team must approve every change. An unversioned shared contract may break several consumers. An overly general offering may fail to serve real needs. Duplicating everything may also raise maintenance costs. These are plausible architectural effects to validate in observed situations—not quantified outcomes reported here.
+
+### Explicit transfer to P0
+
+**Partial analogy.** In P0, each later learning session acts as a consumer of the site's editorial schema and renderer. When PA-S002 is introduced, its author supplies new theory while the build maintains navigation, source handling, table of contents and study mechanisms. This illustrates reuse. **It does not make individual sessions independent product teams**, nor does it establish the maturity of an internal platform.
+
+**Traceable example.** A new monorepo-architecture section is introduced in Spanish and English. Validation checks that it has stable identity and sources; the renderer turns text and diagrams into HTML/SVG; navigation links to the chapter; study checkboxes share IDs across languages. If the author must copy and edit renderer internals for every new chapter, the purported shared capability is insufficiently decoupled. If another chapter can be added declaratively while previous chapters still work, there is stronger evidence of reuse. Maintenance costs would still need evaluation.
+
+**What can and cannot be concluded.** CNCF supports approaching platforms as consumable capabilities with customers and contracts [R4]. It does **not prove** that P0 has increased productivity, reduced failures or saved money. Such claims would require comparable observations, change records and agreed criteria. The analogy helps formulate a design hypothesis and test, not fabricate results.
+
+**Staff and Principal implications.** Staff scope can define an editorial contract and defend responsibility boundaries. Principal scope examines whether that contract can evolve across many consumers, what governance it requires and when centralization should be avoided. FPA turns the contract into accessible web publishing. AIPE remains a separate lane: an AI feature requires its own use case and evaluation before integration.
+
+**Case retrieval:** what distinguishes a potential editorial platform from a renderer used only once? **Answer:** evidence of consumers, stable contracts, adoption and maintainability. Folder counts and a 'platform' name prove nothing.
 
 ## Production-Ready Example (verifiable design, not yet executed)
 
@@ -433,11 +465,15 @@ type EvidenceRecord = { artifactId: string; claim: string; verification?: string
 
 ## Visual Learning Guide / Visual Learning Studio
 
-**Concept map to compile as SVG:** `engineering.software → engineering.architecture → {scope.application, scope.system, scope.platform, scope.ecosystem} → {quality.attribute, quality.constraint, design.boundary, design.coupling, design.cohesion, role.staff, role.principal}`; independent branches `fpa.frontend-platform` and `aipe.ai-product`; auxiliary branch `learning.evidence, learning.levels`; nodes `main.p0-boundaries` and all six `sub.*`. Arrows mean “studied before synthesis,” not physical causation. Each node's source is the section with the same ID.
+**Interactive concept map.** The map should show understandable labels and separate groupings: engineering and scope foundations, frontend platform, AI product and learning evidence. A study arrow means "understand before integrating," not physical causation. Accessible nodes link to their definition and source; a readable navigation list provides a small-screen alternative. Internal machine keys belong in HTML attributes and structured data, **not in the reader-facing labels**.
 
-**Retrieval cards:** one card for each of the 17 `Concepts` IDs, one for `main.p0-boundaries`, and one for each of the six `sub.*`: **24 cards total**. Each front reuses its section's retrieval or guiding question; each back keeps the answer and explanation. Coverage links to source IDs and never replaces prose. Previous/next, flip, counter, keyboard, touch, reduced motion, and answers readable without JavaScript are publication requirements [P1].
+**Diagrams adjacent to theory.** Publication flows, boundaries and AI scenarios belong beside the mechanisms they illustrate. The final mind map complements those local diagrams; it never replaces them. SVGs need titles, meaningful text descriptions, source traceability and responsive sizes. Unverified structures and relationships must be labeled as teaching models or hypothetical scenarios.
 
-**Justified additional mode:** boundary/change-propagation map based on `design.boundary`, `design.coupling`, and `sub.boundary-dependencies`; input X = select a declared dependency, output Y = highlight reachable consumers in that graph. It neither measures quality nor purports to represent an uninspected repository. Accessible alternative: edge/consequence table. No other widget is required.
+**Retrieval flashcards.** One card covers each of 17 concepts, one covers the main topic, and one covers each of six subtopics: **24 cards**. The front asks for explanation or judgment after theory; the reverse contains an answer and explains why a common alternative fails. Learners can navigate and flip with keyboard or touch; answers remain available without JavaScript.
+
+**Justified experiences, not decoration.** The conceptual explorer contrasts four perspectives; the structural explorer compares two static scenarios without claiming to inspect a real graph; the causal explorer explains text availability under JS/no-JS assumptions; and the decision explorer evaluates input permission, citation verification and human review without authorizing automatic publication. Each experience exposes its input, mechanism, outcome, source, limits and textual fallback [R1, R2, R3, R4, R5, R7, P1].
+
+**Later retrieval.** After a session, recall concepts without looking, read explanatory feedback and retry at PA-S002 and after a real contract change. Revisits are opportunities, not learning-style diagnoses or mastery scores.
 
 ## Exercises
 
@@ -477,7 +513,22 @@ The following IDs are reversible and shared across ES/EN; a mark expresses perso
 
 ## End-of-session success criteria
 
-A reviewer can inspect a boundary map with named contracts, a first executable portfolio and ES/EN site slice, a keyboard/no-JavaScript check, and an account of what was actually run. **None is claimed complete now:** the real repository was not supplied in this chat, and `07-PROGRESS` says “Not started.” L1–L5 are recorded only after distinct evidence: explain, implement, operate, decide, and lead are different claims [P1].
+**Using these checkboxes.** The items record reversible personal study checks, with internal stable keys shared across languages. **They do not establish automatic approval, Completed status or L1–L5 mastery.** Implementation, operation, decisions and leadership require separate evidence [P1].
+
+- [ ] I can explain software engineering versus architecture with a concrete contract-affecting change.
+- [ ] I have distinguished application, system, platform and ecosystem using four concrete P0 examples.
+- [ ] I have defined a quality attribute, a constraint and an observable test scenario without fabricating results.
+- [ ] I have compared two boundaries and explained which contracts or consumers need inspection.
+- [ ] I have reviewed a publishing flow and explained what depends on initial HTML versus JavaScript.
+- [ ] I have defended why a hypothetical AI feature needs permission, verification, a non-AI alternative and review.
+- [ ] I have answered and corrected at least one retrieval question from each lane.
+- [ ] I have kept personal study marks distinct from actual L1–L5 evidence.
+
+**How an outcome would be observed, without claiming it now.** Explaining boundaries may support L1 only after review. Tested code can support L2; real operational fault diagnosis, L3; alternatives justified with verified consequences, L4; documented adoption and cross-team influence, L5. Checking these boxes awards none of these levels.
+
+**Reviewable deliverable.** A P0 boundary map with contracts, a justified decision about sharing versus separation, a recorded keyboard/no-JS test once executed, and an AI proposal analysis with sources and constraints. Historical tests or future plans do not substitute current execution evidence.
+
+**Editorial readiness criteria.** This chapter is ready for learner review when all 24 sections contain substantial teaching, definitions precede retrieval questions, contextual diagrams are accessible where useful, and ES/EN preserve concepts and cited sources. Successful publication does not by itself demonstrate learning.
 
 ## Bridge to PA-S002
 
