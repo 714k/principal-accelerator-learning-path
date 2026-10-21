@@ -1,0 +1,333 @@
+{
+  "session": "PA-S001",
+  "lang": "en",
+  "labs": [
+    {
+      "id": "sub.scope-layers",
+      "kind": "scope",
+      "concepts": [
+        "scope.application",
+        "scope.system",
+        "scope.platform",
+        "scope.ecosystem"
+      ],
+      "sources": [
+        "R2",
+        "R4",
+        "P1"
+      ],
+      "title": "One product, four perspectives",
+      "eyebrow": "Concept explorer",
+      "objective": "Distinguish application, system, platform, and ecosystem in one case.",
+      "intro": "P0 example: the portfolio and learning site share a repository. Change the analytical perspective: the code stays the same but your boundary changes.",
+      "assumption": "Conceptual example: a shared repository does not prove a platform exists; it needs capabilities and real consumers.",
+      "controls": [
+        {
+          "id": "lens",
+          "label": "Analysis perspective",
+          "options": [
+            [
+              "application",
+              "Application"
+            ],
+            [
+              "system",
+              "System"
+            ],
+            [
+              "platform",
+              "Platform"
+            ],
+            [
+              "ecosystem",
+              "Ecosystem"
+            ]
+          ]
+        }
+      ],
+      "outcomes": [
+        {
+          "id": "application",
+          "title": "Application: experience",
+          "cause": "You want visitors to explore completed work.",
+          "mechanism": "The boundary covers the visitor interface and tasks, not the entire publishing system.",
+          "effect": "Evaluate portfolio navigation, content and accessibility."
+        },
+        {
+          "id": "system",
+          "title": "System: collaboration",
+          "cause": "You want to explain how a session is published.",
+          "mechanism": "The boundary includes sources, validation, rendering, HTML output and delivery.",
+          "effect": "You can trace pipeline failures without calling each component a platform."
+        },
+        {
+          "id": "platform",
+          "title": "Platform: reusable capability",
+          "cause": "Multiple sessions need content publishing.",
+          "mechanism": "Consider editorial contracts, a renderer, compatibility and identifiable consumers.",
+          "effect": "Justify the shared capability by actual adoption, not repeated folders."
+        },
+        {
+          "id": "ecosystem",
+          "title": "Ecosystem: actors and dependencies",
+          "cause": "You investigate what constrains publishing.",
+          "mechanism": "Include authors, learners, browser, hosting and external standards.",
+          "effect": "Consider constraints and failures beyond the internal modules."
+        }
+      ]
+    },
+    {
+      "id": "sub.boundary-dependencies",
+      "kind": "dependency",
+      "concepts": [
+        "design.boundary",
+        "design.coupling",
+        "design.cohesion"
+      ],
+      "sources": [
+        "R1",
+        "R2",
+        "P1"
+      ],
+      "title": "Explore change propagation",
+      "eyebrow": "Structural explorer",
+      "objective": "Trace potentially affected consumers without confusing internal dependencies with public links.",
+      "intro": "A simplified hypothetical P0 graph: content goes through schema, validation, rendering and HTML; the portfolio is separate. Choose a change and inspect potential review points.",
+      "assumption": "Highlights are possible review points, not observed failures or a graph extracted from the repository. Compatible changes may have less impact.",
+      "controls": [
+        {
+          "id": "change",
+          "label": "Proposed change",
+          "options": [
+            [
+              "schema",
+              "Rename a required schema field"
+            ],
+            [
+              "portfolio",
+              "Edit the portfolio biography"
+            ]
+          ]
+        }
+      ],
+      "graph": [
+        [
+          "schema",
+          "Editorial schema"
+        ],
+        [
+          "validator",
+          "Validator"
+        ],
+        [
+          "renderer",
+          "Renderer"
+        ],
+        [
+          "page",
+          "Published HTML"
+        ],
+        [
+          "portfolio",
+          "Portfolio"
+        ]
+      ],
+      "outcomes": [
+        {
+          "id": "schema",
+          "title": "Contract change: inspect consumers",
+          "cause": "You rename a required field.",
+          "mechanism": "Validator, renderer and generated output might require coordinated migration; compatibility needs checking.",
+          "effect": "Check contract, content and tests. The portfolio should not depend on this schema.",
+          "affected": [
+            "schema",
+            "validator",
+            "renderer",
+            "page"
+          ]
+        },
+        {
+          "id": "portfolio",
+          "title": "Local editorial change: boundary preserved",
+          "cause": "You change professional copy.",
+          "mechanism": "The change belongs to the portfolio app rather than the session contract.",
+          "effect": "Check its view and links; do not infer that no general build will run.",
+          "affected": [
+            "portfolio"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sub.quality-constraints",
+      "kind": "quality",
+      "concepts": [
+        "quality.attribute",
+        "quality.constraint"
+      ],
+      "sources": [
+        "R3",
+        "R5",
+        "P1"
+      ],
+      "title": "What changes when JavaScript cannot run?",
+      "eyebrow": "Causal model",
+      "objective": "Predict text availability given delivery strategy and JavaScript execution.",
+      "intro": "Change two variables in a hypothetical case: where the text is created and whether JavaScript runs. Compare the mechanism to its effect, not to a quality percentage.",
+      "assumption": "This model only covers the potential presence of text in the DOM; it does not calculate WCAG accessibility, load times, or network reliability.",
+      "controls": [
+        {
+          "id": "delivery",
+          "label": "Content delivery",
+          "options": [
+            [
+              "static",
+              "Text in initial HTML"
+            ],
+            [
+              "client",
+              "Text generated only by JS"
+            ]
+          ]
+        },
+        {
+          "id": "js",
+          "label": "JavaScript",
+          "options": [
+            [
+              "on",
+              "Available"
+            ],
+            [
+              "off",
+              "Unavailable"
+            ]
+          ]
+        }
+      ],
+      "outcomes": [
+        {
+          "id": "static-on",
+          "title": "Text available, progressive enhancement",
+          "cause": "Initial HTML and JS available.",
+          "mechanism": "The browser can read existing text; JS enhances controls without being the sole source.",
+          "effect": "Theory is readable; controls require independent tests."
+        },
+        {
+          "id": "static-off",
+          "title": "Text available without JavaScript",
+          "cause": "Initial HTML and JS off.",
+          "mechanism": "No code needs to insert lesson text into the document.",
+          "effect": "Theory remains readable even when controls cannot save study marks."
+        },
+        {
+          "id": "client-on",
+          "title": "Content depends on a script",
+          "cause": "Text created only by JS, and execution is available.",
+          "mechanism": "The script must load and run to create the lesson DOM.",
+          "effect": "Content might appear; successful script execution is not guaranteed by this model."
+        },
+        {
+          "id": "client-off",
+          "title": "Text absent, constraint violated",
+          "cause": "Text created only by JS, and execution is unavailable.",
+          "mechanism": "Nothing inserts the lesson text into the document.",
+          "effect": "The solution violates the requirement for theory readable without JavaScript."
+        }
+      ]
+    },
+    {
+      "id": "sub.ai-product",
+      "kind": "ai",
+      "concepts": [
+        "aipe.ai-product",
+        "design.boundary",
+        "quality.constraint"
+      ],
+      "sources": [
+        "R7",
+        "R8",
+        "P1"
+      ],
+      "title": "May the AI-assisted draft proceed?",
+      "eyebrow": "Decision lab",
+      "objective": "Justify an AI product boundary through permission, verification and human review.",
+      "intro": "Hypothetical example: an assistant proposes a document summary. Change the conditions and observe the exercise rules. No data is sent to external services.",
+      "assumption": "Teaching rules, not universal policy, legal advice, or a real security evaluation. Passing these controls does NOT authorize publication.",
+      "controls": [
+        {
+          "id": "data",
+          "label": "Input permission",
+          "options": [
+            [
+              "public",
+              "Authorized public text"
+            ],
+            [
+              "private",
+              "Unauthorized private data"
+            ]
+          ]
+        },
+        {
+          "id": "citations",
+          "label": "Citations checked",
+          "options": [
+            [
+              "yes",
+              "Yes, against source"
+            ],
+            [
+              "no",
+              "No"
+            ]
+          ]
+        },
+        {
+          "id": "review",
+          "label": "Human review",
+          "options": [
+            [
+              "yes",
+              "Available"
+            ],
+            [
+              "no",
+              "Unavailable"
+            ]
+          ]
+        }
+      ],
+      "outcomes": [
+        {
+          "id": "blocked",
+          "title": "Stop transfer",
+          "cause": "The input is not authorized.",
+          "mechanism": "Permission checks precede transfer or generation; accurate citations cannot override this block.",
+          "effect": "Do not send data. Seek a non-AI alternative or obtain authorization."
+        },
+        {
+          "id": "unverified",
+          "title": "Do not publish unsupported claims",
+          "cause": "Authorized input, unchecked citations.",
+          "mechanism": "Fluent writing does not demonstrate that claims are supported.",
+          "effect": "Validate evidence before presenting the content as fact."
+        },
+        {
+          "id": "unreviewed",
+          "title": "Keep it as a draft",
+          "cause": "Authorized input, checked citations, no reviewer.",
+          "mechanism": "Checked citations do not replace a human editorial decision.",
+          "effect": "Do not auto-publish under these rules."
+        },
+        {
+          "id": "reviewable",
+          "title": "Ready for editorial review",
+          "cause": "Authorized input, checked citations and reviewer available.",
+          "mechanism": "The exercise minimums permit considering the draft, not proving final quality.",
+          "effect": "A human must decide. Nothing is automatically published."
+        }
+      ]
+    }
+  ]
+}
