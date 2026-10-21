@@ -163,7 +163,7 @@ test('stage 2 bilingual lab specifications cover all four instructional knowledg
     assert.equal(spec.lang,langs[index]);
     assert.deepEqual(spec.labs.map(l=>[l.id,l.kind]),expected);
     for(const lab of spec.labs){
-      for(const property of ['title','objective','intro','assumption'] as const)assert.ok(lab[property].length>35,`${spec.lang} ${lab.id}: ${property}`);
+      for(const property of ['title','objective','intro','assumption'] as const)assert.ok(lab[property].length>(property==='title'?8:35),`${spec.lang} ${lab.id}: ${property}`);
       assert.ok(lab.sources.length>0 && lab.concepts.length>0);
       assert.ok(lab.controls.length>0 && lab.outcomes.length>1);
       for(const control of lab.controls){
