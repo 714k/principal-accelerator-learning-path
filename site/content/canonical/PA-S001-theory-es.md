@@ -25,7 +25,13 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Nivel 1 — Fundamento.** Es la disciplina de especificar, diseñar, construir, verificar, operar y mantener software con métodos justificables; este alcance sintetiza las áreas de conocimiento de SWEBOK [R1]. Ejemplo: al añadir una ruta `/es/projects/`, implementar el HTML es una parte; revisar requisitos, accesibilidad, pruebas y evolución también es trabajo de ingeniería. Una lista de tecnologías, por sí sola, no define el ciclo de vida.
 
-**Nivel 2 — Mecanismo.** 📥 **Entrada:** necesidad de navegar proyectos; ⚙️ **Proceso:** convertirla en contrato de ruta, implementación y comprobaciones; 📤 **Resultado:** una página cuyo enlace y comportamiento pueden verificarse; 💡 **Regla contextual:** cerrar el ciclo incluye observar fallos tras el cambio. Representación: `necesidad → contrato → implementación → prueba → operación`. **Recuperación:** ¿un componente que compila prueba que la necesidad se cumplió? **Respuesta:** no; hace falta contrastarlo con el requisito y su comportamiento.
+**Nivel 2 — Mecanismo.** **Cómo una necesidad se convierte en software verificable.** Comprender cómo una necesidad se convierte en software verificable y qué debe comprobarse antes de afirmar un resultado.
+
+**Mecanismo resuelto.** La necesidad de navegar proyectos se transforma en un contrato de ruta, una implementación y pruebas del comportamiento. Compilar confirma algunas propiedades del código, pero no demuestra que la navegación cumpla la necesidad ni que funcione con teclado.
+
+**Decisión en producción.** Revisa una ruta que carga correctamente pero cuyo enlace no recibe foco: el ciclo de ingeniería todavía no está cerrado.
+
+**Recuperación:** ¿un componente que compila prueba que la necesidad se cumplió? **Respuesta:** no; hace falta contrastarlo con el requisito y su comportamiento.
 
 **Nivel 3 — Profundización (opcional).** Más comprobaciones tienen coste; selecciona las que cubran riesgos reales. Un test de ruta no confirma que una persona pueda operar la navegación por teclado. Tipo: procedimental; objetivo: trazar cambio a verificación; técnica: recorrido resuelto y posterior práctica independiente; fuente [R1]; revisión: explicar de nuevo después de construir P0. Interacción: no aplica, porque una secuencia textual y una prueba real bastan.
 
@@ -33,7 +39,13 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Nivel 1 — Fundamento.** Es el razonamiento sobre elementos, relaciones y principios estructurales de un sistema; una *descripción arquitectónica* documenta ese razonamiento y sus preocupaciones, pero no es la estructura ejecutada [R2]. Ejemplo: separar `apps/portfolio/` de `site/` evita que una decisión de navegación editorial determine automáticamente la navegación profesional. Un diagrama sin correspondencia con dependencias reales es descripción incorrecta, no arquitectura comprobada.
 
-**Nivel 2 — Mecanismo.** Una decisión asigna responsabilidades y contratos; esos límites determinan dónde se propaga un cambio. Representación: `site/content → renderer → HTML`, mientras `apps/portfolio → portfolio UI`; una importación directa entre ambos rompe la separación propuesta. **Recuperación:** si el sitio y la app viven en el mismo repositorio, ¿son el mismo producto? **Respuesta:** no; ubicación Git y responsabilidad arquitectónica son dimensiones distintas.
+**Nivel 2 — Mecanismo.** **Cómo las decisiones estructurales delimitan el cambio.** Comprender cómo las decisiones estructurales delimitan el cambio y qué debe comprobarse antes de afirmar un resultado.
+
+**Mecanismo resuelto.** Asignar responsabilidades a sitio y portafolio establece qué contratos pueden compartir y cuáles evolucionan por separado. Un import interno entre ambos puede introducir una dependencia que el diagrama de carpetas no revela.
+
+**Decisión en producción.** Antes de afirmar independencia, inspecciona las importaciones reales; compartir repositorio no prueba dependencia ni aislamiento.
+
+**Recuperación:** si el sitio y la app viven en el mismo repositorio, ¿son el mismo producto? **Respuesta:** no; ubicación Git y responsabilidad arquitectónica son dimensiones distintas.
 
 **Nivel 3 — Profundización (opcional).** Documenta contexto, alternativas, consecuencia y forma de validar una decisión; no deduzcas calidad solo por tener carpetas distintas. Tipo: estructural y decisional; objetivo: relacionar límites con propagación; técnica: mapa de dependencias y contraejemplo; fuentes [R1, R2]; revisión: comprobar imports y rutas tras P0. Interacción sugerida: selector de una dependencia, que resalte consumidores alcanzables *solo si* se deriva del grafo real; alternativa sin JavaScript: mapa estático.
 
@@ -41,7 +53,13 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Nivel 1 — Fundamento.** Una aplicación es software ensamblado para tareas de sus usuarios en un contexto determinado; aquí se usa como **definición operativa del programa**, no como taxonomía normativa de ISO. `apps/portfolio/` presenta trabajos y contacto a un visitante. Una librería de botones usada por varias interfaces, sin caso de uso propio, no es por ello una segunda aplicación.
 
-**Nivel 2 — Mecanismo.** La petición `/work/` llega al router, éste selecciona una página y el navegador muestra el caso de estudio. Si se cambia una URL, deben revisarse enlaces entrantes y navegación. **Recuperación:** ¿un nuevo paquete de estilos constituye una aplicación? **Respuesta:** no necesariamente; hace falta una experiencia de usuario identificable.
+**Nivel 2 — Mecanismo.** **Cómo una petición llega a una experiencia de usuario.** Comprender cómo una petición llega a una experiencia de usuario y qué debe comprobarse antes de afirmar un resultado.
+
+**Mecanismo resuelto.** Una URL entra en el router, se resuelve a una vista y el navegador presenta la tarea al visitante. Cambiar la ruta puede afectar enlaces entrantes aunque la vista siga funcionando.
+
+**Decisión en producción.** Un paquete de estilos no se convierte en aplicación solo por tener rutas de desarrollo.
+
+**Recuperación:** ¿un nuevo paquete de estilos constituye una aplicación? **Respuesta:** no necesariamente; hace falta una experiencia de usuario identificable.
 
 **Nivel 3 — Profundización (opcional).** Una aplicación puede contener servicios y una organización puede llamar “app” a algo distinto: declara el alcance antes de dibujarla. Tipo: conceptual; objetivo: identificar responsabilidad de usuario; técnica: contraste con librería; fuentes [R1, R2] y convención P0 [P1]; revisión: clasificar `apps/portfolio/` al implementarlo. Interacción: no aplica.
 
@@ -49,7 +67,13 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Nivel 1 — Fundamento.** Un sistema es un conjunto delimitado de elementos que interactúan para cumplir un propósito; su frontera depende de la pregunta de análisis [R2]. Para analizar publicación, el generador, archivos de contenido y HTML generado pueden formar un sistema; para analizar la experiencia del visitante, el navegador y la red también importan. Una carpeta por sí sola no define esa frontera.
 
-**Nivel 2 — Mecanismo.** 📥 **Entrada:** un Markdown canónico; ⚙️ **Proceso:** renderer y conversión de diagrama producen artefactos; 📤 **Resultado:** página HTML y SVG para el lector. Si el convertidor falla, el sistema de publicación no debe presentar una página incompleta como éxito. **Recuperación:** ¿la aplicación de portafolio es siempre todo el sistema? **Respuesta:** depende del propósito y de qué interacciones se estudien.
+**Nivel 2 — Mecanismo.** **Cómo los componentes cooperan para publicar una sesión.** Comprender cómo los componentes cooperan para publicar una sesión y qué debe comprobarse antes de afirmar un resultado.
+
+**Mecanismo resuelto.** El contenido entra al validador; el renderer y el compilador de diagramas generan HTML y SVG que consume el navegador. El resultado depende de que cada paso produzca su artefacto esperado.
+
+**Decisión en producción.** Si falla Mermaid, una compilación que publica la página sin el diagrama no satisface el contrato de publicación.
+
+**Recuperación:** ¿la aplicación de portafolio es siempre todo el sistema? **Respuesta:** depende del propósito y de qué interacciones se estudien.
 
 **Nivel 3 — Profundización (opcional).** Explicita inclusiones, exclusiones y entorno para evitar atribuir fallas externas al componente equivocado. Tipo: estructural; objetivo: dibujar la frontera del sistema de publicación; técnica: mapa de elementos y fallo; fuentes [R2, P1]; revisión: repetir el mapa con una falla real. Interacción: no aplica.
 
@@ -57,7 +81,13 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Nivel 1 — Fundamento.** En este programa, plataforma es un producto de capacidades compartidas con contratos y consumidores; la literatura de CNCF describe las plataformas internas como oferta de autoservicio para equipos [R4]. Una capa de contenido bilingüe, tokens visuales y pipeline Mermaid→SVG puede servir a numerosas sesiones; un componente copiado una sola vez aún no demuestra una plataforma útil.
 
-**Nivel 2 — Mecanismo.** Un autor entrega teoría y diagrama al contrato del sitio; la plataforma renderiza, valida y publica sin repetir esa maquinaria por sesión. `sesión → esquema estable → renderer común → páginas ES/EN` representa consumo, no garantía de adopción. **Recuperación:** ¿varias carpetas compartidas prueban valor de plataforma? **Respuesta:** no; hay que comprobar uso, soporte y adecuación del contrato.
+**Nivel 2 — Mecanismo.** **Cómo una capacidad compartida atiende consumidores.** Comprender cómo una capacidad compartida atiende consumidores y qué debe comprobarse antes de afirmar un resultado.
+
+**Mecanismo resuelto.** Un autor entrega una sesión conforme al esquema; el renderer común la valida y publica sin copiar código específico para cada sesión. La reutilización se comprueba con consumidores reales y cambios compatibles.
+
+**Decisión en producción.** Una única sesión demuestra un prototipo reutilizable, no adopción ni productividad de plataforma.
+
+**Recuperación:** ¿varias carpetas compartidas prueban valor de plataforma? **Respuesta:** no; hay que comprobar uso, soporte y adecuación del contrato.
 
 **Nivel 3 — Profundización (opcional).** Abstraer demasiado temprano puede imponer convenciones costosas; un consumidor divergente puede requerir extensión o un límite distinto. Tipo: estructural y decisional; objetivo: evaluar capacidad reusable frente a coste; técnica: matriz de consumidores y trade-off; fuentes [R4, P1]; revisión: observar una segunda sesión antes de generalizar. Interacción: no aplica.
 
@@ -65,7 +95,13 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Nivel 1 — Fundamento.** Ecosistema es la red de productos, personas, equipos, normas e integraciones que condicionan una solución; es una **abstracción de análisis**, no una jerarquía formal garantizada por [R2]. En P0 incluiría autor del contenido, aprendiz, hospedaje, navegador, herramientas de prueba y visitantes del portafolio. No equivale a “un repositorio muy grande”.
 
-**Nivel 2 — Mecanismo.** Un cambio en el esquema de sesión exige coordinación entre autores, renderer, traducción y publicación, aunque no todos esos participantes compartan código. Representación: tabla actor → contrato → efecto del cambio. **Recuperación:** si un proveedor externo cambia, ¿deja de importar porque está fuera del repositorio? **Respuesta:** no; puede atravesar la frontera operativa del producto.
+**Nivel 2 — Mecanismo.** **Cómo un cambio atraviesa actores sin compartir código.** Comprender cómo un cambio atraviesa actores sin compartir código y qué debe comprobarse antes de afirmar un resultado.
+
+**Mecanismo resuelto.** Cambiar el esquema puede exigir coordinar autoría, traducción, renderer y despliegue. La dependencia puede ser contractual u operativa aunque los actores trabajen en repositorios diferentes.
+
+**Decisión en producción.** No confundas el perímetro del repositorio con el ecosistema de personas y servicios.
+
+**Recuperación:** si un proveedor externo cambia, ¿deja de importar porque está fuera del repositorio? **Respuesta:** no; puede atravesar la frontera operativa del producto.
 
 **Nivel 3 — Profundización (opcional).** El límite de ecosistema es una decisión de análisis: incluir todo vuelve el modelo inútil; excluir dependencias críticas oculta riesgos. Tipo: estructural; objetivo: identificar actores y contratos; técnica: mapa de cambio; fuentes [R2, P1]; revisión: añadir dependencias reales cuando existan. Interacción: no aplica.
 
@@ -73,7 +109,13 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Nivel 1 — Fundamento.** Es una propiedad de calidad que se especifica y evalúa para un producto; ISO/IEC 25010:2023 ofrece un modelo de referencia, no una nota automática para nuestro sitio [R3]. En P0, accesibilidad y desempeño son preocupaciones distintas: una página puede cargar rápido y aun así tener controles imposibles de usar con teclado [R5, R6].
 
-**Nivel 2 — Mecanismo.** Expresa una propiedad como escenario comprobable: “dada la vista de sesión en pantalla pequeña, una persona navega el índice con teclado, sin perder foco ni ocultar contenido”. Una prueba manual observa el foco; una captura sola no lo confirma. **Recuperación:** ¿“sitio de alta calidad” es criterio verificable? **Respuesta:** no; faltan contexto, estímulo y observación.
+**Nivel 2 — Mecanismo.** **Cómo una propiedad se convierte en un criterio observable.** Comprender cómo una propiedad se convierte en un criterio observable y qué debe comprobarse antes de afirmar un resultado.
+
+**Mecanismo resuelto.** Elige contexto, estímulo y resultado verificable: navegar el índice con teclado en móvil sin perder foco. La observación debe registrarse mediante una prueba, no inferirse de una captura.
+
+**Decisión en producción.** Una página rápida puede ser inaccesible; un atributo no garantiza otro.
+
+**Recuperación:** ¿“sitio de alta calidad” es criterio verificable? **Respuesta:** no; faltan contexto, estímulo y observación.
 
 **Nivel 3 — Profundización (opcional).** Atributos pueden entrar en tensión: cargar widgets puede afectar el tiempo de respuesta; comprueba ambos con mediciones antes de optimizar. Tipo: decisional; objetivo: formular escenario de prueba; técnica: ejemplo resuelto y comparación; fuentes [R3, R5, R6]; revisión: revalidar tras cambios del sitio. Interacción: no aplica.
 
@@ -81,7 +123,13 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Nivel 1 — Fundamento.** Es una condición que reduce las soluciones admisibles; se distingue del atributo que intentamos lograr. “Debe publicarse como HTML estático legible sin JavaScript” restringe el diseño de `site/`; “ser accesible” designa una propiedad que debe concretarse en criterios. Una preferencia del equipo no se convierte automáticamente en restricción.
 
-**Nivel 2 — Mecanismo.** 📥 **Causa:** requisito de lectura sin JavaScript; ⚙️ **Mecanismo:** respuestas de tarjetas están en HTML y el script solo cambia su presentación; 📤 **Resultado:** el contenido sigue accesible cuando el script falla. **Recuperación:** ¿“usar React” es por sí mismo atributo de calidad? **Respuesta:** no, es una elección tecnológica que debe justificarse.
+**Nivel 2 — Mecanismo.** **Cómo una restricción elimina alternativas de diseño.** Comprender cómo una restricción elimina alternativas de diseño y qué debe comprobarse antes de afirmar un resultado.
+
+**Mecanismo resuelto.** Exigir lectura sin JavaScript obliga a publicar las explicaciones y respuestas en HTML inicial; el script solo puede mejorar la presentación. Una solución que genera toda la teoría en cliente incumple esa condición.
+
+**Decisión en producción.** La elección de React no es un atributo de calidad ni una restricción sin justificación.
+
+**Recuperación:** ¿“usar React” es por sí mismo atributo de calidad? **Respuesta:** no, es una elección tecnológica que debe justificarse.
 
 **Nivel 3 — Profundización (opcional).** Registra origen y dueño de cada restricción; una restricción falsa puede descartar una opción mejor. Tipo: decisional; objetivo: separar objetivo y condición; técnica: clasificación con justificación; fuentes [R3, P1]; revisión: consultar los criterios del repo real. Interacción: no aplica.
 
@@ -89,7 +137,13 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Nivel 1 — Fundamento.** Una frontera delimita responsabilidad y la interacción permitida entre partes [R2]. `apps/portfolio/` contiene comunicación profesional; `site/` contiene teoría completa y estado de estudio. Un enlace público entre ambos puede ser apropiado; importar el estado privado de estudio al portafolio podría violar el propósito de éste.
 
-**Nivel 2 — Mecanismo.** Cuando el sitio cambia su esquema de flashcards, debería cambiar su renderer y pruebas, no el portafolio. Mapa: `portafolio --enlace público--> sitio`; ambos conservan pipelines de contenido propios. **Recuperación:** ¿una frontera impide cualquier comunicación? **Respuesta:** no; explicita contratos permitidos.
+**Nivel 2 — Mecanismo.** **Cómo una frontera limita la propagación.** Comprender cómo una frontera limita la propagación y qué debe comprobarse antes de afirmar un resultado.
+
+**Mecanismo resuelto.** Una frontera permite enlaces públicos entre portafolio y sitio, pero evita que el portafolio dependa del esquema privado de tarjetas del sitio. Cambiar el esquema editorial debería afectar al renderer y sus pruebas.
+
+**Decisión en producción.** Una frontera no significa ausencia de comunicación; significa contratos explícitos.
+
+**Recuperación:** ¿una frontera impide cualquier comunicación? **Respuesta:** no; explicita contratos permitidos.
 
 **Nivel 3 — Profundización (opcional).** La separación trae duplicación potencial de estilos y trabajo de despliegue; compartir tokens solo cuando su contrato sea estable. Tipo: estructural; objetivo: anticipar propagación; técnica: cambio hipotético y mapa; fuentes [R2, P1]; revisión: inspeccionar diferencias reales de importación. Interacción: no aplica.
 
@@ -97,7 +151,13 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Nivel 1 — Fundamento.** El [acoplamiento:: Dependencia entre partes que propaga cambios] es el grado y la forma de dependencia entre elementos; para este ejercicio interesa **qué cambio exige cambiar a otro consumidor**, sin inventar un índice numérico [R1]. Si el portafolio lee directamente el JSON interno del sitio, una renombrada de campo podría romperlo.
 
-**Nivel 2 — Mecanismo.** 📥 **Causa:** renombrar `page.title` a `page.heading`; ⚙️ **Mecanismo:** el importador depende de la forma interna; 📤 **Resultado:** falla el render hasta actualizar al consumidor. Un enlace a una URL pública estable limita esa clase particular de propagación, aunque añade una dependencia de disponibilidad. **Recuperación:** ¿menos imports significa necesariamente cero acoplamiento? **Respuesta:** no; también hay contratos de red, datos y operación.
+**Nivel 2 — Mecanismo.** **Cómo un cambio de contrato afecta a un consumidor.** Comprender cómo un cambio de contrato afecta a un consumidor y qué debe comprobarse antes de afirmar un resultado.
+
+**Mecanismo resuelto.** Situación inicial: el productor publica `page.title` y el consumidor lee ese campo. Cambio: el productor pasa a `page.heading` sin adaptar al consumidor; si no hay compatibilidad, el renderer puede fallar o mostrar contenido ausente. La causa arquitectónica es la dependencia del contrato interno, no el acto de renombrar en sí.
+
+**Decisión en producción.** Compara actualizar ambos extremos, mantener un alias temporal o introducir un adaptador; cada alternativa tiene costes de migración.
+
+**Recuperación:** ¿menos imports significa necesariamente cero acoplamiento? **Respuesta:** no; también hay contratos de red, datos y operación.
 
 **Nivel 3 — Profundización (opcional).** La dirección y estabilidad de la dependencia importan más que contar imports; verifica la ruptura con una prueba de contrato antes de concluir. Tipo: causal/estructural; objetivo: predecir impacto del cambio; técnica: predict→reveal con dos grafos; fuentes [R1, R2]; revisión: ejecutar un cambio controlado. Interacción editorial posible: elegir una arista y resaltar consumidores transitivos del grafo explícito; sin grafo real, usar dos dibujos estáticos.
 
@@ -105,7 +165,13 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Nivel 1 — Fundamento.** Expresa cuánto contribuyen las responsabilidades de un módulo a un propósito reconocible [R1]. Un módulo `session-renderer` que organiza secciones, citas y diagramas de sesiones tiene un propósito relacionado; si además gestiona contactos del portafolio y secretos del proveedor de IA, mezcla cambios por razones independientes.
 
-**Nivel 2 — Mecanismo.** Compara motivos de cambio: editar el esquema de citas afecta al renderer; cambiar el formulario de contacto afecta al portafolio. Si ambos requieren editar siempre el mismo módulo, revisa su reparto de responsabilidades. **Recuperación:** ¿crear un archivo por función garantiza cohesión? **Respuesta:** no; la cohesión depende de responsabilidades y motivos de cambio, no del tamaño del archivo.
+**Nivel 2 — Mecanismo.** **Cómo los motivos de cambio revelan cohesión.** Comprender cómo los motivos de cambio revelan cohesión y qué debe comprobarse antes de afirmar un resultado.
+
+**Mecanismo resuelto.** Un renderer que gestiona secciones, citas y diagramas agrupa responsabilidades editoriales relacionadas. Si también gestiona contactos del portafolio, cambios independientes obligan a revisar el mismo módulo.
+
+**Decisión en producción.** Dividir todo en archivos diminutos no garantiza cohesión y puede aumentar coordinación.
+
+**Recuperación:** ¿crear un archivo por función garantiza cohesión? **Respuesta:** no; la cohesión depende de responsabilidades y motivos de cambio, no del tamaño del archivo.
 
 **Nivel 3 — Profundización (opcional).** Separar en exceso crea interfaces y coordinación adicionales; comprueba casos reales antes de extraer módulos. Tipo: conceptual/decisional; objetivo: agrupar responsabilidades; técnica: contraste de cambios; fuente [R1]; revisión: revisar el primer diff de P0. Interacción: no aplica.
 
@@ -113,7 +179,13 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Nivel 1 — Fundamento.** Para este programa, Staff significa resolver problemas que cruzan equipos o dominios mediante decisiones técnicas explicables, entrega y mentoría. Es una **convención curricular**, no una definición universal de empleo [P1]. Ejemplo: acordar el contrato de navegación del sitio y ayudar a dos autores a utilizarlo.
 
-**Nivel 2 — Mecanismo.** Detecta una incompatibilidad, propone opciones, acuerda responsables, publica un contrato y observa adopción con evidencia. **Recuperación:** ¿escribir más código individual prueba mayor alcance Staff? **Respuesta:** no; la influencia y el resultado compartido requieren pruebas distintas.
+**Nivel 2 — Mecanismo.** **Cómo una decisión técnica alcanza a otros equipos.** Comprender cómo una decisión técnica alcanza a otros equipos y qué debe comprobarse antes de afirmar un resultado.
+
+**Mecanismo resuelto.** Una incompatibilidad lleva a proponer opciones, acordar responsables, documentar un contrato y comprobar adopción. El impacto Staff depende de colaboración y resultados observables, no de líneas escritas.
+
+**Decisión en producción.** Una propuesta sin adopción es evidencia de razonamiento, no de liderazgo ya demostrado.
+
+**Recuperación:** ¿escribir más código individual prueba mayor alcance Staff? **Respuesta:** no; la influencia y el resultado compartido requieren pruebas distintas.
 
 **Nivel 3 — Profundización (opcional).** El título no certifica competencia; diferenciar propuesta de adopción real evita atribuir liderazgo no observado. Tipo: decisional; objetivo: formular evidencia; técnica: análisis de caso; fuente [P1]; revisión: documentar decisión y feedback real. Interacción: no aplica.
 
@@ -121,7 +193,13 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Nivel 1 — Fundamento.** En el modelo del programa, Principal agrega decisiones y dirección técnica a escala de varios sistemas, con consecuencias de evolución y gobernanza explícitas [P1]. Ejemplo: evaluar si el contrato bilingüe de P0 puede sostener los 120 capítulos sin imponer una herramienta obligatoria a proyectos ajenos.
 
-**Nivel 2 — Mecanismo.** Identifica alternativas, restricciones y costos de migración; pacta una regla revisable y observa si múltiples equipos/sistemas pueden seguirla. **Recuperación:** ¿decidir un framework para una sola página prueba impacto Principal? **Respuesta:** no; harían falta alcance, adopción y resultados pertinentes.
+**Nivel 2 — Mecanismo.** **Cómo una decisión evoluciona entre sistemas.** Comprender cómo una decisión evoluciona entre sistemas y qué debe comprobarse antes de afirmar un resultado.
+
+**Mecanismo resuelto.** Comparar alternativas, restricciones y costes de migración permite acordar una regla revisable entre sistemas. Su validez debe reexaminarse cuando aparecen nuevos consumidores.
+
+**Decisión en producción.** Un framework elegido para una página no demuestra alcance Principal.
+
+**Recuperación:** ¿decidir un framework para una sola página prueba impacto Principal? **Respuesta:** no; harían falta alcance, adopción y resultados pertinentes.
 
 **Nivel 3 — Profundización (opcional).** El alcance depende de organización y contexto; aquí es objetivo de aprendizaje, no pronóstico de carrera. Tipo: decisional; objetivo: comparar radio de decisión; técnica: matriz de alcances; fuente [P1]; revisión: contrastar decisión P0 y su evolución en PA-S002. Interacción: no aplica.
 
@@ -131,7 +209,13 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Nivel 1 — Fundamento.** Es el diseño de capacidades frontend compartidas, sus contratos, consumidores y evolución: por ejemplo, shell de navegación, esquema de sesión, tema, componentes accesibles y compilación de diagramas. Es una **síntesis del programa** sobre plataforma [R4], arquitectura [R2] y accesibilidad [R5]. Una página de marketing aislada puede usar un componente compartido sin convertirse por ello en plataforma.
 
-**Nivel 2 — Mecanismo.** El capítulo define IDs de secciones; el renderer produce navegación y HTML; el estado de estudio usa IDs estables en ambos idiomas, mientras los registros de dominio quedan separados. Una traducción cambia texto visible, no claves persistidas. **Recuperación:** ¿guardar una casilla marcada debe incrementar L1–L5? **Respuesta:** no; seguimiento de estudio y evidencia de dominio tienen contratos distintos [P1].
+**Nivel 2 — Mecanismo.** **Cómo una sesión se publica y conserva estado bilingüe.** Comprender cómo una sesión se publica y conserva estado bilingüe y qué debe comprobarse antes de afirmar un resultado.
+
+**Mecanismo resuelto.** El autor define secciones con IDs estables; el renderer genera navegación y HTML; las marcas de estudio se almacenan con los mismos IDs en ES/EN. La traducción cambia etiquetas, no la identidad del ejercicio.
+
+**Decisión en producción.** Marcar una casilla registra actividad y nunca certifica L1–L5.
+
+**Recuperación:** ¿guardar una casilla marcada debe incrementar L1–L5? **Respuesta:** no; seguimiento de estudio y evidencia de dominio tienen contratos distintos [P1].
 
 **Nivel 3 — Profundización (opcional).** Considera fallo de JavaScript, compatibilidad de esquema, foco, contraste y peso de scripts; no declare “accesible” una página solo por pasar un escáner. Tipo: estructural/procedimental; objetivo: seguir contrato autor→lector; técnica: diagrama y prueba de teclado; fuentes [R2, R4, R5, P1]; revisión: segunda sesión bilingüe. Interacción: selector de idioma para ver que ID y estado permanecen, únicamente si el sitio implementa la persistencia real; alternativa sin JS: tabla de IDs.
 
@@ -141,7 +225,13 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Nivel 1 — Fundamento.** Trata una función de IA como parte de un flujo de producto con contexto de uso, entradas permitidas, salida, riesgos y evaluación; el marco voluntario AI RMF del NIST organiza la gestión en Govern, Map, Measure y Manage [R7]. Ejemplo **hipotético**: un resumen asistido de un caso público del portafolio; no existe evidencia de que P0 lo tenga o lo necesite.
 
-**Nivel 2 — Mecanismo.** 📥 **Entrada:** texto público elegido por el usuario; ⚙️ **Proceso:** un servicio delimita datos, solicita una propuesta al modelo, valida forma y permite revisión humana; 📤 **Resultado:** borrador etiquetado para aprobar o descartar, no una afirmación publicada automáticamente. **Recuperación:** ¿una respuesta fluida acredita exactitud? **Respuesta:** no; verifica contra el texto fuente y casos de prueba pertinentes [R7].
+**Nivel 2 — Mecanismo.** **Cómo un borrador de IA llega —o no— a publicación.** Comprender cómo un borrador de IA llega —o no— a publicación y qué debe comprobarse antes de afirmar un resultado.
+
+**Mecanismo resuelto.** Primero se verifica autorización de los datos; después un modelo puede proponer un borrador que se contrasta con fuentes y se somete a revisión humana. Si falta permiso o evidencia, el flujo se detiene; publicar exige decisión editorial separada.
+
+**Decisión en producción.** Es un modelo hipotético, no una función de IA desplegada ni una evaluación de exactitud.
+
+**Recuperación:** ¿una respuesta fluida acredita exactitud? **Respuesta:** no; verifica contra el texto fuente y casos de prueba pertinentes [R7].
 
 **Nivel 3 — Profundización (opcional).** Salidas pueden variar y contener datos incorrectos; delimitar privacidad, fallos, costo y evaluación antes de un despliegue. Tipo: causal/decisional; objetivo: distinguir demostración de producto; técnica: recorrido de fallo y decisión con criterios; fuentes [R7, R8]; revisión: solo si aparece un caso de uso real. Interacción: no aplica ahora; no hay modelo ni dataset aprobado para simular calidad.
 
@@ -151,7 +241,13 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Nivel 1 — Fundamento.** En el programa, evidencia es un artefacto o una observación trazable a una afirmación de capacidad; una casilla de ejercicio indica actividad declarada, no resultado validado [P1]. Ejemplo: “leí sobre navegación por teclado” es estado de estudio; registro de prueba y revisión humana de la ruta es evidencia.
 
-**Nivel 2 — Mecanismo.** Registrar `PA-S001.exercise.boundary-map = checked` altera solamente el almacenamiento de estudio. Una referencia a prueba real y su resultado se registra por otro canal; el dashboard no deriva dominio de la casilla. **Recuperación:** ¿marcar la checklist otorga L2? **Respuesta:** no; L2 exige implementar y mostrar evidencia distinta.
+**Nivel 2 — Mecanismo.** **Cómo se separa actividad de evidencia.** Comprender cómo se separa actividad de evidencia y qué debe comprobarse antes de afirmar un resultado.
+
+**Mecanismo resuelto.** Marcar un ejercicio actualiza únicamente el estado reversible de estudio. Una prueba ejecutada y revisada se registra por otro canal con contexto y resultado; el dashboard no deriva dominio de la casilla.
+
+**Decisión en producción.** Una casilla marcada no equivale a una implementación demostrada.
+
+**Recuperación:** ¿marcar la checklist otorga L2? **Respuesta:** no; L2 exige implementar y mostrar evidencia distinta.
 
 **Nivel 3 — Profundización (opcional).** Sin artefacto o criterio observable, el nivel queda pendiente; también cabe “no se puede determinar”. Tipo: conceptual/decisional; objetivo: separar estados; técnica: clasificación y feedback; fuente [P1]; revisión: tras construir y revisar. Interacción: controles de estudio reversibles porque la variable es declaración de seguimiento; sin JS mostrar estado no editable, sin falsas afirmaciones.
 
@@ -159,7 +255,13 @@ Primero estudiarás ingeniería, arquitectura, cuatro escalas de alcance, calida
 
 **Nivel 1 — Fundamento.** El programa distingue L1 Explicar, L2 Implementar, L3 Operar, L4 Decidir y L5 Liderar [P1]. No son porcentajes ni equivalen a las tres **capas de lectura** de un concepto. Ejemplo: explicar por qué un mapa distingue sitio y portafolio puede apoyar L1, pero no prueba que esa frontera se aplique en código.
 
-**Nivel 2 — Mecanismo.** Para L2 se inspecciona implementación y pruebas; para L3 incidentes/operación observados; para L4 alternativas y resultados de decisión; para L5 adopción e influencia comprobadas. **Recuperación:** ¿un tutorial completado demuestra L5? **Respuesta:** no; cada nivel exige evidencia diferente.
+**Nivel 2 — Mecanismo.** **Cómo se vincula cada nivel a una prueba diferente.** Comprender cómo se vincula cada nivel a una prueba diferente y qué debe comprobarse antes de afirmar un resultado.
+
+**Mecanismo resuelto.** L1 exige explicar; L2, implementar; L3, operar; L4, decidir con alternativas; L5, liderar con adopción verificable. Son afirmaciones diferentes, no una escala inferida automáticamente del número de ejercicios.
+
+**Decisión en producción.** Un tutorial completado no demuestra liderazgo ni operación en producción.
+
+**Recuperación:** ¿un tutorial completado demuestra L5? **Respuesta:** no; cada nivel exige evidencia diferente.
 
 **Nivel 3 — Profundización (opcional).** Puede haber evidencia parcial o contradictoria; registra el alcance y no infieras niveles superiores. Tipo: estructural; objetivo: vincular afirmación a prueba; técnica: matriz evidencia→nivel; fuente [P1]; revisión: reevaluar tras nuevos artefactos. Interacción: no aplica hasta contar con registros reales.
 
