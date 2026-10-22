@@ -109,7 +109,7 @@ test('17 concept-specific mechanisms expose separated retrieval and contextual c
     assert.equal((html.match(/class="mechanism-retrieval"/g)??[]).length,17);
     assert.ok(html.includes(`/shared/diagrams/PA-S001/coupling-contract-${lang}.svg`));
     assert.ok(diagramMetadata([pages[lang]]).has(`PA-S001/coupling-contract-${lang}.mmd`));
-    assert.equal((source(lang).match(/\\*\\*(?:Mecanismo resuelto|Worked mechanism)\\.\\*\\*/g)??[]).length,17);
+    assert.equal((source(lang).match(/\*\*(?:Mecanismo resuelto|Worked mechanism)\.\*\*/g)??[]).length,17);
   }
 });
 
