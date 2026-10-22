@@ -279,7 +279,7 @@ test('expanded canonical sources preserve stage 3 structure, success criteria, e
     const stage3=readFileSync(resolve(root,`site/content/proposals/PA-S001-stage3-theory-${lang}.md`),'utf8');
     const headings=(value:string)=>[...value.matchAll(/^#{1,4} .+$/gm)].map(match=>match[0]);
     assert.deepEqual(headings(text),headings(stage3),`${lang}: no stage 3 section may disappear`);
-    assert.equal((text.match(/\\*\\*(?:Nivel 2 — Mecanismo|Level 2 — Mechanism)\\.\\*\\*/g)??[]).length,17);
+    assert.equal((text.match(/\*\*(?:Nivel 2 — Mecanismo|Level 2 — Mechanism)\.\*\*/g)??[]).length,17);
     const criteria=text.split(lang==='es'?'## Criterios de éxito de la sesión':'## End-of-session success criteria')[1]!.split('\n## ')[0]!;
     const items=[...criteria.matchAll(/^- \[ \] (.+)$/gm)].map(m=>m[1]!);
     assert.equal(items.length,8);
