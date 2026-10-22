@@ -81,8 +81,8 @@ test('every substantive authored paragraph and instruction appears in rendered o
     let cursor=0,count=0,inCode=false;
     for(const raw of source(lang).split('\n')){
       if(raw.startsWith('```')){inCode=!inCode;continue;}
-      if(/^\\*\\*(?:Recuperación|Retrieval):\\*\\*/.test(raw)){
-        const match=raw.match(/^\\*\\*(?:Recuperación|Retrieval):\\*\\* (.+?) \\*\\*(?:Respuesta|Answer):\\*\\* (.+)$/);
+      if(/^\*\*(?:Recuperación|Retrieval):\*\*/.test(raw)){
+        const match=raw.match(/^\*\*(?:Recuperación|Retrieval):\*\* (.+?) \*\*(?:Respuesta|Answer):\*\* (.+)$/);
         assert.ok(match,`${lang}: retrieval source syntax`);
         const question=plainMarkdown(match![1]!);
         const answer=plainMarkdown(match![2]!);
@@ -106,7 +106,7 @@ test('every substantive authored paragraph and instruction appears in rendered o
 test('17 concept-specific mechanisms expose separated retrieval and contextual coupling SVG',()=>{
   for(const lang of ['es','en'] as const){
     const html=renderCanonical(source(lang),lang,'/').html;
-    assert.equal((html.match(/class="mechanism-retrieval"/g)??[]).length,17);
+    assert.equal((html.match(/class="mechanism-retrieval"/g)??[]).length,24); // 17 concepts + 7 topic/subtopic retrievals
     assert.ok(html.includes(`/shared/diagrams/PA-S001/coupling-contract-${lang}.svg`));
     assert.ok(diagramMetadata([pages[lang]]).has(`PA-S001/coupling-contract-${lang}.mmd`));
     assert.equal((source(lang).match(/\*\*(?:Mecanismo resuelto|Worked mechanism)\.\*\*/g)??[]).length,17);
