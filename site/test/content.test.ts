@@ -273,10 +273,13 @@ test('reference rules select the specified outcomes for every input combination'
   }
 });
 
-test('expanded canonical sources are exact proposals and retain success criteria, examples and references',()=>{
+test('expanded canonical sources preserve stage 3 structure, success criteria, examples and references',()=>{
   for(const lang of ['es','en'] as const){
     const text=source(lang),html=renderCanonical(text,lang,'/').html;
-    assert.equal(text,readFileSync(resolve(root,`site/content/proposals/PA-S001-stage3-theory-${lang}.md`),'utf8'));
+    const stage3=readFileSync(resolve(root,`site/content/proposals/PA-S001-stage3-theory-${lang}.md`),'utf8');
+    const headings=(value:string)=>[...value.matchAll(/^#{1,4} .+$/gm)].map(match=>match[0]);
+    assert.deepEqual(headings(text),headings(stage3),`${lang}: no stage 3 section may disappear`);
+    assert.equal((text.match(/\\*\\*(?:Nivel 2 — Mecanismo|Level 2 — Mechanism)\\.\\*\\*/g)??[]).length,17);
     const criteria=text.split(lang==='es'?'## Criterios de éxito de la sesión':'## End-of-session success criteria')[1]!.split('\n## ')[0]!;
     const items=[...criteria.matchAll(/^- \[ \] (.+)$/gm)].map(m=>m[1]!);
     assert.equal(items.length,8);
