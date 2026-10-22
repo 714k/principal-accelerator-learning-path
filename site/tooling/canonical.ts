@@ -227,7 +227,7 @@ export function renderCanonical(source:string,lang:'es'|'en',base:string):Canoni
       const match=line.match(/^\*\*([^*]+)\*\* (.*)$/)!;
       out.push(`<details class="deep-dive"><summary><span class="reading-level-title">${escapeHtml(match[1]!)}</span></summary><p>${inline(match[2]!)}</p></details>`);i++;continue;
     }
-    const retrieval=line.match(/^\\*\\*(Recuperación|Retrieval):\\*\\* (.+?) \\*\\*(Respuesta|Answer):\\*\\* (.+)$/);
+    const retrieval=line.match(/^\*\*(Recuperación|Retrieval):\*\* (.+?) \*\*(Respuesta|Answer):\*\* (.+)$/);
     if(retrieval){
       out.push(`<details class="mechanism-retrieval"><summary><strong>${lang==='es'?'Comprueba tu comprensión':'Check your understanding'}:</strong> ${inline(retrieval[2]!)}</summary><p><strong>${lang==='es'?'Respuesta razonada':'Reasoned answer'}:</strong> ${inline(retrieval[4]!)}</p></details>`);
       i++;continue;
