@@ -66,6 +66,13 @@ export function diagramMetadata(pages: Page[]): Map<string, DiagramMetadata> {
       add({source,title:diagram.caption,description:diagram.caption});
     });
     if(page.kind==='session')add({
+      source:`PA-S001/coupling-contract-${page.lang}.mmd`,
+      title:page.lang==='es'?'Acoplamiento: propagación de un cambio de contrato':'Coupling: contract change propagation',
+      description:page.lang==='es'
+        ?'Modelo hipotético: productor cambia title por heading mientras el consumidor conserva el campo antiguo; comparar alternativas.'
+        :'Hypothetical model: producer changes title to heading while consumer keeps the old field; compare alternatives.'
+    });
+    if(page.kind==='session')add({
       source:'PA-S001/canonical-map.mmd',
       title:page.lang==='es'?'PA-S001 — mapa de los 24 apartados':'PA-S001 — map of the 24 sections',
       description:page.lang==='es'
