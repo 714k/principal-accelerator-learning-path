@@ -25,7 +25,13 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Level 1 — Foundation.** The discipline of specifying, designing, building, verifying, operating, and maintaining software using defensible methods; this scope synthesizes SWEBOK's knowledge areas [R1]. Example: adding a `/en/projects/` route involves more than writing HTML; requirements, accessibility, tests, and evolution also belong to engineering. A list of technologies does not define a life cycle.
 
-**Level 2 — Mechanism.** 📥 **Input:** a need to navigate projects; ⚙️ **Process:** turn it into a route contract, implementation, and checks; 📤 **Output:** a page whose link and behavior can be verified; 💡 **Contextual rule:** closing the loop includes observing failures after change. Representation: `need → contract → implementation → test → operation`. **Retrieval:** does a component that compiles prove the need was met? **Answer:** no; compare its behavior with the requirement.
+**Level 2 — Mechanism.** **How a need becomes verifiable software.** Understand how a need becomes verifiable software and what must be checked before claiming a result.
+
+**Worked mechanism.** A need to navigate projects becomes a route contract, an implementation and checks of observable behavior. Compilation establishes limited code properties; it does not show that navigation satisfies the need or works with a keyboard.
+
+**Production trade-off.** Inspect a route that loads but whose link cannot receive focus: the engineering cycle is not complete.
+
+**Retrieval:** does a component that compiles prove the need was met? **Answer:** no; compare its behavior with the requirement.
 
 **Level 3 — Deep Dive (optional).** More checks cost time; select those addressing actual risks. A route test does not establish keyboard usability. Type: procedural; objective: trace change to verification; technique: worked walkthrough followed by independent practice; source [R1]; revisit: explain again after building P0. Interaction: not applicable, since a textual sequence and real test suffice.
 
@@ -33,7 +39,13 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Level 1 — Foundation.** Reasoning about a system's elements, relationships, and structural principles; an *architecture description* documents such reasoning and concerns, but is not the executed structure itself [R2]. Example: separating `apps/portfolio/` from `site/` prevents a decision about editorial navigation from automatically determining professional navigation. A diagram without correspondence to actual dependencies is an inaccurate description, not proven architecture.
 
-**Level 2 — Mechanism.** A decision allocates responsibilities and contracts; these boundaries determine how changes propagate. Representation: `site/content → renderer → HTML`, while `apps/portfolio → portfolio UI`; a direct internal import between them breaks the proposed separation. **Retrieval:** if the site and app live in the same repository, are they the same product? **Answer:** no; Git location and architectural responsibility are different dimensions.
+**Level 2 — Mechanism.** **How structural decisions bound change.** Understand how structural decisions bound change and what must be checked before claiming a result.
+
+**Worked mechanism.** Assigning responsibilities to the site and portfolio determines which contracts can be shared and which evolve independently. An internal import between them may introduce a dependency that folder diagrams conceal.
+
+**Production trade-off.** Inspect actual imports before asserting independence; a shared repository proves neither coupling nor isolation.
+
+**Retrieval:** if the site and app live in the same repository, are they the same product? **Answer:** no; Git location and architectural responsibility are different dimensions.
 
 **Level 3 — Deep Dive (optional).** Record context, alternatives, consequences, and ways to check a decision; distinct folders alone cannot prove quality. Type: structural and decisional; objective: connect boundaries to propagation; technique: dependency map and counterexample; sources [R1, R2]; revisit: inspect imports and routes after P0. Suggested interaction: select a dependency to highlight reachable consumers *only if* derived from a real graph; no-JavaScript alternative: static map.
 
@@ -41,7 +53,13 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Level 1 — Foundation.** Software assembled to support users' tasks in a defined context; this is an **operational definition for this program**, not an ISO normative taxonomy. `apps/portfolio/` presents work and contact information to a visitor. A button library used by several interfaces, without a user task of its own, is not therefore another application.
 
-**Level 2 — Mechanism.** A request for `/work/` reaches a router, which chooses a page for the browser to display. Changing a URL requires checking inbound links and navigation. **Retrieval:** does a new style package constitute an application? **Answer:** not necessarily; a recognizable user experience is needed.
+**Level 2 — Mechanism.** **How a request becomes a user experience.** Understand how a request becomes a user experience and what must be checked before claiming a result.
+
+**Worked mechanism.** A URL reaches the router, resolves to a view and the browser presents a visitor task. Changing the route can affect inbound links even when the view still works.
+
+**Production trade-off.** A style package does not become an application merely by having development routes.
+
+**Retrieval:** does a new style package constitute an application? **Answer:** not necessarily; a recognizable user experience is needed.
 
 **Level 3 — Deep Dive (optional).** An application may include services, and organizations use the word differently; declare the analytical scope before drawing it. Type: conceptual; objective: identify user responsibility; technique: contrast with a library; sources [R1, R2] and P0 convention [P1]; revisit: classify `apps/portfolio/` during implementation. Interaction: not applicable.
 
@@ -49,7 +67,13 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Level 1 — Foundation.** A bounded set of interacting elements serving a purpose; the boundary depends on the analytical question [R2]. For publishing, the generator, content files, and generated HTML may form a system; for the visitor's experience, browser and network also matter. A folder alone does not define this boundary.
 
-**Level 2 — Mechanism.** 📥 **Input:** canonical Markdown; ⚙️ **Process:** renderer and diagram conversion produce artifacts; 📤 **Output:** HTML page and SVG for the reader. If conversion fails, the publication system must not present an incomplete page as success. **Retrieval:** is the portfolio application always the whole system? **Answer:** it depends on the purpose and interactions being studied.
+**Level 2 — Mechanism.** **How components cooperate to publish a session.** Understand how components cooperate to publish a session and what must be checked before claiming a result.
+
+**Worked mechanism.** Content enters validation; the renderer and diagram compiler generate HTML and SVG for the browser. The outcome depends on each stage producing its required artifact.
+
+**Production trade-off.** If Mermaid fails, publishing a page without its diagram violates the publishing contract.
+
+**Retrieval:** is the portfolio application always the whole system? **Answer:** it depends on the purpose and interactions being studied.
 
 **Level 3 — Deep Dive (optional).** Make inclusions, exclusions, and environment explicit to avoid assigning external failures to the wrong component. Type: structural; objective: draw the publication-system boundary; technique: element and failure map; sources [R2, P1]; revisit: redraw for an actual failure. Interaction: not applicable.
 
@@ -57,7 +81,13 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Level 1 — Foundation.** In this program, a product offering shared capabilities with contracts and consumers; CNCF describes internal platforms as self-service offerings for teams [R4]. A bilingual content layer, visual tokens, and a Mermaid→SVG pipeline could serve many sessions; a component copied once does not yet demonstrate a useful platform.
 
-**Level 2 — Mechanism.** An author supplies theory and a diagram to the site contract; the platform renders, validates, and publishes them without duplicating this machinery per session. `session → stable schema → common renderer → ES/EN pages` represents consumption, not guaranteed adoption. **Retrieval:** do several shared folders prove platform value? **Answer:** no; check actual use, support, and contract suitability.
+**Level 2 — Mechanism.** **How a shared capability serves consumers.** Understand how a shared capability serves consumers and what must be checked before claiming a result.
+
+**Worked mechanism.** An author supplies a session matching the schema; the common renderer validates and publishes it without copying session-specific code. Reuse is demonstrated through real consumers and compatible changes.
+
+**Production trade-off.** A single session demonstrates a reusable prototype, not platform adoption or productivity.
+
+**Retrieval:** do several shared folders prove platform value? **Answer:** no; check actual use, support, and contract suitability.
 
 **Level 3 — Deep Dive (optional).** Premature abstraction can impose expensive conventions; a divergent consumer may need an extension or different boundary. Type: structural and decisional; objective: weigh reuse against cost; technique: consumer/trade-off matrix; sources [R4, P1]; revisit: observe a second session before generalizing. Interaction: not applicable.
 
@@ -65,7 +95,13 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Level 1 — Foundation.** The network of products, people, teams, rules, and integrations shaping a solution; this is an **analytical abstraction**, not a formal hierarchy guaranteed by [R2]. P0 might include the content author, learner, hosting, browser, test tools, and portfolio visitors. It is not synonymous with “a very large repository.”
 
-**Level 2 — Mechanism.** A session-schema change requires coordination among authors, renderer, translation, and publishing, even when they do not share code. Representation: actor → contract → change effect table. **Retrieval:** does an external provider stop mattering because it is outside the repository? **Answer:** no; it may cross the product's operational boundary.
+**Level 2 — Mechanism.** **How change crosses actors without shared code.** Understand how change crosses actors without shared code and what must be checked before claiming a result.
+
+**Worked mechanism.** A schema change can require coordination among authors, translators, renderer maintainers and deployment. Dependencies can be contractual or operational even when actors use different repositories.
+
+**Production trade-off.** Do not confuse repository boundaries with the ecosystem of people and services.
+
+**Retrieval:** does an external provider stop mattering because it is outside the repository? **Answer:** no; it may cross the product's operational boundary.
 
 **Level 3 — Deep Dive (optional).** The ecosystem boundary is a modeling choice: including everything makes the model useless; excluding critical dependencies hides risks. Type: structural; objective: identify actors and contracts; technique: change map; sources [R2, P1]; revisit: add real dependencies when they exist. Interaction: not applicable.
 
@@ -73,7 +109,13 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Level 1 — Foundation.** A quality property to specify and evaluate for a product; ISO/IEC 25010:2023 supplies a reference model, not an automatic score for this site [R3]. In P0, accessibility and performance are distinct concerns: a page may load quickly yet have controls impossible to operate by keyboard [R5, R6].
 
-**Level 2 — Mechanism.** State a property as a checkable scenario: “given a session view on a small screen, a person navigates the outline by keyboard without losing focus or hiding content.” A manual check observes focus; a screenshot alone does not. **Retrieval:** is “high-quality site” a verifiable criterion? **Answer:** no; context, stimulus, and observation are missing.
+**Level 2 — Mechanism.** **How a property becomes an observable criterion.** Understand how a property becomes an observable criterion and what must be checked before claiming a result.
+
+**Worked mechanism.** Specify context, stimulus and observable result: navigate the outline by keyboard on mobile without losing focus. Record a real test rather than inferring its outcome from a screenshot.
+
+**Production trade-off.** A fast page may be inaccessible; one attribute does not guarantee another.
+
+**Retrieval:** is “high-quality site” a verifiable criterion? **Answer:** no; context, stimulus, and observation are missing.
 
 **Level 3 — Deep Dive (optional).** Attributes may conflict: loading widgets may affect responsiveness; measure both before optimizing. Type: decisional; objective: state a test scenario; technique: worked example and comparison; sources [R3, R5, R6]; revisit: revalidate after site changes. Interaction: not applicable.
 
@@ -81,7 +123,13 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Level 1 — Foundation.** A condition limiting admissible solutions, distinct from an attribute we aim to achieve. “Publish as static HTML readable without JavaScript” constrains the design of `site/`; “be accessible” names a property that needs concrete criteria. A team's preference does not automatically become a constraint.
 
-**Level 2 — Mechanism.** 📥 **Cause:** no-JavaScript reading requirement; ⚙️ **Mechanism:** card answers are present in HTML and script only changes presentation; 📤 **Output:** content remains readable when script fails. **Retrieval:** is “use React” itself a quality attribute? **Answer:** no; it is a technology choice requiring justification.
+**Level 2 — Mechanism.** **How a constraint eliminates design alternatives.** Understand how a constraint eliminates design alternatives and what must be checked before claiming a result.
+
+**Worked mechanism.** Requiring reading without JavaScript means explanations and answers must exist in initial HTML; scripts may enhance presentation only. A solution generating all theory on the client violates that condition.
+
+**Production trade-off.** Choosing React is neither a quality attribute nor a constraint without justification.
+
+**Retrieval:** is “use React” itself a quality attribute? **Answer:** no; it is a technology choice requiring justification.
 
 **Level 3 — Deep Dive (optional).** Record each constraint's origin and owner; a false constraint may discard a better option. Type: decisional; objective: separate aim from condition; technique: justified classification; sources [R3, P1]; revisit: consult real repository criteria. Interaction: not applicable.
 
@@ -89,7 +137,13 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Level 1 — Foundation.** A delineation of responsibility and permitted interaction between parts [R2]. `apps/portfolio/` holds professional communication; `site/` holds full theory and study state. A public link may be suitable; importing private study state into the portfolio could violate its purpose.
 
-**Level 2 — Mechanism.** Changing the site's flashcard schema should affect its renderer and tests, not the portfolio. Map: `portfolio --public link--> site`; each has its own content pipeline. **Retrieval:** does a boundary prevent all communication? **Answer:** no; it makes permitted contracts explicit.
+**Level 2 — Mechanism.** **How a boundary limits change propagation.** Understand how a boundary limits change propagation and what must be checked before claiming a result.
+
+**Worked mechanism.** A boundary allows public links between portfolio and site while preventing the portfolio from depending on the site's private flashcard schema. Editorial schema changes should affect the renderer and its tests.
+
+**Production trade-off.** A boundary does not forbid communication; it specifies permitted contracts.
+
+**Retrieval:** does a boundary prevent all communication? **Answer:** no; it makes permitted contracts explicit.
 
 **Level 3 — Deep Dive (optional).** Separation may duplicate styles and deployment work; share tokens only when their contract is stable. Type: structural; objective: anticipate propagation; technique: hypothetical change and map; sources [R2, P1]; revisit: inspect actual import differences. Interaction: not applicable.
 
@@ -97,7 +151,13 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Level 1 — Foundation.** [Coupling:: Dependency between parts that propagates changes] is the degree and kind of dependency between elements; this exercise asks **which change forces a consumer change**, without inventing a numeric index [R1]. If the portfolio directly reads the site's internal JSON, renaming a field could break it.
 
-**Level 2 — Mechanism.** 📥 **Cause:** rename `page.title` to `page.heading`; ⚙️ **Mechanism:** the importer depends on the internal shape; 📤 **Output:** rendering fails until the consumer is updated. A stable public URL limits this particular propagation, though it adds availability dependency. **Retrieval:** do fewer imports necessarily mean zero coupling? **Answer:** no; network, data, and operational contracts also matter.
+**Level 2 — Mechanism.** **How a contract change affects a consumer.** Understand how a contract change affects a consumer and what must be checked before claiming a result.
+
+**Worked mechanism.** Initially a producer provides `page.title` and a consumer reads that field. If the producer switches to `page.heading` without adapting the consumer or preserving compatibility, rendering may fail or omit content. The architectural cause is dependency on the internal contract, not the rename itself.
+
+**Production trade-off.** Compare coordinated updates, a temporary alias and an adapter; each has migration costs.
+
+**Retrieval:** do fewer imports necessarily mean zero coupling? **Answer:** no; network, data, and operational contracts also matter.
 
 **Level 3 — Deep Dive (optional).** Dependency direction and stability matter more than counting imports; verify breakage with a contract test before concluding. Type: causal/structural; objective: predict change impact; technique: predict→reveal with two graphs; sources [R1, R2]; revisit: run a controlled change. Editorial interaction possible: choose an edge to highlight transitive consumers of an explicit graph; without a real graph, use two static drawings.
 
@@ -105,7 +165,13 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Level 1 — Foundation.** How closely a module's responsibilities contribute to a recognizable purpose [R1]. A `session-renderer` module organizing sections, citations, and session diagrams has related work; if it also manages portfolio contacts and AI provider secrets, it mixes independent reasons for change.
 
-**Level 2 — Mechanism.** Compare change reasons: editing citation schema affects the renderer; changing the contact form affects the portfolio. If both always require editing one module, revisit its responsibility split. **Retrieval:** does one file per function guarantee cohesion? **Answer:** no; cohesion concerns responsibility and change reasons, not file size.
+**Level 2 — Mechanism.** **How reasons for change reveal cohesion.** Understand how reasons for change reveal cohesion and what must be checked before claiming a result.
+
+**Worked mechanism.** A renderer handling sections, citations and diagrams groups related editorial responsibilities. If it also handles portfolio contacts, unrelated changes force edits to the same module.
+
+**Production trade-off.** Splitting everything into tiny files does not guarantee cohesion and can increase coordination.
+
+**Retrieval:** does one file per function guarantee cohesion? **Answer:** no; cohesion concerns responsibility and change reasons, not file size.
 
 **Level 3 — Deep Dive (optional).** Excessive splitting creates more interfaces and coordination; examine real cases before extraction. Type: conceptual/decisional; objective: group responsibilities; technique: contrast change reasons; source [R1]; revisit: review P0's first diff. Interaction: not applicable.
 
@@ -113,7 +179,13 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Level 1 — Foundation.** In this program, Staff means resolving problems spanning teams or domains through explainable technical decisions, delivery, and mentorship. This is a **curriculum convention**, not a universal job definition [P1]. Example: agree on the site's navigation contract and help two authors use it.
 
-**Level 2 — Mechanism.** Detect an incompatibility, propose options, agree on ownership, publish a contract, and observe adoption with evidence. **Retrieval:** does writing more individual code prove greater Staff scope? **Answer:** no; influence and shared outcome require different evidence.
+**Level 2 — Mechanism.** **How a technical decision reaches other teams.** Understand how a technical decision reaches other teams and what must be checked before claiming a result.
+
+**Worked mechanism.** An incompatibility leads to options, ownership agreement, a documented contract and observed adoption. Staff impact depends on collaboration and outcomes, not lines of code.
+
+**Production trade-off.** A proposal without adoption demonstrates reasoning, not verified leadership.
+
+**Retrieval:** does writing more individual code prove greater Staff scope? **Answer:** no; influence and shared outcome require different evidence.
 
 **Level 3 — Deep Dive (optional).** A title does not certify competence; distinguish proposal from actual adoption to avoid claiming unobserved leadership. Type: decisional; objective: frame evidence; technique: case analysis; source [P1]; revisit: document a decision and real feedback. Interaction: not applicable.
 
@@ -121,7 +193,13 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Level 1 — Foundation.** In the program's model, Principal adds technical direction and decisions across multiple systems, with explicit consequences for evolution and governance [P1]. Example: assess whether P0's bilingual contract can serve 120 chapters without forcing a tool on unrelated projects.
 
-**Level 2 — Mechanism.** Identify alternatives, constraints, and migration costs; agree on a revisable rule and observe whether multiple teams/systems can follow it. **Retrieval:** does choosing a framework for one page prove Principal impact? **Answer:** no; relevant breadth, adoption, and outcomes would be needed.
+**Level 2 — Mechanism.** **How a decision evolves across systems.** Understand how a decision evolves across systems and what must be checked before claiming a result.
+
+**Worked mechanism.** Comparing alternatives, constraints and migration costs supports a revisable rule across systems. Revisit it as new consumers emerge.
+
+**Production trade-off.** Choosing a framework for one page does not demonstrate Principal scope.
+
+**Retrieval:** does choosing a framework for one page prove Principal impact? **Answer:** no; relevant breadth, adoption, and outcomes would be needed.
 
 **Level 3 — Deep Dive (optional).** Scope depends on organization and context; here it is a learning aim, not a career prediction. Type: decisional; objective: compare decision radius; technique: scope matrix; source [P1]; revisit: compare P0's decision with its evolution in PA-S002. Interaction: not applicable.
 
@@ -131,7 +209,13 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Level 1 — Foundation.** Design of shared frontend capabilities, contracts, consumers, and evolution: for example navigation shell, session schema, theme, accessible components, and diagram compilation. This is a **program synthesis** of platform [R4], architecture [R2], and accessibility [R5]. An isolated marketing page can use a shared component without itself becoming a platform.
 
-**Level 2 — Mechanism.** The chapter declares section IDs; a renderer creates navigation and HTML; study state uses stable IDs in both languages, while mastery records remain separate. Translation changes displayed text, not persisted keys. **Retrieval:** should checking a box raise L1–L5? **Answer:** no; study tracking and mastery evidence have separate contracts [P1].
+**Level 2 — Mechanism.** **How a session publishes and preserves bilingual state.** Understand how a session publishes and preserves bilingual state and what must be checked before claiming a result.
+
+**Worked mechanism.** An author defines stable section IDs; the renderer produces navigation and HTML; study marks use the same IDs in ES/EN. Translation changes labels, not exercise identity.
+
+**Production trade-off.** Checking a box records activity and never certifies L1–L5.
+
+**Retrieval:** should checking a box raise L1–L5? **Answer:** no; study tracking and mastery evidence have separate contracts [P1].
 
 **Level 3 — Deep Dive (optional).** Consider JavaScript failure, schema compatibility, focus, contrast, and script weight; do not call a page “accessible” based solely on a scanner. Type: structural/procedural; objective: follow author→reader contract; technique: diagram and keyboard check; sources [R2, R4, R5, P1]; revisit: second bilingual session. Interaction: language selector showing that ID and state persist, only if the site implements actual persistence; no-JavaScript alternative: ID table.
 
@@ -141,7 +225,13 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Level 1 — Foundation.** Treats an AI function as part of a product flow with usage context, permitted inputs, output, risks, and evaluation; NIST's voluntary AI RMF organizes risk management as Govern, Map, Measure, and Manage [R7]. **Hypothetical** example: an assisted summary of a public portfolio case study; there is no evidence that P0 has or needs this feature.
 
-**Level 2 — Mechanism.** 📥 **Input:** public text selected by the user; ⚙️ **Process:** a service delimits data, requests a model draft, validates its format, and enables human review; 📤 **Output:** a labeled draft to approve or reject, not an automatically published factual claim. **Retrieval:** does fluent output establish accuracy? **Answer:** no; check it against source text and relevant test cases [R7].
+**Level 2 — Mechanism.** **How an AI draft reaches—or fails to reach—publication.** Understand how an ai draft reaches—or fails to reach—publication and what must be checked before claiming a result.
+
+**Worked mechanism.** First verify permission to use data; a model may then propose a draft checked against sources and submitted for human review. Missing permission or evidence stops the flow; publishing requires a separate editorial decision.
+
+**Production trade-off.** This is a hypothetical model, not a deployed AI feature or measured accuracy evaluation.
+
+**Retrieval:** does fluent output establish accuracy? **Answer:** no; check it against source text and relevant test cases [R7].
 
 **Level 3 — Deep Dive (optional).** Outputs may vary or be wrong; bound privacy, failure, cost, and evaluation before deployment. Type: causal/decisional; objective: distinguish demo from product; technique: failure walkthrough and criteria-based decision; sources [R7, R8]; revisit: only if a real use case emerges. Interaction: not applicable now; no model or approved dataset exists to simulate quality.
 
@@ -151,7 +241,13 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Level 1 — Foundation.** In the program, evidence is an artifact or observation traceable to a capability claim; an exercise checkbox indicates declared activity, not a validated outcome [P1]. Example: “I read about keyboard navigation” is study state; a test record plus human review of the route is evidence.
 
-**Level 2 — Mechanism.** Recording `PA-S001.exercise.boundary-map = checked` changes only study storage. A reference to a real test and its result is recorded by a different channel; the dashboard does not derive mastery from the checkbox. **Retrieval:** does ticking the checklist grant L2? **Answer:** no; L2 requires implementation and distinct evidence.
+**Level 2 — Mechanism.** **How activity stays separate from evidence.** Understand how activity stays separate from evidence and what must be checked before claiming a result.
+
+**Worked mechanism.** Checking an exercise changes only reversible study state. An executed, reviewed test is recorded elsewhere with context and result; the dashboard does not infer mastery from a mark.
+
+**Production trade-off.** A checked box does not equal demonstrated implementation.
+
+**Retrieval:** does ticking the checklist grant L2? **Answer:** no; L2 requires implementation and distinct evidence.
 
 **Level 3 — Deep Dive (optional).** Without an artifact or observable criterion, the level remains pending; “cannot be determined” is valid. Type: conceptual/decisional; objective: separate states; technique: classification and feedback; source [P1]; revisit: after building and review. Interaction: reversible study controls because the variable is a tracking declaration; without JS show readable non-editable state, without false claims.
 
@@ -159,7 +255,13 @@ First you will study engineering, architecture, four scopes, quality, constraint
 
 **Level 1 — Foundation.** The program distinguishes L1 Explain, L2 Implement, L3 Operate, L4 Decide, and L5 Lead [P1]. They are not percentages and are not the three **reading depth levels** of a concept. Explaining why a map distinguishes site from portfolio may support L1 but does not prove that the boundary exists in code.
 
-**Level 2 — Mechanism.** Inspect implementation and tests for L2; observed incidents/operation for L3; alternatives and decision outcomes for L4; verified adoption and influence for L5. **Retrieval:** does a completed tutorial demonstrate L5? **Answer:** no; each level needs different evidence.
+**Level 2 — Mechanism.** **How each level maps to different proof.** Understand how each level maps to different proof and what must be checked before claiming a result.
+
+**Worked mechanism.** L1 requires explanation; L2 implementation; L3 operation; L4 decisions with alternatives; L5 leadership with verified adoption. These are distinct claims, not levels inferred from exercise counts.
+
+**Production trade-off.** Completing a tutorial does not demonstrate leadership or production operation.
+
+**Retrieval:** does a completed tutorial demonstrate L5? **Answer:** no; each level needs different evidence.
 
 **Level 3 — Deep Dive (optional).** Evidence can be partial or contradictory; record its scope and do not infer higher levels. Type: structural; objective: link claim to proof; technique: evidence→level matrix; source [P1]; revisit: reevaluate after new artifacts. Interaction: not applicable until real records exist.
 
