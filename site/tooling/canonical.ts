@@ -157,7 +157,13 @@ export function renderCanonical(source:string,lang:'es'|'en',base:string):Canoni
       'design.boundary':[3,'Dependencias a través de un contrato explícito.','Dependencies through an explicit contract.'],
       'fpa.frontend-platform':[4,'Responsabilidades distintas de FPA, AIPE y Staff.','Separate responsibilities of FPA, AIPE and Staff.'],
       'aipe.ai-product':[5,'Una función de IA separa generación, validación y revisión.','An AI feature separates generation, validation and review.']
-    };const v=figures[id];if(!v)return '';
+    };if(id==='design.coupling') {
+      const caption=lang==='es'
+        ?'Propagación hipotética de un cambio de contrato: productor, campo y consumidor.'
+        :'Hypothetical contract-change propagation: producer, field, and consumer.';
+      return `<figure class="concept-diagram mechanism-diagram"><img src="${base}${lang}/shared/diagrams/PA-S001/coupling-contract-${lang}.svg" loading="lazy" alt="${escapeHtml(caption)}"><figcaption>${escapeHtml(caption)}</figcaption></figure>`;
+    }
+    const v=figures[id];if(!v)return '';
     const caption=v[lang==='es'?1:2],number=String(v[0]).padStart(2,'0');
     return `<figure class="concept-diagram"><img src="${base}${lang}/shared/diagrams/PA-S001/theory-${lang}-${number}.svg" loading="lazy" alt="${escapeHtml(caption)}"><figcaption>${escapeHtml(caption)}</figcaption></figure>`;
   };
@@ -220,6 +226,11 @@ export function renderCanonical(source:string,lang:'es'|'en',base:string):Canoni
     if(/^\*\*(?:Nivel|Level) 3 —/.test(line)){
       const match=line.match(/^\*\*([^*]+)\*\* (.*)$/)!;
       out.push(`<details class="deep-dive"><summary><span class="reading-level-title">${escapeHtml(match[1]!)}</span></summary><p>${inline(match[2]!)}</p></details>`);i++;continue;
+    }
+    const retrieval=line.match(/^\\*\\*(Recuperación|Retrieval):\\*\\* (.+?) \\*\\*(Respuesta|Answer):\\*\\* (.+)$/);
+    if(retrieval){
+      out.push(`<details class="mechanism-retrieval"><summary><strong>${lang==='es'?'Comprueba tu comprensión':'Check your understanding'}:</strong> ${inline(retrieval[2]!)}</summary><p><strong>${lang==='es'?'Respuesta razonada':'Reasoned answer'}:</strong> ${inline(retrieval[4]!)}</p></details>`);
+      i++;continue;
     }
     const metadata=chapterMetadata(line);
     if(metadata){out.push(metadata);i++;continue;}
