@@ -1,0 +1,12 @@
+flowchart TD
+  subgraph ANTES["Antes: contrato compartido"]
+    P["Productor: page.title"] --> C["Contrato interno: title"]
+    C --> U["Consumidor: render(page.title)"]
+    U --> OK["Título visible"]
+  end
+  subgraph DESPUES["Después: cambio incompatible hipotético"]
+    P2["Productor: page.heading"] --> C2["Contrato cambiado: heading"]
+    C2 -. "El consumidor aún lee title" .-> U2["Consumidor antiguo"]
+    U2 --> FAIL["Campo ausente o error, según validación"]
+  end
+  D["Alternativas: migración coordinada, alias temporal o adaptador"] -. "Reducen la ruptura; añaden costes" .-> C2

@@ -12,8 +12,8 @@ export const TOPIC_IDS = ['main.p0-boundaries','sub.software-vs-architecture','s
 export const EXERCISE_IDS = ['classify','boundary-map','quality','ai-decision'].map(id=>`PA-S001.exercise.${id}`);
 export const CHECK_IDS = ['engineering','scope','quality','boundary','fpa','aipe','roles','evidence'].map(id=>`PA-S001.check.${id}`);
 export const SUCCESS_IDS = ['engineering','scope','quality','boundary','fpa','aipe','retrieval','evidence'].map(id=>`PA-S001.success.${id}`);
-const EXPECTED_ES = { bytes:70016, sha:'9a7c96cabc984a2e0a7d08c22475e28fd9815b4c6b2d177ba6509b562868abf5' };
-const EXPECTED_EN = { bytes:64546, sha:'ba9865813943c67f7aac8c906eeecf8e70bdf0bcd9563109bc9f6e60e48bdb34' };
+const EXPECTED_ES = { bytes:75205, sha:'b1440b29f696db0e7658ee8328cf73dd0a5f284406cdcf65027841784c4a6be9' };
+const EXPECTED_EN = { bytes:69112, sha:'95288377409bee7699d1751a0fa4037f6849b92aef4f7f40f5b4251db359c8bd' };
 import { createHash } from 'node:crypto';
 
 export interface CanonicalRender { html:string; toc:string }
@@ -157,7 +157,13 @@ export function renderCanonical(source:string,lang:'es'|'en',base:string):Canoni
       'design.boundary':[3,'Dependencias a través de un contrato explícito.','Dependencies through an explicit contract.'],
       'fpa.frontend-platform':[4,'Responsabilidades distintas de FPA, AIPE y Staff.','Separate responsibilities of FPA, AIPE and Staff.'],
       'aipe.ai-product':[5,'Una función de IA separa generación, validación y revisión.','An AI feature separates generation, validation and review.']
-    };const v=figures[id];if(!v)return '';
+    };if(id==='design.coupling') {
+      const caption=lang==='es'
+        ?'Propagación hipotética de un cambio de contrato: productor, campo y consumidor.'
+        :'Hypothetical contract-change propagation: producer, field, and consumer.';
+      return `<figure class="concept-diagram mechanism-diagram"><img src="${base}${lang}/shared/diagrams/PA-S001/coupling-contract-${lang}.svg" loading="lazy" alt="${escapeHtml(caption)}"><figcaption>${escapeHtml(caption)}</figcaption></figure>`;
+    }
+    const v=figures[id];if(!v)return '';
     const caption=v[lang==='es'?1:2],number=String(v[0]).padStart(2,'0');
     return `<figure class="concept-diagram"><img src="${base}${lang}/shared/diagrams/PA-S001/theory-${lang}-${number}.svg" loading="lazy" alt="${escapeHtml(caption)}"><figcaption>${escapeHtml(caption)}</figcaption></figure>`;
   };
@@ -220,6 +226,11 @@ export function renderCanonical(source:string,lang:'es'|'en',base:string):Canoni
     if(/^\*\*(?:Nivel|Level) 3 —/.test(line)){
       const match=line.match(/^\*\*([^*]+)\*\* (.*)$/)!;
       out.push(`<details class="deep-dive"><summary><span class="reading-level-title">${escapeHtml(match[1]!)}</span></summary><p>${inline(match[2]!)}</p></details>`);i++;continue;
+    }
+    const retrieval=line.match(/^\*\*(Recuperación|Retrieval):\*\* (.+?) \*\*(Respuesta|Answer):\*\* (.+)$/);
+    if(retrieval){
+      out.push(`<details class="mechanism-retrieval"><summary><strong>${lang==='es'?'Comprueba tu comprensión':'Check your understanding'}:</strong> ${inline(retrieval[2]!)}</summary><p><strong>${lang==='es'?'Respuesta razonada':'Reasoned answer'}:</strong> ${inline(retrieval[4]!)}</p></details>`);
+      i++;continue;
     }
     const metadata=chapterMetadata(line);
     if(metadata){out.push(metadata);i++;continue;}

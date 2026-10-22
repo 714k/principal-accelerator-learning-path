@@ -290,3 +290,23 @@ h3{font-size:clamp(1.35rem,2.8vw,1.85rem);line-height:1.12;letter-spacing:-.035e
 .reference-graph span{display:inline-block;padding:.2rem .4rem;margin:.2rem;border:1px solid var(--line);border-radius:.4rem}
 .reference-graph figure{margin:.6rem 0}
 .reference-assumption{border-left:3px solid var(--accent);padding-left:.75rem}
+
+/* PA-S001 Stage 3.1: progressive mechanisms and distinct retrieval.
+   Uses existing theme tokens; no layout or state-management overrides. */
+.canonical-theory .reading-level:has(+ .instructional-heading){
+  margin-bottom:.8rem;
+}
+.canonical-theory .reading-level h4{font-size:clamp(1.15rem,2.4vw,1.45rem)}
+.canonical-theory .reading-level p{line-height:1.65}
+.canonical-theory .instructional-heading{margin:1.45rem 0 .35rem;color:var(--ink);font-size:clamp(1.12rem,2.2vw,1.32rem);line-height:1.3}
+.canonical-theory .instructional-heading+p{max-width:74ch;line-height:1.72}
+.canonical-theory .mechanism-retrieval{margin:1.6rem 0 2rem;padding:1rem clamp(.85rem,2vw,1.35rem);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:.9rem;background:var(--soft)}
+.canonical-theory .mechanism-retrieval summary{cursor:pointer;line-height:1.55;font-weight:560;min-height:44px;align-content:center}
+.canonical-theory .mechanism-retrieval summary strong{color:var(--accent)}
+.canonical-theory .mechanism-retrieval>p{margin:.85rem 0 0;padding-top:.85rem;border-top:1px solid var(--line);line-height:1.65}
+.canonical-theory .mechanism-diagram{max-width:100%;overflow-x:auto}
+.canonical-theory .mechanism-diagram img{min-width:min(38rem,100%);height:auto}
+@media(max-width:40rem){
+  .canonical-theory .instructional-heading{margin-top:1.2rem}
+  .canonical-theory .mechanism-retrieval{margin:1.3rem 0 1.7rem}
+}
