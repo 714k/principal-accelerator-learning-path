@@ -1,0 +1,12 @@
+flowchart TD
+  subgraph BEFORE["Before: shared contract"]
+    P["Producer: page.title"] --> C["Internal contract: title"]
+    C --> U["Consumer: render(page.title)"]
+    U --> OK["Visible title"]
+  end
+  subgraph AFTER["After: hypothetical incompatible change"]
+    P2["Producer: page.heading"] --> C2["Changed contract: heading"]
+    C2 -. "Consumer still reads title" .-> U2["Old consumer"]
+    U2 --> FAIL["Missing field or error, depending on validation"]
+  end
+  D["Options: coordinated migration, temporary alias, or adapter"] -. "Limit breakage; add costs" .-> C2
