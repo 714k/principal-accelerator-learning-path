@@ -12,8 +12,8 @@ export const TOPIC_IDS = ['main.p0-boundaries','sub.software-vs-architecture','s
 export const EXERCISE_IDS = ['classify','boundary-map','quality','ai-decision'].map(id=>`PA-S001.exercise.${id}`);
 export const CHECK_IDS = ['engineering','scope','quality','boundary','fpa','aipe','roles','evidence'].map(id=>`PA-S001.check.${id}`);
 export const SUCCESS_IDS = ['engineering','scope','quality','boundary','fpa','aipe','retrieval','evidence'].map(id=>`PA-S001.success.${id}`);
-const EXPECTED_ES = { bytes:70016, sha:'9a7c96cabc984a2e0a7d08c22475e28fd9815b4c6b2d177ba6509b562868abf5' };
-const EXPECTED_EN = { bytes:64546, sha:'ba9865813943c67f7aac8c906eeecf8e70bdf0bcd9563109bc9f6e60e48bdb34' };
+const EXPECTED_ES = { bytes:75205, sha:'b1440b29f696db0e7658ee8328cf73dd0a5f284406cdcf65027841784c4a6be9' };
+const EXPECTED_EN = { bytes:69112, sha:'95288377409bee7699d1751a0fa4037f6849b92aef4f7f40f5b4251db359c8bd' };
 import { createHash } from 'node:crypto';
 
 export interface CanonicalRender { html:string; toc:string }
