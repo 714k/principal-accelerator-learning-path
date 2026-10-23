@@ -1,0 +1,7 @@
+flowchart LR
+  Root["Accelerator repository"] --> Site["site / Learning Site"]
+  Root --> Portfolio["apps/portfolio"]
+  Site -. "approved contracts only" .-> Shared["Potential shared contract"]
+  Portfolio -. "approved contracts only" .-> Shared
+  Checks["check pipeline"] --> Site
+  Checks --> Portfolio

@@ -91,9 +91,9 @@ export function diagramMetadata(pages: Page[]): Map<string, DiagramMetadata> {
 }
 
 /** Regenerates every checked-in Mermaid asset before the public output is replaced. */
-export function generateDiagrams(root: string, metadata: Map<string, DiagramMetadata>, generatedRoot: string): string[] {
+export function generateDiagrams(root: string, metadata: Map<string, DiagramMetadata>, generatedRoot: string, onProgress?: (completed: number, total: number) => void): string[] {
   const diagramsRoot = resolve(root, 'site/shared/diagrams');
-  if (!existsSync(diagramsRoot)) return [];
+  if (!existsSync(diagramsRoot)) { onProgress?.(0, 0); return []; }
   const sourceFiles = walk(diagramsRoot);
   const sources = new Set(sourceFiles.map(path => relative(diagramsRoot, path).split(sep).join('/')));
   for (const source of metadata.keys()) if (!sources.has(source)) throw new Error(`Diagram source is missing: site/shared/diagrams/${source}`);
@@ -101,6 +101,8 @@ export function generateDiagrams(root: string, metadata: Map<string, DiagramMeta
   if (!existsSync(cli)) throw new Error('Mermaid CLI is unavailable. Install dependencies before building diagrams.');
   const puppeteerConfig = resolve(root, 'site/tooling/puppeteer.config.json');
   if (!existsSync(puppeteerConfig)) throw new Error('Mermaid Puppeteer configuration is missing.');
+  onProgress?.(0, sourceFiles.length);
+  let completed=0;
   for (const input of sourceFiles) {
     const source = relative(diagramsRoot, input).split(sep).join('/');
     const output = resolve(generatedRoot, source.replace(/\.mmd$/, '.svg'));
@@ -119,6 +121,7 @@ export function generateDiagrams(root: string, metadata: Map<string, DiagramMeta
       if (source.endsWith('theory-es-06.mmd') || source.endsWith('theory-en-06.mmd') || source==='PA-S001/foundations.mmd' || source==='PA-S001/canonical-map.mmd') svg=monochromeMindMap(svg);
       writeFileSync(temporary, svg);
       renameSync(temporary, output);
+      onProgress?.(++completed, sourceFiles.length);
     } catch (error) {
       rmSync(temporary, { force: true });
       throw error;
