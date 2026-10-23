@@ -127,10 +127,10 @@
   const recordChange = () => {
     const controls = [...document.querySelectorAll('input[data-study-id]')];
     const firstId = controls[0]?.dataset.studyId;
-    const sessionId = firstId?.startsWith('PA-S001.') ? 'PA-S001' : '';
+    const sessionId = firstId?.startsWith('PA-S001.') ? 'PA-S001' : firstId?.startsWith('PA-S002:') ? 'PA-S002' : '';
     if (!sessionId || controls.some(control => {
       const id=control.dataset.studyId ?? '';
-      return !id.startsWith(`${sessionId}.`);
+      return !id.startsWith(sessionId === 'PA-S001' ? `${sessionId}.` : `${sessionId}:`);
     })) return false;
     const history = readHistory(sessionId);
     if (history === null) return false;
