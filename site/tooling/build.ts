@@ -9,6 +9,8 @@ import { searchIndex } from './search.ts';
 import { renderPortfolio } from '../../apps/portfolio/src/portfolio.ts';
 import { assertCanonicalPair, renderCanonical } from './canonical.ts';
 import { assertS002, renderS002 } from './pa-s002.ts';
+import { renderS003 } from './pa-s003.ts';
+import { renderS004 } from './pa-s004.ts';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../..');
 const output=resolve(root,'dist');
 const base=basePath(process.env.BASE_PATH);
@@ -24,6 +26,8 @@ const canonicalTheory={
 };
 assertCanonicalPair(canonicalTheory.es,canonicalTheory.en);
 const s002={es:readFileSync(resolve(root,'site/content/canonical/PA-S002-theory-es.md'),'utf8'),en:readFileSync(resolve(root,'site/content/canonical/PA-S002-theory-en.md'),'utf8')};
+const s003={es:readFileSync(resolve(root,'site/content/canonical/PA-S003-theory-es.md'),'utf8'),en:readFileSync(resolve(root,'site/content/canonical/PA-S003-theory-en.md'),'utf8')};
+const s004={es:readFileSync(resolve(root,'site/content/canonical/PA-S004-theory-es.md'),'utf8'),en:readFileSync(resolve(root,'site/content/canonical/PA-S004-theory-en.md'),'utf8')};
 for (const lang of ['es','en'] as const) assertS002(s002[lang],lang);
 for(const lang of ['es','en'] as const){
   renderCanonical(canonicalTheory[lang],lang,base);
@@ -85,6 +89,8 @@ for (const lang of ['es','en'] as const) {
   emit(`${lang}/index.html`,home(lang,base,sessionPair[lang],status,mastery.status,systemsStatus));
   emit(`${lang}/sessions/index.html`,sessionsIndex(lang,base));
   emit(`${lang}/sessions/PA-S002/index.html`,renderS002(s002[lang],lang,base));
+  emit(`${lang}/sessions/PA-S003/index.html`,renderS003(s003[lang],lang,base));
+  emit(`${lang}/sessions/PA-S004/index.html`,renderS004(s004[lang],lang,base));
   emit(`${lang}/projects/index.html`,projectsIndex(lang,base));
   for (const p of pairs) {
     const theory=p.route==='sessions/PA-S001'?canonicalTheory[lang]:undefined;
@@ -93,5 +99,5 @@ for (const lang of ['es','en'] as const) {
 }
 reportProgress(totalSteps,totalSteps,'salida generada');
 if (progressLineOpen) { process.stdout.write('\n'); progressLineOpen=false; }
-console.log(`Built ${10 + pages.length} HTML pages and ${generatedDiagrams.length} SVG diagram source(s) in ${output}; BASE_PATH=${base}; mastery=${mastery.status}.`);
+console.log(`Built ${12 + pages.length} HTML pages and ${generatedDiagrams.length} SVG diagram source(s) in ${output}; BASE_PATH=${base}; mastery=${mastery.status}.`);
 } finally { if (progressLineOpen) process.stdout.write('\n'); rmSync(generatedRoot,{recursive:true,force:true}); }

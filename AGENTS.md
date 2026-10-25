@@ -1,4 +1,5 @@
 # Accelerator agent instructions
+When the learner supplies session content in Spanish, translate it into English, add both locales to all relevant session navigation and indexes, and reuse the PA-S001 visual styles.
 Read docs/PA-S001-BUILD.md and learner-supplied Project Sources before editing.
 Project Sources govern curriculum; Git governs code. Never invent source contents.
 PA-S001 starts P0 apps/book and bilingual site/; no diagnostic app.

@@ -306,6 +306,9 @@ h3{font-size:clamp(1.35rem,2.8vw,1.85rem);line-height:1.12;letter-spacing:-.035e
 .canonical-theory .mechanism-retrieval>p{margin:.85rem 0 0;padding-top:.85rem;border-top:1px solid var(--line);line-height:1.65}
 .canonical-theory .mechanism-diagram{max-width:100%;overflow-x:auto}
 .canonical-theory .mechanism-diagram img{min-width:min(38rem,100%);height:auto}
+/* Mermaid source is an optional textual fallback; keep it readable in either theme. */
+.canonical-theory .diagram-card .code{margin:.8rem 0 0;padding:1rem 1.15rem;border:1px solid #394556;border-radius:.7rem;background:#111820;color:#edf3f8;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:.88rem;line-height:1.7;text-shadow:none}
+.canonical-theory .diagram-card .code code{color:inherit}
 @media(max-width:40rem){
   .canonical-theory .instructional-heading{margin-top:1.2rem}
   .canonical-theory .mechanism-retrieval{margin:1.3rem 0 1.7rem}

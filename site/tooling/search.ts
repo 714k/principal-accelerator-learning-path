@@ -43,7 +43,9 @@ export function searchIndex(lang: 'es'|'en', base: string, pages: {route: string
     {title:es?'Panel de aprendizaje':'Learning dashboard',context:'Dashboard',href:root,text:es?'Dashboard, actividad local, progreso y proyectos':'Dashboard, local activity, progress and projects'},
     ...dashboard.map(([id,title,text])=>({title: title!,context:es?'Panel de aprendizaje':'Learning dashboard',href:`${root}#${id}`,text: text!})),
     {title:es?'Sesiones':'Sessions',context:es?'Índice':'Index',href:`${root}sessions/`,text:es?'Sesiones disponibles por fase':'Available sessions by phase'},
-    {title:es?'Proyectos':'Projects',context:es?'Índice':'Index',href:`${root}projects/`,text:es?'Proyectos y sistemas P0':'P0 projects and systems'}
+    {title:es?'Proyectos':'Projects',context:es?'Índice':'Index',href:`${root}projects/`,text:es?'Proyectos y sistemas P0':'P0 projects and systems'},
+    {title:'PA-S003',context:es?'Sesión':'Session',href:`${root}sessions/PA-S003/`,text:es?'Arquitectura del portafolio y Learning Site, límites de producto, IA, rutas y accesibilidad':'Portfolio and Learning Site architecture, product boundaries, information architecture, routes, and accessibility'},
+    {title:'PA-S004',context:es?'Sesión':'Session',href:`${root}sessions/PA-S004/`,text:es?'Sistema de diseño, tokens, WCAG, semántica HTML, teclado, foco y verificación':'Design system, tokens, WCAG, HTML semantics, keyboard, focus, and verification'}
   ];
   for (const {route,page} of pages) {
     if (page.lang!==lang) throw new Error(`Search page language mismatch: ${route}`);

@@ -87,6 +87,27 @@ export function diagramMetadata(pages: Page[]): Map<string, DiagramMetadata> {
         :'Mind map covering 24 concepts, six subtopics, Main Topic, and cross-domain synthesis.'
     });
   }
+  for (const lang of ['es','en'] as const) {
+    const entries=lang==='es' ? [
+      ['Mapa mental','Sistema de diseño, tokens y verificación de accesibilidad.'],
+      ['Ciclo del sistema de diseño','Necesidad, patrón, publicación, uso y evolución.'],
+      ['Gobernanza de plataforma','Propuesta, revisión, decisión, migración y retroalimentación.'],
+      ['Flujo de tokens','Fuente, validación, transformación, consumidores y pruebas.'],
+      ['Evaluación de accesibilidad','Alcance, criterios, pruebas, hallazgos y revalidación.'],
+      ['Verificación de accesibilidad','Herramientas, teclado, flujos críticos y corrección.'],
+      ['Decisión compartida','Necesidad, contrato, publicación, evaluación y evolución.']
+    ] : [
+      ['Mind map','Design system, tokens, and accessibility verification.'],
+      ['Design-system cycle','Need, pattern, publication, use, and evolution.'],
+      ['Platform governance','Proposal, review, decision, migration, and feedback.'],
+      ['Token flow','Source, validation, transformation, consumers, and tests.'],
+      ['Accessibility evaluation','Scope, criteria, tests, findings, and revalidation.'],
+      ['Accessibility verification','Tools, keyboard, critical flows, and correction.'],
+      ['Shared decision','Need, contract, publication, evaluation, and evolution.']
+    ];
+    add({source:'PA-S004/mindmap.mmd',title:`PA-S004 — ${entries[0]![0]!}`,description:entries[0]![1]!});
+    for(let index=1;index<=6;index++)add({source:`PA-S004/theory-${lang}-${String(index).padStart(2,'0')}.mmd`,title:`PA-S004 — ${entries[index]![0]!}`,description:entries[index]![1]!});
+  }
   return metadata;
 }
 
