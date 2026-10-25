@@ -107,6 +107,19 @@ export function diagramMetadata(pages: Page[]): Map<string, DiagramMetadata> {
     ];
     add({source:'PA-S004/mindmap.mmd',title:`PA-S004 — ${entries[0]![0]!}`,description:entries[0]![1]!});
     for(let index=1;index<=6;index++)add({source:`PA-S004/theory-${lang}-${String(index).padStart(2,'0')}.mmd`,title:`PA-S004 — ${entries[index]![0]!}`,description:entries[index]![1]!});
+    const s005=lang==='es' ? [
+      ['Mapa mental','Contratos de contenido bilingüe, locale, rutas, accesibilidad, validación y ownership.'],
+      ['Resolución de locale','Señales de URL, preferencia y navegador resueltas por una política.'],
+      ['Modelo de contenido','Identidad estable, contenido por idioma, fuentes y estado compartido.'],
+      ['Flujo de publicación','Resolución, carga, formato, rendering, accesibilidad y validación.']
+    ] : [
+      ['Mind map','Bilingual-content contracts, locale, routes, accessibility, validation, and ownership.'],
+      ['Locale resolution','URL, preference, and browser signals resolved through a policy.'],
+      ['Content model','Stable identity, per-language content, sources, and shared state.'],
+      ['Publication flow','Resolution, loading, formatting, rendering, accessibility, and validation.']
+    ];
+    add({source:'PA-S005/mindmap.mmd',title:`PA-S005 — ${s005[0]![0]!}`,description:s005[0]![1]!});
+    for(let index=1;index<=3;index++)add({source:`PA-S005/theory-${lang}-${String(index).padStart(2,'0')}.mmd`,title:`PA-S005 — ${s005[index]![0]!}`,description:s005[index]![1]!});
   }
   return metadata;
 }
