@@ -1,0 +1,9 @@
+flowchart TD
+  A["URL + preference"] --> B["Resolve locale by policy"]
+  B --> C["Load content by ID and locale"]
+  B --> D["Resolve format locale"]
+  C --> E["Render structure and messages"]
+  D --> E
+  E --> F["Declare language and controls"]
+  F --> G["Validate routes, IDs, and parity"]
+  G --> H["Publish or block"]
