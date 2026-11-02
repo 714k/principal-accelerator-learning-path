@@ -1,160 +1,22 @@
-> **CONTRATO V6 VIGENTE (2026-10-18):** `15-ADAPTIVE-LEARNING-EXPERIENCE.md` prevalece sobre las reglas históricas incompatibles de este documento. Una entrada `PA-Sxxx` entrega directamente el handoff de Codex con teoría canónica ES/EN completa y accesible para Codex; no se detiene en Study-only ni exige una segunda petición. ChatGPT sigue siendo autor exclusivo de la teoría; Codex solo la publica. Todas las sesiones usan selección de técnicas pedagógicas por concepto, con práctica de recuperación, repaso y simulaciones solo donde se justifiquen. Cualquier regla antigua que prohíba ese prompt está **derogada**.
+# Roadmap maestro — 120 sesiones
 
-# Master Roadmap --- v2
+**Fuente canónica de títulos, áreas y secuencia de PA-S001–PA-S120.** Las tablas siguientes se conservan del roadmap del paquete anterior. No afirman implementación ni progreso. Cada sesión sigue la revisión editorial por etapas descrita en Source 16 y el objetivo de app/lab de Source 09. Ninguna sesión queda bloqueada por estado anterior.
 
-## Roadmap compound-topic expansion — mandatory across 120 sessions
-Roadmap titles are curriculum labels, not atomic concept definitions. For every Main Topic/Subtopic derive and individually teach all important named concepts and hidden prerequisites before describing how they work together. Example: PA-S001's application/system/platform/ecosystem unit must define and exemplify ALL FOUR before its cross-concept model. Apply the detailed inventory/coverage gate in `05-LEARNING-METHODOLOGY.md`; translate identical concept IDs to ES/EN and include each in the later Codex handoff. Never publish a summary-only unit because the roadmap grouped terms on one line. Missing coverage fails with `MISSING_ATOMIC_CONCEPT_COVERAGE`.
+## PA-S001 — cobertura mínima obligatoria
 
-## Area abbreviations
+Ingeniería de software vs arquitectura; diseño detallado; aplicación/sistema/plataforma/ecosistema (cuatro conceptos separados); atributos de calidad/escenarios/restricciones; fronteras, acoplamiento y cohesión; plataforma frontend/consumidores/contratos; producto con IA/evaluación; Staff vs Principal en contexto. Niveles de evidencia son mecánica de progreso auxiliar, **no tema principal de ingeniería**. Primero se estudian sistemas externos documentados; P0 solo se utiliza como transferencia en Teoría→Práctica.
 
--   **FPA** --- Frontend Platform Architecture
--   **AIPE** --- AI Product Engineering
--   **Staff** --- Staff Software Engineering
--   **Principal** --- Principal Software Engineering
+## PA-S002–PA-S005 — continuidad del piloto
 
-The roadmap contains **120 integrated sessions**. Backend, data, cloud,
-distributed systems, reliability, security and system design are
-enabling competencies embedded into the three primary areas.
+- **PA-S002:** monorepo vs polyrepo; repositorio vs frontera arquitectónica; workspace/app/paquete; grafos y direcciones de dependencia; APIs públicas; build/task graphs; políticas/gates; ownership. Evolucionar repositorio sin quitar capacidades de S001.
+- **PA-S003:** arquitectura e información del Portfolio profesional y Learning Site separados; modelos de contenido y rutas; casos de estudio; preservar ambas superficies y el estado previo.
+- **PA-S004:** Design System, tokens, accesibilidad; **biblioteca de componentes ejecutable y Storybook real**, stories de estados/interacción, verificaciones correspondientes, más teoría ES/EN; número de componentes ajustado al alcance real, no fijo.
+- **PA-S005:** internacionalización/localización, modelos ES/EN, rutas, fallback, persistencia con identificadores compartidos y experiencia accesible; no eliminar Storybook ni funciones anteriores.
+- Tras S005 evaluar qué patrones son universales/configurables/específicos/no resueltos; PA-S006 primer ensayo de plantilla graduada.
 
-## Roadmap execution rules
+## Ejecución por sesión
 
-The session title identifies the engineering topic, not a replacement for teaching. Every theory-bearing session must expand the roadmap topic into the concepts required to understand and apply it.
-
-Mastery is assessed progressively through normal session evidence. Do **not** create broad upfront diagnostic sessions, quizzes or interviews that displace theory and building.
-
-A session should advance one or more longitudinal projects from `09-PROJECTS-AND-APPS.md`. When implementation is explicitly requested, identify the target app/lab/system and provide the scaffold/Codex entry point. A bare `PA-Sxxx` remains Study mode.
-
-
-
-### Non-blocking progression rule
-
-The roadmap defines learning order and dependencies, not hard gates.
-
-The learner may start any `PA-Sxxx` even if preceding sessions are Not started, Partial, Revisit, or missing mastery evidence.
-
-When dependencies are incomplete, continue the requested session, state the dependency, teach/review the minimum prerequisite material needed, adapt the build if necessary, and record a revisit item rather than blocking.
-
-Never require a previous session to be marked Completed before rendering or teaching the requested session.
-
-### Public-site output rule
-
-Every theory-bearing session authors ES/EN theory that is ready for later publication. A bare `PA-Sxxx` does not touch the repository. When the learner explicitly requests Build/Publish, the session must leave a publishable ES/EN web section under the repository `site/` contract.
-
-When the requested Build also creates or extends an app/lab/system, its implementation must create/update both:
-- the executable implementation; and
-- the corresponding public theory/project pages under `site/`.
-
-PA-S001 initializes the professional portfolio app under `apps/portfolio/` and the separate Principal Accelerator Learning Site under `site/es/...` + `site/en/...`. PA-S002 and all later applicable sessions extend the same public site rather than creating isolated documentation silos.
-
-
-
-### Learning Site experience rule — all 120 sessions
-
-For every theory-bearing session PA-S001–PA-S120, publishing includes the current Learning Site contract:
-- concept-first Main Topic/Subtopics;
-- acronym expansion at least once per page;
-- adaptive Visual Learning Studio;
-- mandatory mind map + comprehensive flashcards;
-- additional visual modes selected by topic fit;
-- ES/EN structural parity;
-- responsive Mermaid→SVG diagrams;
-- dashboard-compatible checklist/exercise/evidence data.
-
-A new session is not publication-complete if its content model fails these validation requirements.
-
-### Main Topic + Subtopics expansion contract
-
-For all 120 sessions:
-
-- `## Main Topic` must be a developed synthesis section, not merely a one-line theme.
-- `## Subtopics` must contain one developed `###` subsection per subtopic, not merely a list.
-
-The Main Topic should integrate the session concepts into a coherent engineering model.
-
-Each subtopic subsection must provide enough theory to be independently studied in the context of the session, even if its foundational concepts were already introduced in `## Concepts`.
-
-Therefore, roadmap subtopics must be rendered as **developed theory sections**, not syllabus labels.
-
-### Subtopic depth contract
-
-Every subtopic listed or implied by a session topic is mandatory theory content.
-
-A session must not treat `## Subtopics` as a syllabus-only list. Each listed subtopic must be developed in the Theory Phase with enough depth for independent study.
-
-Minimum expectation per subtopic, when applicable:
-
-`definition/purpose → distinctions → mental model/mechanism → example → counterexample → misconceptions → trade-offs/limitations → production implications → relationships → FPA/AIPE/Staff/Principal implications`
-
-The Theory Phase is incomplete if a subtopic is present in the session outline but lacks developed explanatory content.
-
-This applies to all 120 sessions, including subtopics explicitly listed in session-specific contracts and subtopics reasonably required to understand the roadmap topic.
-
-### Theory-phase execution contract
-
-For every theory-bearing session, the topic/subtopics defined here are **minimum required theory coverage**, not optional prompts.
-
-Before any checkpoint, Design, Build, Codex, implementation or assessment, the session must complete:
-
-`Learning Preview → Concepts → Main Topic → Subtopics → Theory → Practice Map → Time Breakdown → Real-World Example → Production-Ready Example → Visual Learning Guide / Studio → Exercises → Resources → Knowledge Mastery Checklist → End-of-Session Success Criteria → Bridge`
-
-All session-specific concepts listed in this roadmap must be taught before leaving the Theory Phase.
-
-For PA-S001 specifically, this means the first theory phase must teach **all** of the listed foundations—software engineering vs. architecture; application/system/platform/ecosystem; quality attributes/constraints; boundaries; introductory coupling/cohesion; FPA; AIPE; Staff vs. Principal scope—before asking the learner a checkpoint question.
-
-For PA-S002 specifically, this means the first theory phase must teach **all** of the listed monorepo/standards concepts—monorepo vs. polyrepo; repository vs. architecture boundary; workspace/app/package; dependency graph/direction; public APIs/package boundaries; build/task graphs; shared-code trade-offs; engineering standards; convention/policy/standard; quality gates; architectural constraints/fitness functions; ownership boundaries—before asking the learner a checkpoint question.
-
-
-
-### P0 Learning Site baseline timing
-
-PA-S001 initializes the current Learning Site baseline, including dashboard home, Light/Dark shell, global curriculum navigation, interactive checklist/exercise study tracking, Visual Learning Studio infrastructure and Mermaid→SVG publication. Later F0 sessions deepen/refactor these capabilities without removing them.
-
-Therefore, PA-S006 **deepens** dashboard/theme/chart architecture and evidence visualization. A PA-S001 regeneration must not defer the dashboard or interactive tracking until PA-S006.
-
-### PA-S001 explicit Build rule
-
-A bare `PA-S001` produces only the two canonical theory artifacts. When the learner later explicitly requests Build/Codex/site/app work, provide the complete Codex prompt. Provide a `.sh` only if the real Accelerator repository/P0 structure does not yet exist and must be initialized from zero.
-
-When used, the shell script is limited to deterministic initial scaffolding (`apps/portfolio/`, bilingual `site/`, workspace baseline). Codex then creates the actual PA-S001 session deliverables. If the compatible structure already exists, Codex performs the entire Build handoff without a shell script.
-
-### PA-S001 contract
-
-PA-S001 is the program entry session, not a standalone diagnostic interview.
-
-Primary theory should establish the engineering foundations needed for the program, including as appropriate:
-
-- software engineering vs. software architecture;
-- application vs. system vs. platform vs. ecosystem;
-- quality attributes and engineering constraints;
-- boundaries;
-- introductory coupling and cohesion;
-- Frontend Platform Architecture;
-- AI Product Engineering;
-- Staff vs. Principal scope;
-- evidence and L1--L5 only as supporting program mechanics.
-
-Primary build outcome: initialize the real Accelerator repository and the first slice of **P0 --- Portfolio application (`apps/portfolio/`) + Principal Accelerator Learning Site (`site/`)**.
-
-Do not create a separate diagnostic app. Do not delay the portfolio until PA-S003. PA-S003 deepens its architecture; PA-S001 starts it.
-
-### PA-S002 contract
-
-PA-S002 deepens the repository/platform foundation and should explicitly teach, as applicable:
-
-- monorepo vs. polyrepo;
-- repository boundary vs. architecture boundary;
-- workspace, app and package/library;
-- dependency graph and dependency direction;
-- public APIs/package boundaries;
-- build/task graphs;
-- shared-code trade-offs;
-- engineering standards;
-- convention vs. policy vs. standard;
-- quality gates;
-- architectural constraints and fitness functions;
-- ownership boundaries.
-
-Its build should evolve the same Accelerator repository rather than create an unrelated exercise repository.
+`PA-Sxxx` → inventario con conceptos redactados como **término: definición breve**, sin IDs de máquina visibles → solicitud y aprobación de cada capítulo → casos y materiales aprobados → consolidación ES → EN equivalente → Codex explícito con texto íntegro y objetivos técnicos. En solicitudes explícitas de muestra completa entregar borrador no aprobado. Cada capítulo define sus conceptos localmente, explica mecanismos reales y aporta evaluación con respuesta razonada. Sin encabezados didácticos Nivel 1/2/3. El tema real y sus subtemas tienen prioridad sobre la estructura repetitiva.
 
 ## F0 --- Accelerator Platform
 
@@ -571,12 +433,3 @@ Its build should evolve the same Accelerator repository rather than create an un
   PA-S120                 Engineering Book + evidence +     **FPA + AIPE +
                           final competency review           Principal**
   ---------------------------------------------------------------------------------
-
-### Learning-text execution rule — all 120 sessions
-
-For PA-S001–PA-S120, theory publishing must satisfy the canonical Learning Text Ergonomics Contract in `01`, `04`, `05`, `11`, `12`, and `13`: pre-training before unfamiliar terminology, one dominant idea per paragraph, clear structural signaling, immediate concrete examples for abstractions, guiding questions with explicit resolution where useful, low-friction retrieval/self-check, topic-appropriate adjacent visuals, and adaptive worked-example fading when appropriate. Accuracy alone is insufficient if the content remains difficult to learn from.
-
-
-
-## Program-wide content expansion: accelerated UX
-For every PA-S001–PA-S120 theory session, the roadmap titles/subtopics are minimum academic coverage, not prose generation commands for Codex. ChatGPT develops and synchronizes atomic-concept-first ES/EN canonical theory under `14-ACCELERATED-LEARNING-UX.md`: three-point summary, three reading levels per substantive concept, meaningful causal labels, contextual glossary help, and optional explanatory widget locations. Build remains a separate learner action; every later session Codex prompt embeds these gates directly and preserves application code logic.

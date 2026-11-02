@@ -1,5 +1,3 @@
-> **CONTRATO V6 VIGENTE (2026-10-18):** `15-ADAPTIVE-LEARNING-EXPERIENCE.md` prevalece sobre las reglas históricas incompatibles de este documento. Una entrada `PA-Sxxx` entrega directamente el handoff de Codex con teoría canónica ES/EN completa y accesible para Codex; no se detiene en Study-only ni exige una segunda petición. ChatGPT sigue siendo autor exclusivo de la teoría; Codex solo la publica. Todas las sesiones usan selección de técnicas pedagógicas por concepto, con práctica de recuperación, repaso y simulaciones solo donde se justifiquen. Cualquier regla antigua que prohíba ese prompt está **derogada**.
-
 # Technical Standards
 
 These are defaults, not immutable technology mandates. A session may
@@ -315,3 +313,7 @@ The canonical site check should fail when practical if:
 - global curriculum navigation is missing;
 - raw Mermaid is published instead of generated SVG;
 - ES/EN structural parity is broken.
+
+
+## v10 — Revisión del output visible
+Los identificadores estables de concepto/estado se almacenan en metadatos y anclas no visibles. El HTML no presenta prefijos de IDs o rótulos de niveles de lectura. Las pruebas de accesibilidad también comprueban que los controles son operables y el contenido completo se lee sin JS. Mantener separación entre estructura técnica y títulos de aprendizaje.

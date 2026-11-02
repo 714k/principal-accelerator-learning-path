@@ -1,189 +1,48 @@
-> **CONTRATO V6 VIGENTE (2026-10-18):** `15-ADAPTIVE-LEARNING-EXPERIENCE.md` prevalece sobre las reglas históricas incompatibles de este documento. Una entrada `PA-Sxxx` entrega directamente el handoff de Codex con teoría canónica ES/EN completa y accesible para Codex; no se detiene en Study-only ni exige una segunda petición. ChatGPT sigue siendo autor exclusivo de la teoría; Codex solo la publica. Todas las sesiones usan selección de técnicas pedagógicas por concepto, con práctica de recuperación, repaso y simulaciones solo donde se justifiquen. Cualquier regla antigua que prohíba ese prompt está **derogada**.
+# Principal Accelerator Learning Path — Sources v10
 
-# Principal Accelerator Learning Path --- Project Files
+**Edición consolidada:** 31 de octubre de 2026. **Estado:** paquete documental preparado para instalar; no representa cambios en Git, aprendizaje acreditado ni publicación efectuada.
 
-## Updated content generation contract (v5 — atomic concepts)
-`05-LEARNING-METHODOLOGY.md` is authoritative for **component concepts before composite synthesis**, enforced by `04`, `11`, `12`, `13`. Compound themes are broken into individually taught conceptual units and only then combined; no label-only sections or generic bullet summaries. PA-S001's Application, System, Platform and Ecosystem lesson is the acceptance example (4 concepts → concrete examples → comparison/diagram → decision). Study mode creates only ES/EN theory documents; Build is explicit later and Codex never reauthors them.
+## Propósito y autoridad
 
-This folder is the source of truth for generating and running the
-Principal Accelerator sessions.
+Formar al estudiante desde Staff hacia Principal Software Engineering, Frontend Platform Architecture (FPA) y AI Product Engineering (AIPE). Backend, datos, nube, seguridad, arquitectura distribuida y confiabilidad son disciplinas complementarias. El roadmap y la pedagogía son fuentes curriculares; **el repositorio Git real gobierna el código**.
 
-## Core model
+## Orden de precedencia
 
-The program develops three areas simultaneously:
+1. Correcciones explícitas posteriores del usuario, incorporadas aquí como decisiones vigentes.
+2. Source **16 — Protocolo editorial**: activación y revisión de bloques, formato visible, verificación humana y estado de aprobación.
+3. Source **15 — Aprendizaje adaptativo** y **14 — Experiencia de estudio**: técnicas justificadas por tipo de conocimiento, sin rótulos de niveles de lectura visibles.
+4. Sources **03** y **09**: temario y destino de app/lab/sistema de PA-S001–PA-S120.
+5. Sources **01**, **04**, **05**, **06**, **10**, **11**, **12** y **13**: ejecución, calidad, decisiones, Codex y aceptación.
+6. Sources **02**, **07** y **08**: contexto, progreso no bloqueante y competencias.
 
-1.  **Frontend Platform Architecture (FPA)**
-2.  **AI Product Engineering (AIPE)**
-3.  **Staff → Principal Software Engineering (S/P)**
+**Activación editorial:** `PA-Sxxx` por sí solo abre el inventario verificable de esa sesión. El usuario puede solicitar expresamente una sección, su revisión, una muestra íntegra no aprobada, la consolidación ES, EN o el handoff de Codex. Nunca inferir aprobación ni finalización. No pedir al usuario que reexplique contexto documentado.
 
-Backend, APIs, data, cloud, distributed systems, reliability, security
-and system design are enabling technical competencies used across those
-three areas.
+## Contratos principales
 
-## Session model
+- **Un solo H1** legible por documento ES/EN; sesión/fase en metadatos y breadcrumb.
+- **Nunca imprimir IDs de implementación** como `engineering.software`, `scope.application`, claves de tracking o códigos `Sxxx-Cnn` en prosa, encabezados, tablas académicas, flashcards o listas de conceptos. Conservarlos únicamente en metadatos y anchors técnicos no visibles.
+- **Inventario inicial: nombre del concepto + definición breve comprensible** en cada lugar donde se necesitará, no una lista críptica de nombres y referencias. Conceptos desarrollados localmente en cada tema/subtema.
+- **Capítulos completos**: definiciones → mecanismo concreto con actores, datos, estados y contratos → consecuencias → fallos/alternativas → comprobación → recuperación con respuesta explicativa; no eslóganes ni párrafos vacíos.
+- **Ejemplos externos** para la enseñanza: documentos oficiales de empresas reales (Netflix, Google, Stripe, Cloudflare, etc.) o investigaciones verificadas, atribuyendo solo lo demostrado. Nuestro Accelerator se utiliza como transferencia práctica, nunca como autoridad académica.
+- **Ejemplo production-ready**: sistema de referencia externo reproducible; llamarlo *diseño no verificado* mientras no existan código, pruebas y ejecución acreditada.
+- **No imprimir «Nivel 1/2/3» como etiquetas didácticas**. Niveles L1–L5 sí aparecen únicamente como modelo de competencia/evidencia.
+- **Aprobación por bloques** y preservación exacta del contenido ya aceptado; traducción EN sin compresión; Codex no reescribe teoría.
+- **Aplicación ejecutable y sitio teórico son entregables diferentes**. PA-S004 debe contener Design System + Storybook funcional; PA-S039 lo evoluciona. No imponer números fijos de componentes.
+- **Piloto PA-S001–PA-S005:** conservar capacidades antes de extraer plantilla común para PA-S006–PA-S120; contratos universales, representaciones pedagógicas variables.
 
-Every session has two learner-controlled modes:
+## Archivos Sources (subir exactamente estos 17)
 
-**Study mode (default for bare `PA-Sxxx`)** → author the complete canonical theory into two reopenable ES/EN Markdown artifacts and pause for study/questions.
+`00-README.md`, `01-PROJECT-INSTRUCTIONS.md`, `02-LEARNER-CONTEXT.md`, `03-MASTER-ROADMAP.md`, `04-SESSION-TEMPLATE.md`, `05-LEARNING-METHODOLOGY.md`, `06-TECHNICAL-STANDARDS.md`, `07-PROGRESS.md`, `08-COMPETENCY-MATRIX.md`, `09-PROJECTS-AND-APPS.md`, `10-DECISION-LOG.md`, `11-CODEX-GUIDELINES.md`, `12-ARTIFACT-AND-PUBLISHING-STANDARD.md`, `13-CANONICAL-SESSION-AUDIT.md`, `14-ACCELERATED-LEARNING-UX.md`, `15-ADAPTIVE-LEARNING-EXPERIENCE.md`, `16-EDITORIAL-REVIEW-PROTOCOL.md`.
 
-**Build mode (explicit request only)** → Design → Build → Prove → Think → Publish.
+## Auxiliares (NO cargar como Sources duplicados)
 
-Study mode produces theory only. Build/publishing artifacts, Codex prompts, tests/evidence, dashboard/project updates, mastery assessment and PROGRESS updates are produced only when the learner explicitly requests the corresponding later phase.
+- `PROJECT-INSTRUCTIONS-SETTINGS.md`: texto exacto para Project → Settings → Instructions.
+- `CODEX-SESSION-MASTER-PROMPT.md`: contrato para preparar un handoff bajo petición explícita, no prompt prellenado.
+- `SESSION-APP-TARGETS-120.csv`: mapa planificado de aplicaciones por sesión; consultar Git para confirmar estado real.
+- `SESSION-OUTPUTS-120.md`: entregables orientativos por sesión; no evidencia de implementación.
+- `EXAMPLE-PA-S001-INVENTORY.md`: muestra de la etapa editorial 0, **no teoría final aprobada**.
+- `PA-S001-QUALITY-REFERENCE.md`: ejemplo de redacción y control de calidad; **no sustituye la teoría íntegra**.
+- `VERIFY-V10.py` y `CURRENT-VERIFICATION.md`: auditoría estructural y límites.
+- `INSTALL-REPLACE-ALL.md`: reemplazo de la versión previa.
 
-
-
-
-## Non-blocking progression invariant
-
-Session completion never acts as an unlock mechanism.
-
-The learner may start later sessions while earlier sessions are Partial, Revisit, Not started, or missing evidence. Bridge missing prerequisites and record revisits; do not block the requested session.
-
-
-## Explicit Build handoff invariant
-
-Build begins only after an explicit learner request for Codex/site/app/implementation/publish work. At that point, implementation-capable sessions provide the executable handoff.
-
-The Codex prompt is the normal Build handoff once a compatible repository/app/lab structure exists. A `.sh` script is reserved for deterministic first-time scaffolding of a NEW repository/app/lab/system when no compatible baseline exists; it is not required for routine session deliverables or updates.
-
-## Main Topic / Subtopics invariant
-
-`Main Topic` and `Subtopics` are teaching sections, not outline metadata.
-
-- Main Topic = developed synthesis.
-- Each Subtopic = developed `###` theory subsection.
-- A list alone is invalid.
-
-## Subtopic-depth invariant
-
-Every subtopic named by a session must be taught in depth. A bullet list is not theory.
-
-The Theory Phase cannot end until every roadmap-required and session-introduced subtopic has substantial explanatory coverage.
-
-## Theory-phase invariant
-
-For theory-bearing sessions, complete the full Theory Phase before asking the learner to answer anything:
-
-**Learning Preview → Concepts → Main Topic → Subtopics → Theory → Practice Map → Time Breakdown → Real-World Example → Production-Ready Example → Visual Learning Guide / Studio → Exercises → Resources → Knowledge Mastery Checklist → End-of-Session Success Criteria → Bridge**
-
-Then stop. Design/Build begins only after learner continuation.
-
-
-## Public bilingual site invariant
-
-The canonical theory must be publishable, but a bare Study-mode `PA-Sxxx` does not modify `site/`. When the learner later requests Build/Publish, every theory-bearing session creates/updates its ES/EN session section under `site/`, and app/lab/system work creates/updates the corresponding public project section.
-
-The public surface must be hostable on GitHub Pages or another static hosting service and must never require access to private chat context.
-
-
-## Learning Site experience invariant
-
-The Principal Accelerator Learning Site is a learning product, not a generic documentation renderer.
-
-Every current and future theory-bearing session must publish:
-- complete academic theory;
-- a concept-first Main Topic and concept-first Subtopics;
-- an adaptive Visual Learning Studio derived from that theory;
-- a session mind map authored in Mermaid and published as responsive SVG;
-- flashcards covering Concepts, Main Topic and every theoretical Subtopic;
-- additional visual modes only when supported by the session content;
-- bilingual ES/EN parity;
-- mobile-first presentation following `/ui-reference/`.
-
-The Learning Site home is a dashboard that summarizes learner activity and evidence-backed progress using accessible cards, tables and appropriate charts. Interactive checklist/exercise completion is learner-tracked study state; it must never be misrepresented as demonstrated L1–L5 mastery.
-
-Every acronym/initialism used on a published page must be expanded at least once on that page using `Full Term (ACRONYM)` or the semantically appropriate localized equivalent.
-
-Default visual palettes across generated Accelerator applications should avoid pink, purple and rainbow/multi-hue decorative palettes unless a product/domain/brand explicitly calls for them. Prefer restrained neutral, blue, cyan/teal, green, amber/orange and red semantic accents with accessible contrast.
-
-## Important architecture rule
-
-When a session teaches a materially different architecture or structural
-approach, **create a new application/lab instead of refactoring a
-previous architecture implementation away**. Preserve previous
-implementations for comparison and evidence.
-
-
-## Clarity invariant
-Academic does not mean abstract. Every major concept/subtopic must use plain technical definitions, concrete software examples and meaningful diagrams/flows. Production-ready examples must be complete scenarios rather than policy fragments.
-
-## Portfolio / Learning Site invariant
-The professional portfolio and the Principal Accelerator Learning Site are different products:
-- `apps/portfolio/` = portfolio.
-- `site/` = bilingual theory/learning site.
-Do not conflate them.
-
-## Canonical-baseline rule
-
-This package is the consolidated baseline. Do not create another numbered version for every discovered issue.
-
-Future changes should first be checked against `13-CANONICAL-SESSION-AUDIT.md`.
-Revise the canonical baseline only when a real contract change is needed, and preserve compatibility with previously agreed invariants.
-
-The preflight audit is mandatory for each new `PA-Sxxx` conversation.
-
-## Files
-
--   `01-PROJECT-INSTRUCTIONS.md` --- operating contract for every
-    conversation.
--   `02-LEARNER-CONTEXT.md` --- relevant learner background and target.
--   `03-MASTER-ROADMAP.md` --- 120-session curriculum.
--   `04-SESSION-TEMPLATE.md` --- mandatory session output structure.
--   `05-LEARNING-METHODOLOGY.md` --- pedagogical model.
--   `06-TECHNICAL-STANDARDS.md` --- technical defaults and evidence
-    rules.
--   `07-PROGRESS.md` --- dynamic learning state.
--   `08-COMPETENCY-MATRIX.md` --- mastery model and competency coverage.
--   `09-PROJECTS-AND-APPS.md` --- longitudinal apps, labs and
-    Engineering Book.
--   `10-DECISION-LOG.md` --- ADR/RFC/architecture review index.
--   `11-CODEX-GUIDELINES.md` --- Codex delegation rules and prompt
-    contract.
--   `12-ARTIFACT-AND-PUBLISHING-STANDARD.md` --- artifact, bilingual
-    publishing and dashboard contract.
-
-Start a new conversation with a session ID such as:
-
-`PA-S001`
-
-The assistant should use these files to reconstruct the session without
-requiring the learner to restate the program.
-
-## Critical execution rules
-
-- Do not turn PA-S001 or any other session into a broad upfront diagnostic interview.
-- Competency/mastery is inferred progressively from normal learning work: concept checks, learner-owned implementation, debugging, tests, architecture/design decisions and durable evidence.
-- PA-S001 initializes the real Accelerator repository and P0 --- Engineering Book / Portfolio. It is not a separate diagnostic application.
-- A bare `PA-Sxxx` never emits a Codex prompt. When the learner explicitly requests Build/Codex/site/app work, provide the complete Codex prompt. A shell script is reserved only for first-time scaffolding of a genuinely new repository/app/lab/system with no compatible baseline.
-- Theory comes before applying new concepts. `## Concepts` must teach the engineering topic, not merely explain the learning process or assessment model.
-
-## P0 implementation baseline — effective from PA-S001
-
-The Learning Site capabilities below are **platform baseline**, not future optional enhancements. PA-S001 initializes them and every later session preserves/extends them:
-
-- mobile-first bilingual dashboard home (`/es/`, `/en/`);
-- useful global curriculum navigation grouped by phase plus projects/systems;
-- interactive learner study tracking for Exercises and Knowledge Mastery Checklist items using stable ES/EN-shared IDs;
-- strict separation of study tracking from evidence-backed L1–L5 mastery;
-- concept-first academically rigorous session content;
-- adaptive Visual Learning Studio with mandatory mind map + comprehensive flashcards;
-- responsive Mermaid → SVG pipeline;
-- `/ui-reference/`-derived look/feel and interaction patterns;
-- accessible Light/Dark UI and responsive phone → tablet/iPad → desktop behavior.
-
-PA-S006 deepens theme/chart/mastery-visualization architecture; it does **not** defer initial dashboard/theme/tracking capability until PA-S006.
-
-## Learning-text baseline
-All theory-bearing sessions also follow the canonical Learning Text Ergonomics Contract in `01`, `04`, `05`, `11`, `12`, and `13`: pre-training, one dominant idea per paragraph, structural signaling, immediate concrete examples, retrieval/self-check, topic-appropriate adjacent visuals, optional bounded analogies, and evidence-adaptive scaffolding. Accuracy without learnability is incomplete.
-
-## v5 canonical-theory boundary
-
-v5 makes the theory-authoring boundary explicit: ChatGPT authors the complete canonical theory; Build materializes exact ES/EN source content; Codex publishes/integrates it without reauthoring. This prevents the renderer/implementation agent from degrading rich teaching into shallow headings, bullets or summaries.
-
-## v5 domain lanes + in-conversation theory companions
-
-Every theory-bearing session teaches Concepts/Theory first through three explicit lanes — Staff → Principal Software Engineering, Frontend Platform Architecture (FPA), and AI Product Engineering (AIPE) — then integrates them only when the session topic requires it. A bare `PA-Sxxx` now starts **Study mode**: ChatGPT returns only two reopenable canonical Markdown companions in the same conversation, `PA-Sxxx-theory-es.md` and `PA-Sxxx-theory-en.md`, then pauses for study/questions. Build/Codex/site/app work is generated only after an explicit later request. Codex publishes their semantics; it does not author or blend them.
-
-
-## Accelerated-learning format update
-The canonical format module is `14-ACCELERATED-LEARNING-UX.md`. ChatGPT applies it directly to ES/EN source theory; every later session Codex prompt embeds its five requirements, and `CODEX-SESSION-MASTER-PROMPT.md` provides the reusable explicit handoff. Codex applies semantic presentation only; it cannot regenerate missing theory or change app logic for a style feature. Existing published theory is not automatically compliant until its ChatGPT-owned canonical companions are updated and explicitly republished.
+**Precedencia sobre documentos históricos:** se eliminan los disparadores contradictorios de handoff inmediato, las instrucciones de entrega total de teoría sin aprobación y las etiquetas didácticas «Nivel 1/2/3». El usuario puede pedir explícitamente una muestra completa no aprobada; ello no altera el estado editorial.

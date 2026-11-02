@@ -59,7 +59,8 @@ function globalNav(
     `<a href="${href}"${active ? ' aria-current="page"' : ''}>${escapeHtml(label)}</a>`;
   const group = (name: string, label: string, items: string, open = false, count?: number) =>
     `<details class="nav-group"${open ? ' open' : ''}><summary>${icon(name as 'grid' | 'layers' | 'book' | 'bookmark')}<span>${label}</span>${count === undefined ? '' : `<span class="nav-count">${count}</span>`}${icon('chevron')}</summary><div class="nav-children">${items}</div></details>`;
-  const session = `${root}sessions/PA-S001/`;
+  const sessionId = current.match(/^sessions\/(PA-S\d{3})\//)?.[1] ?? 'PA-S001';
+  const session = `${root}sessions/${sessionId}/`;
   const projects = `${root}projects/`;
   const id = `site-search-${variant}`;
   const search = `<form class="site-search" role="search" data-site-search data-index-url="${base}assets/search-${lang}.json"><label class="sr-only" for="${id}">${es ? 'Buscar en el sitio' : 'Search the site'}</label>${icon('search')}<input id="${id}" type="search" autocomplete="off" placeholder="${es ? 'Buscar en el sitio…' : 'Search the site…'}" aria-controls="${id}-results"><div class="search-results" id="${id}-results" data-search-results hidden></div><p class="sr-only" role="status" aria-live="polite" data-search-status></p></form><noscript><p class="nav-empty">${es ? 'La búsqueda requiere JavaScript.' : 'Search requires JavaScript.'}</p></noscript>`;
@@ -81,15 +82,23 @@ function globalNav(
       current === 'projects/portfolio/',
     ) +
     link(`${base}portfolio/`, es ? 'Portafolio público' : 'Public portfolio');
-  const learnItems =
-    link(`${session}#concepts`, es ? 'Conceptos' : 'Concepts') +
-    link(`${session}#main.p0-boundaries`, es ? 'Tema principal' : 'Main topic') +
-    link(`${session}#visual-learning-studio`, es ? 'Estudio visual' : 'Visual learning') +
-    link(`${session}#exercises`, es ? 'Ejercicios' : 'Exercises') +
-    link(`${session}#study-checklist`, es ? 'Lista de estudio' : 'Study checklist');
-  const resourceItems =
-    link(`${session}#sources`, es ? 'Fuentes y referencias' : 'Sources and references') +
-    link(`${session}#resources`, es ? 'Recursos' : 'Resources');
+  const s002 = sessionId === 'PA-S002';
+  const learnItems = s002
+    ? link(`${session}#concepts`, es ? 'Conceptos' : 'Concepts') +
+      link(`${session}#main-topic`, es ? 'Tema principal' : 'Main topic') +
+      link(`${session}#visual-learning-studio`, es ? 'Estudio visual' : 'Visual learning') +
+      link(`${session}#exercises`, es ? 'Ejercicios' : 'Exercises') +
+      link(`${session}#study-checklist`, es ? 'Lista de estudio' : 'Study checklist')
+    : link(`${session}#concepts`, es ? 'Conceptos' : 'Concepts') +
+      link(`${session}#main.p0-boundaries`, es ? 'Tema principal' : 'Main topic') +
+      link(`${session}#visual-learning-studio`, es ? 'Estudio visual' : 'Visual learning') +
+      link(`${session}#exercises`, es ? 'Ejercicios' : 'Exercises') +
+      link(`${session}#study-checklist`, es ? 'Lista de estudio' : 'Study checklist');
+  const resourceItems = s002
+    ? link(`${session}#sources`, es ? 'Fuentes y referencias' : 'Sources and references') +
+      link(`${session}#resources`, es ? 'Recursos' : 'Resources')
+    : link(`${session}#sources`, es ? 'Fuentes y referencias' : 'Sources and references') +
+      link(`${session}#resources`, es ? 'Recursos' : 'Resources');
   return `<div class="sidebar-content"><a class="sidebar-brand" href="${root}"><span class="sidebar-logo">${icon('spark')}</span><span><strong>Principal Accelerator</strong><small>Learning Path</small></span></a>${search}<nav class="curriculum" aria-label="${es ? 'Navegación del programa' : 'Program navigation'}"><a class="nav-home" href="${root}"${current === '' ? ' aria-current="page"' : ''}>${icon('dashboard')}<span>Dashboard</span></a>${group('grid', es ? 'Sesiones' : 'Sessions', sessionItems, current.startsWith('sessions/'), 5)}${group('layers', es ? 'Proyectos' : 'Projects', projectItems, current.startsWith('projects/'), 4)}${group('book', es ? 'Aprender' : 'Learn', learnItems)}${group('bookmark', es ? 'Recursos' : 'Resources', resourceItems)}</nav><p class="sidebar-foot">F0 · ${es ? 'Plataforma Accelerator' : 'Accelerator platform'}</p></div>`;
 }
 function learningStudioScript(): string {

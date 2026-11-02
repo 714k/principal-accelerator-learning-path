@@ -1,6 +1,6 @@
-> **CONTRATO V6 VIGENTE (2026-10-18):** `15-ADAPTIVE-LEARNING-EXPERIENCE.md` prevalece sobre las reglas históricas incompatibles de este documento. Una entrada `PA-Sxxx` entrega directamente el handoff de Codex con teoría canónica ES/EN completa y accesible para Codex; no se detiene en Study-only ni exige una segunda petición. ChatGPT sigue siendo autor exclusivo de la teoría; Codex solo la publica. Todas las sesiones usan selección de técnicas pedagógicas por concepto, con práctica de recuperación, repaso y simulaciones solo donde se justifiquen. Cualquier regla antigua que prohíba ese prompt está **derogada**.
-
 # Progress
+
+> **Instantánea histórica, no estado actual verificado del repositorio.** Los estados que aparecen a continuación proceden del archivo de progreso original y pueden estar desactualizados respecto de las sesiones que el estudiante ya inspeccionó o construyó. No sobreescribir datos reales ni inferir avance de este archivo.
 
 ## Program status
 
@@ -79,3 +79,7 @@ None yet.
 ## Revisit queue
 
 None yet.
+
+
+## Estado editorial de sesiones (v10)
+Registrar **por separado**: borrador, en revisión, aprobado por el usuario, consolidado ES, EN validado y publicado por Codex. Ninguna de estas etapas acredita L1–L5 ni `Completed`. No marcar PA-S001–PA-S005 aprobadas sin evidencia explícita de aceptación.

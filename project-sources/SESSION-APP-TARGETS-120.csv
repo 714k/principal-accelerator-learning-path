@@ -1,0 +1,121 @@
+﻿session,mode,target
+PA-S001,INITIALIZE,P0 Portfolio + bilingual Learning Site
+PA-S002,EXTEND,"P0 Accelerator monorepo, packages, standards and CI"
+PA-S003,EXTEND,P0 Portfolio architecture + Learning Site information architecture
+PA-S004,INITIALIZE/EXTEND,P3 Design System library + runnable Storybook workbench
+PA-S005,EXTEND,P0/P3 bilingual content and i18n contracts
+PA-S006,EXTEND,"P0 Learning Site dashboard, theme and charts"
+PA-S007,EXTEND,P1 abstraction and encapsulation design lab
+PA-S008,EXTEND,P1 coupling/cohesion dependency change lab
+PA-S009,EXTEND,P1 SOLID/GRASP examples and architecture tests
+PA-S010,EXTEND,P1 dependency inversion/injection lab
+PA-S011,EXTEND,P1 Strategy/Factory/composition patterns lab
+PA-S012,EXTEND,P1 Adapter/Facade/Decorator integration lab
+PA-S013,EXTEND,P1 Observer/Command/State behavior lab
+PA-S014,EXTEND,P1 repository/specification persistence lab
+PA-S015,INITIALIZE,P1 independent Layered Architecture app
+PA-S016,INITIALIZE,P1 independent Onion Architecture app + AI adapter
+PA-S017,INITIALIZE,P1 independent Hexagonal Architecture app + ports/tools
+PA-S018,INITIALIZE,P1 independent Clean Architecture app
+PA-S019,INITIALIZE,P1 independent Vertical Slice/Modular Monolith app
+PA-S020,COMPARE/REVIEW,P1 architecture comparison + ADR + evidence
+PA-S021,INITIALIZE,P2 Document Product frontend + REST API
+PA-S022,EXTEND,P2 API contracts/OpenAPI validation
+PA-S023,EXTEND/COMPARE,P2 GraphQL as alternate API contract
+PA-S024,EXTEND,P2 real-time processing notifications
+PA-S025,EXTEND,P2 authentication/identity
+PA-S026,EXTEND,P2 authorization/AI permissions
+PA-S027,EXTEND,P2 PostgreSQL domain model and migrations
+PA-S028,EXTEND,P2 concurrency and transaction lab
+PA-S029,EXTEND,P2 query optimization and indexes
+PA-S030,EXTEND,P2 caching experiments and policies
+PA-S031,EXTEND,P2 document search and retrieval foundations
+PA-S032,REVIEW,P2 data architecture ADR and review
+PA-S033,EXTEND,P3 browser rendering architecture lab
+PA-S034,EXTEND,P3 event loop/asynchronous execution lab
+PA-S035,EXTEND,P2/P3 domain-oriented frontend modules
+PA-S036,EXTEND/COMPARE,P3 frontend state architecture comparisons
+PA-S037,COMPARE,P3 CSR/SSR/SSG/streaming rendering examples
+PA-S038,INITIALIZE,P3 microfrontend shell + independent remotes
+PA-S039,EXTEND,P3 evolve PA-S004 Design System as consumer-facing platform
+PA-S040,EXTEND,P3 tokens/theme/multi-brand variants
+PA-S041,EXTEND,P3 component public APIs and Storybook stories
+PA-S042,EXTEND,P3 accessibility testing and governance
+PA-S043,EXTEND,P3 monorepo dependency and boundary tests
+PA-S044,EXTEND,P3 build caching and CI developer tooling
+PA-S045,INITIALIZE/EXTEND,P3 golden-path generator/developer workflow
+PA-S046,REVIEW,P3 adoption RFC and platform strategy
+PA-S047,EXTEND,P2/P3 network flow/DNS/TCP/TLS diagnostic lab
+PA-S048,EXTEND,P0/P3 Web Vitals and browser profiling
+PA-S049,EXTEND,P0/P2/P3 bundle/rendering/memory optimization
+PA-S050,EXTEND,P2 containerized runtime
+PA-S051,EXTEND,P2 cloud/deployment/load distribution lab
+PA-S052,EXTEND,P2 delivery pipeline and feature flags
+PA-S053,EXTEND,P2 structured logging and telemetry
+PA-S054,EXTEND,P2 OpenTelemetry metrics
+PA-S055,EXTEND,P2 cross-service distributed tracing
+PA-S056,EXTEND,P2 SLI/SLO/error-budget dashboard
+PA-S057,EXTEND,P2 timeout/retry/circuit-breaker failure lab
+PA-S058,REVIEW,P2 incident/failure engineering lab and postmortem
+PA-S059,INITIALIZE,P4 independent distributed failure-model lab
+PA-S060,EXTEND,P4 consistency/partition scenarios
+PA-S061,EXTEND,P4 replication/partitioning scenarios
+PA-S062,EXTEND,P4 ordering/coordination scenarios
+PA-S063,INITIALIZE,P4 event-driven product with queue/PubSub
+PA-S064,EXTEND,P4 Kafka/event streaming
+PA-S065,EXTEND,P4 idempotent consumers and delivery semantics
+PA-S066,EXTEND,P4 transactional outbox
+PA-S067,EXTEND,P4 Saga workflow/compensation
+PA-S068,INITIALIZE,P4 independent CQRS implementation
+PA-S069,INITIALIZE,P4 independent Event Sourcing implementation
+PA-S070,REVIEW,P4 event architecture and failure review
+PA-S071,EXTEND,P2 AI-assisted document capability
+PA-S072,EXTEND,P2/P5 prompt/context composition and versioning
+PA-S073,EXTEND,P2/P5 structured-output validation
+PA-S074,EXTEND,P2/P5 tool calling contracts/permissions
+PA-S075,INITIALIZE,P5 AI gateway/provider abstraction
+PA-S076,EXTEND,P2 AI streaming UX
+PA-S077,INITIALIZE,P2/P5 ingestion and document-processing pipeline
+PA-S078,EXTEND,P2/P5 chunking and embeddings
+PA-S079,EXTEND,P2/P5 vector search
+PA-S080,EXTEND,P2/P5 hybrid retrieval and metadata
+PA-S081,EXTEND,P2/P5 reranking and context selection
+PA-S082,EXTEND,P2/P5 production RAG application
+PA-S083,EXTEND,P2/P5 retrieval and groundedness eval suite
+PA-S084,REVIEW,P2/P5 RAG architecture ADR and evidence review
+PA-S085,COMPARE,P5 workflow vs agent executable implementations
+PA-S086,INITIALIZE,P5 agent loop and orchestration runtime
+PA-S087,EXTEND,P5 tool registry/execution architecture
+PA-S088,EXTEND,P5 agent state/memory
+PA-S089,EXTEND,P5 human-in-the-loop review/approval UI
+PA-S090,EXTEND,P5 agent evaluation/failure suite
+PA-S091,EXTEND,P5 AI security and prompt-injection defenses
+PA-S092,EXTEND,P5 multi-consumer AI gateway platform
+PA-S093,EXTEND,P5 model routing/fallback/governance
+PA-S094,INITIALIZE/EXTEND,P5 AI developer portal and adoption artifacts
+PA-S095,REVIEW,P2/P3/P4/P5 threat models
+PA-S096,EXTEND,P2/P5 web/API security controls/tests
+PA-S097,EXTEND,P3/P5 supply-chain/platform security
+PA-S098,REVIEW,P2/P4/P5 capacity estimates and models
+PA-S099,EXTEND,P2/P4/P5 load-test harness/results
+PA-S100,EXTEND,P2/P4 backpressure/rate limiting
+PA-S101,EXTEND,P2/P4 autoscaling lab
+PA-S102,DESIGN/COMPARE,P6 multi-region design/lab when justified
+PA-S103,EXTEND,P6 recovery/backup restoration exercise
+PA-S104,REVIEW,P6 cost/FinOps analysis
+PA-S105,REVIEW,P6 system-design requirements/template
+PA-S106,DESIGN/COMPARE,P6 real-time collaboration design/prototype
+PA-S107,DESIGN/COMPARE,P2/P6 search/knowledge system design
+PA-S108,DESIGN/COMPARE,P4/P6 enterprise event-driven design
+PA-S109,DESIGN/COMPARE,P5/P6 AI knowledge platform design
+PA-S110,DESIGN/COMPARE,P3/P6 enterprise frontend platform design
+PA-S111,REVIEW,P6 architecture standards/governance catalog
+PA-S112,REVIEW,P6 architecture review practice/artifacts
+PA-S113,REVIEW,P6 multiquarter technical strategy/roadmap
+PA-S114,REVIEW,P6 Principal architecture/design review
+PA-S115,INITIALIZE,P6 Intelligent Enterprise Platform capstone
+PA-S116,EXTEND,P6 frontend/backend/data integration
+PA-S117,EXTEND,P6 event-driven/AI integration
+PA-S118,EXTEND,P6 reliability/security/scale/cost proof
+PA-S119,REVIEW,P6 architecture and adoption strategy
+PA-S120,REVIEW/PUBLISH,P6 final capstone + Portfolio/Learning Site evidence showcase

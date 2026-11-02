@@ -1,0 +1,14 @@
+sequenceDiagram
+    actor Persona
+    participant Web as Aplicación web
+    participant API as API de reservas
+    participant DB as Base de datos
+    participant Worker as Notificaciones
+
+    Persona->>Web: Selecciona sala y horario
+    Web->>API: Solicita reserva y clave de idempotencia
+    API->>API: Autentica y valida permisos
+    API->>DB: Reserva de forma transaccional
+    DB-->>API: Confirmada o conflicto
+    API-->>Web: Estado y datos de reserva
+    API->>Worker: Evento de reserva confirmada
