@@ -53,15 +53,13 @@ test('seventeen concepts, main topic, six subtopics, and study IDs have ES/EN pa
   }
 });
 
-test('chapter metadata and reading layers have a semantic heading hierarchy in both languages', () => {
+test('reading layers use semantic labels while editorial metadata stays out of the rendered page', () => {
   for (const lang of ['es', 'en'] as const) {
     const html = renderCanonical(source(lang), lang, '/').html;
     const phase = lang === 'es' ? 'Fase' : 'Phase';
-    const lanes = lang === 'es' ? 'Carriles' : 'Lanes';
-    const foundation = lang === 'es' ? 'Nivel 1 — Fundamento.' : 'Level 1 — Foundation.';
-    assert.match(html, /<h2 id="chapter-title" class="chapter-title">PA-S001 —/);
-    assert.match(html, new RegExp(`<h3>${phase}:</h3><p>`));
-    assert.match(html, new RegExp(`<h3>${lanes}:</h3><p>`));
+    const concept = lang === 'es' ? 'Concepto' : 'Concept';
+    assert.doesNotMatch(html, /class="chapter-title"/);
+    assert.doesNotMatch(html, new RegExp(`${phase}:`));
     assert.match(
       html,
       /<div class="concept-heading" data-concept-id="scope\.system"><p class="concept-eyebrow">/,
@@ -70,8 +68,9 @@ test('chapter metadata and reading layers have a semantic heading hierarchy in b
       html,
       /<div class="concept-heading" data-concept-id="sub\.software-vs-architecture"><p class="concept-eyebrow">/,
     );
-    assert.ok(html.includes(`<h4>${foundation}</h4>`));
-    assert.ok(!html.includes('<p><strong>Level 1') && !html.includes('<p><strong>Nivel 1'));
+    assert.ok(html.includes(`<h4>${concept}</h4>`));
+    assert.ok(html.includes('class="concept-disclosure"'));
+    assert.ok(!html.includes('Level 1') && !html.includes('Nivel 1'));
   }
 });
 
@@ -91,8 +90,9 @@ test('paragraph lead-ins become headings without redundant definition labels', (
 });
 
 function plainMarkdown(line: string): string {
-  if (!/^\*\*(?:Nivel|Level) [123] —/.test(line))
-    line = line.replace(/^\*\*([^*]+?)(?::\s*(?:definición|definition))?\.\*\* /i, '**$1** ');
+  if (/^\*\*(?:Nivel|Level) [123] —/.test(line))
+    line = line.replace(/^\*\*(?:Nivel|Level) [123] — [^*]+\.\*\*\s*/, '');
+  else line = line.replace(/^\*\*([^*]+?)(?::\s*(?:definición|definition))?\.\*\* /i, '**$1** ');
   const code: string[] = [];
   let value = line.replace(/`([^`]+)`/g, (_, content: string) => {
     code.push(content);
@@ -154,7 +154,8 @@ test('every substantive authored paragraph and instruction appears in rendered o
         raw.startsWith('|') ||
         raw.startsWith('- ') ||
         raw.startsWith('> ') ||
-        /^\d+\. /.test(raw)
+        /^\d+\. /.test(raw) ||
+        /^\*\*(?:Fase|Phase):/.test(raw)
       )
         continue;
       const line = plainMarkdown(raw);

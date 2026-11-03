@@ -1,5 +1,6 @@
 import { renderReferenceExperience } from './concept-explorers.ts';
 import { asciiDiagrams } from './ascii-diagrams.ts';
+import { placeTocFabsAtSectionEnds, sectionHeading, tocFab } from './render.ts';
 /** Renderer and coverage gate for the learner supplied PA-S001 Markdown. */
 export const CONCEPT_IDS = [
   'engineering.software',
@@ -313,6 +314,9 @@ function inline(value: string): string {
   );
   return text.replace(/@@TOKEN(\d+)@@/g, (_, number: string) => tokens[Number(number)]!);
 }
+function isStandaloneFlow(value: string): boolean {
+  return /\s(?:→|←|↔|⟶|⇒|->|<-)\s/.test(value) && !value.includes(' · ') && !/[.!?;]$/.test(value);
+}
 function chapterMetadata(line: string): string | undefined {
   if (!/^\*\*(?:Fase|Phase):\*\*/.test(line)) return undefined;
   const fields = [...line.matchAll(/\*\*([^*]+):\*\* ([\s\S]*?)(?= \*\*[^*]+:\*\*|$)/g)];
@@ -327,7 +331,7 @@ function conceptHeading(heading: Heading, lang: 'es' | 'en'): string | undefined
     ? TOPIC_IDS.indexOf(heading.id as (typeof TOPIC_IDS)[number])
     : CONCEPT_IDS.indexOf(heading.id as (typeof CONCEPT_IDS)[number]);
   const label = lang === 'es' ? (sub ? 'SUBTEMA' : 'CONCEPTO') : sub ? 'SUBTOPIC' : 'CONCEPT';
-  return `<div class="concept-heading" data-concept-id="${escapeHtml(heading.id)}"><p class="concept-eyebrow">${label} · ${String(index + (sub ? 0 : 1)).padStart(2, '0')}</p><h3 id="${heading.id}">${inline(match[2]!)}</h3></div>`;
+  return `<section class="concept-accordion"><div class="concept-heading" data-concept-id="${escapeHtml(heading.id)}"><p class="concept-eyebrow">${label} · ${String(index + (sub ? 0 : 1)).padStart(2, '0')}</p><h3 id="${heading.id}">${inline(match[2]!)}</h3></div><details class="concept-disclosure"><summary>${lang === 'es' ? 'Explorar el concepto' : 'Explore the concept'}</summary><div class="concept-content">`;
 }
 function studio(source: string, lang: 'es' | 'en', base: string): string {
   const es = lang === 'es',
@@ -345,7 +349,7 @@ export function renderCanonical(source: string, lang: 'es' | 'en', base: string)
   const lines = sourceLines(source),
     all = headings(source, lang),
     out: string[] = [];
-  const toc = `<details class="toc"><summary>${lang === 'es' ? 'Contenido' : 'Contents'}</summary><nav aria-label="${lang === 'es' ? 'Contenido' : 'Contents'}"><ol class="toc-list">${all
+  const toc = `<details class="toc" id="table-of-contents"><summary>${lang === 'es' ? 'Contenido' : 'Contents'}</summary><nav aria-label="${lang === 'es' ? 'Contenido' : 'Contents'}"><ol class="toc-list">${all
     .filter((h) => h.level === 2)
     .map((h) => `<li><a href="#${h.id}">${inline(h.title.replace(/^`[^`]+` — /, ''))}</a></li>`)
     .join('')}</ol></nav></details>`;
@@ -357,7 +361,13 @@ export function renderCanonical(source: string, lang: 'es' | 'en', base: string)
       .map((h) => [h.id, h.title.replace(/^`[^`]+` — /, '')]),
   );
   let successIndex = 0,
-    diagramIndex = 0;
+    diagramIndex = 0,
+    conceptOpen = false;
+  const closeConcept = () => {
+    if (!conceptOpen) return;
+    out.push('</div></details></section>');
+    conceptOpen = false;
+  };
   const figureFor = (id: string): string => {
     const figures: Record<string, [number, string, string]> = {
       'engineering.architecture': [
@@ -405,15 +415,41 @@ export function renderCanonical(source: string, lang: 'es' | 'en', base: string)
       i++;
       continue;
     }
+    if (
+      line === '---' ||
+      /\*\*(?:Hechos confirmados|Supuestos e inferencias|Incertidumbres y limitaciones|Cómo verificarlo|Confirmed facts|Assumptions and inferences|Uncertainties and limitations|How to verify)(?::|\*\*)/i.test(
+        line,
+      ) ||
+      /^\*\*(?:Estado(?: editorial)?|Editorial(?: status)?):/i.test(line) ||
+      /\*\*Estado editorial de este bloque:/i.test(line)
+    ) {
+      i++;
+      continue;
+    }
     const heading = all.find((h) => h.line === i);
     if (heading) {
+      const concept = conceptHeading(heading, lang);
+      if (heading.level <= 3 || concept) closeConcept();
       currentHeading = heading.id;
-      out.push(
-        heading.level === 1
-          ? `<h2 id="${heading.id}" class="chapter-title">${inline(heading.title)}</h2>`
-          : (conceptHeading(heading, lang) ??
-              `<h${heading.level} id="${heading.id}">${inline(heading.title)}</h${heading.level}>`),
-      );
+      if (heading.level !== 1) {
+        if (concept) {
+          out.push(concept);
+          conceptOpen = true;
+        } else {
+          const compact = /^(Tema principal|Main Topic|Subtemas|Subtopics)$/.test(heading.title)
+            ? ' section-label'
+            : '';
+          if (heading.level === 2) {
+            const sectionNumber = all.filter((item) => item.level === 2).indexOf(heading) + 1;
+            out.push(
+              `${sectionHeading(2, heading.id, inline(heading.title), lang, sectionNumber, compact.trim())}${tocFab(lang)}`,
+            );
+          } else
+            out.push(
+              `<h${heading.level} id="${heading.id}" class="section-heading${compact}">${inline(heading.title)}</h${heading.level}>`,
+            );
+        }
+      }
       if (heading.id === 'visual-learning-studio') out.push(studio(source, lang, base));
       i++;
       continue;
@@ -483,7 +519,7 @@ export function renderCanonical(source: string, lang: 'es' | 'en', base: string)
       const items: string[] = [];
       while (/^\d+\. /.test(lines[i] ?? '')) items.push(lines[i++]!);
       out.push(
-        `<ol>${items
+        `<ol class="canonical-ordered-list">${items
           .map((item) => {
             const content = item.replace(/^\d+\. /, '');
             const study = content.match(/^\*\*`(PA-S001\.exercise\.[a-z-]+)`:\*\* (.+)$/);
@@ -520,7 +556,7 @@ export function renderCanonical(source: string, lang: 'es' | 'en', base: string)
     if (/^\*\*(?:Nivel|Level) 3 —/.test(line)) {
       const match = line.match(/^\*\*([^*]+)\*\* (.*)$/)!;
       out.push(
-        `<details class="deep-dive"><summary><span class="reading-level-title">${escapeHtml(match[1]!)}</span></summary><p>${inline(match[2]!)}</p></details>`,
+        `<details class="deep-dive"><summary><span class="reading-level-title">${lang === 'es' ? 'Profundiza' : 'Go deeper'}</span></summary><p>${inline(match[2]!)}</p></details>`,
       );
       i++;
       continue;
@@ -530,14 +566,13 @@ export function renderCanonical(source: string, lang: 'es' | 'en', base: string)
     );
     if (retrieval) {
       out.push(
-        `<details class="mechanism-retrieval"><summary><strong>${lang === 'es' ? 'Comprueba tu comprensión' : 'Check your understanding'}:</strong> ${inline(retrieval[2]!)}</summary><p><strong>${lang === 'es' ? 'Respuesta razonada' : 'Reasoned answer'}:</strong> ${inline(retrieval[4]!)}</p></details>`,
+        `<details class="mechanism-retrieval"><summary><strong>${lang === 'es' ? 'Comprueba lo aprendido' : 'Check what you learned'}:</strong> ${inline(retrieval[2]!)}</summary><p><strong>${lang === 'es' ? 'Respuesta razonada' : 'Reasoned answer'}:</strong> ${inline(retrieval[4]!)}</p></details>`,
       );
       i++;
       continue;
     }
     const metadata = chapterMetadata(line);
     if (metadata) {
-      out.push(metadata);
       i++;
       continue;
     }
@@ -547,8 +582,16 @@ export function renderCanonical(source: string, lang: 'es' | 'en', base: string)
         .split(/(?=📥|⚙️|📤|💡|\*\*(?:Recuperación|Retrieval):\*\*)/)
         .map((part) => part.trim())
         .filter(Boolean);
+      const isConcept = /^(?:Nivel|Level) 1/.test(level[1]!);
+      const label = isConcept
+        ? lang === 'es'
+          ? 'Concepto'
+          : 'Concept'
+        : lang === 'es'
+          ? 'Cómo funciona'
+          : 'How it works';
       out.push(
-        `<div class="reading-level"><h4>${escapeHtml(level[1]!)}</h4>${blocks.map((part) => `<p>${inline(part)}</p>`).join('')}</div>`,
+        `<div class="reading-level"><h4>${label}</h4>${blocks.map((part, index) => `<p${isConcept && index === 0 ? ' class="concept-definition"' : ''}>${inline(part)}</p>`).join('')}</div>`,
       );
       if (/^(?:Nivel|Level) 2/.test(level[1]!)) {
         out.push(figureFor(currentHeading));
@@ -568,14 +611,15 @@ export function renderCanonical(source: string, lang: 'es' | 'en', base: string)
       i++;
       continue;
     }
-    out.push(`<p>${inline(line)}</p>`);
+    out.push(`<p${isStandaloneFlow(line) ? ' class="flow-card"' : ''}>${inline(line)}</p>`);
     i++;
   }
   if (successIndex !== SUCCESS_IDS.length)
     throw new Error(`Canonical ${lang} success criteria count differs`);
   if (diagramIndex !== asciiDiagrams[lang].length)
     throw new Error(`Canonical ${lang} text diagram count differs`);
-  return { html: out.join('\n'), toc };
+  closeConcept();
+  return { html: placeTocFabsAtSectionEnds(out.join('\n'), lang), toc };
 }
 export function canonicalSearchSections(source: string): CanonicalSearchSection[] {
   const lang = source.includes('## Objetivo') ? 'es' : 'en',

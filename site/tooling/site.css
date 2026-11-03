@@ -300,11 +300,24 @@ article section:target {
   border-color: var(--accent);
 }
 .section-heading {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: baseline;
+  display: grid;
+  gap: 0.35rem;
   margin-top: 0;
+}
+.section-heading .section-number,
+.section-heading .section-title {
+  display: block;
+}
+.section-heading .section-number {
+  color: var(--accent);
+  font-size: 0.4em;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.section-heading .section-title {
+  color: var(--ink);
 }
 .reading-lead {
   font-size: 1.05rem;
@@ -1974,6 +1987,254 @@ article section {
   }
 }
 
+/* Compact, predictable controls for the long-form learning pages. */
+main a[href^='http']::after {
+  content: '↗';
+  display: inline-block;
+  margin-left: 0.2em;
+  font-size: 0.78em;
+  line-height: 1;
+  text-decoration: none;
+}
+.scroll table,
+.dashboard-table {
+  table-layout: auto;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  hyphens: none;
+}
+.scroll th,
+.scroll td,
+.dashboard-table th,
+.dashboard-table td {
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  hyphens: none;
+}
+.scroll :is(th, td, a, code),
+.dashboard-table :is(th, td, a, code) {
+  overflow-wrap: normal;
+  word-break: keep-all;
+  hyphens: none;
+}
+details:not(.nav-group):not(.mobile-global) > summary {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  justify-content: space-between;
+  cursor: pointer;
+  list-style: none;
+}
+details:not(.nav-group):not(.mobile-global) > summary::-webkit-details-marker {
+  display: none;
+}
+details:not(.nav-group):not(.mobile-global) > summary::after {
+  content: '';
+  flex: none;
+  align-self: center;
+  width: 1rem;
+  height: 1rem;
+  background: var(--accent);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.25'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.25'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  transition: transform 0.15s ease;
+}
+details:not(.nav-group):not(.mobile-global)[open] > summary::after {
+  transform: rotate(180deg);
+}
+.toc {
+  scroll-margin-top: 1rem;
+}
+.toc-fab {
+  position: relative;
+  clear: both;
+  z-index: 2;
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  margin: 1rem 0 1.5rem auto;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  color: var(--accent);
+  font-weight: 800;
+  text-decoration: none;
+}
+.toc-fab:hover {
+  background: var(--soft);
+}
+.canonical-theory .section-label {
+  margin: 2.2rem 0 0.7rem;
+  padding: 0;
+  border: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+.canonical-theory ul:not(.studio-coverage) {
+  margin: 1rem 0;
+  padding: 0;
+  list-style: none;
+}
+.canonical-theory ul:not(.studio-coverage) > li {
+  margin: 0.35rem 0;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.canonical-theory ul:not(.studio-coverage) > li::marker {
+  content: '';
+}
+.canonical-theory > ul:not(.studio-coverage) > li:not(.canonical-study-item) {
+  padding: 0.25rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+}
+.canonical-theory .concept-list {
+  display: grid;
+  gap: 12px;
+  margin: 1rem 0;
+  padding: 0;
+  list-style: none;
+}
+.canonical-theory .concept-list > li {
+  margin: 0;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 0.85rem 0.85rem 0;
+  background: var(--surface);
+}
+.canonical-theory .concept-list-term,
+.canonical-theory .concept-list-definition {
+  display: block;
+}
+.canonical-theory .concept-list-term {
+  margin-bottom: 0.3rem;
+}
+.canonical-theory .canonical-ordered-list,
+.canonical-theory ol:not(.concept-list):not(.references):not(.studio-flow) {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: ordered-summary;
+}
+.canonical-theory .canonical-ordered-list > li,
+.canonical-theory ol:not(.concept-list):not(.references):not(.studio-flow) > li {
+  position: relative;
+  min-height: 3.5rem;
+  margin: 0;
+  padding: 0.85rem 1rem 0.85rem 3.5rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+  counter-increment: ordered-summary;
+}
+.canonical-theory .canonical-ordered-list > li::before,
+.canonical-theory ol:not(.concept-list):not(.references):not(.studio-flow) > li::before {
+  content: counter(ordered-summary, decimal-leading-zero);
+  position: absolute;
+  top: 0.88rem;
+  left: 1rem;
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+.canonical-theory > ol.canonical-ordered-list > li:not(.canonical-study-item),
+.canonical-theory
+  > ol:not(.concept-list):not(.references):not(.studio-flow)
+  > li:not(.canonical-study-item) {
+  padding: 0.85rem 1rem 0.85rem 3.5rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+}
+.canonical-theory ol.concept-list {
+  counter-reset: ordered-summary;
+}
+.canonical-theory ol.concept-list > li {
+  position: relative;
+  padding-left: 3.5rem;
+  counter-increment: ordered-summary;
+}
+.canonical-theory ol.concept-list > li::before {
+  content: counter(ordered-summary, decimal-leading-zero);
+  position: absolute;
+  top: 0.95rem;
+  left: 1rem;
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+.canonical-theory .s003-item {
+  position: relative;
+  min-height: 3.5rem;
+  margin: 1rem 0;
+  padding: 0.85rem 1rem 0.85rem 3.5rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+}
+.canonical-theory .s003-item strong {
+  position: absolute;
+  top: 0.88rem;
+  left: 1rem;
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+.canonical-theory .s003-item span {
+  display: block;
+}
+.concept-accordion {
+  margin: 3.4rem 0;
+}
+.concept-accordion .concept-heading {
+  margin: 0;
+}
+.concept-disclosure {
+  margin-top: 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 0.85rem;
+  background: color-mix(in srgb, var(--surface) 82%, var(--soft));
+}
+.concept-disclosure > summary {
+  min-height: 44px;
+  padding: 0.65rem 0.9rem;
+  color: var(--accent);
+  font-weight: 750;
+}
+.concept-content {
+  padding: 0 1rem 1rem;
+}
+.concept-content .reading-level:first-child {
+  margin-top: 0.35rem;
+}
+.canonical-theory .concept-definition {
+  font-size: calc(1rem + 6px);
+  font-weight: 650;
+  line-height: 1.45;
+}
+@media (prefers-reduced-motion: reduce) {
+  details:not(.nav-group):not(.mobile-global) > summary::after {
+    transition: none;
+  }
+}
+
 /* Reference instructional explorations; all colors derive from existing tokens. */
 .reference-explorer {
   margin: 1.5rem 0 2.5rem;
@@ -2161,6 +2422,43 @@ article section {
 .canonical-theory .mechanism-diagram img {
   min-width: min(38rem, 100%);
   height: auto;
+}
+.canonical-theory .split-lead {
+  display: grid;
+  gap: 0.35rem;
+  margin: 1rem 0;
+}
+.canonical-theory .split-lead > strong,
+.canonical-theory .split-lead > span {
+  display: block;
+}
+.canonical-theory .split-lead > strong {
+  color: var(--ink);
+  font-size: 1em;
+  line-height: 1.35;
+}
+.canonical-theory .split-lead > span {
+  line-height: 1.7;
+}
+.canonical-theory .flow-card {
+  margin: 1rem 0;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 0.75rem 0.75rem 0;
+  background: var(--soft);
+  color: var(--ink);
+  line-height: 1.65;
+}
+.canonical-theory .flow-card-code {
+  overflow-x: auto;
+}
+.canonical-theory .flow-card-code .code {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
 }
 /* Mermaid source is an optional textual fallback; keep it readable in either theme. */
 .canonical-theory .diagram-card .code {
