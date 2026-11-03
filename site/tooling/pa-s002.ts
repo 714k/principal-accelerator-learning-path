@@ -1,4 +1,33 @@
-import { escapeHtml, shell } from './render.ts';
+import {
+  checkWhatYouLearned,
+  escapeHtml,
+  placeTocFabsAtSectionEnds,
+  sectionHeading,
+  shell,
+  tocFab,
+} from './render.ts';
+
+function conceptList(items: string[]): string | undefined {
+  const concepts = items.map((item) => item.match(/^\*\*([^*]+):\*\*\s+(.+)$/));
+  if (concepts.some((item) => !item)) return undefined;
+  return `<ul class="concept-list">${concepts
+    .map(
+      (item) =>
+        `<li><strong class="concept-list-term">${inline(item![1]!)}:</strong><span class="concept-list-definition">${inline(item![2]!)}</span></li>`,
+    )
+    .join('')}</ul>`;
+}
+
+function laneDefinitionList(items: string[]): string | undefined {
+  const lanes = items.map((item) => item.match(/^\*\*([^*]+?)\.\*\*\s+((?:«[^»]+»[.\s]*)+)$/));
+  if (lanes.some((item) => !item)) return undefined;
+  return `<ol class="concept-list">${lanes
+    .map(
+      (lane) =>
+        `<li><strong class="concept-list-term">${inline(lane![1]!)}</strong><span class="concept-list-definition">${inline(lane![2]!.trim())}</span></li>`,
+    )
+    .join('')}</ol>`;
+}
 
 export function assertS002(source: string, lang: 'es' | 'en'): void {
   const required =
@@ -31,16 +60,81 @@ function inline(s: string): string {
     .replace(/\*([^*]+)\*/g, '<em>$1</em>');
   return value.replace(/@@(\d+)@@/g, (_, n: string) => held[Number(n)]!);
 }
+function paragraph(value: string): string {
+  const lead = value.match(/^\*\*([^*]+?)\.\*\*\s+(.+)$/);
+  if (lead)
+    return `<p class="split-lead"><strong>${inline(lead[1]!)}</strong><span>${inline(lead[2]!)}</span></p>`;
+  if (/\s(?:→|←|↔|⟶|⇒|->|<-)\s/.test(value) && !value.includes(' · ') && !/[.!?;]$/.test(value))
+    return `<p class="flow-card">${inline(value)}</p>`;
+  return `<p>${inline(value)}</p>`;
+}
 function sectionId(title: string, index: number): string {
   const normalized = title
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase();
-  if (normalized.includes('conceptos por ambito') || /(?:^|\.) concepts$/.test(normalized))
+  if (normalized === 'conceptos por ambito profesional' || /(?:^|\.) concepts$/.test(normalized))
     return 'concepts';
-  if (normalized.includes('del repositorio compartido') || normalized.includes('shared repository'))
+  if (
+    normalized.includes('tema principal') ||
+    /(?:^|\.) main topic$/.test(normalized) ||
+    normalized.includes('shared repository')
+  )
     return 'main-topic';
+  if (normalized.includes('subtemas previstos') || /(?:^|\.) subtopics$/.test(normalized))
+    return 'subtopics';
+  const subtopic = normalized.match(
+    /^(?:subtema|subtopic)\s*(\d+)\.|^(?:\d+)\.\s*(?:repository topology|workspaces, applications|dependencies, apis|task graph|conventions, policies|quality gates|ownership and ai)/,
+  );
+  if (subtopic?.[1]) return `subtopic-${subtopic[1]}`;
+  if (
+    /^\d+\.\s*(repository topology|workspaces, applications|dependencies, apis|task graph|conventions, policies|quality gates|ownership and ai)/.test(
+      normalized,
+    )
+  ) {
+    const topics = [
+      'repository topology',
+      'workspaces, applications',
+      'dependencies, apis',
+      'task graph',
+      'conventions, policies',
+      'quality gates',
+      'ownership and ai',
+    ];
+    return `subtopic-${topics.findIndex((topic) => normalized.includes(topic)) + 1}`;
+  }
+  const englishSubtopicIndex = [
+    'repository topology and autonomy',
+    'workspaces, applications and packages',
+    'dependencies, apis and direction',
+    'task graph and shared code',
+    'conventions, policies and standards',
+    'quality gates, constraints and fitness',
+    'ownership and ai boundaries',
+  ].indexOf(normalized);
+  if (englishSubtopicIndex >= 0) return `subtopic-${englishSubtopicIndex + 1}`;
+  if (
+    normalized.includes('integracion entre ambitos') ||
+    normalized.includes('cross-domain synthesis')
+  )
+    return 'integration';
+  if (
+    normalized === 'teoria → practica' ||
+    (normalized.includes('theory') && normalized.includes('practice'))
+  )
+    return 'theory-practice';
+  if (normalized.includes('tiempo estimado') || normalized.includes('time breakdown'))
+    return 'estimated-time';
+  if (normalized.includes('caso documentado') || normalized.includes('real-world example'))
+    return 'real-world-case';
+  if (
+    normalized.includes('diseno de produccion') ||
+    normalized.includes('production-ready example')
+  )
+    return 'production-reference-design';
   if (normalized.includes('visual learning studio')) return 'visual-learning-studio';
+  if (normalized.includes('tarjetas de estudio') || normalized.includes('study cards'))
+    return 'study-cards';
   if (normalized.includes('practica y cierre') || /(?:^|\.) exercises$/.test(normalized))
     return 'exercises';
   if (normalized === 'fuentes' || normalized.includes('curated sources')) return 'sources';
@@ -51,10 +145,135 @@ function sectionId(title: string, index: number): string {
     normalized.includes('knowledge mastery checklist')
   )
     return 'study-checklist';
+  if (normalized.includes('criterios de exito') || normalized.includes('end-of-session success'))
+    return 'success-criteria';
+  if (normalized.includes('puente a pa-s003') || normalized.includes('bridge to pa-s003'))
+    return 'bridge-to-pa-s003';
   return `section-${index}`;
+}
+
+function sessionToc(lang: 'es' | 'en'): string {
+  const es = lang === 'es';
+  const sections: Array<[string, string]> = es
+    ? [
+        ['concepts', 'Conceptos por ámbito profesional'],
+        ['main-topic', 'Tema principal — Del repositorio compartido a los límites comprobables'],
+        ['subtopics', 'Subtemas'],
+        ['integration', 'Integración entre ámbitos'],
+        ['theory-practice', 'Teoría → práctica'],
+        ['estimated-time', 'Tiempo estimado'],
+        ['real-world-case', 'Caso documentado del mundo real: el repositorio monolítico de Google'],
+        ['production-reference-design', 'Diseño de referencia para producción'],
+        ['visual-learning-studio', 'Visual Learning Studio'],
+        ['study-cards', 'Tarjetas de estudio — 10'],
+        ['exercises', 'Ejercicios'],
+        ['sources', 'Fuentes y referencias curadas'],
+        ['resources', 'Recursos'],
+        ['study-checklist', 'Checklist de dominio'],
+        ['success-criteria', 'Criterios de éxito de la sesión'],
+        ['bridge-to-pa-s003', 'Puente a PA-S003'],
+      ]
+    : [
+        ['concepts', 'Concepts by professional domain'],
+        ['main-topic', 'Main topic — From the shared repository to verifiable boundaries'],
+        ['subtopics', 'Subtopics'],
+        ['integration', 'Cross-domain integration'],
+        ['theory-practice', 'Theory → practice'],
+        ['estimated-time', 'Estimated time'],
+        ['real-world-case', "Documented real-world case: Google's monolithic repository"],
+        ['production-reference-design', 'Reference design for production'],
+        ['visual-learning-studio', 'Visual Learning Studio'],
+        ['study-cards', 'Study cards — 10'],
+        ['exercises', 'Exercises'],
+        ['sources', 'Curated sources and references'],
+        ['resources', 'Resources'],
+        ['study-checklist', 'Knowledge mastery checklist'],
+        ['success-criteria', 'End-of-session success criteria'],
+        ['bridge-to-pa-s003', 'Bridge to PA-S003'],
+      ];
+  const subtopics = es
+    ? [
+        'Repositorios y fronteras',
+        'Workspaces, aplicaciones y paquetes',
+        'Grafo y dirección de dependencias',
+        'Grafo de tareas y construcción',
+        'Políticas y gates de calidad',
+        'Contratos para frontend y productos con IA',
+        'Ownership y evolución de estándares',
+      ]
+    : [
+        'Repository topology and autonomy',
+        'Workspaces, applications and packages',
+        'Dependencies, APIs and direction',
+        'Task graph and shared code',
+        'Conventions, policies and standards',
+        'Quality gates, constraints and fitness',
+        'Ownership and AI boundaries',
+      ];
+  return `<details class="toc" id="table-of-contents"><summary>${es ? 'Contenido' : 'Contents'}</summary><nav aria-label="${es ? 'Contenido' : 'Contents'}"><ol class="toc-list">${sections
+    .map(([id, label]) => {
+      const children =
+        id === 'subtopics'
+          ? `<ol class="toc-sublist">${subtopics.map((topic, topicIndex) => `<li><a href="#subtopic-${topicIndex + 1}">${escapeHtml(topic)}</a></li>`).join('')}</ol>`
+          : '';
+      return `<li><a href="#${id}">${escapeHtml(label)}</a>${children}</li>`;
+    })
+    .join('')}</ol></nav></details>`;
+}
+
+const SESSION_SECTION_ORDER: Record<string, number> = {
+  concepts: 1,
+  'main-topic': 2,
+  subtopics: 3,
+  integration: 4,
+  'theory-practice': 5,
+  'estimated-time': 6,
+  'real-world-case': 7,
+  'production-reference-design': 8,
+  'visual-learning-studio': 9,
+  'study-cards': 10,
+  exercises: 11,
+  sources: 12,
+  resources: 13,
+  'study-checklist': 14,
+  'success-criteria': 15,
+  'bridge-to-pa-s003': 16,
+};
+
+function sectionTitle(id: string, title: string, lang: 'es' | 'en'): string {
+  const es = lang === 'es';
+  const labels: Record<string, [string, string]> = {
+    concepts: ['Conceptos por ámbito profesional', 'Concepts by professional domain'],
+    'main-topic': [
+      'Tema principal — Del repositorio compartido a los límites comprobables',
+      'Main topic — From the shared repository to verifiable boundaries',
+    ],
+    subtopics: ['Subtemas', 'Subtopics'],
+    integration: ['Integración entre ámbitos', 'Cross-domain integration'],
+    'theory-practice': ['Teoría → práctica', 'Theory → practice'],
+    'estimated-time': ['Tiempo estimado', 'Estimated time'],
+    'real-world-case': [
+      'Caso documentado del mundo real: el repositorio monolítico de Google',
+      "Documented real-world case: Google's monolithic repository",
+    ],
+    'production-reference-design': [
+      'Diseño de referencia para producción',
+      'Reference design for production',
+    ],
+    'visual-learning-studio': ['Visual Learning Studio', 'Visual Learning Studio'],
+    'study-cards': ['Tarjetas de estudio — 10', 'Study cards — 10'],
+    exercises: ['Ejercicios', 'Exercises'],
+    sources: ['Fuentes y referencias curadas', 'Curated sources and references'],
+    resources: ['Recursos', 'Resources'],
+    'study-checklist': ['Checklist de dominio', 'Knowledge mastery checklist'],
+    'success-criteria': ['Criterios de éxito de la sesión', 'End-of-session success criteria'],
+    'bridge-to-pa-s003': ['Puente a PA-S003', 'Bridge to PA-S003'],
+  };
+  return labels[id]?.[es ? 0 : 1] ?? title;
 }
 function studio(lang: 'es' | 'en', base: string): string {
   const es = lang === 'es';
+  const cardsId = es ? 's002-cards' : 'study-cards';
   const cards = es
     ? [
         [
@@ -187,19 +406,20 @@ function studio(lang: 'es' | 'en', base: string): string {
     )
     .join('');
   const map = `${base}${lang}/shared/diagrams/PA-S002/studio-map-${lang}.svg`;
-  return `<div class="learning-studio" data-learning-studio><nav class="visual-mode-nav" data-mode-nav aria-label="${es ? 'Modos de estudio visual' : 'Visual study modes'}"><a id="s002-tab-map" href="#s002-map" data-mode-control>${es ? 'Mapa mental' : 'Mind map'}</a><a id="s002-tab-cards" href="#s002-cards" data-mode-control>${es ? 'Tarjetas' : 'Cards'}</a></nav><section id="s002-map" class="visual-mode-panel" data-visual-panel><h3>${es ? 'Mapa de conceptos' : 'Concept map'}</h3><figure class="diagram-card"><img class="session-diagram" src="${map}" alt="${es ? 'Mapa mental de monorepo, límites, dependencias, calidad y ownership.' : 'Mind map of monorepo, boundaries, dependencies, quality, and ownership.'}" loading="lazy"><figcaption>${es ? 'Relaciona las decisiones de repositorio con contratos, comprobaciones y responsables.' : 'Relates repository decisions to contracts, checks, and owners.'}</figcaption></figure></section><section id="s002-cards" class="visual-mode-panel" data-visual-panel><h3>${es ? 'Recuperación: 10 tarjetas' : 'Retrieval: 10 cards'}</h3><p>${es ? 'Las respuestas permanecen disponibles sin JavaScript.' : 'Answers remain available without JavaScript.'}</p><div class="flashcard-deck" data-flashcards tabindex="0"><div class="flashcard-controls"><button type="button" data-flash-prev>${es ? 'Anterior' : 'Previous'}</button><output data-flashcard-count aria-live="polite">1 / ${cards.length}</output><button type="button" data-flash-next>${es ? 'Siguiente' : 'Next'}</button></div>${items}</div></section></div>`;
+  return `<div class="learning-studio" data-learning-studio><nav class="visual-mode-nav" data-mode-nav aria-label="${es ? 'Modos de estudio visual' : 'Visual study modes'}"><a id="s002-tab-map" href="#s002-map" data-mode-control>${es ? 'Mapa mental' : 'Mind map'}</a><a id="s002-tab-cards" href="#${cardsId}" data-mode-control>${es ? 'Tarjetas' : 'Cards'}</a></nav><section id="s002-map" class="visual-mode-panel" data-visual-panel><h3>${es ? 'Mapa de conceptos' : 'Concept map'}</h3><figure class="diagram-card"><img class="session-diagram" src="${map}" alt="${es ? 'Mapa mental de monorepo, límites, dependencias, calidad y ownership.' : 'Mind map of monorepo, boundaries, dependencies, quality, and ownership.'}" loading="lazy"><figcaption>${es ? 'Relaciona las decisiones de repositorio con contratos, comprobaciones y responsables.' : 'Relates repository decisions to contracts, checks, and owners.'}</figcaption></figure></section><section id="${cardsId}" class="visual-mode-panel" data-visual-panel><h3>${checkWhatYouLearned(lang)}: 10 ${es ? 'tarjetas' : 'cards'}</h3><p>${es ? 'Las respuestas permanecen disponibles sin JavaScript.' : 'Answers remain available without JavaScript.'}</p><div class="flashcard-deck" data-flashcards tabindex="0"><div class="flashcard-controls"><button type="button" data-flash-prev>${es ? 'Anterior' : 'Previous'}</button><output data-flashcard-count aria-live="polite">1 / ${cards.length}</output><button type="button" data-flash-next>${es ? 'Siguiente' : 'Next'}</button></div>${items}</div></section></div>`;
 }
 export function renderS002(source: string, lang: 'es' | 'en', base: string): string {
   assertS002(source, lang);
   const lines = source.replace(/\r\n/g, '\n').split('\n'),
-    out: string[] = [],
-    toc: string[] = [];
+    out: string[] = [];
   let pending = '',
     deep = false,
     reading = false,
     mermaid = 0,
     study = 0,
-    studioMapFollows = false;
+    studioMapFollows = false,
+    chapterTitleSeen = false,
+    sectionNumber = 0;
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]!;
     const marker = line.match(/^<!-- (?:concept:|topic:) ([\w.]+)/);
@@ -216,7 +436,19 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
       else pending = marker[1]!;
       continue;
     }
-    if (!line || line.startsWith('<!--')) continue;
+    if (
+      !line ||
+      line.startsWith('<!--') ||
+      line === '---' ||
+      /^\*\*(?:Fase|Phase):/.test(line) ||
+      /^\*\*F0 · PA-S002 · /.test(line) ||
+      /\*\*(?:Hechos confirmados|Supuestos e inferencias|Incertidumbres y limitaciones|Cómo verificarlo|Confirmed facts|Assumptions and inferences|Uncertainties and limitations|How to verify)(?::|\*\*)/i.test(
+        line,
+      ) ||
+      /^\*\*(?:Estado(?: editorial)?|Editorial(?: status)?):/i.test(line) ||
+      /\*\*Estado editorial de este bloque:/i.test(line)
+    )
+      continue;
     const heading = line.match(/^(#{1,5}) (.+)$/);
     if (heading) {
       if (reading) {
@@ -228,7 +460,21 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
         deep = false;
       }
       const level = heading[1]!.length,
-        title = heading[2]!;
+        title = heading[2]!,
+        initialTitle = /^(?:Recuperación|Retrieval)$/i.test(title)
+          ? checkWhatYouLearned(lang)
+          : title;
+      if (level === 1 && !chapterTitleSeen) {
+        chapterTitleSeen = true;
+        continue;
+      }
+      const generatedId = sectionId(title, i);
+      const id = generatedId === `section-${i}` ? pending || generatedId : generatedId;
+      pending = '';
+      const sessionOrdinal = SESSION_SECTION_ORDER[id];
+      const displayTitle = sectionTitle(id, initialTitle, lang);
+      const isSessionSection = sessionOrdinal !== undefined;
+      if (isSessionSection) sectionNumber = sessionOrdinal;
       if (level === 5 && /^(Nivel|Level) 3/.test(title)) {
         out.push(
           `<details class="deep-dive"><summary>${lang === 'es' ? 'Profundización opcional' : 'Optional deep dive'}</summary>`,
@@ -249,13 +495,18 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
         reading = true;
         continue;
       }
-      const id = pending || sectionId(title, i);
-      pending = '';
       const tag = Math.min(Math.max(level + 1, 2), 6);
-      if (level === 1 || (level === 2 && toc.length < 12))
-        toc.push(`<li><a href="#${id}">${inline(title)}</a></li>`);
-      if (level === 1) out.push(`<h2 id="${id}" class="chapter-title">${inline(title)}</h2>`);
-      else out.push(`<h${tag} id="${id}">${inline(title)}</h${tag}>`);
+      if (isSessionSection) {
+        const compact = /^(?:Tema principal|Main topic|Subtemas|Subtopics)$/i.test(displayTitle)
+          ? ' section-label'
+          : '';
+        out.push(
+          `${sectionHeading(2, id, inline(displayTitle), lang, sectionNumber, compact.trim())}${tocFab(lang)}`,
+        );
+      } else if (level === 1 && /^(?:Subtema|Subtopic)\s+\d+\./i.test(title))
+        out.push(sectionHeading(2, id, inline(displayTitle), lang, sectionNumber));
+      else if (level === 1) out.push(`<h2 id="${id}">${inline(displayTitle)}</h2>`);
+      else out.push(`<h${tag} id="${id}">${inline(displayTitle)}</h${tag}>`);
       if (/^(?:11\. )?(Visual Learning Studio|Studio de aprendizaje visual)/i.test(title)) {
         out.push(studio(lang, base));
         studioMapFollows = true;
@@ -284,7 +535,15 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
         out.push(
           `<figure class="diagram-card"><img class="session-diagram" src="${base}${lang}/shared/diagrams/PA-S002/${name}-${lang}.svg" alt="${lang === 'es' ? 'Diagrama de la sesión PA-S002' : 'PA-S002 session diagram'}" loading="lazy"><details><summary>${lang === 'es' ? 'Fuente Mermaid' : 'Mermaid source'}</summary><pre class="code"><code>${escapeHtml(code.join('\n'))}</code></pre></details></figure>`,
         );
-      } else out.push(`<pre class="code"><code>${escapeHtml(code.join('\n'))}</code></pre>`);
+      } else {
+        const content = code.join('\n');
+        const pre = `<pre class="code"><code>${escapeHtml(content)}</code></pre>`;
+        out.push(
+          /\s(?:→|←|↔|⟶|⇒|->|<-)\s/.test(content)
+            ? `<div class="flow-card flow-card-code">${pre}</div>`
+            : pre,
+        );
+      }
       continue;
     }
     if (line.startsWith('|')) {
@@ -316,6 +575,16 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
       const items: string[] = [];
       while (/^[-*] /.test(lines[i] ?? '')) items.push(lines[i++]!.slice(2));
       i--;
+      const laneDefinitions = laneDefinitionList(items);
+      if (laneDefinitions) {
+        out.push(laneDefinitions);
+        continue;
+      }
+      const definitions = conceptList(items);
+      if (definitions) {
+        out.push(definitions);
+        continue;
+      }
       out.push(
         `<ul>${items
           .map((item) => {
@@ -330,6 +599,15 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
             return `<li>${inline(item)}</li>`;
           })
           .join('')}</ul>`,
+      );
+      continue;
+    }
+    if (/^\d+\. /.test(line)) {
+      const items: string[] = [];
+      while (/^\d+\. /.test(lines[i] ?? '')) items.push(lines[i++]!.replace(/^\d+\. /, ''));
+      i--;
+      out.push(
+        `<ol class="canonical-ordered-list">${items.map((item) => `<li>${inline(item)}</li>`).join('')}</ol>`,
       );
       continue;
     }
@@ -350,13 +628,7 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
       );
       continue;
     }
-    if (i === 1 && /^\*\*F0 · PA-S002 · /.test(line)) {
-      out.push(
-        `<div class="chapter-meta"><div class="chapter-meta-item"><h3>${lang === 'es' ? 'Datos de la sesión' : 'Session details'}</h3><p>${inline(line)}</p></div></div>`,
-      );
-      continue;
-    }
-    out.push(`<p>${inline(line)}</p>`);
+    out.push(paragraph(line));
   }
   if (reading) out.push('</div>');
   if (deep) out.push('</details>');
@@ -367,12 +639,12 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
   const objective = lines.findIndex((line) => /^## (?:1\. )?(?:Objetivo|Objective)$/.test(line));
   const objectiveText = lines.slice(objective + 1).find((line) => Boolean(line.trim()));
   if (objective < 0 || !objectiveText) throw new Error(`Missing PA-S002 ${lang} objective`);
-  const tocHtml = `<details class="toc"><summary>${lang === 'es' ? 'Contenido' : 'Contents'}</summary><nav><ol>${toc.join('')}</ol></nav></details>`;
+  const tocHtml = sessionToc(lang);
   const crumb = `<nav class="breadcrumb" aria-label="Breadcrumb"><a href="${base}${lang}/">Dashboard</a><span aria-hidden="true">/</span><a href="${base}${lang}/sessions/">${lang === 'es' ? 'Sesiones' : 'Sessions'}</a><span aria-hidden="true">/</span><span>PA-S002</span></nav>`;
   return shell(
     lang,
     title,
-    `${crumb}<div class="page-intro"><p class="eyebrow">F0 / PA-S002</p><h1>${title}</h1><p class="lead">${inline(objectiveText)}</p><p class="notice">${lang === 'es' ? 'Borrador editorial · Dominio sin evaluar · Sin mediciones del alumno' : 'Editorial draft · Mastery not assessed · No learner measurements'}</p></div><div class="layout">${tocHtml}<article class="canonical-theory">${out.join('\n')}</article></div>`,
+    `${crumb}<div class="page-intro"><p class="eyebrow">F0 / PA-S002</p><h1>${title}</h1><p class="lead">${inline(objectiveText)}</p></div><div class="layout">${tocHtml}<article class="canonical-theory">${placeTocFabsAtSectionEnds(out.join('\n'), lang)}</article></div>`,
     base,
     `${lang === 'es' ? 'en' : 'es'}/sessions/PA-S002/`,
   );

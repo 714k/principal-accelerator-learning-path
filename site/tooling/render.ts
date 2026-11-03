@@ -41,6 +41,48 @@ function icon(
   };
   return `<svg class="icon icon-${name}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]}</svg>`;
 }
+export function tocFab(lang: 'es' | 'en'): string {
+  const label = lang === 'es' ? 'Volver al contenido' : 'Back to contents';
+  return `<a class="toc-fab" href="#table-of-contents" aria-label="${label}" title="${label}"><span aria-hidden="true">↑</span><span class="sr-only">${label}</span></a>`;
+}
+export function placeTocFabsAtSectionEnds(html: string, lang: 'es' | 'en'): string {
+  const withoutFabs = html.replace(/<a class="toc-fab"[^>]*>[\s\S]*?<\/a>/g, '');
+  const headings = [...withoutFabs.matchAll(/<h([1-6])\b[^>]*>/g)].map((match) => ({
+    index: match.index!,
+    level: Number(match[1]),
+    section: /class="[^"]*\bsection-heading\b[^"]*"/.test(match[0]),
+  }));
+  const ends = new Set<number>();
+  for (let index = 0; index < headings.length; index++) {
+    const heading = headings[index]!;
+    if (!heading.section) continue;
+    const next = headings.slice(index + 1).find((candidate) => candidate.level <= heading.level);
+    ends.add(next?.index ?? withoutFabs.length);
+  }
+  return [...ends]
+    .sort((a, b) => b - a)
+    .reduce(
+      (result, index) => `${result.slice(0, index)}${tocFab(lang)}${result.slice(index)}`,
+      withoutFabs,
+    );
+}
+export function checkWhatYouLearned(lang: 'es' | 'en'): string {
+  return lang === 'es' ? 'Comprueba lo aprendido' : 'Check what you learned';
+}
+export function sectionHeading(
+  level: number,
+  id: string,
+  title: string,
+  lang: 'es' | 'en',
+  ordinal: number,
+  className = '',
+): string {
+  const classes = ['section-heading', className].filter(Boolean).join(' ');
+  const subtopic = title.match(/^((?:Subtema|Subtopic)\s+\d+)\.\s+(.+)$/i);
+  const label = subtopic?.[1] ?? `${lang === 'es' ? 'Sección' : 'Section'} ${ordinal}`;
+  const heading = subtopic?.[2] ?? title;
+  return `<h${level} id="${id}" class="${classes}"><span class="section-number" aria-hidden="true">${label}</span><span class="section-title">${heading}</span></h${level}>`;
+}
 function themeControl(): string {
   return `<button class="theme-toggle" type="button" aria-label="Light/Dark" aria-pressed="false" data-theme-toggle>${icon('moon')}${icon('sun')}</button>`;
 }
@@ -210,7 +252,7 @@ function renderToc(sections: Page['sections'], lang: 'es' | 'en'): string {
   }
   const link = (section: Page['sections'][number]) =>
     `<a href="#${escapeHtml(section.id)}">${escapeHtml(section.title)}</a>`;
-  return `<details class="toc"><summary>${lang === 'es' ? 'Contenido' : 'Contents'}</summary><nav aria-label="${lang === 'es' ? 'Contenido' : 'Contents'}"><ol class="toc-list">${groups.map((group) => `<li>${link(group.parent)}${group.children.length ? `<ol class="toc-sublist">${group.children.map((child) => `<li>${link(child)}</li>`).join('')}</ol>` : ''}</li>`).join('')}</ol></nav></details>`;
+  return `<details class="toc" id="table-of-contents"><summary>${lang === 'es' ? 'Contenido' : 'Contents'}</summary><nav aria-label="${lang === 'es' ? 'Contenido' : 'Contents'}"><ol class="toc-list">${groups.map((group) => `<li>${link(group.parent)}${group.children.length ? `<ol class="toc-sublist">${group.children.map((child) => `<li>${link(child)}</li>`).join('')}</ol>` : ''}</li>`).join('')}</ol></nav></details>`;
 }
 function renderStudyVisuals(
   lang: 'es' | 'en',

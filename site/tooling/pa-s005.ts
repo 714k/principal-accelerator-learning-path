@@ -1,4 +1,4 @@
-import { escapeHtml, shell } from './render.ts';
+import { escapeHtml, placeTocFabsAtSectionEnds, sectionHeading, shell, tocFab } from './render.ts';
 
 type Lang = 'es' | 'en';
 function inline(value: string): string {
@@ -16,6 +16,15 @@ function inline(value: string): string {
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
     .replace(/\*([^*]+)\*/g, '<em>$1</em>')
     .replace(/@@(\d+)@@/g, (_, id: string) => held[Number(id)]!);
+}
+function paragraph(value: string, definitionNext: boolean): string {
+  const lead = value.match(/^\*\*([^*]+?)\.\*\*\s+(.+)$/);
+  const className = definitionNext ? 'concept-definition' : '';
+  if (lead)
+    return `<p class="${['split-lead', className].filter(Boolean).join(' ')}"><strong>${inline(lead[1]!)}</strong><span>${inline(lead[2]!)}</span></p>`;
+  if (/\s(?:→|←|↔|⟶|⇒|->|<-)\s/.test(value) && !value.includes(' · ') && !/[.!?;]$/.test(value))
+    return `<p class="${['flow-card', className].filter(Boolean).join(' ')}">${inline(value)}</p>`;
+  return `<p${className ? ` class="${className}"` : ''}>${inline(value)}</p>`;
 }
 function slug(value: string): string {
   return value
@@ -351,10 +360,30 @@ export function renderS005(source: string, lang: Lang, base: string): string {
     toc: string[] = [];
   let i = 0,
     headingCount = 0,
-    mermaidIndex = 0;
+    sectionNumber = 0,
+    mermaidIndex = 0,
+    chapterTitleSeen = false,
+    conceptOpen = false,
+    definitionNext = false;
+  const closeConcept = () => {
+    if (!conceptOpen) return;
+    out.push('</div></details></section>');
+    conceptOpen = false;
+  };
   while (i < lines.length) {
     const line = lines[i]!;
     if (!line.trim()) {
+      i++;
+      continue;
+    }
+    if (
+      line === '---' ||
+      /\*\*(?:Hechos confirmados|Supuestos e inferencias|Incertidumbres y limitaciones|Cómo verificarlo|Confirmed facts|Assumptions and inferences|Uncertainties and limitations|How to verify)(?::|\*\*)/i.test(
+        line,
+      ) ||
+      /^\*\*(?:Estado(?: editorial)?|Editorial(?: status)?):/i.test(line) ||
+      /\*\*Estado editorial de este bloque:/i.test(line)
+    ) {
       i++;
       continue;
     }
@@ -364,10 +393,14 @@ export function renderS005(source: string, lang: Lang, base: string): string {
       i++;
       while (i < lines.length && !lines[i]!.startsWith('```')) code.push(lines[i++]!);
       i++;
+      const content = code.join('\n');
+      const pre = `<pre class="code"><code>${escapeHtml(content)}</code></pre>`;
       out.push(
         kind === 'mermaid'
-          ? diagram(lang, ++mermaidIndex, base, code.join('\n'))
-          : `<pre class="code"><code>${escapeHtml(code.join('\n'))}</code></pre>`,
+          ? diagram(lang, ++mermaidIndex, base, content)
+          : /\s(?:→|←|↔|⟶|⇒|->|<-)\s/.test(content)
+            ? `<div class="flow-card flow-card-code">${pre}</div>`
+            : pre,
       );
       continue;
     }
@@ -390,20 +423,51 @@ export function renderS005(source: string, lang: Lang, base: string): string {
       const level = heading[1]!.length,
         title = heading[2]!,
         id = level === 1 ? 'chapter-title' : slug(title) || `section-${++headingCount}`;
+      if (level <= 3) closeConcept();
       if (level === 2) toc.push(`<li><a href="#${id}">${inline(title)}</a></li>`);
-      out.push(
-        level === 1
-          ? `<h2 id="${id}" class="chapter-title">${inline(title)}</h2>`
-          : `<h${Math.min(level + 1, 4)} id="${id}">${inline(title)}</h${Math.min(level + 1, 4)}>`,
-      );
+      if (level === 1 && !chapterTitleSeen) {
+        chapterTitleSeen = true;
+        i++;
+        continue;
+      }
+      const isConcept =
+        level === 3 && !/^(Mapa mental|Flashcards|Comparar|Mind map|Cards|Compare)$/i.test(title);
+      if (isConcept) {
+        out.push(
+          `<section class="concept-accordion"><div class="concept-heading"><h3 id="${id}">${inline(title)}</h3></div><details class="concept-disclosure"><summary>${lang === 'es' ? 'Explorar el concepto' : 'Explore the concept'}</summary><div class="concept-content">`,
+        );
+        conceptOpen = true;
+      } else if (level === 2) {
+        sectionNumber++;
+        const compact = /^(Tema principal|Subtemas|Main topic|Subtopics)$/i.test(title)
+          ? ' section-label'
+          : '';
+        out.push(
+          `${sectionHeading(2, id, inline(title), lang, sectionNumber, compact.trim())}${tocFab(lang)}`,
+        );
+      } else if (level === 4) {
+        const match = title.match(/^(?:Nivel|Level) ([123])\s*[—-]?\s*(.*)$/i);
+        const label =
+          match?.[1] === '1'
+            ? lang === 'es'
+              ? 'Concepto'
+              : 'Concept'
+            : match?.[1] === '2'
+              ? lang === 'es'
+                ? 'Cómo funciona'
+                : 'How it works'
+              : lang === 'es'
+                ? 'Profundiza'
+                : 'Go deeper';
+        definitionNext = match?.[1] === '1';
+        out.push(`<h4 id="${id}">${label}</h4>`);
+      } else
+        out.push(`<h${Math.min(level, 4)} id="${id}">${inline(title)}</h${Math.min(level, 4)}>`);
       if (/Visual Learning Studio/i.test(title)) out.push(studio(lang, base));
       i++;
       continue;
     }
     if (/^\*\*(?:Fase|Phase):/.test(line)) {
-      out.push(
-        `<div class="chapter-meta"><div class="chapter-meta-item"><h3>${lang === 'es' ? 'Datos de la sesión' : 'Session details'}</h3><p>${inline(line)}</p></div></div>`,
-      );
       i++;
       continue;
     }
@@ -414,7 +478,7 @@ export function renderS005(source: string, lang: Lang, base: string): string {
       const answer = lines[j]?.match(/^\*\*(?:Respuesta|Answer)\.\*\* (.+)$/);
       if (answer) {
         out.push(
-          `<details class="mechanism-retrieval"><summary><strong>${lang === 'es' ? 'Comprueba tu comprensión' : 'Check your understanding'}:</strong> ${inline(retrieval[1]!)}</summary><p><strong>${lang === 'es' ? 'Respuesta razonada' : 'Reasoned answer'}:</strong> ${inline(answer[1]!)}</p></details>`,
+          `<details class="mechanism-retrieval"><summary><strong>${lang === 'es' ? 'Comprueba lo aprendido' : 'Check what you learned'}:</strong> ${inline(retrieval[1]!)}</summary><p><strong>${lang === 'es' ? 'Respuesta razonada' : 'Reasoned answer'}:</strong> ${inline(answer[1]!)}</p></details>`,
         );
         i = j + 1;
         continue;
@@ -461,12 +525,16 @@ export function renderS005(source: string, lang: Lang, base: string): string {
       const items: string[] = [];
       while (i < lines.length && /^\d+\. /.test(lines[i] ?? ''))
         items.push(lines[i++]!.replace(/^\d+\. /, ''));
-      out.push(`<ol>${items.map((item) => `<li>${inline(item)}</li>`).join('')}</ol>`);
+      out.push(
+        `<ol class="canonical-ordered-list">${items.map((item) => `<li>${inline(item)}</li>`).join('')}</ol>`,
+      );
       continue;
     }
-    out.push(`<p>${inline(line)}</p>`);
+    out.push(paragraph(line, definitionNext));
+    definitionNext = false;
     i++;
   }
+  closeConcept();
   const title =
     lang === 'es'
       ? 'Arquitectura de contenido ES/EN e internacionalización'
@@ -475,7 +543,7 @@ export function renderS005(source: string, lang: Lang, base: string): string {
   return shell(
     lang,
     title,
-    `${crumb}<div class="page-intro"><p class="eyebrow">F0 / PA-S005</p><h1>${title}</h1><p class="lead">${lang === 'es' ? 'Contratos bilingües de contenido, locale, rutas, accesibilidad y validación.' : 'Bilingual contracts for content, locale, routes, accessibility, and validation.'}</p><p class="notice">${lang === 'es' ? 'Borrador editorial · Dominio sin evaluar · Sin mediciones del alumno' : 'Editorial draft · Mastery not assessed · No learner measurements'}</p><noscript><p class="notice">${lang === 'es' ? 'La teoría y las respuestas son legibles; las casillas no se guardan sin JavaScript.' : 'Theory and answers remain readable; study boxes are not saved without JavaScript.'}</p></noscript></div><div class="layout"><details class="toc"><summary>${lang === 'es' ? 'Contenido' : 'Contents'}</summary><nav><ol>${toc.join('')}</ol></nav></details><article class="canonical-theory">${out.join('\n')}</article></div>`,
+    `${crumb}<div class="page-intro"><p class="eyebrow">F0 / PA-S005</p><h1>${title}</h1><p class="lead">${lang === 'es' ? 'Contratos bilingües de contenido, locale, rutas, accesibilidad y validación.' : 'Bilingual contracts for content, locale, routes, accessibility, and validation.'}</p><noscript><p class="notice">${lang === 'es' ? 'La teoría y las respuestas son legibles; las casillas no se guardan sin JavaScript.' : 'Theory and answers remain readable; study boxes are not saved without JavaScript.'}</p></noscript></div><div class="layout"><details class="toc" id="table-of-contents"><summary>${lang === 'es' ? 'Contenido' : 'Contents'}</summary><nav><ol>${toc.join('')}</ol></nav></details><article class="canonical-theory">${placeTocFabsAtSectionEnds(out.join('\n'), lang)}</article></div>`,
     base,
     `${lang === 'es' ? 'en' : 'es'}/sessions/PA-S005/`,
   );

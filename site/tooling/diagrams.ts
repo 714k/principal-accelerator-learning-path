@@ -294,6 +294,7 @@ export function generateDiagrams(
         detail.description,
       );
       if (
+        /(?:^|\/)mindmap(?:-[a-z]{2})?\.mmd$/.test(source) ||
         source.endsWith('theory-es-06.mmd') ||
         source.endsWith('theory-en-06.mmd') ||
         source === 'PA-S001/foundations.mmd' ||
