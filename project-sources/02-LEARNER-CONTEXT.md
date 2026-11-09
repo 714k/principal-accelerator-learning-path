@@ -1,5 +1,3 @@
-> **CONTRATO V6 VIGENTE (2026-10-18):** `15-ADAPTIVE-LEARNING-EXPERIENCE.md` prevalece sobre las reglas históricas incompatibles de este documento. Una entrada `PA-Sxxx` entrega directamente el handoff de Codex con teoría canónica ES/EN completa y accesible para Codex; no se detiene en Study-only ni exige una segunda petición. ChatGPT sigue siendo autor exclusivo de la teoría; Codex solo la publica. Todas las sesiones usan selección de técnicas pedagógicas por concepto, con práctica de recuperación, repaso y simulaciones solo donde se justifiquen. Cualquier regla antigua que prohíba ese prompt está **derogada**.
-
 # Learner Context
 
 ## Current professional position
@@ -69,4 +67,3 @@ recommendations. If a conclusion cannot be established, say so.
 
 ## Instructional-text preference
 The learner prefers academically rigorous material optimized for efficient study: one main idea per paragraph, pre-training of unfamiliar terms, clear structural headings, sparse meaningful emphasis, immediate concrete examples, interleaved retrieval/self-check, adjacent explanatory graphics, and worked-example fading when a procedural skill is new. Avoid filler, decorative anecdotes, purposeless repetition and long uninterrupted exposition.
-
