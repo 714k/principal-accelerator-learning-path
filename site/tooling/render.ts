@@ -8,6 +8,15 @@ export function basePath(raw = '/'): string {
   if (!/^\/(?:[a-zA-Z0-9_-]+\/)*$/.test(raw)) throw new Error('BASE_PATH must be / or /segment/');
   return raw;
 }
+export function tocFab(lang: 'es'|'en'): string {
+  const label=lang==='es'?'Volver al contenido':'Back to contents';
+  return `<a class="toc-fab" href="#table-of-contents" aria-label="${label}" title="${label}"><span aria-hidden="true">↑</span><span class="sr-only">${label}</span></a>`;
+}
+export function themedMindMap(source: string, alt: string, className = ''): string {
+  const darkSource = source.replace(/\.svg$/, '.dark.svg');
+  const lightClass = className || 'theme-map--light';
+  return `<span class="themed-mind-map"><img class="${lightClass}" data-theme-map="light" src="${source}" alt="${escapeHtml(alt)}" loading="lazy"><img class="theme-map--dark" data-theme-map="dark" src="${darkSource}" alt="" aria-hidden="true" loading="lazy"></span>`;
+}
 function icon(name: 'spark'|'dashboard'|'grid'|'book'|'layers'|'search'|'chevron'|'moon'|'sun'|'menu'|'bookmark'): string {
   const paths: Record<typeof name,string>={
     spark:'<path d="m12 3 1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7L12 3Z"/><path d="m19 17 .7 2.3L22 20l-2.3.7L19 23l-.7-2.3L16 20l2.3-.7L19 17Z"/><path d="M3 17h4M5 15v4"/>',
@@ -48,10 +57,23 @@ function globalNav(lang: 'es'|'en', base: string, current: string, variant: 'des
 function learningStudioScript(): string {
   return `<script>(()=>{for(const s of document.querySelectorAll('[data-learning-studio]')){const c=[...s.querySelectorAll('[data-mode-control]')],p=[...s.querySelectorAll('[data-visual-panel]')];if(!c.length||c.length!==p.length)continue;s.dataset.enhanced='true';s.querySelector('[data-mode-nav]')?.setAttribute('role','tablist');const set=(i,focus)=>{c.forEach((x,n)=>{x.setAttribute('role','tab');x.setAttribute('aria-selected',String(n===i));x.setAttribute('tabindex',n===i?'0':'-1');x.classList.toggle('is-active',n===i);x.setAttribute('aria-controls',p[n].id);p[n].setAttribute('role','tabpanel');p[n].setAttribute('aria-labelledby',x.id);p[n].hidden=n!==i});if(focus)c[i].focus()};c.forEach((x,i)=>{x.addEventListener('click',e=>{e.preventDefault();set(i,false)});x.addEventListener('keydown',e=>{let n=i;if(e.key==='ArrowRight')n=(i+1)%c.length;else if(e.key==='ArrowLeft')n=(i+c.length-1)%c.length;else if(e.key==='Home')n=0;else if(e.key==='End')n=c.length-1;else return;e.preventDefault();set(n,true)})});set(0,false)}for(const d of document.querySelectorAll('[data-flashcards]')){const c=[...d.querySelectorAll('[data-flashcard]')],n=d.querySelector('[data-flashcard-count]');if(!c.length)continue;let i=0;d.dataset.enhanced='true';const flip=(card,on)=>{const button=card.querySelector('[data-flash-flip]');card.classList.toggle('is-flipped',on);button?.setAttribute('aria-pressed',String(on));if(button)button.setAttribute('aria-label',on?button.dataset.hideLabel:button.dataset.revealLabel)};const set=x=>{i=(x+c.length)%c.length;c.forEach((card,k)=>{card.hidden=k!==i;flip(card,false)});if(n)n.textContent=(i+1)+' / '+c.length};d.querySelectorAll('[data-flash-flip]').forEach(button=>button.addEventListener('click',()=>{const card=button.closest('[data-flashcard]');if(card)flip(card,!card.classList.contains('is-flipped'))}));d.querySelector('[data-flash-prev]')?.addEventListener('click',()=>set(i-1));d.querySelector('[data-flash-next]')?.addEventListener('click',()=>set(i+1));d.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();set(i-1)}if(e.key==='ArrowRight'){e.preventDefault();set(i+1)}});set(0)}})()</script>`;
 }
+function decorateArrowFlows(markup: string): string {
+  return markup.replace(/<p([^>]*)>([\s\S]*?)<\/p>/g, (whole, attributes: string, content: string) => {
+    const separatedFlow = content.match(/^([\s\S]*?:)\s*<strong>([^<]*→[^<]*)<\/strong>([.!?])?$/);
+    if (separatedFlow)
+      return `<p${attributes}>${separatedFlow[1]!}</p><p class="arrow-flow">${separatedFlow[2]!}${separatedFlow[3] ?? ''}</p>`;
+    if (!content.includes('→') || /\b(?:arrow-flow|notice|concept-summary-label)\b/.test(attributes)) return whole;
+    const className = attributes.match(/\bclass="([^"]*)"/);
+    const nextAttributes = className
+      ? attributes.replace(className[0], `class="${className[1]} arrow-flow"`)
+      : `${attributes} class="arrow-flow"`;
+    return `<p${nextAttributes}>${content}</p>`;
+  });
+}
 export function shell(lang: 'es'|'en', title: string, body: string, base: string, other: string): string {
   const es=lang==='es';
   const current=other.replace(/^(?:es|en)\//,'');
-  return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)} · Principal Accelerator Learning Path</title><link rel="stylesheet" href="${base}assets/site.css"><script type="module" src="${base}assets/concept-explorers.js"></script><script defer src="${base}assets/study.js"></script><script defer src="${base}assets/search.js"></script></head><body><a class="skip" href="#main">${es?'Saltar al contenido':'Skip to content'}</a><div class="site-grid"><aside class="site-sidebar">${globalNav(lang,base,current,'desktop')}</aside><div class="site-main-column"><header class="site-header"><a class="brand" href="${base}${lang}/">Principal Accelerator Learning Path</a><nav class="header-actions" aria-label="${es?'Idioma y tema':'Language and theme'}"><a lang="${es?'en':'es'}" hreflang="${es?'en':'es'}" href="${base}${other}">${es?'en':'es'}</a>${themeControl()}</nav></header><details class="mobile-global"><summary>${icon('menu')}${es?'Navegación':'Navigation'}${icon('chevron')}</summary>${globalNav(lang,base,current,'mobile')}</details><main id="main">${body}</main><footer>Principal Accelerator Learning Path · F0 · ${es?'Evidencia antes que afirmaciones.':'Evidence before claims.'}</footer></div></div>${themeScript()}${learningStudioScript()}</body></html>`;
+  return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)} · Principal Accelerator Learning Path</title><link rel="stylesheet" href="${base}assets/site.css"><script type="module" src="${base}assets/concept-explorers.js"></script><script defer src="${base}assets/study.js"></script><script defer src="${base}assets/search.js"></script></head><body><a class="skip" href="#main">${es?'Saltar al contenido':'Skip to content'}</a><div class="site-grid"><aside class="site-sidebar">${globalNav(lang,base,current,'desktop')}</aside><div class="site-main-column"><header class="site-header"><a class="brand" href="${base}${lang}/">Principal Accelerator Learning Path</a><nav class="header-actions" aria-label="${es?'Idioma y tema':'Language and theme'}"><a lang="${es?'en':'es'}" hreflang="${es?'en':'es'}" href="${base}${other}">${es?'en':'es'}</a>${themeControl()}</nav></header><details class="mobile-global"><summary>${icon('menu')}${es?'Navegación':'Navigation'}${icon('chevron')}</summary>${globalNav(lang,base,current,'mobile')}</details><main id="main">${decorateArrowFlows(body)}</main><footer>Principal Accelerator Learning Path · F0 · ${es?'Evidencia antes que afirmaciones.':'Evidence before claims.'}</footer></div></div>${themeScript()}${learningStudioScript()}</body></html>`;
 }
 function inlineReferences(value: string): string {
   return escapeHtml(value).replace(/\[([A-Z][0-9]+)\]/g,'<a href="#ref-$1">[$1]</a>');
@@ -101,7 +123,7 @@ function renderToc(sections: Page['sections'], lang: 'es'|'en'): string {
     else groups.push({parent:section,children:[]});
   }
   const link=(section: Page['sections'][number])=>`<a href="#${escapeHtml(section.id)}">${escapeHtml(section.title)}</a>`;
-  return `<details class="toc"><summary>${lang==='es'?'Contenido':'Contents'}</summary><nav aria-label="${lang==='es'?'Contenido':'Contents'}"><ol class="toc-list">${groups.map(group=>`<li>${link(group.parent)}${group.children.length?`<ol class="toc-sublist">${group.children.map(child=>`<li>${link(child)}</li>`).join('')}</ol>`:''}</li>`).join('')}</ol></nav></details>`;
+  return `<details class="toc" id="table-of-contents"><summary>${lang==='es'?'Contenido':'Contents'}</summary><nav aria-label="${lang==='es'?'Contenido':'Contents'}"><ol class="toc-list">${groups.map(group=>`<li>${link(group.parent)}${group.children.length?`<ol class="toc-sublist">${group.children.map(child=>`<li>${link(child)}</li>`).join('')}</ol>`:''}</li>`).join('')}</ol></nav></details>`;
 }
 function renderStudyVisuals(lang: 'es'|'en', exerciseTotal: number, checklistTotal: number): string {
   const es=lang==='es';
@@ -141,7 +163,7 @@ export function renderPage(page: Page, base: string, route = page.kind==='sessio
   const crumb=page.kind==='session'
     ? `<nav class="breadcrumb" aria-label="Breadcrumb"><a href="${base}${page.lang}/">Dashboard</a><span aria-hidden="true">/</span><a href="${base}${page.lang}/sessions/">${es?'Sesiones':'Sessions'}</a><span aria-hidden="true">/</span><span>PA-S001</span></nav>`
     : `<nav class="breadcrumb" aria-label="Breadcrumb"><a href="${base}${page.lang}/">Dashboard</a><span aria-hidden="true">/</span><a href="${base}${page.lang}/projects/">${es?'Proyectos':'Projects'}</a><span aria-hidden="true">/</span><span>${escapeHtml(page.title)}</span></nav>`;
-  const intro=`${crumb}<div class="page-intro"><p class="eyebrow">${page.kind==='session'?'F0 / PA-S001':'P0 / PORTFOLIO + LEARNING SITE'}</p><h1>${escapeHtml(page.title)}</h1><p class="lead">${escapeHtml(page.description)}</p><p class="notice">${es?'Borrador editorial · Dominio sin evaluar · Sin mediciones del alumno':'Editorial draft · Mastery not assessed · No learner measurements'}</p>${page.kind==='session'?`<noscript><p class="notice">${es?'La teoría y las respuestas son legibles; las casillas no se guardan sin JavaScript.':'Theory and answers remain readable; study boxes are not saved without JavaScript.'}</p></noscript>`:''}</div>`;
+  const intro=`${crumb}<div class="page-intro"><h1>${escapeHtml(page.title)}</h1><p class="lead">${escapeHtml(page.description)}</p><p class="notice">${es?'Borrador editorial · Dominio sin evaluar · Sin mediciones del alumno':'Editorial draft · Mastery not assessed · No learner measurements'}</p>${page.kind==='session'?`<noscript><p class="notice">${es?'La teoría y las respuestas son legibles; las casillas no se guardan sin JavaScript.':'Theory and answers remain readable; study boxes are not saved without JavaScript.'}</p></noscript>`:''}</div>`;
   const canonical=canonicalTheory&&page.kind==='session'?renderCanonical(canonicalTheory,page.lang,base):undefined;
   const toc=canonical?.toc??renderToc(page.sections,page.lang);
   const referencesList=`<ol class="references">${page.references.map(r=>`<li id="ref-${r.id}"><a href="${escapeHtml(r.url)}">[${r.id}] ${escapeHtml(r.title)}</a></li>`).join('')}</ol>`;
@@ -158,7 +180,7 @@ export function renderPage(page: Page, base: string, route = page.kind==='sessio
   }).join('');
   const extra=page.sections.some(s=>s.id==='resources') || page.references.length===0?'':`<section id="references"><h2>${es?'Fuentes y referencias':'Sources and references'}</h2>${referencesList}</section>`;
   const article=canonical?`<article class="canonical-theory">${canonical.html}</article>`:`<article>${body}${extra}</article>`;
-  return shell(page.lang,page.title,intro+`<div class="layout">${toc}${article}</div>`,base,(es?'en/':'es/')+`${route}/`);
+  return shell(page.lang,page.title,intro+`<div class="layout">${toc}${article}</div>`+(page.kind==='session'?tocFab(page.lang):''),base,(es?'en/':'es/')+`${route}/`);
 }
 export function home(lang: 'es'|'en',base: string, session: Page, canonicalStatus: string, masteryStatus: string, systemsStatus: string): string {
   if (session.lang!==lang || !session.dashboard) throw new Error('Dashboard requires the matching session source');

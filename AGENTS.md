@@ -1,5 +1,5 @@
 # Accelerator agent instructions
-When the learner supplies session content in Spanish, translate it into English, add both locales to all relevant session navigation and indexes, and reuse the PA-S001 visual styles.
+When the learner supplies session content in Spanish, translate it into English, add both locales to all relevant session navigation and indexes, and reuse the PA-S002 session UI as the look-and-feel reference for every session created from now on. Do not treat a Spanish expansion as complete while its English equivalent and ES/EN parity verification are missing.
 Read docs/PA-S001-BUILD.md and learner-supplied Project Sources before editing.
 Project Sources govern curriculum; Git governs code. Never invent source contents.
 PA-S001 starts P0 apps/book and bilingual site/; no diagnostic app.
@@ -9,3 +9,11 @@ LEARNER-OWNED: ADR decisions, reasoning, failure diagnosis, mastery, trade-offs.
 Do not solve learner-owned tasks. Do not fabricate metrics or label the session Completed.
 Do not weaken lint/type/tests or publish automatically. Keep architecture variants separate.
 Use npm run check. Report commands, results, warnings, dependencies, and deviations.
+
+## HTML semantics
+
+Use HTML elements for their meaning, not only their presentation. Keep a single
+page-level `h1`, then use `h2` through `h6` in order for nested sections; do
+not choose heading tags solely for visual size. Use `p` for paragraphs, `ul`
+or `ol` for genuine lists, `table` for tabular relationships, and the native
+semantic element that matches the content before adding CSS or ARIA.

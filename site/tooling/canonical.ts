@@ -21,6 +21,7 @@ export interface CanonicalSearchSection { id:string; title:string; text:string }
 interface Heading { level:number; id:string; title:string; line:number }
 interface Card { id:string; label:string; question:string; answer:string; explanation:string }
 const escapeHtml=(value:string)=>value.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
+const unquoteConceptLabel=(value:string)=>value.replace(/^[«“"](.+?)[»”"]$/,'$1');
 const sourceLines=(source:string)=>source.split('\n');
 const idFromHeading=(title:string,lang:'es'|'en'):string=>{
   if(title.startsWith('PA-S001 —'))return 'chapter-title';
@@ -136,17 +137,19 @@ function conceptHeading(heading:Heading,lang:'es'|'en'):string | undefined{
   const sub=heading.id.startsWith('sub.');
   const index=sub?TOPIC_IDS.indexOf(heading.id as typeof TOPIC_IDS[number]):CONCEPT_IDS.indexOf(heading.id as typeof CONCEPT_IDS[number]);
   const label=lang==='es'?(sub?'SUBTEMA':'CONCEPTO'):(sub?'SUBTOPIC':'CONCEPT');
-  return `<div class="concept-heading" data-concept-id="${escapeHtml(heading.id)}"><p class="concept-eyebrow">${label} · ${String(index+(sub?0:1)).padStart(2,'0')}</p><h3 id="${heading.id}">${inline(match[2]!)}</h3></div>`;
+  const tag=Math.min(heading.level+1,6);
+  return `<div class="concept-heading" data-concept-id="${escapeHtml(heading.id)}"><p class="concept-eyebrow">${label} · ${String(index+(sub?0:1)).padStart(2,'0')}</p><h${tag} id="${heading.id}">${inline(unquoteConceptLabel(match[2]!))}</h${tag}></div>`;
 }
-function studio(source:string,lang:'es'|'en',base:string):string{
+function studio(source:string,lang:'es'|'en',base:string,headingLevel:number):string{
   const es=lang==='es',all=cards(source,lang);
   const buttons=all.map((card,index)=>`<article class="flashcard" data-flashcard data-flash-id="${card.id}"><a href="#${card.id}" class="studio-source">${es?'Ir al concepto':'View lesson'}: ${inline(card.label)}</a><button type="button" data-flash-flip aria-pressed="false" data-reveal-label="${es?'Mostrar respuesta':'Reveal answer'}: ${escapeHtml(card.question)}" data-hide-label="${es?'Mostrar pregunta':'Show question'}: ${escapeHtml(card.question)}" aria-label="${es?'Mostrar respuesta':'Reveal answer'}: ${escapeHtml(card.question)}"><strong>${inline(card.question)}</strong></button><div class="flashcard-answer"><p><strong>${es?'Respuesta':'Answer'}:</strong> ${inline(card.answer)}</p><p>${inline(card.explanation)}</p></div><p class="sr-only">${index+1} / ${all.length}</p></article>`).join('');
   const map=`${base}${lang}/shared/diagrams/PA-S001/canonical-map-${lang}.svg`;
-  return `<!-- STUDIO START --><div class="learning-studio" data-learning-studio><nav class="visual-mode-nav" data-mode-nav aria-label="${es?'Modos de estudio visual':'Visual study modes'}"><a id="visual-tab-mind-map" href="#visual-panel-mind-map" data-mode-control>${es?'Mapa mental':'Mind map'}</a><a id="visual-tab-flashcards" href="#visual-panel-flashcards" data-mode-control>${es?'Tarjetas':'Cards'}</a></nav><div id="visual-panel-mind-map" class="visual-mode-panel" data-visual-panel><h3>${es?'Mapa de conceptos':'Concept map'}</h3><p>${es?'Las ramas organizan conceptos para repasarlos; abre una lección para estudiar su explicación.':'Branches organize concepts for review; open a lesson for its full explanation.'}</p><figure class="diagram"><img src="${map}" alt="${es?'Mapa mental de 17 conceptos, un tema principal y seis subtemas':'Mind map of 17 concepts, one main topic and six subtopics'}" loading="lazy"></figure><ul class="studio-coverage">${all.map(card=>`<li><a href="#${card.id}">${inline(card.label)}</a></li>`).join('')}</ul></div><div id="visual-panel-flashcards" class="visual-mode-panel" data-visual-panel><h3>${es?'Recuperación: 24 tarjetas':'Retrieval: 24 cards'}</h3><p>${es?'Las respuestas están disponibles en HTML incluso sin JavaScript.':'Answers remain in HTML without JavaScript.'}</p><div class="flashcard-deck" data-flashcards tabindex="0"><div class="flashcard-controls"><button type="button" data-flash-prev>${es?'Anterior':'Previous'}</button><output data-flashcard-count aria-live="polite">1 / 24</output><button type="button" data-flash-next>${es?'Siguiente':'Next'}</button></div>${buttons}</div></div></div><!-- STUDIO END -->`;
+  const tag=Math.min(headingLevel+1,6);
+  return `<!-- STUDIO START --><div class="learning-studio" data-learning-studio><nav class="visual-mode-nav" data-mode-nav aria-label="${es?'Modos de estudio visual':'Visual study modes'}"><a id="visual-tab-mind-map" href="#visual-panel-mind-map" data-mode-control>${es?'Mapa mental':'Mind map'}</a><a id="visual-tab-flashcards" href="#visual-panel-flashcards" data-mode-control>${es?'Tarjetas':'Cards'}</a></nav><div id="visual-panel-mind-map" class="visual-mode-panel" data-visual-panel><h${tag}>${es?'Mapa de conceptos':'Concept map'}</h${tag}><p>${es?'Las ramas organizan conceptos para repasarlos; abre una lección para estudiar su explicación.':'Branches organize concepts for review; open a lesson for its full explanation.'}</p><figure class="diagram"><img src="${map}" alt="${es?'Mapa mental de 17 conceptos, un tema principal y seis subtemas':'Mind map of 17 concepts, one main topic and six subtopics'}" loading="lazy"></figure><ul class="studio-coverage">${all.map(card=>`<li><a href="#${card.id}">${inline(card.label)}</a></li>`).join('')}</ul></div><div id="visual-panel-flashcards" class="visual-mode-panel" data-visual-panel><h${tag}>${es?'Recuperación: 24 tarjetas':'Retrieval: 24 cards'}</h${tag}><p>${es?'Las respuestas están disponibles en HTML incluso sin JavaScript.':'Answers remain in HTML without JavaScript.'}</p><div class="flashcard-deck" data-flashcards tabindex="0"><div class="flashcard-controls"><button type="button" data-flash-prev>${es?'Anterior':'Previous'}</button><output data-flashcard-count aria-live="polite">1 / 24</output><button type="button" data-flash-next>${es?'Siguiente':'Next'}</button></div>${buttons}</div></div></div><!-- STUDIO END -->`;
 }
 export function renderCanonical(source:string,lang:'es'|'en',base:string):CanonicalRender{
   const lines=sourceLines(source),all=headings(source,lang),out:string[]=[];
-  const toc=`<details class="toc"><summary>${lang==='es'?'Contenido':'Contents'}</summary><nav aria-label="${lang==='es'?'Contenido':'Contents'}"><ol class="toc-list">${all.filter(h=>h.level===2).map(h=>`<li><a href="#${h.id}">${inline(h.title.replace(/^`[^`]+` — /,''))}</a></li>`).join('')}</ol></nav></details>`;
+  const toc=`<details class="toc" id="table-of-contents"><summary>${lang==='es'?'Contenido':'Contents'}</summary><nav aria-label="${lang==='es'?'Contenido':'Contents'}"><ol class="toc-list">${all.filter(h=>h.level===2).map(h=>`<li><a href="#${h.id}">${inline(h.title.replace(/^`[^`]+` — /,''))}</a></li>`).join('')}</ol></nav></details>`;
   let i=0, currentHeading='';
   const labels=Object.fromEntries(all.filter(h=>[...CONCEPT_IDS,...TOPIC_IDS].includes(h.id as typeof CONCEPT_IDS[number])).map(h=>[h.id,h.title.replace(/^`[^`]+` — /,'')]));
   let successIndex=0,diagramIndex=0;
@@ -173,16 +176,17 @@ export function renderCanonical(source:string,lang:'es'|'en',base:string):Canoni
     const heading=all.find(h=>h.line===i);
     if(heading){
       currentHeading=heading.id;
+      const tag=Math.min(heading.level+1,6);
       out.push(heading.level===1
         ? `<h2 id="${heading.id}" class="chapter-title">${inline(heading.title)}</h2>`
-        : conceptHeading(heading,lang)??`<h${heading.level} id="${heading.id}">${inline(heading.title)}</h${heading.level}>`);
-      if(heading.id==='visual-learning-studio')out.push(studio(source,lang,base));
+        : conceptHeading(heading,lang)??`<h${tag} id="${heading.id}">${inline(heading.title)}</h${tag}>`);
+      if(heading.id==='visual-learning-studio')out.push(studio(source,lang,base,tag));
       i++;continue;
     }
     if(line.startsWith('> ')){
       const group:string[]=[];while(lines[i]?.startsWith('> '))group.push(lines[i++]!.slice(2));
       if(group.length!==4||!/^\*\*/.test(group[0]!))throw new Error(`Invalid ${lang} synthesis`);
-      out.push(`<aside class="synthesis"><h2>${inline(group[0]!)}</h2><ol>${group.slice(1).map(item=>`<li>${inline(item.replace(/^[1-3]\. /,''))}</li>`).join('')}</ol></aside>`);
+      out.push(`<aside class="synthesis"><h3>${inline(group[0]!)}</h3><ol>${group.slice(1).map(item=>`<li>${inline(item.replace(/^[1-3]\. /,''))}</li>`).join('')}</ol></aside>`);
       continue;
     }
     if(line.startsWith('```')){
@@ -218,14 +222,12 @@ export function renderCanonical(source:string,lang:'es'|'en',base:string):Canoni
       out.push(`<ul>${items.map(item=>{
         const content=item.slice(2),check=content.match(/^\[ \] `(PA-S001\.check\.[a-z-]+)` (.+)$/);
         const citation=content.match(/^\[(R[1-8]|P1)\] /);
+        const concept=content.match(/^\*\*([^*]+):\*\*\s+(.+)$/);
         if(currentHeading==='success-criteria' && content.startsWith('[ ] ')){const id=SUCCESS_IDS[successIndex++];if(!id)throw new Error('Too many success criteria');return `<li class="canonical-study-item"><label><input type="checkbox" data-study-id="${id}"><span>${inline(content.slice(4))}</span></label></li>`;}
         if(check)return `<li class="canonical-study-item"><label><input type="checkbox" data-study-id="${check[1]}"><span><strong>${check[1]}</strong> ${inline(check[2]!)}</span></label></li>`;
+        if(concept){const parent=all.find(heading=>heading.id===currentHeading);const tag=Math.min((parent?.level??2)+2,6);return `<li class="concept-definition"><h${tag}>${inline(concept[1]!)}</h${tag}><p>${inline(concept[2]!)}</p></li>`;}
         return `<li${citation?` id="source-${citation[1]}"`:''}>${inline(content)}</li>`;
       }).join('')}</ul>`);continue;
-    }
-    if(/^\*\*(?:Nivel|Level) 3 —/.test(line)){
-      const match=line.match(/^\*\*([^*]+)\*\* (.*)$/)!;
-      out.push(`<details class="deep-dive"><summary><span class="reading-level-title">${escapeHtml(match[1]!)}</span></summary><p>${inline(match[2]!)}</p></details>`);i++;continue;
     }
     const retrieval=line.match(/^\*\*(Recuperación|Retrieval):\*\* (.+?) \*\*(Respuesta|Answer):\*\* (.+)$/);
     if(retrieval){
@@ -234,13 +236,13 @@ export function renderCanonical(source:string,lang:'es'|'en',base:string):Canoni
     }
     const metadata=chapterMetadata(line);
     if(metadata){out.push(metadata);i++;continue;}
-    const level=line.match(/^\*\*((?:Nivel|Level) [12] — [^*]+)\*\* (.*)$/);
-    if(level){const blocks=level[2]!.split(/(?=📥|⚙️|📤|💡|\*\*(?:Recuperación|Retrieval):\*\*)/).map(part=>part.trim()).filter(Boolean);out.push(`<div class="reading-level"><h4>${escapeHtml(level[1]!)}</h4>${blocks.map(part=>`<p>${inline(part)}</p>`).join('')}</div>`);if(/^(?:Nivel|Level) 2/.test(level[1]!)){out.push(figureFor(currentHeading));out.push(renderReferenceExperience(currentHeading,lang,labels));}i++;continue;}
+    const level=line.match(/^\*\*((?:Nivel|Level) [123] — [^*]+)\*\* (.*)$/);
+    if(level){const parent=all.find(h=>h.id===currentHeading);const tag=Math.min((parent?.level??3)+2,6);const blocks=level[2]!.split(/(?=📥|⚙️|📤|💡|\*\*(?:Recuperación|Retrieval):\*\*)/).map(part=>part.trim()).filter(Boolean);out.push(`<div class="reading-level"><h${tag}>${escapeHtml(level[1]!)}</h${tag}>${blocks.map(part=>`<p>${inline(part)}</p>`).join('')}</div>`);if(/^(?:Nivel|Level) 2/.test(level[1]!)){out.push(figureFor(currentHeading));out.push(renderReferenceExperience(currentHeading,lang,labels,tag));}i++;continue;}
     const lead=line.match(/^\*\*([^*]+\.)\*\* (.+)$/);
     if(lead){
       const title=lead[1]!.replace(/:\s*(?:definición|definition)\.$/i,'').replace(/\.$/,'');
       const parent=all.find(h=>h.id===currentHeading);
-      const depth=parent&&parent.level>=3?4:3;
+      const depth=Math.min((parent?.level??2)+2,6);
       out.push(`<h${depth} class="instructional-heading">${inline(title)}</h${depth}><p>${inline(lead[2]!)}</p>`);i++;continue;
     }
     out.push(`<p>${inline(line)}</p>`);i++;

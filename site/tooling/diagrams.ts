@@ -29,9 +29,17 @@ function accessibleSvg(svg: string, id: string, title: string, description: stri
   return svg.replace(opening[0], replacement);
 }
 
-function monochromeMindMap(svg: string): string {
-  const rules='<style>.mindmapDiagram .mindmap-node .node-bkg,.mindmapDiagram .mindmap-node path,.mindmapDiagram .mindmap-node rect,.mindmapDiagram .mindmap-node circle,.mindmapDiagram .mindmap-node polygon{fill:#253440!important;stroke:#253440!important}.mindmapDiagram .mindmap-node .nodeLabel,.mindmapDiagram .mindmap-node .nodeLabel p,.mindmapDiagram .mindmap-node span{color:#fff!important;fill:#fff!important}.mindmapDiagram .mindmap-node line{stroke:#fff!important}.mindmapDiagram [class*="section-edge--"],.mindmapDiagram [class*="edge-depth--"]{stroke:#61717d!important}</style>';
-  return svg.replace('</svg>',`${rules}</svg>`);
+function mindMapPalette(svg: string, theme: 'light' | 'dark'): string {
+  const palette = theme === 'dark'
+    ? { background: '#10141c', edge: '#59bce9', root: '#075d99', nodes: ['#123a5b', '#164b73', '#155b88', '#1d4e72', '#1b4165', '#204e78', '#14507c', '#1a3f62', '#185b91'] }
+    : { background: '#ffffff', edge: '#176eaa', root: '#075f99', nodes: ['#183952', '#164766', '#125677', '#1b4867', '#203d59', '#254866', '#164b70', '#1c4261', '#19547b'] };
+  const branches = palette.nodes.map((color, index) => `.mindmapDiagram .mindmap-node.section-${index} .node-bkg,.mindmapDiagram .mindmap-node.section-${index} path,.mindmapDiagram .mindmap-node.section-${index} rect,.mindmapDiagram .mindmap-node.section-${index} circle,.mindmapDiagram .mindmap-node.section-${index} polygon{fill:${color}!important;stroke:${color}!important}`).join('');
+  const rules = `<style>svg{background:${palette.background}}.mindmapDiagram .mindmap-node .node-bkg,.mindmapDiagram .mindmap-node path,.mindmapDiagram .mindmap-node rect,.mindmapDiagram .mindmap-node circle,.mindmapDiagram .mindmap-node polygon{fill:${palette.root}!important;stroke:${palette.root}!important}${branches}.mindmapDiagram .mindmap-node .nodeLabel,.mindmapDiagram .mindmap-node .nodeLabel p,.mindmapDiagram .mindmap-node .nodeLabel span,.mindmapDiagram .mindmap-node foreignObject div{color:#f5f8ff!important;fill:#f5f8ff!important}.mindmapDiagram .mindmap-node line{stroke:#f5f8ff!important}.mindmapDiagram [class*="section-edge--"],.mindmapDiagram [class*="edge-depth--"]{stroke:${palette.edge}!important}</style>`;
+  return svg.replace('</svg>', `${rules}</svg>`);
+}
+
+function isMindMap(source: string): boolean {
+  return /^\s*mindmap\b/.test(readFileSync(source, 'utf8'));
 }
 
 export function outputForDiagram(source: string): string {
@@ -135,33 +143,40 @@ export function generateDiagrams(root: string, metadata: Map<string, DiagramMeta
   if (!existsSync(cli)) throw new Error('Mermaid CLI is unavailable. Install dependencies before building diagrams.');
   const puppeteerConfig = resolve(root, 'site/tooling/puppeteer.config.json');
   if (!existsSync(puppeteerConfig)) throw new Error('Mermaid Puppeteer configuration is missing.');
-  onProgress?.(0, sourceFiles.length);
+  const mindMaps = new Set(sourceFiles.filter(isMindMap));
+  const total = sourceFiles.length + mindMaps.size;
+  onProgress?.(0, total);
   let completed=0;
   for (const input of sourceFiles) {
     const source = relative(diagramsRoot, input).split(sep).join('/');
-    const output = resolve(generatedRoot, source.replace(/\.mmd$/, '.svg'));
-    const temporary = `${output}.tmp.svg`;
     const detail = metadata.get(source) ?? { source, title: 'Mermaid diagram', description: 'A diagram generated from the preserved Mermaid source.' };
-    mkdirSync(dirname(output),{recursive:true});
-    rmSync(temporary, { force: true });
-    const result = spawnSync(cli, ['--quiet', '--puppeteerConfigFile', puppeteerConfig, '--input', input, '--output', temporary, '--backgroundColor', 'transparent'], { cwd: root, encoding: 'utf8' });
-    if (result.status !== 0 || !existsSync(temporary)) {
+    for (const theme of mindMaps.has(input) ? (['light', 'dark'] as const) : [undefined]) {
+      const output = resolve(generatedRoot, source.replace(/\.mmd$/, theme === 'dark' ? '.dark.svg' : '.svg'));
+      const temporary = `${output}.tmp.svg`;
+      mkdirSync(dirname(output),{recursive:true});
       rmSync(temporary, { force: true });
-      throw new Error(`Mermaid conversion failed for site/shared/diagrams/${source}: ${result.stderr || result.stdout || `exit ${result.status}`}`);
-    }
-    try {
-      const id = `diagram-${source.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '')}`;
-      let svg=accessibleSvg(readFileSync(temporary, 'utf8'), id, detail.title, detail.description);
-      if (source.endsWith('theory-es-06.mmd') || source.endsWith('theory-en-06.mmd') || source==='PA-S001/foundations.mmd' || source==='PA-S001/canonical-map.mmd') svg=monochromeMindMap(svg);
-      writeFileSync(temporary, svg);
-      renameSync(temporary, output);
-      onProgress?.(++completed, sourceFiles.length);
-    } catch (error) {
-      rmSync(temporary, { force: true });
-      throw error;
+      const result = spawnSync(cli, ['--quiet', '--puppeteerConfigFile', puppeteerConfig, '--input', input, '--output', temporary, '--backgroundColor', 'transparent'], { cwd: root, encoding: 'utf8' });
+      if (result.status !== 0 || !existsSync(temporary)) {
+        rmSync(temporary, { force: true });
+        throw new Error(`Mermaid conversion failed for site/shared/diagrams/${source}: ${result.stderr || result.stdout || `exit ${result.status}`}`);
+      }
+      try {
+        const id = `diagram-${source.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '')}`;
+        let svg=accessibleSvg(readFileSync(temporary, 'utf8'), id, detail.title, detail.description);
+        if (mindMaps.has(input)) svg=mindMapPalette(svg, theme ?? 'light');
+        writeFileSync(temporary, svg);
+        renameSync(temporary, output);
+        onProgress?.(++completed, total);
+      } catch (error) {
+        rmSync(temporary, { force: true });
+        throw error;
+      }
     }
   }
-  return sourceFiles.map(file => relative(diagramsRoot, file).replace(/\.mmd$/, '.svg').split(sep).join('/'));
+  return sourceFiles.flatMap(file => {
+    const output = relative(diagramsRoot, file).replace(/\.mmd$/, '.svg').split(sep).join('/');
+    return mindMaps.has(file) ? [output, output.replace(/\.svg$/, '.dark.svg')] : [output];
+  });
 }
 
 export function copyDiagrams(generatedRoot: string, output: string, generated: string[], pages: Page[]): void {
@@ -174,7 +189,7 @@ export function copyDiagrams(generatedRoot: string, output: string, generated: s
       if (!destination.startsWith(publicRoot + sep)) throw new Error(`Invalid diagram output: ${file}`);
       mkdirSync(dirname(destination), { recursive: true });
       let svg=readFileSync(source,'utf8');
-      const detail=metadata.get(file.replace(/\.svg$/,'.mmd'));
+      const detail=metadata.get(file.replace(/(?:\.dark)?\.svg$/,'.mmd'));
       if (detail) svg=svg.replace(/(<title\b[^>]*>).*?(<\/title>)/s,`$1${escapeXml(detail.title)}$2`).replace(/(<desc\b[^>]*>).*?(<\/desc>)/s,`$1${escapeXml(detail.description)}$2`);
       writeFileSync(destination,svg);
     }

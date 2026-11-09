@@ -23,7 +23,7 @@ test('seventeen concepts, main topic, six subtopics, and study IDs have ES/EN pa
   for(const lang of ['es','en'] as const){
     const html=renderCanonical(source(lang),lang,'/').html;
     const ids=[...CONCEPT_IDS,...TOPIC_IDS];
-    for(const id of ids)assert.equal((html.match(new RegExp(`<h[2-4] id="${id}"`,'g'))??[]).length,1,`${lang} ${id}`);
+    for(const id of ids)assert.equal((html.match(new RegExp(`<h[3-5] id="${id}"`,'g'))??[]).length,1,`${lang} ${id}`);
     const conceptPositions=CONCEPT_IDS.map(id=>html.indexOf(`id="${id}"`));
     assert.ok(conceptPositions.every((value,index)=>index===0||value>conceptPositions[index-1]!));
     assert.ok(html.indexOf('id="scope.ecosystem"')<html.indexOf('id="sub.scope-layers"'));
@@ -42,8 +42,9 @@ test('chapter metadata and reading layers have a semantic heading hierarchy in b
     assert.match(html,new RegExp(`<h3>${lanes}:</h3><p>`));
     assert.match(html,/<div class="concept-heading" data-concept-id="scope\.system"><p class="concept-eyebrow">/);
     assert.match(html,/<div class="concept-heading" data-concept-id="sub\.software-vs-architecture"><p class="concept-eyebrow">/);
-    assert.ok(html.includes(`<h4>${foundation}</h4>`));
+    assert.ok(html.includes(`<h6>${foundation}</h6>`));
     assert.ok(!html.includes('<p><strong>Level 1')&&!html.includes('<p><strong>Nivel 1'));
+    assert.doesNotMatch(html,/<details class="deep-dive">/);
   }
 });
 
@@ -53,7 +54,7 @@ test('paragraph lead-ins become headings without redundant definition labels',()
     ['en',['Software engineering','Software architecture','Application']],
   ] as const){
     const html=renderCanonical(source(lang),lang,'/').html;
-    for(const title of titles)assert.ok(html.includes(`class="instructional-heading">${title}</h4><p>`),`${lang}: ${title}`);
+    for(const title of titles)assert.ok(html.includes(`class="instructional-heading">${title}</h5><p>`),`${lang}: ${title}`);
     assert.doesNotMatch(html,/<strong>[^<]+:\s*(?:definición|definition)\.\s*<\/strong>/i);
   }
 });
