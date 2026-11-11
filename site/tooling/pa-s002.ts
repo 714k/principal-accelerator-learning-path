@@ -4,15 +4,23 @@ import {
   placeTocFabsAtSectionEnds,
   sectionHeading,
   shell,
+  themedMindMap,
 } from './render.ts';
 
-function conceptList(items: string[]): string | undefined {
-  const concepts = items.map((item) => item.match(/^\*\*([^*]+):\*\*\s+(.+)$/));
+function conceptList(items: string[], headingTag: number): string | undefined {
+  const concepts = items.map((item) => {
+    const quoted = item.match(/^«([^:«»]+):\s*([^»]+)»\.?$/);
+    if (quoted) return quoted;
+    const bold = item.match(/^\*\*([^*]+):\*\*\s+(.+)$/);
+    if (bold) return bold;
+    return /[`*\[\]]/.test(item) ? null : item.match(/^([^:«»]+):\s*(.+)$/);
+  });
   if (concepts.some((item) => !item)) return undefined;
+  const tag = Math.min(headingTag + 1, 6);
   return `<ul class="concept-list">${concepts
     .map(
       (item) =>
-        `<li><strong class="concept-list-term">${inline(item![1]!)}</strong><span class="concept-list-definition">${inline(item![2]!)}</span></li>`,
+        `<li class="concept-definition"><h${tag}>${inline(item![1]!.trim())}</h${tag}><p>${inline(item![2]!.trim())}</p></li>`,
     )
     .join('')}</ul>`;
 }
@@ -449,7 +457,10 @@ function studio(lang: 'es' | 'en', base: string): string {
     )
     .join('');
   const map = `${base}${lang}/shared/diagrams/PA-S002/studio-map-${lang}.svg`;
-  return `<div class="learning-studio" data-learning-studio><nav class="visual-mode-nav" data-mode-nav aria-label="${es ? 'Modos de estudio visual' : 'Visual study modes'}"><a id="s002-tab-map" href="#s002-map" data-mode-control>${es ? 'Mapa mental' : 'Mind map'}</a><a id="s002-tab-cards" href="#${cardsId}" data-mode-control>${es ? 'Tarjetas' : 'Cards'}</a></nav><section id="s002-map" class="visual-mode-panel" data-visual-panel><h3>${es ? 'Mapa de conceptos' : 'Concept map'}</h3><figure class="diagram-card"><img class="session-diagram" src="${map}" alt="${es ? 'Mapa mental de monorepo, límites, dependencias, calidad y ownership.' : 'Mind map of monorepo, boundaries, dependencies, quality, and ownership.'}" loading="lazy"><figcaption>${es ? 'Relaciona las decisiones de repositorio con contratos, comprobaciones y responsables.' : 'Relates repository decisions to contracts, checks, and owners.'}</figcaption></figure></section><section id="${cardsId}" class="visual-mode-panel" data-visual-panel><h3>${checkWhatYouLearned(lang)}: 10 ${es ? 'tarjetas' : 'cards'}</h3><p>${es ? 'Las respuestas permanecen disponibles sin JavaScript.' : 'Answers remain available without JavaScript.'}</p><div class="flashcard-deck" data-flashcards tabindex="0"><div class="flashcard-controls"><button type="button" data-flash-prev>${es ? 'Anterior' : 'Previous'}</button><output data-flashcard-count aria-live="polite">1 / ${cards.length}</output><button type="button" data-flash-next>${es ? 'Siguiente' : 'Next'}</button></div>${items}</div></section></div>`;
+  const mapAlt = es
+    ? 'Mapa mental de monorepo, límites, dependencias, calidad y ownership.'
+    : 'Mind map of monorepo, boundaries, dependencies, quality, and ownership.';
+  return `<div class="learning-studio" data-learning-studio><nav class="visual-mode-nav" data-mode-nav aria-label="${es ? 'Modos de estudio visual' : 'Visual study modes'}"><a id="s002-tab-map" href="#s002-map" data-mode-control>${es ? 'Mapa mental' : 'Mind map'}</a><a id="s002-tab-cards" href="#${cardsId}" data-mode-control>${es ? 'Tarjetas' : 'Cards'}</a></nav><section id="s002-map" class="visual-mode-panel" data-visual-panel><h3>${es ? 'Mapa de conceptos' : 'Concept map'}</h3><figure class="diagram-card">${themedMindMap(map, mapAlt, 'session-diagram')}<figcaption>${es ? 'Relaciona las decisiones de repositorio con contratos, comprobaciones y responsables.' : 'Relates repository decisions to contracts, checks, and owners.'}</figcaption></figure></section><section id="${cardsId}" class="visual-mode-panel" data-visual-panel><h3>${checkWhatYouLearned(lang)}: 10 ${es ? 'tarjetas' : 'cards'}</h3><p>${es ? 'Las respuestas permanecen disponibles sin JavaScript.' : 'Answers remain available without JavaScript.'}</p><div class="flashcard-deck" data-flashcards tabindex="0"><div class="flashcard-controls"><button type="button" data-flash-prev>${es ? 'Anterior' : 'Previous'}</button><output data-flashcard-count aria-live="polite">1 / ${cards.length}</output><button type="button" data-flash-next>${es ? 'Siguiente' : 'Next'}</button></div>${items}</div></section></div>`;
 }
 export function renderS002(source: string, lang: 'es' | 'en', base: string): string {
   assertS002(source, lang);
@@ -621,7 +632,7 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
         out.push(laneDefinitions);
         continue;
       }
-      const definitions = conceptList(items);
+      const definitions = conceptList(items, currentHeadingTag);
       if (definitions) {
         out.push(definitions);
         continue;
