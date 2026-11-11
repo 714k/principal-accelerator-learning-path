@@ -45,17 +45,19 @@ test('PA-S002 is linked in bilingual navigation and renders complete Spanish con
     assert.match(html, /data-learning-studio/);
     assert.equal((html.match(/data-flash-id=/g) ?? []).length, 10);
     assert.doesNotMatch(html, /class="concept-id"/);
-    assert.doesNotMatch(html, /(?:Nivel|Level) [123] —/);
+    if (lang === 'en') assert.match(html, /<div class="reading-level"><h4>Level [123] —/);
+    assert.doesNotMatch(html, /<details class="deep-dive">/);
+    assert.equal((html.match(/class="toc-fab"/g) ?? []).length, 1);
     assert.match(html, new RegExp(`/${lang}/sessions/PA-S002/#concepts`));
   }
   const spanish = renderS002(chapter('es'), 'es', '/');
   assert.match(
     spanish,
-    /<ol class="concept-list"><li><strong class="concept-list-term">Staff → Principal<\/strong><span class="concept-list-definition">«Estándar de ingeniería:/,
+    /<ul class="lane-definition-list"><li class="statement-card"><p class="concept-summary-label">Staff → Principal<\/p><h[3-6]>Estándar de ingeniería<\/h[3-6]><p>acuerdo técnico que define una práctica verificable\./,
   );
   assert.match(
     spanish,
-    /<ul class="concept-list"><li><strong class="concept-list-term">Estándar de ingeniería:<\/strong><span class="concept-list-definition">/,
+    /<ul class="concept-list"><li><strong class="concept-list-term">Estándar de ingeniería<\/strong><span class="concept-list-definition">/,
   );
   assert.match(
     spanish,
@@ -95,10 +97,7 @@ test('PA-S002 is linked in bilingual navigation and renders complete Spanish con
     spanish,
     /<a href="#bridge-to-pa-s003">Puente a PA-S003<\/a><\/li><\/ol><\/nav><\/details>/,
   );
-  const subtopicTwo = spanish.indexOf('<h2 id="subtopic-2"'),
-    subtopicThree = spanish.indexOf('<h2 id="subtopic-3"'),
-    returnToContents = spanish.lastIndexOf('class="toc-fab"', subtopicThree);
-  assert.ok(returnToContents > subtopicTwo && returnToContents < subtopicThree);
+  assert.equal((spanish.match(/class="toc-fab"/g) ?? []).length, 1);
   assert.equal((spanish.match(/class="session-diagram"/g) ?? []).length, 5);
   assert.ok(existsSync('site/shared/diagrams/PA-S002/studio-map-es.mmd'));
 });

@@ -47,24 +47,8 @@ export function tocFab(lang: 'es' | 'en'): string {
 }
 export function placeTocFabsAtSectionEnds(html: string, lang: 'es' | 'en'): string {
   const withoutFabs = html.replace(/<a class="toc-fab"[^>]*>[\s\S]*?<\/a>/g, '');
-  const headings = [...withoutFabs.matchAll(/<h([1-6])\b[^>]*>/g)].map((match) => ({
-    index: match.index!,
-    level: Number(match[1]),
-    section: /class="[^"]*\bsection-heading\b[^"]*"/.test(match[0]),
-  }));
-  const ends = new Set<number>();
-  for (let index = 0; index < headings.length; index++) {
-    const heading = headings[index]!;
-    if (!heading.section) continue;
-    const next = headings.slice(index + 1).find((candidate) => candidate.level <= heading.level);
-    ends.add(next?.index ?? withoutFabs.length);
-  }
-  return [...ends]
-    .sort((a, b) => b - a)
-    .reduce(
-      (result, index) => `${result.slice(0, index)}${tocFab(lang)}${result.slice(index)}`,
-      withoutFabs,
-    );
+  // A page has one fixed control, rather than one control after every section.
+  return `${withoutFabs}${tocFab(lang)}`;
 }
 export function checkWhatYouLearned(lang: 'es' | 'en'): string {
   return lang === 'es' ? 'Comprueba lo aprendido' : 'Check what you learned';
