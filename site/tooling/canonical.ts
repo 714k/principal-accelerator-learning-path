@@ -354,7 +354,8 @@ export function renderCanonical(source: string, lang: 'es' | 'en', base: string)
     .map((h) => `<li><a href="#${h.id}">${inline(h.title.replace(/^`[^`]+` — /, ''))}</a></li>`)
     .join('')}</ol></nav></details>`;
   let i = 0,
-    currentHeading = '';
+    currentHeading = '',
+    currentHeadingLevel = 1;
   const labels = Object.fromEntries(
     all
       .filter((h) => [...CONCEPT_IDS, ...TOPIC_IDS].includes(h.id as (typeof CONCEPT_IDS)[number]))
@@ -431,6 +432,7 @@ export function renderCanonical(source: string, lang: 'es' | 'en', base: string)
       const concept = conceptHeading(heading, lang);
       if (heading.level <= 3 || concept) closeConcept();
       currentHeading = heading.id;
+      currentHeadingLevel = heading.level;
       if (heading.level !== 1) {
         if (concept) {
           out.push(concept);
@@ -595,7 +597,7 @@ export function renderCanonical(source: string, lang: 'es' | 'en', base: string)
       );
       if (/^(?:Nivel|Level) 2/.test(level[1]!)) {
         out.push(figureFor(currentHeading));
-        out.push(renderReferenceExperience(currentHeading, lang, labels));
+        out.push(renderReferenceExperience(currentHeading, lang, labels, currentHeadingLevel));
       }
       i++;
       continue;
