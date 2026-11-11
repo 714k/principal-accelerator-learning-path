@@ -2229,6 +2229,212 @@ details:not(.nav-group):not(.mobile-global)[open] > summary::after {
   font-weight: 650;
   line-height: 1.45;
 }
+
+/* PA-S002 content primitives: semantic source, consistent instructional treatment. */
+.toc-fab {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 25;
+  margin: 0;
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--surface);
+}
+.toc-fab:hover {
+  color: var(--surface);
+  background: var(--accent);
+  filter: brightness(1.08);
+}
+.canonical-theory :is(ul, ol):not(.studio-coverage) {
+  border-radius: 0.8rem;
+}
+.canonical-theory .reference-links {
+  display: block;
+  margin: 0.9rem 0;
+  padding-left: 0;
+  list-style: disc inside !important;
+}
+.canonical-theory .reference-links > li,
+.canonical-theory > ul.reference-links > li:not(.canonical-study-item) {
+  display: list-item;
+  margin: 0.5rem 0;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+.canonical-theory .reference-links > li::before {
+  content: none !important;
+}
+.canonical-theory .reference-links > li::marker {
+  color: var(--accent);
+}
+.canonical-theory .reference-links a::after {
+  content: ' ↗';
+  font-size: 0.85em;
+  text-decoration: none;
+}
+.canonical-theory :is(.concept-definition--paragraph, .statement-card) {
+  max-width: none;
+  margin: 1rem 0;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 0.8rem 0.8rem 0;
+  background: var(--surface);
+  font-size: inherit;
+  font-weight: inherit;
+}
+.canonical-theory :is(.concept-definition--paragraph, .statement-card) > :is(h3, h4, h5, h6) {
+  margin: 0 0 0.35rem;
+  font-size: calc(1.12rem + 6px);
+  line-height: 1.28;
+}
+.canonical-theory :is(.concept-definition--paragraph, .statement-card) > p {
+  max-width: none;
+  margin: 0;
+}
+.canonical-theory :is(.concept-definition--paragraph, .statement-card) .reference-links {
+  margin-bottom: 0;
+}
+.canonical-theory .lane-definition-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem 0;
+  padding: 0;
+  list-style: none;
+}
+.canonical-theory .lane-definition-list > li {
+  margin: 0;
+}
+.canonical-theory .concept-summary-label {
+  margin: 0 0 0.5rem;
+  color: var(--accent);
+  font-weight: 800;
+}
+.canonical-theory .reading-level h4 {
+  font-size: calc(1.45rem + 6px);
+}
+/* Shared session hierarchy, independent from the source heading depth. */
+:is(h1, h2, h3, h4, h5, h6) {
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+  font-weight: 760;
+  line-height: 1.16;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+h1 {
+  font-size: clamp(2.35rem, 5vw, 4rem);
+  margin: 0 0 1rem;
+}
+h2 {
+  font-size: clamp(1.85rem, 3.5vw, 2.65rem);
+  margin: 3rem 0 1rem;
+}
+h3 {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  margin: 2.5rem 0 0.8rem;
+}
+h4 {
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
+  margin: 2rem 0 0.65rem;
+}
+h5 {
+  font-size: 1.12rem;
+  margin: 1.6rem 0 0.5rem;
+}
+h6 {
+  font-size: 1rem;
+  margin: 1.35rem 0 0.45rem;
+}
+ul {
+  padding-left: 0;
+  list-style-type: none;
+}
+.canonical-theory .concept-list:has(> .concept-definition) {
+  list-style: none;
+  padding-left: 0;
+}
+.canonical-theory .concept-list > .concept-definition > :is(h3, h4, h5, h6) {
+  margin: 0 0 0.35rem;
+  font-size: calc(1.12rem + 6px);
+  line-height: 1.28;
+}
+.canonical-theory .concept-list > .concept-definition > p {
+  max-width: none;
+  margin: 0;
+}
+.themed-mind-map {
+  display: block;
+  width: 100%;
+  background: var(--surface);
+}
+.themed-mind-map img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+.themed-mind-map [data-theme-map='dark'] {
+  display: none;
+}
+:root[data-theme='dark'] .themed-mind-map [data-theme-map='light'] {
+  display: none;
+}
+:root[data-theme='dark'] .themed-mind-map [data-theme-map='dark'] {
+  display: block;
+}
+.canonical-theory .canonical-ordered-list,
+.canonical-theory ol:not(.concept-list):not(.references):not(.studio-flow) {
+  gap: 0.8rem;
+}
+.canonical-theory .canonical-ordered-list > li,
+.canonical-theory ol:not(.concept-list):not(.references):not(.studio-flow) > li,
+.canonical-theory > ol.canonical-ordered-list > li:not(.canonical-study-item),
+.canonical-theory
+  > ol:not(.concept-list):not(.references):not(.studio-flow)
+  > li:not(.canonical-study-item) {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  align-items: start;
+  gap: 1rem;
+  min-width: 0;
+  padding: 1.1rem;
+  border-radius: 0.8rem;
+}
+.canonical-theory .canonical-ordered-list > li::before,
+.canonical-theory ol:not(.concept-list):not(.references):not(.studio-flow) > li::before {
+  position: static;
+  width: auto;
+  margin: 0;
+  transform: none;
+  font-size: 36px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.canonical-theory table th {
+  font-size: 24px;
+}
+@media (max-width: 640px) {
+  .canonical-theory .canonical-ordered-list > li,
+  .canonical-theory ol:not(.concept-list):not(.references):not(.studio-flow) > li,
+  .canonical-theory > ol.canonical-ordered-list > li:not(.canonical-study-item),
+  .canonical-theory
+    > ol:not(.concept-list):not(.references):not(.studio-flow)
+    > li:not(.canonical-study-item) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+  .canonical-theory .canonical-ordered-list > li::before,
+  .canonical-theory ol:not(.concept-list):not(.references):not(.studio-flow) > li::before {
+    grid-column: 1;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   details:not(.nav-group):not(.mobile-global) > summary::after {
     transition: none;

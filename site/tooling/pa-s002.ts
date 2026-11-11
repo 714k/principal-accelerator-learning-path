@@ -4,29 +4,46 @@ import {
   placeTocFabsAtSectionEnds,
   sectionHeading,
   shell,
-  tocFab,
+  themedMindMap,
 } from './render.ts';
 
-function conceptList(items: string[]): string | undefined {
-  const concepts = items.map((item) => item.match(/^\*\*([^*]+):\*\*\s+(.+)$/));
+function conceptList(items: string[], headingTag: number): string | undefined {
+  const concepts = items.map((item) => {
+    const quoted = item.match(/^«([^:«»]+):\s*([^»]+)»\.?$/);
+    if (quoted) return quoted;
+    const bold = item.match(/^\*\*([^*]+):\*\*\s+(.+)$/);
+    if (bold) return bold;
+    return /[`*\[\]]/.test(item) ? null : item.match(/^([^:«»]+):\s*(.+)$/);
+  });
   if (concepts.some((item) => !item)) return undefined;
+  const tag = Math.min(headingTag + 1, 6);
   return `<ul class="concept-list">${concepts
     .map(
       (item) =>
-        `<li><strong class="concept-list-term">${inline(item![1]!)}:</strong><span class="concept-list-definition">${inline(item![2]!)}</span></li>`,
+        `<li class="concept-definition"><h${tag}>${inline(item![1]!.trim())}</h${tag}><p>${inline(item![2]!.trim())}</p></li>`,
     )
     .join('')}</ul>`;
 }
 
-function laneDefinitionList(items: string[]): string | undefined {
+function laneDefinitionList(items: string[], headingTag: number): string | undefined {
   const lanes = items.map((item) => item.match(/^\*\*([^*]+?)\.\*\*\s+((?:«[^»]+»[.\s]*)+)$/));
   if (lanes.some((item) => !item)) return undefined;
-  return `<ol class="concept-list">${lanes
-    .map(
-      (lane) =>
-        `<li><strong class="concept-list-term">${inline(lane![1]!)}</strong><span class="concept-list-definition">${inline(lane![2]!.trim())}</span></li>`,
-    )
-    .join('')}</ol>`;
+  const tag = Math.min(headingTag + 1, 6);
+  return `<ul class="lane-definition-list">${lanes
+    .map((lane) => {
+      const definitions =
+        lane![2]!
+          .replace(/[«»]/g, '')
+          .match(/[^.]+(?:\.|$)/g)
+          ?.map((item) => item.trim())
+          .filter(Boolean) ?? [];
+      const [first = '', ...rest] = definitions;
+      const concept = first.match(/^([^:]+):\s*(.+)$/);
+      if (!concept)
+        return `<li class="statement-card"><p class="concept-summary-label">${inline(lane![1]!)}</p><p>${inline(definitions.join(' '))}</p></li>`;
+      return `<li class="statement-card"><p class="concept-summary-label">${inline(lane![1]!)}</p><h${tag}>${inline(concept[1]!)}</h${tag}><p>${inline([concept[2]!, ...rest].join(' '))}</p></li>`;
+    })
+    .join('')}</ul>`;
 }
 
 export function assertS002(source: string, lang: 'es' | 'en'): void {
@@ -48,7 +65,9 @@ function inline(s: string): string {
     held.push(v);
     return `@@${held.length - 1}@@`;
   };
-  let value = s.replace(/`([^`]+)`/g, (_, x: string) => hold(`<code>${escapeHtml(x)}</code>`));
+  let value = s
+    .replace(/«([^»]+)»/g, '$1')
+    .replace(/`([^`]+)`/g, (_, x: string) => hold(`<code>${escapeHtml(x)}</code>`));
   value = value.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, (_, label: string, url: string) =>
     hold(`<a href="${escapeHtml(url)}">${escapeHtml(label)}</a>`),
   );
@@ -60,13 +79,45 @@ function inline(s: string): string {
     .replace(/\*([^*]+)\*/g, '<em>$1</em>');
   return value.replace(/@@(\d+)@@/g, (_, n: string) => held[Number(n)]!);
 }
-function paragraph(value: string): string {
+function paragraphWithReferences(value: string): string {
+  const pattern = /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g;
+  const references = [...value.matchAll(pattern)];
+  if (!references.length) return `<p>${inline(value)}</p>`;
+  const prose = value
+    .replace(pattern, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+  const links = references
+    .map(
+      ([, label, url]) =>
+        `<li><a href="${escapeHtml(url!)}" rel="noreferrer">${inline(label!)}</a></li>`,
+    )
+    .join('');
+  return `${prose ? `<p>${inline(prose)}</p>` : ''}<ul class="reference-links">${links}</ul>`;
+}
+function statementCard(value: string, headingTag: number): string {
+  const statement = value.match(/^\*\*([^*]{28,}):\*\*\s+(.+)$/);
+  if (!statement) return paragraphWithReferences(value);
+  const tag = Math.min(headingTag + 1, 6);
+  return `<section class="statement-card"><h${tag}>${inline(statement[1]!)}</h${tag}>${paragraphWithReferences(statement[2]!)}</section>`;
+}
+function conceptParagraphCard(value: string, headingTag: number): string {
+  const concept = value.match(
+    /^\*\*([^*:]+)\*\*\s+((?:es|son|is|are|reúne|mantiene|confirma|revisa|compara|identifica|describe|permite|representa|establece|define|muestra|comunica|comprueba|declara|requiere|conserva|facilita|garantiza)\b[\s\S]*)$/i,
+  );
+  if (!concept) return statementCard(value, headingTag);
+  const tag = Math.min(headingTag + 1, 6);
+  return `<section class="concept-definition concept-definition--paragraph"><h${tag}>${inline(concept[1]!)}</h${tag}>${paragraphWithReferences(concept[2]!)}</section>`;
+}
+function paragraph(value: string, headingTag: number): string {
+  const journey = value.match(/^(.*?:)\s+(\*\*.+(?:→|←|↔|⟶|⇒|->|<-).+\*\*)\.?$/);
+  if (journey)
+    return `<p>${inline(journey[1]!)}</p><div class="flow-card">${inline(journey[2]!)}</div>`;
   const lead = value.match(/^\*\*([^*]+?)\.\*\*\s+(.+)$/);
   if (lead)
     return `<p class="split-lead"><strong>${inline(lead[1]!)}</strong><span>${inline(lead[2]!)}</span></p>`;
-  if (/\s(?:→|←|↔|⟶|⇒|->|<-)\s/.test(value) && !value.includes(' · ') && !/[.!?;]$/.test(value))
-    return `<p class="flow-card">${inline(value)}</p>`;
-  return `<p>${inline(value)}</p>`;
+  if (/\s(?:→|←|↔|⟶|⇒|->|<-)\s/.test(value)) return `<p class="flow-card">${inline(value)}</p>`;
+  return conceptParagraphCard(value, headingTag);
 }
 function sectionId(title: string, index: number): string {
   const normalized = title
@@ -406,7 +457,10 @@ function studio(lang: 'es' | 'en', base: string): string {
     )
     .join('');
   const map = `${base}${lang}/shared/diagrams/PA-S002/studio-map-${lang}.svg`;
-  return `<div class="learning-studio" data-learning-studio><nav class="visual-mode-nav" data-mode-nav aria-label="${es ? 'Modos de estudio visual' : 'Visual study modes'}"><a id="s002-tab-map" href="#s002-map" data-mode-control>${es ? 'Mapa mental' : 'Mind map'}</a><a id="s002-tab-cards" href="#${cardsId}" data-mode-control>${es ? 'Tarjetas' : 'Cards'}</a></nav><section id="s002-map" class="visual-mode-panel" data-visual-panel><h3>${es ? 'Mapa de conceptos' : 'Concept map'}</h3><figure class="diagram-card"><img class="session-diagram" src="${map}" alt="${es ? 'Mapa mental de monorepo, límites, dependencias, calidad y ownership.' : 'Mind map of monorepo, boundaries, dependencies, quality, and ownership.'}" loading="lazy"><figcaption>${es ? 'Relaciona las decisiones de repositorio con contratos, comprobaciones y responsables.' : 'Relates repository decisions to contracts, checks, and owners.'}</figcaption></figure></section><section id="${cardsId}" class="visual-mode-panel" data-visual-panel><h3>${checkWhatYouLearned(lang)}: 10 ${es ? 'tarjetas' : 'cards'}</h3><p>${es ? 'Las respuestas permanecen disponibles sin JavaScript.' : 'Answers remain available without JavaScript.'}</p><div class="flashcard-deck" data-flashcards tabindex="0"><div class="flashcard-controls"><button type="button" data-flash-prev>${es ? 'Anterior' : 'Previous'}</button><output data-flashcard-count aria-live="polite">1 / ${cards.length}</output><button type="button" data-flash-next>${es ? 'Siguiente' : 'Next'}</button></div>${items}</div></section></div>`;
+  const mapAlt = es
+    ? 'Mapa mental de monorepo, límites, dependencias, calidad y ownership.'
+    : 'Mind map of monorepo, boundaries, dependencies, quality, and ownership.';
+  return `<div class="learning-studio" data-learning-studio><nav class="visual-mode-nav" data-mode-nav aria-label="${es ? 'Modos de estudio visual' : 'Visual study modes'}"><a id="s002-tab-map" href="#s002-map" data-mode-control>${es ? 'Mapa mental' : 'Mind map'}</a><a id="s002-tab-cards" href="#${cardsId}" data-mode-control>${es ? 'Tarjetas' : 'Cards'}</a></nav><section id="s002-map" class="visual-mode-panel" data-visual-panel><h3>${es ? 'Mapa de conceptos' : 'Concept map'}</h3><figure class="diagram-card">${themedMindMap(map, mapAlt, 'session-diagram')}<figcaption>${es ? 'Relaciona las decisiones de repositorio con contratos, comprobaciones y responsables.' : 'Relates repository decisions to contracts, checks, and owners.'}</figcaption></figure></section><section id="${cardsId}" class="visual-mode-panel" data-visual-panel><h3>${checkWhatYouLearned(lang)}: 10 ${es ? 'tarjetas' : 'cards'}</h3><p>${es ? 'Las respuestas permanecen disponibles sin JavaScript.' : 'Answers remain available without JavaScript.'}</p><div class="flashcard-deck" data-flashcards tabindex="0"><div class="flashcard-controls"><button type="button" data-flash-prev>${es ? 'Anterior' : 'Previous'}</button><output data-flashcard-count aria-live="polite">1 / ${cards.length}</output><button type="button" data-flash-next>${es ? 'Siguiente' : 'Next'}</button></div>${items}</div></section></div>`;
 }
 export function renderS002(source: string, lang: 'es' | 'en', base: string): string {
   assertS002(source, lang);
@@ -419,7 +473,8 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
     study = 0,
     studioMapFollows = false,
     chapterTitleSeen = false,
-    sectionNumber = 0;
+    sectionNumber = 0,
+    currentHeadingTag = 3;
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]!;
     const marker = line.match(/^<!-- (?:concept:|topic:) ([\w.]+)/);
@@ -439,9 +494,9 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
     if (
       !line ||
       line.startsWith('<!--') ||
-      line === '---' ||
+      /^---+$/.test(line) ||
       /^\*\*(?:Fase|Phase):/.test(line) ||
-      /^\*\*F0 · PA-S002 · /.test(line) ||
+      /^(?:\*\*)?F0 · PA-S002 · /.test(line) ||
       /\*\*(?:Hechos confirmados|Supuestos e inferencias|Incertidumbres y limitaciones|Cómo verificarlo|Confirmed facts|Assumptions and inferences|Uncertainties and limitations|How to verify)(?::|\*\*)/i.test(
         line,
       ) ||
@@ -472,37 +527,21 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
       const id = generatedId === `section-${i}` ? pending || generatedId : generatedId;
       pending = '';
       const sessionOrdinal = SESSION_SECTION_ORDER[id];
-      const displayTitle = sectionTitle(id, initialTitle, lang);
+      const displayTitle = sectionTitle(id, initialTitle, lang).replace(/\s+\(`[^`]+`\)$/, '');
       const isSessionSection = sessionOrdinal !== undefined;
       if (isSessionSection) sectionNumber = sessionOrdinal;
-      if (level === 5 && /^(Nivel|Level) 3/.test(title)) {
-        out.push(
-          `<details class="deep-dive"><summary>${lang === 'es' ? 'Profundización opcional' : 'Optional deep dive'}</summary>`,
-        );
-        deep = true;
-        continue;
-      }
-      if (level === 5 && /^(Nivel|Level) [12]/.test(title)) {
-        const label =
-          /[12]/.test(title) && /1/.test(title)
-            ? lang === 'es'
-              ? 'Concepto y alcance'
-              : 'Concept and scope'
-            : lang === 'es'
-              ? 'Cómo funciona'
-              : 'How it works';
-        out.push(`<div class="reading-level"><h4>${label}</h4>`);
+      if (level === 5 && /^(Nivel|Level) [123]/.test(title)) {
+        out.push(`<div class="reading-level"><h4>${inline(title)}</h4>`);
         reading = true;
         continue;
       }
       const tag = Math.min(Math.max(level + 1, 2), 6);
+      currentHeadingTag = tag;
       if (isSessionSection) {
         const compact = /^(?:Tema principal|Main topic|Subtemas|Subtopics)$/i.test(displayTitle)
           ? ' section-label'
           : '';
-        out.push(
-          `${sectionHeading(2, id, inline(displayTitle), lang, sectionNumber, compact.trim())}${tocFab(lang)}`,
-        );
+        out.push(sectionHeading(2, id, inline(displayTitle), lang, sectionNumber, compact.trim()));
       } else if (level === 1 && /^(?:Subtema|Subtopic)\s+\d+\./i.test(title))
         out.push(sectionHeading(2, id, inline(displayTitle), lang, sectionNumber));
       else if (level === 1) out.push(`<h2 id="${id}">${inline(displayTitle)}</h2>`);
@@ -575,12 +614,25 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
       const items: string[] = [];
       while (/^[-*] /.test(lines[i] ?? '')) items.push(lines[i++]!.slice(2));
       i--;
-      const laneDefinitions = laneDefinitionList(items);
+      const referenceList =
+        items.length > 0 && items.every((item) => /^\[[^\]]+\]\(https?:\/\/[^)]+\)\.?$/.test(item));
+      if (referenceList) {
+        out.push(
+          `<ul class="reference-links">${items
+            .map((item) => {
+              const link = item.match(/^\[([^\]]+)\]\((https?:\/\/[^)]+)\)\.?$/)!;
+              return `<li><a href="${escapeHtml(link[2]!)}" rel="noreferrer">${inline(link[1]!)}</a></li>`;
+            })
+            .join('')}</ul>`,
+        );
+        continue;
+      }
+      const laneDefinitions = laneDefinitionList(items, currentHeadingTag);
       if (laneDefinitions) {
         out.push(laneDefinitions);
         continue;
       }
-      const definitions = conceptList(items);
+      const definitions = conceptList(items, currentHeadingTag);
       if (definitions) {
         out.push(definitions);
         continue;
@@ -628,7 +680,7 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
       );
       continue;
     }
-    out.push(paragraph(line));
+    out.push(paragraph(line, currentHeadingTag));
   }
   if (reading) out.push('</div>');
   if (deep) out.push('</details>');
@@ -644,7 +696,7 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
   return shell(
     lang,
     title,
-    `${crumb}<div class="page-intro"><p class="eyebrow">F0 / PA-S002</p><h1>${title}</h1><p class="lead">${inline(objectiveText)}</p></div><div class="layout">${tocHtml}<article class="canonical-theory">${placeTocFabsAtSectionEnds(out.join('\n'), lang)}</article></div>`,
+    `${crumb}<div class="page-intro"><h1>${title}</h1><p class="lead">${inline(objectiveText)}</p></div><div class="layout">${tocHtml}<article class="canonical-theory">${placeTocFabsAtSectionEnds(out.join('\n'), lang)}</article></div>`,
     base,
     `${lang === 'es' ? 'en' : 'es'}/sessions/PA-S002/`,
   );
