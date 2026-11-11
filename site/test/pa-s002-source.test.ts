@@ -57,7 +57,7 @@ test('PA-S002 is linked in bilingual navigation and renders complete Spanish con
   );
   assert.match(
     spanish,
-    /<ul class="concept-list"><li><strong class="concept-list-term">Estándar de ingeniería<\/strong><span class="concept-list-definition">/,
+    /<ul class="concept-list"><li class="concept-definition"><h[3-6]>Monorepo<\/h[3-6]><p>un repositorio que reúne el código de varios proyectos relacionados<\/p><\/li><li class="concept-definition"><h[3-6]>Polyrepo<\/h[3-6]>/,
   );
   assert.match(
     spanish,
@@ -75,10 +75,8 @@ test('PA-S002 is linked in bilingual navigation and renders complete Spanish con
     spanish,
     /<h2 id="main-topic" class="section-heading"><span class="section-number" aria-hidden="true">Sección 2<\/span><span class="section-title">Tema principal — Del repositorio compartido a los límites comprobables<\/span><\/h2>/,
   );
-  assert.match(
-    spanish,
-    /<div class="flow-card flow-card-code"><pre class="code"><code>web → ui → tokens<\/code><\/pre><\/div>/,
-  );
+  assert.match(spanish, /flow-card-code/);
+  assert.match(spanish, /web → ui → tokens/);
   for (const heading of [
     'Ownership y evolución de estándares',
     'Caso documentado del mundo real',

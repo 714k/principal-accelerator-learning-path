@@ -2316,6 +2316,79 @@ details:not(.nav-group):not(.mobile-global)[open] > summary::after {
 .canonical-theory .reading-level h4 {
   font-size: calc(1.45rem + 6px);
 }
+/* Shared session hierarchy, independent from the source heading depth. */
+:is(h1, h2, h3, h4, h5, h6) {
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+  font-weight: 760;
+  line-height: 1.16;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+h1 {
+  font-size: clamp(2.35rem, 5vw, 4rem);
+  margin: 0 0 1rem;
+}
+h2 {
+  font-size: clamp(1.85rem, 3.5vw, 2.65rem);
+  margin: 3rem 0 1rem;
+}
+h3 {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  margin: 2.5rem 0 0.8rem;
+}
+h4 {
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
+  margin: 2rem 0 0.65rem;
+}
+h5 {
+  font-size: 1.12rem;
+  margin: 1.6rem 0 0.5rem;
+}
+h6 {
+  font-size: 1rem;
+  margin: 1.35rem 0 0.45rem;
+}
+ul {
+  padding-left: 0;
+  list-style-type: none;
+}
+.canonical-theory .concept-list:has(> .concept-definition) {
+  list-style: none;
+  padding-left: 0;
+}
+.canonical-theory .concept-list > .concept-definition > :is(h3, h4, h5, h6) {
+  margin: 0 0 0.35rem;
+  font-size: calc(1.12rem + 6px);
+  line-height: 1.28;
+}
+.canonical-theory .concept-list > .concept-definition > p {
+  max-width: none;
+  margin: 0;
+}
+.themed-mind-map {
+  display: block;
+  width: 100%;
+  background: var(--surface);
+}
+.themed-mind-map img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+.themed-mind-map [data-theme-map='dark'] {
+  display: none;
+}
+:root[data-theme='dark'] .themed-mind-map [data-theme-map='light'] {
+  display: none;
+}
+:root[data-theme='dark'] .themed-mind-map [data-theme-map='dark'] {
+  display: block;
+}
 .canonical-theory .canonical-ordered-list,
 .canonical-theory ol:not(.concept-list):not(.references):not(.studio-flow) {
   gap: 0.8rem;
