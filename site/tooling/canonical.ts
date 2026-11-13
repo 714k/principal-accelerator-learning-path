@@ -314,6 +314,21 @@ function inline(value: string): string {
   );
   return text.replace(/@@TOKEN(\d+)@@/g, (_, number: string) => tokens[Number(number)]!);
 }
+function instructionalOutcome(value: string): string | undefined {
+  const matched = value.match(/^\*\*([^*]+?)(?::|\.)\*\*\s+(.+)$/);
+  if (!matched) return undefined;
+  const label = matched[1]!.trim();
+  const normalized = label.toLowerCase();
+  const kind = /^(respuesta|reasoned answer|answer and)/.test(normalized)
+    ? 'answer'
+    : /^(entregable|deliverable|reviewable deliverable)/.test(normalized)
+      ? 'deliverable'
+      : /^(criterio|review criteria|editorial readiness criteria)/.test(normalized)
+        ? 'review'
+        : undefined;
+  if (!kind) return undefined;
+  return `<aside class="instructional-outcome instructional-outcome--${kind}"><p class="instructional-outcome-label">${inline(label)}</p><p>${inline(matched[2]!)}</p></aside>`;
+}
 function isStandaloneFlow(value: string): boolean {
   return /\s(?:→|←|↔|⟶|⇒|->|<-)\s/.test(value) && !value.includes(' · ') && !/[.!?;]$/.test(value);
 }
@@ -354,7 +369,8 @@ export function renderCanonical(source: string, lang: 'es' | 'en', base: string)
     .map((h) => `<li><a href="#${h.id}">${inline(h.title.replace(/^`[^`]+` — /, ''))}</a></li>`)
     .join('')}</ol></nav></details>`;
   let i = 0,
-    currentHeading = '';
+    currentHeading = '',
+    currentHeadingLevel = 1;
   const labels = Object.fromEntries(
     all
       .filter((h) => [...CONCEPT_IDS, ...TOPIC_IDS].includes(h.id as (typeof CONCEPT_IDS)[number]))
@@ -431,6 +447,7 @@ export function renderCanonical(source: string, lang: 'es' | 'en', base: string)
       const concept = conceptHeading(heading, lang);
       if (heading.level <= 3 || concept) closeConcept();
       currentHeading = heading.id;
+      currentHeadingLevel = heading.level;
       if (heading.level !== 1) {
         if (concept) {
           out.push(concept);
@@ -525,7 +542,7 @@ export function renderCanonical(source: string, lang: 'es' | 'en', base: string)
             const study = content.match(/^\*\*`(PA-S001\.exercise\.[a-z-]+)`:\*\* (.+)$/);
             return study
               ? `<li class="canonical-study-item"><label><input type="checkbox" data-study-id="${study[1]}"><span><strong>${study[1]}</strong>: ${inline(study[2]!)}</span></label></li>`
-              : `<li>${inline(content)}</li>`;
+              : `<li><span class="ordered-list-content">${inline(content)}</span></li>`;
           })
           .join('')}</ol>`,
       );
@@ -576,6 +593,12 @@ export function renderCanonical(source: string, lang: 'es' | 'en', base: string)
       i++;
       continue;
     }
+    const outcome = instructionalOutcome(line);
+    if (outcome) {
+      out.push(outcome);
+      i++;
+      continue;
+    }
     const level = line.match(/^\*\*((?:Nivel|Level) [12] — [^*]+)\*\* (.*)$/);
     if (level) {
       const blocks = level[2]!
@@ -595,7 +618,7 @@ export function renderCanonical(source: string, lang: 'es' | 'en', base: string)
       );
       if (/^(?:Nivel|Level) 2/.test(level[1]!)) {
         out.push(figureFor(currentHeading));
-        out.push(renderReferenceExperience(currentHeading, lang, labels));
+        out.push(renderReferenceExperience(currentHeading, lang, labels, currentHeadingLevel));
       }
       i++;
       continue;

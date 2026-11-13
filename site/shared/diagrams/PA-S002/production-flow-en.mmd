@@ -1,0 +1,14 @@
+sequenceDiagram
+    actor Person
+    participant Web as Web application
+    participant API as Booking API
+    participant DB as Database
+    participant Worker as Notifications
+
+    Person->>Web: Selects room and time
+    Web->>API: Requests booking and idempotency key
+    API->>API: Authenticates and validates permissions
+    API->>DB: Books transactionally
+    DB-->>API: Confirmed or conflict
+    API-->>Web: Booking status and data
+    API->>Worker: Booking-confirmed event

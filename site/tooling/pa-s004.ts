@@ -67,7 +67,7 @@ function theoryDiagram(lang: Lang, index: number, base: string, code: string): s
     captions[index - 1] ??
     (lang === 'es' ? 'Diagrama de teoría PA-S004.' : 'PA-S004 theory diagram.');
   const source = `${base}${lang}/shared/diagrams/PA-S004/theory-${lang}-${String(index).padStart(2, '0')}.svg`;
-  return `<figure class="diagram-card"><img class="session-diagram" src="${source}" alt="${caption}" loading="lazy"><figcaption>${caption}</figcaption><details><summary>${lang === 'es' ? 'Fuente Mermaid' : 'Mermaid source'}</summary><pre class="code"><code>${escapeHtml(code)}</code></pre></details></figure>`;
+  return `<figure class="diagram-card"><img class="session-diagram" src="${source}" alt="${caption}" loading="lazy"><figcaption>${caption}</figcaption><details class="diagram-source"><summary><span class="diagram-source-label">${lang === 'es' ? 'Más información del diagrama' : 'More diagram information'}</span><strong>${lang === 'es' ? 'Ver fuente Mermaid y detalles técnicos' : 'View Mermaid source and technical details'}</strong></summary><p class="diagram-source-hint">${lang === 'es' ? 'Incluye el código Mermaid usado para generar esta visualización.' : 'Includes the Mermaid code used to generate this visualization.'}</p><pre class="code"><code>${escapeHtml(code)}</code></pre></details></figure>`;
 }
 function studio(lang: Lang, base: string): string {
   const es = lang === 'es';
@@ -412,7 +412,7 @@ export function renderS004(source: string, lang: Lang, base: string): string {
       while (i < lines.length && /^\d+\. /.test(lines[i] ?? ''))
         items.push(lines[i++]!.replace(/^\d+\. /, ''));
       out.push(
-        `<ol class="canonical-ordered-list">${items.map((item) => `<li>${inline(item)}</li>`).join('')}</ol>`,
+        `<ol class="canonical-ordered-list">${items.map((item) => `<li><span class="ordered-list-content">${inline(item)}</span></li>`).join('')}</ol>`,
       );
       continue;
     }

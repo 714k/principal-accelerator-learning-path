@@ -4,29 +4,54 @@ import {
   placeTocFabsAtSectionEnds,
   sectionHeading,
   shell,
-  tocFab,
+  themedMindMap,
 } from './render.ts';
 
-function conceptList(items: string[]): string | undefined {
-  const concepts = items.map((item) => item.match(/^\*\*([^*]+):\*\*\s+(.+)$/));
+function conceptList(items: string[], headingTag: number): string | undefined {
+  const concepts = items.map((item) => {
+    const quoted = item.match(/^«([^:«»]+):\s*([^»]+)»\.?$/);
+    if (quoted) return quoted;
+    const bold = item.match(/^\*\*([^*]+):\*\*\s+(.+)$/);
+    if (bold) return bold;
+    return /[`*\[\]]/.test(item) ? null : item.match(/^([^:«»]+):\s*(.+)$/);
+  });
   if (concepts.some((item) => !item)) return undefined;
+  const tag = Math.min(headingTag + 1, 6);
   return `<ul class="concept-list">${concepts
     .map(
       (item) =>
-        `<li><strong class="concept-list-term">${inline(item![1]!)}:</strong><span class="concept-list-definition">${inline(item![2]!)}</span></li>`,
+        `<li class="concept-definition"><h${tag}>${inline(item![1]!.trim())}</h${tag}><p>${inline(item![2]!.trim())}</p></li>`,
     )
     .join('')}</ul>`;
 }
 
-function laneDefinitionList(items: string[]): string | undefined {
+function laneDefinitionList(items: string[], headingTag: number): string | undefined {
   const lanes = items.map((item) => item.match(/^\*\*([^*]+?)\.\*\*\s+((?:«[^»]+»[.\s]*)+)$/));
   if (lanes.some((item) => !item)) return undefined;
-  return `<ol class="concept-list">${lanes
-    .map(
-      (lane) =>
-        `<li><strong class="concept-list-term">${inline(lane![1]!)}</strong><span class="concept-list-definition">${inline(lane![2]!.trim())}</span></li>`,
-    )
-    .join('')}</ol>`;
+  const tag = Math.min(headingTag + 1, 6);
+  return lanes
+    .map((lane) => {
+      const definitions =
+        lane![2]!
+          .replace(/[«»]/g, '')
+          .match(/[^.]+(?:\.|$)/g)
+          ?.map((item) => item.trim())
+          .filter(Boolean) ?? [];
+      const grouped = definitions.reduce<Array<[string, string]>>((concepts, definition) => {
+        const match = definition.match(/^([^:]+):\s*(.+)$/);
+        if (match) concepts.push([match[1]!, match[2]!]);
+        else if (concepts.length) concepts[concepts.length - 1]![1] += ` ${definition}`;
+        return concepts;
+      }, []);
+      if (!grouped.length) return '';
+      return grouped
+        .map(
+          ([name, definition]) =>
+            `<section class="concept-definition concept-definition--paragraph"><h${tag}>${inline(name)}</h${tag}><p>${inline(definition)}</p></section>`,
+        )
+        .join('');
+    })
+    .join('');
 }
 
 export function assertS002(source: string, lang: 'es' | 'en'): void {
@@ -38,7 +63,7 @@ export function assertS002(source: string, lang: 'es' | 'en'): void {
           'Visual Learning Studio',
           'Práctica y cierre',
         ]
-      : ['Accelerator Monorepo', 'Visual Learning Studio', 'Exercises'];
+      : ['Monorepos and engineering standards', 'Visual Learning Studio', 'Exercises'];
   if (required.some((heading) => !source.includes(heading)))
     throw new Error(`Incomplete PA-S002 ${lang} canonical source`);
 }
@@ -48,7 +73,9 @@ function inline(s: string): string {
     held.push(v);
     return `@@${held.length - 1}@@`;
   };
-  let value = s.replace(/`([^`]+)`/g, (_, x: string) => hold(`<code>${escapeHtml(x)}</code>`));
+  let value = stripEditorialArtifacts(s)
+    .replace(/«([^»]+)»/g, '$1')
+    .replace(/`([^`]+)`/g, (_, x: string) => hold(`<code>${escapeHtml(x)}</code>`));
   value = value.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, (_, label: string, url: string) =>
     hold(`<a href="${escapeHtml(url)}">${escapeHtml(label)}</a>`),
   );
@@ -60,28 +87,131 @@ function inline(s: string): string {
     .replace(/\*([^*]+)\*/g, '<em>$1</em>');
   return value.replace(/@@(\d+)@@/g, (_, n: string) => held[Number(n)]!);
 }
-function paragraph(value: string): string {
+function stripEditorialArtifacts(value: string): string {
+  return value
+    .replace(/\s*genui\{[\s\S]*?\}\}(?:)?/g, '')
+    .replace(/\s*genui\[[\s\S]*?(?:|$)/g, '');
+}
+function separateReferences(value: string): { prose: string; links: string } {
+  value = stripEditorialArtifacts(value);
+  const pattern = /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g;
+  const references = [...value.matchAll(pattern)];
+  const prose = value
+    .replace(pattern, '')
+    .replace(/\s{2,}/g, ' ')
+    .replace(/\s*[·•]\s*(?=[.!?]|$)/g, '')
+    .replace(/\s+([,.;:!?])/g, '$1')
+    .replace(/([.!?]){2,}/g, '$1')
+    .trim();
+  const links = references
+    .map(
+      ([, label, url]) =>
+        `<li><a href="${escapeHtml(url!)}" rel="noreferrer">${inline(label!)}</a></li>`,
+    )
+    .join('');
+  return { prose, links };
+}
+function referenceEntry(value: string): string | undefined {
+  const entry = stripEditorialArtifacts(value).match(/^\*\*([^*]+?)\s+—\s+(.+?)\.\*\*\s+(.+)$/);
+  if (!entry) return undefined;
+  const title = inline(entry[2]!).replace(/<a href="([^"]+)">/g, '<a href="$1" rel="noreferrer">');
+  return `<article class="reference-entry"><p class="reference-entry-source"><strong>${inline(entry[1]!)}</strong></p><p class="reference-entry-link">${title}</p><p class="reference-entry-description">${inline(entry[3]!)}</p></article>`;
+}
+function paragraphWithReferences(value: string): string {
+  const { prose, links } = separateReferences(value);
+  return `${prose ? `<p>${inline(prose)}</p>` : ''}${links ? `<ul class="reference-links">${links}</ul>` : ''}`;
+}
+function instructionalOutcome(value: string): string | undefined {
+  const outcome = value.match(/^\*\*([^*]+?)(?::|\.)\*\*\s+(.+)$/);
+  if (!outcome) return undefined;
+  const label = outcome[1]!;
+  const normalized = label.toLowerCase();
+  const kind = /^(respuesta|reasoned (?:answer|response)|answer and)/.test(normalized)
+    ? 'answer'
+    : /^(entregable|deliverable|reviewable deliverable)/.test(normalized)
+      ? 'deliverable'
+      : /^(criterio|review criteria|editorial readiness criteria)/.test(normalized)
+        ? 'review'
+        : undefined;
+  if (!kind) return undefined;
+  return `<aside class="instructional-outcome instructional-outcome--${kind}"><p class="instructional-outcome-label">${inline(label)}</p>${paragraphWithReferences(outcome[2]!)}</aside>`;
+}
+function statementCard(value: string, headingTag: number): string {
+  const statement = value.match(/^\*\*([^*]{28,}):\*\*\s+(.+)$/);
+  if (!statement) return paragraphWithReferences(value);
+  const tag = Math.min(headingTag + 1, 6);
+  return `<section class="statement-card"><h${tag}>${inline(statement[1]!)}</h${tag}>${paragraphWithReferences(statement[2]!)}</section>`;
+}
+function conceptParagraphCard(value: string, headingTag: number): string {
+  const definition =
+    '(?:es|son|is|are|reúne|mantiene|confirma|revisa|compara|identifica|describe|permite|representa|establece|define|muestra|comunica|comprueba|declara|requiere|conserva|facilita|garantiza)';
+  const concept =
+    value.match(new RegExp(`^\\*\\*([^*:]+)\\*\\*\\s+(${definition}\\b[\\s\\S]*)$`, 'i')) ??
+    value.match(
+      new RegExp(
+        `^(?:un(?:a)?|el|la|los|las|an?|the)\\s+\\*\\*([^*:]+)\\*\\*\\s+(${definition}\\b[\\s\\S]*)$`,
+        'i',
+      ),
+    );
+  if (!concept) return statementCard(value, headingTag);
+  const tag = Math.min(headingTag + 1, 6);
+  return `<section class="concept-definition concept-definition--paragraph"><h${tag}>${inline(concept[1]!)}</h${tag}>${paragraphWithReferences(concept[2]!)}</section>`;
+}
+function paragraph(value: string, headingTag: number, conceptCallouts = false): string {
+  value = stripEditorialArtifacts(value);
+  const outcome = instructionalOutcome(value);
+  if (outcome) return outcome;
+  const journey = value.match(/^(.*?:)\s+(\*\*.+(?:→|←|↔|⟶|⇒|->|<-).+\*\*)\.?$/);
+  if (journey)
+    return `<p>${inline(journey[1]!)}</p><div class="flow-card">${inline(journey[2]!)}</div>`;
+  const conceptCallout = value.match(/^\*\*([^*.]+)\.\*\*\s+(.+)$/);
+  if (conceptCallouts && conceptCallout) {
+    const tag = Math.min(headingTag + 1, 6);
+    return `<section class="concept-definition concept-definition--paragraph"><h${tag}>${inline(conceptCallout[1]!.trim())}</h${tag}>${paragraphWithReferences(conceptCallout[2]!)}</section>`;
+  }
   const lead = value.match(/^\*\*([^*]+?)\.\*\*\s+(.+)$/);
-  if (lead)
-    return `<p class="split-lead"><strong>${inline(lead[1]!)}</strong><span>${inline(lead[2]!)}</span></p>`;
-  if (/\s(?:→|←|↔|⟶|⇒|->|<-)\s/.test(value) && !value.includes(' · ') && !/[.!?;]$/.test(value))
-    return `<p class="flow-card">${inline(value)}</p>`;
-  return `<p>${inline(value)}</p>`;
+  if (lead) {
+    const { prose, links } = separateReferences(lead[2]!);
+    return `<p class="split-lead"><strong>${inline(lead[1]!)}</strong>${prose ? `<span>${inline(prose)}</span>` : ''}</p>${links ? `<ul class="reference-links">${links}</ul>` : ''}`;
+  }
+  if (/\s(?:→|←|↔|⟶|⇒|->|<-)\s/.test(value)) return `<p class="flow-card">${inline(value)}</p>`;
+  return conceptParagraphCard(value, headingTag);
+}
+
+function appendConceptExplanation(output: string[], value: string): boolean {
+  const last = output.at(-1);
+  if (
+    !last?.startsWith('<section class="concept-definition concept-definition--paragraph">') ||
+    !value.startsWith('<p')
+  )
+    return false;
+  output[output.length - 1] = last.replace(/<\/section>$/, `${value}</section>`);
+  return true;
 }
 function sectionId(title: string, index: number): string {
   const normalized = title
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase();
-  if (normalized === 'conceptos por ambito profesional' || /(?:^|\.) concepts$/.test(normalized))
+  if (
+    normalized === 'conceptos por ambito profesional' ||
+    normalized.startsWith('concepts by professional') ||
+    /(?:^|\.) concepts$/.test(normalized)
+  )
     return 'concepts';
   if (
     normalized.includes('tema principal') ||
     /(?:^|\.) main topic$/.test(normalized) ||
-    normalized.includes('shared repository')
+    normalized.includes('parent topic') ||
+    normalized.includes('shared repository') ||
+    normalized.includes('del repositorio compartido')
   )
     return 'main-topic';
-  if (normalized.includes('subtemas previstos') || /(?:^|\.) subtopics$/.test(normalized))
+  if (
+    normalized.includes('subtemas previstos') ||
+    normalized.includes('planned subtopics') ||
+    /(?:^|\.) subtopics$/.test(normalized)
+  )
     return 'subtopics';
   const subtopic = normalized.match(
     /^(?:subtema|subtopic)\s*(\d+)\.|^(?:\d+)\.\s*(?:repository topology|workspaces, applications|dependencies, apis|task graph|conventions, policies|quality gates|ownership and ai)/,
@@ -115,39 +245,68 @@ function sectionId(title: string, index: number): string {
   if (englishSubtopicIndex >= 0) return `subtopic-${englishSubtopicIndex + 1}`;
   if (
     normalized.includes('integracion entre ambitos') ||
-    normalized.includes('cross-domain synthesis')
+    normalized.includes('cross-domain synthesis') ||
+    normalized.includes('integration between')
   )
     return 'integration';
   if (
-    normalized === 'teoria → practica' ||
+    normalized.includes('teoria → practica') ||
     (normalized.includes('theory') && normalized.includes('practice'))
   )
     return 'theory-practice';
-  if (normalized.includes('tiempo estimado') || normalized.includes('time breakdown'))
+  if (
+    normalized.includes('tiempo estimado') ||
+    normalized.includes('time breakdown') ||
+    normalized === 'estimated time'
+  )
     return 'estimated-time';
-  if (normalized.includes('caso documentado') || normalized.includes('real-world example'))
+  if (
+    normalized.includes('caso documentado') ||
+    normalized.includes('caso real candidato') ||
+    normalized.includes('real-world example') ||
+    normalized.includes('documented real-world')
+  )
     return 'real-world-case';
   if (
     normalized.includes('diseno de produccion') ||
-    normalized.includes('production-ready example')
+    normalized.includes('aprendizaje visual previstos') ||
+    normalized.includes('production-ready example') ||
+    normalized.includes('production design')
   )
     return 'production-reference-design';
   if (normalized.includes('visual learning studio')) return 'visual-learning-studio';
   if (normalized.includes('tarjetas de estudio') || normalized.includes('study cards'))
     return 'study-cards';
-  if (normalized.includes('practica y cierre') || /(?:^|\.) exercises$/.test(normalized))
+  if (
+    normalized.includes('practica y cierre') ||
+    normalized.includes('practice and closure') ||
+    /(?:^|\.) exercises$/.test(normalized)
+  )
     return 'exercises';
   if (normalized === 'fuentes' || normalized.includes('curated sources')) return 'sources';
-  if (normalized.includes('recursos de trabajo') || /(?:^|\.) resources$/.test(normalized))
+  if (
+    normalized.includes('recursos de trabajo') ||
+    normalized.includes('resources') ||
+    /(?:^|\.) resources$/.test(normalized)
+  )
     return 'resources';
   if (
     normalized.includes('checklist de revision') ||
-    normalized.includes('knowledge mastery checklist')
+    normalized.includes('knowledge mastery checklist') ||
+    normalized.includes('review checklist')
   )
     return 'study-checklist';
-  if (normalized.includes('criterios de exito') || normalized.includes('end-of-session success'))
+  if (
+    normalized.includes('criterios de exito') ||
+    normalized.includes('end-of-session success') ||
+    normalized === 'success criteria'
+  )
     return 'success-criteria';
-  if (normalized.includes('puente a pa-s003') || normalized.includes('bridge to pa-s003'))
+  if (
+    normalized.includes('puente a pa-s003') ||
+    normalized.includes('bridge to pa-s003') ||
+    normalized.includes('jumper to pa-s003')
+  )
     return 'bridge-to-pa-s003';
   return `section-${index}`;
 }
@@ -406,20 +565,37 @@ function studio(lang: 'es' | 'en', base: string): string {
     )
     .join('');
   const map = `${base}${lang}/shared/diagrams/PA-S002/studio-map-${lang}.svg`;
-  return `<div class="learning-studio" data-learning-studio><nav class="visual-mode-nav" data-mode-nav aria-label="${es ? 'Modos de estudio visual' : 'Visual study modes'}"><a id="s002-tab-map" href="#s002-map" data-mode-control>${es ? 'Mapa mental' : 'Mind map'}</a><a id="s002-tab-cards" href="#${cardsId}" data-mode-control>${es ? 'Tarjetas' : 'Cards'}</a></nav><section id="s002-map" class="visual-mode-panel" data-visual-panel><h3>${es ? 'Mapa de conceptos' : 'Concept map'}</h3><figure class="diagram-card"><img class="session-diagram" src="${map}" alt="${es ? 'Mapa mental de monorepo, límites, dependencias, calidad y ownership.' : 'Mind map of monorepo, boundaries, dependencies, quality, and ownership.'}" loading="lazy"><figcaption>${es ? 'Relaciona las decisiones de repositorio con contratos, comprobaciones y responsables.' : 'Relates repository decisions to contracts, checks, and owners.'}</figcaption></figure></section><section id="${cardsId}" class="visual-mode-panel" data-visual-panel><h3>${checkWhatYouLearned(lang)}: 10 ${es ? 'tarjetas' : 'cards'}</h3><p>${es ? 'Las respuestas permanecen disponibles sin JavaScript.' : 'Answers remain available without JavaScript.'}</p><div class="flashcard-deck" data-flashcards tabindex="0"><div class="flashcard-controls"><button type="button" data-flash-prev>${es ? 'Anterior' : 'Previous'}</button><output data-flashcard-count aria-live="polite">1 / ${cards.length}</output><button type="button" data-flash-next>${es ? 'Siguiente' : 'Next'}</button></div>${items}</div></section></div>`;
+  const mapAlt = es
+    ? 'Mapa mental de monorepo, límites, dependencias, calidad y ownership.'
+    : 'Mind map of monorepo, boundaries, dependencies, quality, and ownership.';
+  return `<div class="learning-studio" data-learning-studio><nav class="visual-mode-nav" data-mode-nav aria-label="${es ? 'Modos de estudio visual' : 'Visual study modes'}"><a id="s002-tab-map" href="#s002-map" data-mode-control>${es ? 'Mapa mental' : 'Mind map'}</a><a id="s002-tab-cards" href="#${cardsId}" data-mode-control>${es ? 'Tarjetas' : 'Cards'}</a></nav><section id="s002-map" class="visual-mode-panel" data-visual-panel><h3>${es ? 'Mapa de conceptos' : 'Concept map'}</h3><figure class="diagram-card">${themedMindMap(map, mapAlt, 'session-diagram')}<figcaption>${es ? 'Relaciona las decisiones de repositorio con contratos, comprobaciones y responsables.' : 'Relates repository decisions to contracts, checks, and owners.'}</figcaption></figure></section><section id="${cardsId}" class="visual-mode-panel" data-visual-panel><h3>${checkWhatYouLearned(lang)}: 10 ${es ? 'tarjetas' : 'cards'}</h3><p>${es ? 'Las respuestas permanecen disponibles sin JavaScript.' : 'Answers remain available without JavaScript.'}</p><div class="flashcard-deck" data-flashcards tabindex="0"><div class="flashcard-controls"><button type="button" data-flash-prev>${es ? 'Anterior' : 'Previous'}</button><output data-flashcard-count aria-live="polite">1 / ${cards.length}</output><button type="button" data-flash-next>${es ? 'Siguiente' : 'Next'}</button></div>${items}</div></section></div>`;
 }
 export function renderS002(source: string, lang: 'es' | 'en', base: string): string {
   assertS002(source, lang);
-  const lines = source.replace(/\r\n/g, '\n').split('\n'),
-    out: string[] = [];
+  const lines = source.replace(/\r\n/g, '\n').split('\n');
+  const sectionBodies = new Map(
+    Object.keys(SESSION_SECTION_ORDER).map((id) => [id, []] as [string, string[]]),
+  );
+  let activeSection = 'concepts',
+    out = sectionBodies.get(activeSection)!;
+  const activateSection = (id: string) => {
+    activeSection = id;
+    out = sectionBodies.get(activeSection)!;
+  };
   let pending = '',
     deep = false,
     reading = false,
     mermaid = 0,
     study = 0,
+    successStudy = 0,
     studioMapFollows = false,
     chapterTitleSeen = false,
-    sectionNumber = 0;
+    sessionSectionSeen = false,
+    skipInitialObjective = false,
+    conceptCallouts = false,
+    sectionNumber = 0,
+    sectionSourceLevel = 2,
+    currentHeadingTag = 3;
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]!;
     const marker = line.match(/^<!-- (?:concept:|topic:) ([\w.]+)/);
@@ -439,9 +615,9 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
     if (
       !line ||
       line.startsWith('<!--') ||
-      line === '---' ||
+      /^---+$/.test(line) ||
       /^\*\*(?:Fase|Phase):/.test(line) ||
-      /^\*\*F0 · PA-S002 · /.test(line) ||
+      /^(?:\*\*)?F0 · PA-S002 · /.test(line) ||
       /\*\*(?:Hechos confirmados|Supuestos e inferencias|Incertidumbres y limitaciones|Cómo verificarlo|Confirmed facts|Assumptions and inferences|Uncertainties and limitations|How to verify)(?::|\*\*)/i.test(
         line,
       ) ||
@@ -451,6 +627,7 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
       continue;
     const heading = line.match(/^(#{1,5}) (.+)$/);
     if (heading) {
+      skipInitialObjective = false;
       if (reading) {
         out.push('</div>');
         reading = false;
@@ -464,54 +641,85 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
         initialTitle = /^(?:Recuperación|Retrieval)$/i.test(title)
           ? checkWhatYouLearned(lang)
           : title;
+      conceptCallouts = /(?:fallos?|errores?|problemas?|failures?|errors?|issues?)/i.test(title);
       if (level === 1 && !chapterTitleSeen) {
         chapterTitleSeen = true;
+        sectionSourceLevel = level;
+        continue;
+      }
+      if (!sessionSectionSeen && /^(?:1\. )?(?:Objetivo|Objective)$/i.test(title)) {
+        skipInitialObjective = true;
+        continue;
+      }
+      if (!sessionSectionSeen && /^(?:2\. )?(?:Vista previa|Learning Preview)$/i.test(title)) {
+        out.push(`<p class="session-preview-label">${inline(title.replace(/^\d+\.\s*/, ''))}</p>`);
         continue;
       }
       const generatedId = sectionId(title, i);
       const id = generatedId === `section-${i}` ? pending || generatedId : generatedId;
       pending = '';
       const sessionOrdinal = SESSION_SECTION_ORDER[id];
-      const displayTitle = sectionTitle(id, initialTitle, lang);
+      const displayTitle = sectionTitle(id, initialTitle, lang).replace(/\s+\(`[^`]+`\)$/, '');
       const isSessionSection = sessionOrdinal !== undefined;
-      if (isSessionSection) sectionNumber = sessionOrdinal;
-      if (level === 5 && /^(Nivel|Level) 3/.test(title)) {
-        out.push(
-          `<details class="deep-dive"><summary>${lang === 'es' ? 'Profundización opcional' : 'Optional deep dive'}</summary>`,
+      const isSubtopic = level === 1 && /^(?:Subtema|Subtopic)\s+\d+\./i.test(title);
+      const isProfessionalDomain =
+        activeSection === 'concepts' &&
+        /^(?:Staff → Principal(?: Software Engineering)?|Arquitectura de Plataforma Frontend|Frontend Platform Architecture \(FPA\)|Ingeniería de Productos con IA|AI Product Engineering \(AIPE\))$/.test(
+          title,
         );
-        deep = true;
-        continue;
-      }
-      if (level === 5 && /^(Nivel|Level) [12]/.test(title)) {
-        const label =
-          /[12]/.test(title) && /1/.test(title)
-            ? lang === 'es'
-              ? 'Concepto y alcance'
-              : 'Concept and scope'
-            : lang === 'es'
-              ? 'Cómo funciona'
-              : 'How it works';
-        out.push(`<div class="reading-level"><h4>${label}</h4>`);
+      if (isSessionSection) sectionNumber = sessionOrdinal;
+      const tag = isSessionSection
+        ? 2
+        : isSubtopic
+          ? 3
+          : Math.min(Math.max(2 + level - sectionSourceLevel, 3), 6);
+      if (level === 5 && /^(Nivel|Level) [123]/.test(title)) {
+        currentHeadingTag = tag;
+        out.push(`<div class="reading-level"><h${tag}>${inline(title)}</h${tag}>`);
         reading = true;
         continue;
       }
-      const tag = Math.min(Math.max(level + 1, 2), 6);
+      if (isProfessionalDomain) {
+        currentHeadingTag = 2;
+        continue;
+      }
+      currentHeadingTag = tag;
       if (isSessionSection) {
-        const compact = /^(?:Tema principal|Main topic|Subtemas|Subtopics)$/i.test(displayTitle)
-          ? ' section-label'
-          : '';
-        out.push(
-          `${sectionHeading(2, id, inline(displayTitle), lang, sectionNumber, compact.trim())}${tocFab(lang)}`,
-        );
-      } else if (level === 1 && /^(?:Subtema|Subtopic)\s+\d+\./i.test(title))
-        out.push(sectionHeading(2, id, inline(displayTitle), lang, sectionNumber));
-      else if (level === 1) out.push(`<h2 id="${id}">${inline(displayTitle)}</h2>`);
-      else out.push(`<h${tag} id="${id}">${inline(displayTitle)}</h${tag}>`);
+        sessionSectionSeen = true;
+        activateSection(id);
+        sectionSourceLevel = level;
+      } else if (isSubtopic) {
+        activateSection('subtopics');
+        sectionSourceLevel = 0;
+        out.push(sectionHeading(3, id, inline(displayTitle), lang, sectionNumber));
+      } else {
+        if (level === 1) sectionSourceLevel = 0;
+        out.push(`<h${tag} id="${id}">${inline(displayTitle)}</h${tag}>`);
+      }
       if (/^(?:11\. )?(Visual Learning Studio|Studio de aprendizaje visual)/i.test(title)) {
         out.push(studio(lang, base));
         studioMapFollows = true;
       }
       continue;
+    }
+    if (skipInitialObjective) {
+      skipInitialObjective = false;
+      continue;
+    }
+    const question = line.match(/^\*\*((?:Pregunta|Question)):\*\*\s+(.+)$/i);
+    if (question) {
+      let answerIndex = i + 1;
+      while (answerIndex < lines.length && !(lines[answerIndex] ?? '').trim()) answerIndex++;
+      const answer = (lines[answerIndex] ?? '').match(
+        /^\*\*((?:Respuesta(?: razonada)?|Answer(?: and (?:explanation|feedback))?|Reasoned response)):\*\*\s+(.+)$/i,
+      );
+      if (answer) {
+        out.push(
+          `<details class="instructional-block instructional-retrieval"><summary><span class="instructional-label">${inline(question[1]!)}</span><strong>${inline(question[2]!)}</strong></summary><div class="retrieval-answer"><p class="instructional-answer-label">${inline(answer[1]!)}</p><p>${inline(answer[2]!)}</p></div></details>`,
+        );
+        i = answerIndex;
+        continue;
+      }
     }
     if (line.startsWith('```')) {
       const kind = line.slice(3).trim();
@@ -533,7 +741,7 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
         ];
         const name = names[mermaid++] ?? `diagram-${mermaid}`;
         out.push(
-          `<figure class="diagram-card"><img class="session-diagram" src="${base}${lang}/shared/diagrams/PA-S002/${name}-${lang}.svg" alt="${lang === 'es' ? 'Diagrama de la sesión PA-S002' : 'PA-S002 session diagram'}" loading="lazy"><details><summary>${lang === 'es' ? 'Fuente Mermaid' : 'Mermaid source'}</summary><pre class="code"><code>${escapeHtml(code.join('\n'))}</code></pre></details></figure>`,
+          `<figure class="diagram-card"><img class="session-diagram" src="${base}${lang}/shared/diagrams/PA-S002/${name}-${lang}.svg" alt="${lang === 'es' ? 'Diagrama de la sesión PA-S002' : 'PA-S002 session diagram'}" loading="lazy"><details class="diagram-source"><summary><span class="diagram-source-label">${lang === 'es' ? 'Más información del diagrama' : 'More diagram information'}</span><strong>${lang === 'es' ? 'Ver fuente Mermaid y detalles técnicos' : 'View Mermaid source and technical details'}</strong></summary><p class="diagram-source-hint">${lang === 'es' ? 'Incluye el código Mermaid usado para generar esta visualización.' : 'Includes the Mermaid code used to generate this visualization.'}</p><pre class="code"><code>${escapeHtml(code.join('\n'))}</code></pre></details></figure>`,
         );
       } else {
         const content = code.join('\n');
@@ -575,30 +783,83 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
       const items: string[] = [];
       while (/^[-*] /.test(lines[i] ?? '')) items.push(lines[i++]!.slice(2));
       i--;
-      const laneDefinitions = laneDefinitionList(items);
+      const referenceEntries = items.map(referenceEntry);
+      if (referenceEntries.every(Boolean)) {
+        out.push(`<div class="reference-entries">${referenceEntries.join('')}</div>`);
+        continue;
+      }
+      const referenceList =
+        items.length > 0 && items.every((item) => /\[[^\]]+\]\(https?:\/\/[^)]+\)/.test(item));
+      if (referenceList) {
+        out.push(
+          `<ul class="reference-links">${items
+            .map((item) => {
+              const link = item.match(/^\[([^\]]+)\]\((https?:\/\/[^)]+)\)\.?$/);
+              return link
+                ? `<li><a href="${escapeHtml(link[2]!)}" rel="noreferrer">${inline(link[1]!)}</a></li>`
+                : `<li>${inline(item)}</li>`;
+            })
+            .join('')}</ul>`,
+        );
+        continue;
+      }
+      const laneDefinitions = laneDefinitionList(items, currentHeadingTag);
       if (laneDefinitions) {
         out.push(laneDefinitions);
         continue;
       }
-      const definitions = conceptList(items);
+      const definitions = conceptList(items, currentHeadingTag);
       if (definitions) {
         out.push(definitions);
         continue;
       }
       out.push(
-        `<ul>${items
+        `<ul class="canonical-unordered-list">${items
           .map((item) => {
             const tracked = item.match(/^\[ \] `(PA-S002:(?:exercise|mastery):\d+)` (.+)$/);
             if (tracked)
               return `<li class="canonical-study-item"><label><input type="checkbox" data-study-id="${tracked[1]}"><span>${inline(tracked[2]!)}</span></label></li>`;
             const localStudy = item.match(/^\[ \] (.+)$/);
             if (localStudy) {
+              if (activeSection === 'success-criteria') {
+                successStudy++;
+                return `<li class="canonical-study-item"><label><input type="checkbox" data-study-id="PA-S002:success:${String(successStudy).padStart(2, '0')}"><span>${inline(localStudy[1]!)}</span></label></li>`;
+              }
               study++;
               return `<li class="canonical-study-item"><label><input type="checkbox" data-study-id="PA-S002:review:${study}"><span>${inline(localStudy[1]!)}</span></label></li>`;
             }
-            return `<li>${inline(item)}</li>`;
+            return `<li><span class="unordered-list-content">${inline(item)}</span></li>`;
           })
           .join('')}</ul>`,
+      );
+      continue;
+    }
+    if (activeSection === 'study-cards' && /^\d+\. /.test(line)) {
+      const cards: Array<[string, string]> = [];
+      while (/^\d+\. /.test(lines[i] ?? '')) {
+        const question = lines[i++]!.replace(/^\d+\. /, '');
+        const answer: string[] = [];
+        while (i < lines.length) {
+          const next = lines[i]!;
+          if (!next.trim()) {
+            i++;
+            if (answer.length) break;
+            continue;
+          }
+          if (!/^\s{2,}/.test(next)) break;
+          answer.push(next.trim());
+          i++;
+        }
+        cards.push([question, answer.join(' ')]);
+      }
+      i--;
+      out.push(
+        `<div class="study-question-cards">${cards
+          .map(
+            ([question, answer]) =>
+              `<details class="study-retrieval"><summary>${inline(question)}</summary><div class="study-retrieval-answer"><p>${inline(answer)}</p></div></details>`,
+          )
+          .join('')}</div>`,
       );
       continue;
     }
@@ -606,8 +867,21 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
       const items: string[] = [];
       while (/^\d+\. /.test(lines[i] ?? '')) items.push(lines[i++]!.replace(/^\d+\. /, ''));
       i--;
+      if (activeSection === 'success-criteria') {
+        out.push(
+          `<ul class="success-study-list">${items
+            .map((item) => {
+              successStudy++;
+              return `<li class="canonical-study-item"><label><input type="checkbox" data-study-id="PA-S002:success:${String(successStudy).padStart(2, '0')}"><span>${inline(item)}</span></label></li>`;
+            })
+            .join('')}</ul>`,
+        );
+        continue;
+      }
       out.push(
-        `<ol class="canonical-ordered-list">${items.map((item) => `<li>${inline(item)}</li>`).join('')}</ol>`,
+        `<ol class="canonical-ordered-list">${items
+          .map((item) => `<li><span class="ordered-list-content">${inline(item)}</span></li>`)
+          .join('')}</ol>`,
       );
       continue;
     }
@@ -621,14 +895,18 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
       )
         throw new Error(`Invalid PA-S002 ${lang} synthesis`);
       out.push(
-        `<aside class="synthesis"><h2>${inline(group[0]!)}</h2><ol>${group
+        `<aside class="synthesis"><h3>${inline(group[0]!)}</h3><ol>${group
           .slice(1)
-          .map((item) => `<li>${inline(item.slice(3))}</li>`)
+          .map(
+            (item) =>
+              `<li><span class="numbered-card-content">${inline(item.slice(3))}</span></li>`,
+          )
           .join('')}</ol></aside>`,
       );
       continue;
     }
-    out.push(paragraph(line));
+    const rendered = paragraph(line, currentHeadingTag, conceptCallouts);
+    if (!appendConceptExplanation(out, rendered)) out.push(rendered);
   }
   if (reading) out.push('</div>');
   if (deep) out.push('</details>');
@@ -636,15 +914,24 @@ export function renderS002(source: string, lang: 'es' | 'en', base: string): str
     lang === 'es'
       ? 'Monorepo del Accelerator y estándares de ingeniería'
       : 'Accelerator Monorepo and Engineering Standards';
-  const objective = lines.findIndex((line) => /^## (?:1\. )?(?:Objetivo|Objective)$/.test(line));
+  const objective = lines.findIndex((line) =>
+    /^## (?:1\. )?(?:Objetivo|Objective|Aim)$/.test(line),
+  );
   const objectiveText = lines.slice(objective + 1).find((line) => Boolean(line.trim()));
   if (objective < 0 || !objectiveText) throw new Error(`Missing PA-S002 ${lang} objective`);
   const tocHtml = sessionToc(lang);
   const crumb = `<nav class="breadcrumb" aria-label="Breadcrumb"><a href="${base}${lang}/">Dashboard</a><span aria-hidden="true">/</span><a href="${base}${lang}/sessions/">${lang === 'es' ? 'Sesiones' : 'Sessions'}</a><span aria-hidden="true">/</span><span>PA-S002</span></nav>`;
+  const content = Object.entries(SESSION_SECTION_ORDER)
+    .sort(([, first], [, second]) => first - second)
+    .map(([id, ordinal]) => {
+      const displayTitle = sectionTitle(id, '', lang);
+      return `${sectionHeading(2, id, inline(displayTitle), lang, ordinal)}${sectionBodies.get(id)!.join('\n')}`;
+    })
+    .join('\n');
   return shell(
     lang,
     title,
-    `${crumb}<div class="page-intro"><p class="eyebrow">F0 / PA-S002</p><h1>${title}</h1><p class="lead">${inline(objectiveText)}</p></div><div class="layout">${tocHtml}<article class="canonical-theory">${placeTocFabsAtSectionEnds(out.join('\n'), lang)}</article></div>`,
+    `${crumb}<div class="page-intro"><h1>${title}</h1><p class="lead">${inline(objectiveText)}</p></div><div class="layout">${tocHtml}<article class="canonical-theory">${placeTocFabsAtSectionEnds(content, lang)}</article></div>`,
     base,
     `${lang === 'es' ? 'en' : 'es'}/sessions/PA-S002/`,
   );

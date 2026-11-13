@@ -1,0 +1,5 @@
+flowchart LR
+    Web["apps/booking-web"] --> Client["packages/booking-client"]
+    Web --> UI["packages/ui"]
+    Client --> Contracts["packages/booking-contracts"]
+    API["services/booking-api"] --> Contracts
