@@ -86,7 +86,6 @@ svg {
   justify-content: space-between;
   gap: 1rem;
   padding: 0.8rem max(1rem, calc((100vw - 90rem) / 2));
-  border-bottom: 1px solid var(--line);
   background: var(--surface);
 }
 .brand {
@@ -345,8 +344,16 @@ td,
 th {
   text-align: left;
   vertical-align: top;
-  border-bottom: 1px solid var(--line);
   padding: 0.7rem;
+}
+table thead th {
+  font-size: 36px;
+}
+table tbody tr:nth-child(even) {
+  background: var(--surface);
+}
+table tbody tr:nth-child(odd) {
+  background: color-mix(in srgb, var(--soft) 86%, var(--accent));
 }
 .code {
   max-width: 100%;
@@ -382,7 +389,6 @@ th {
 .checklist li,
 .study-list li {
   padding: 0.55rem 0;
-  border-bottom: 1px solid var(--line);
 }
 .study-list label {
   display: flex;
@@ -402,7 +408,6 @@ th {
 }
 .learning-studio {
   min-width: 0;
-  border-top: 2px solid var(--line);
   padding-top: 1rem;
 }
 .studio-intro {
@@ -506,7 +511,6 @@ th {
 .flashcard-answer {
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid var(--line);
 }
 .flashcard-prompt {
   font-size: 0.8rem;
@@ -526,7 +530,6 @@ footer {
   margin: 2rem auto 0;
   padding: 1rem;
   color: var(--muted);
-  border-top: 1px solid var(--line);
 }
 .portfolio main {
   width: min(100% - 2rem, 75rem);
@@ -625,7 +628,6 @@ footer {
 .canonical-theory h2 {
   margin: 2.5rem 0 0.85rem;
   padding-top: 1rem;
-  border-top: 1px solid var(--line);
 }
 .canonical-theory h3 {
   margin: 1.8rem 0 0.6rem;
@@ -640,8 +642,6 @@ footer {
 .canonical-theory .synthesis {
   margin: 1.4rem 0 2rem;
   padding: 0.25rem 0 1rem;
-  border-top: 2px solid var(--accent);
-  border-bottom: 1px solid var(--line);
 }
 .canonical-theory .synthesis h2 {
   margin: 0.7rem 0;
@@ -863,7 +863,6 @@ footer {
   padding: 0.45rem 0;
 }
 .chart-row + .chart-row {
-  border-top: 1px solid var(--line);
 }
 .chart-row label {
   grid-column: 1/-1;
@@ -1363,7 +1362,6 @@ html {
 .sidebar-foot {
   margin: auto 0.8rem 0;
   padding: 1rem 0.45rem;
-  border-top: 1px solid var(--line);
   color: var(--muted);
   font-size: 0.75rem;
 }
@@ -1451,7 +1449,6 @@ html {
 .retrieval-answer {
   margin-top: 0.7rem;
   padding-top: 0.55rem;
-  border-top: 1px solid var(--line);
 }
 .instructional-answer-label {
   color: var(--accent);
@@ -1602,7 +1599,6 @@ article section {
 .canonical-theory h2:not(.chapter-title) {
   margin: 3.5rem 0 1.1rem;
   padding-top: 1.2rem;
-  border-top: 2px solid var(--line);
 }
 .canonical-theory h3 {
   margin: 2.4rem 0 0.8rem;
@@ -1636,7 +1632,6 @@ article section {
 .concept-heading {
   margin: 3.2rem 0 1.2rem;
   padding: 0 0 0.9rem;
-  border-bottom: 1px solid var(--line);
 }
 .concept-heading .concept-id {
   display: block;
@@ -1732,7 +1727,6 @@ article section {
 .canonical-theory ul > li {
   padding: 0.45rem 0.7rem;
   margin: 0.4rem 0;
-  border-bottom: 1px solid var(--line);
 }
 .canonical-theory ol > li::marker {
   color: var(--accent);
@@ -1859,7 +1853,6 @@ article section {
 .canonical-theory .concept-heading {
   margin: 3.6rem 0 1.15rem;
   padding: 0 0 1rem;
-  border-bottom: 1px solid var(--line);
 }
 .canonical-theory .concept-eyebrow {
   font-size: 0.66rem;
@@ -2068,17 +2061,6 @@ details:not(.nav-group):not(.mobile-global)[open] > summary::after {
 .toc-fab:hover {
   background: var(--soft);
 }
-.canonical-theory .section-label {
-  margin: 2.2rem 0 0.7rem;
-  padding: 0;
-  border: 0;
-  color: var(--muted);
-  font-size: 0.82rem;
-  font-weight: 800;
-  letter-spacing: 0.11em;
-  line-height: 1.3;
-  text-transform: uppercase;
-}
 .canonical-theory ul:not(.studio-coverage) {
   margin: 1rem 0;
   padding: 0;
@@ -2087,7 +2069,6 @@ details:not(.nav-group):not(.mobile-global)[open] > summary::after {
 .canonical-theory ul:not(.studio-coverage) > li {
   margin: 0.35rem 0;
   padding: 0.25rem 0;
-  border-bottom: 1px solid var(--line);
 }
 .canonical-theory ul:not(.studio-coverage) > li::marker {
   content: '';
@@ -2095,7 +2076,6 @@ details:not(.nav-group):not(.mobile-global)[open] > summary::after {
 .canonical-theory > ul:not(.studio-coverage) > li:not(.canonical-study-item) {
   padding: 0.25rem 0;
   border: 0;
-  border-bottom: 1px solid var(--line);
   border-radius: 0;
   background: transparent;
 }
@@ -2268,6 +2248,7 @@ details:not(.nav-group):not(.mobile-global)[open] > summary::after {
   content: none !important;
 }
 .canonical-theory .reference-links > li::marker {
+  content: normal !important;
   color: var(--accent);
 }
 .canonical-theory .reference-links a::after {
@@ -2275,7 +2256,35 @@ details:not(.nav-group):not(.mobile-global)[open] > summary::after {
   font-size: 0.85em;
   text-decoration: none;
 }
-.canonical-theory :is(.concept-definition--paragraph, .statement-card) {
+.canonical-theory .reference-entries {
+  margin: 0.9rem 0;
+}
+.canonical-theory .reference-entry {
+  margin: 0 0 1.25rem;
+}
+.canonical-theory .reference-entry:last-child {
+  margin-bottom: 0;
+}
+.canonical-theory .reference-entry p {
+  margin: 0;
+}
+.canonical-theory .reference-entry-source {
+  color: var(--ink);
+  font-weight: 700;
+}
+.canonical-theory .reference-entry-link {
+  margin-top: 0.12rem !important;
+}
+.canonical-theory .reference-entry-link a::after {
+  content: ' ↗';
+  font-size: 0.85em;
+  text-decoration: none;
+}
+.canonical-theory .reference-entry-description {
+  margin-top: 0.12rem !important;
+}
+.canonical-theory
+  :is(.concept-definition--paragraph, .statement-card, .concept-list > .concept-definition) {
   max-width: none;
   margin: 1rem 0;
   padding: 1rem 1.15rem;
@@ -2313,7 +2322,10 @@ details:not(.nav-group):not(.mobile-global)[open] > summary::after {
   color: var(--accent);
   font-weight: 800;
 }
-.canonical-theory .reading-level h4 {
+.canonical-theory .concept-summary > p:not(.concept-summary-label) + p {
+  margin-top: 0.35rem;
+}
+.canonical-theory .reading-level :is(h4, h5) {
   font-size: calc(1.45rem + 6px);
 }
 /* Shared session hierarchy, independent from the source heading depth. */
@@ -2369,6 +2381,31 @@ ul {
   max-width: none;
   margin: 0;
 }
+/* Every standalone term/definition pair is a card, never a ruled list item. */
+.canonical-theory ul.concept-list > li.concept-definition {
+  display: block;
+  margin: 0;
+  padding: 1rem 1.15rem !important;
+  border: 1px solid var(--line) !important;
+  border-left: 3px solid var(--accent) !important;
+  border-radius: 0.8em !important;
+  background: var(--surface) !important;
+}
+/* Accent-boundary cards share the same fully rounded silhouette. */
+.canonical-theory
+  :is(
+    .concept-definition--paragraph,
+    .statement-card,
+    .concept-list > .concept-definition,
+    .canonical-ordered-list > li,
+    .reading-level,
+    .deep-dive,
+    .lab-feedback,
+    .flow-card
+  ),
+.reference-result {
+  border-radius: 0.8em !important;
+}
 .themed-mind-map {
   display: block;
   width: 100%;
@@ -2417,8 +2454,105 @@ ul {
   line-height: 1;
   letter-spacing: -0.04em;
 }
-.canonical-theory table th {
-  font-size: 24px;
+.canonical-theory .ordered-list-content {
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.canonical-theory .canonical-unordered-list {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: unordered-summary;
+}
+.canonical-theory .canonical-unordered-list > li:not(.canonical-study-item) {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  align-items: start;
+  gap: 1rem;
+  min-width: 0;
+  margin: 0;
+  padding: 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.8em;
+  background: var(--surface);
+  counter-increment: unordered-summary;
+}
+.canonical-theory .canonical-unordered-list > li:not(.canonical-study-item)::before {
+  content: counter(unordered-summary, decimal-leading-zero);
+  color: var(--accent);
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  line-height: 1.4;
+}
+.canonical-theory .unordered-list-content {
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+/* One visual system for every numbered instructional card. */
+.canonical-theory .canonical-ordered-list > li:not(.canonical-study-item),
+.canonical-theory .canonical-unordered-list > li:not(.canonical-study-item),
+.canonical-theory .synthesis li,
+.canonical-theory .s003-item {
+  display: grid;
+  grid-template-columns: 5rem minmax(0, 1fr);
+  align-items: start;
+  gap: 1rem;
+  min-width: 0;
+  min-height: 0;
+  margin: 0.65rem 0;
+  padding: 1.35rem 1.45rem;
+  border-block: 1px solid var(--line);
+  border-inline: 3px solid var(--accent);
+  border-radius: 0.8em;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1.7;
+}
+.canonical-theory .synthesis ol {
+  counter-reset: synthesis;
+}
+.canonical-theory .canonical-ordered-list > li:not(.canonical-study-item)::before,
+.canonical-theory .canonical-unordered-list > li:not(.canonical-study-item)::before,
+.canonical-theory .synthesis li::before,
+.canonical-theory .s003-item strong {
+  position: static;
+  align-self: start;
+  width: auto;
+  margin: 0;
+  transform: none;
+  color: var(--accent);
+  font-size: 36px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+/* Numbered lists use the same large, compact numeral hierarchy throughout. */
+.canonical-theory .canonical-ordered-list > li:not(.canonical-study-item),
+.canonical-theory .canonical-unordered-list > li:not(.canonical-study-item),
+.canonical-theory .synthesis li,
+.canonical-theory .s003-item {
+  grid-template-columns: 4.75rem minmax(0, 1fr);
+}
+.canonical-theory .canonical-ordered-list > li:not(.canonical-study-item)::before,
+.canonical-theory .canonical-unordered-list > li:not(.canonical-study-item)::before,
+.canonical-theory .synthesis li::before,
+.canonical-theory .s003-item strong {
+  font-size: 60px;
+  line-height: 0.95;
+}
+.canonical-theory
+  :is(.ordered-list-content, .unordered-list-content, .numbered-card-content, .s003-item span) {
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 @media (max-width: 640px) {
   .canonical-theory .canonical-ordered-list > li,
@@ -2433,6 +2567,29 @@ ul {
   .canonical-theory .canonical-ordered-list > li::before,
   .canonical-theory ol:not(.concept-list):not(.references):not(.studio-flow) > li::before {
     grid-column: 1;
+  }
+  .canonical-theory .canonical-unordered-list > li:not(.canonical-study-item) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+  .canonical-theory .canonical-unordered-list > li:not(.canonical-study-item)::before {
+    grid-column: 1;
+  }
+  .canonical-theory .canonical-ordered-list > li:not(.canonical-study-item),
+  .canonical-theory .canonical-unordered-list > li:not(.canonical-study-item),
+  .canonical-theory .synthesis li,
+  .canonical-theory .s003-item {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+    padding: 1.15rem;
+    font-size: 1.15rem;
+  }
+  .canonical-theory .canonical-ordered-list > li:not(.canonical-study-item)::before,
+  .canonical-theory .canonical-unordered-list > li:not(.canonical-study-item)::before,
+  .canonical-theory .synthesis li::before,
+  .canonical-theory .s003-item strong {
+    grid-column: 1;
+    font-size: 52px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -2618,7 +2775,6 @@ ul {
 .canonical-theory .mechanism-retrieval > p {
   margin: 0.85rem 0 0;
   padding-top: 0.85rem;
-  border-top: 1px solid var(--line);
   line-height: 1.65;
 }
 .canonical-theory .mechanism-diagram {
@@ -2683,6 +2839,262 @@ ul {
 }
 .canonical-theory .diagram-card .code code {
   color: inherit;
+}
+.canonical-theory .diagram-source {
+  margin: 0.85rem 0 0;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 0.8em;
+  background: var(--surface);
+  color: var(--ink);
+}
+.canonical-theory .diagram-source > summary {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto;
+  min-height: 3.6rem;
+  align-items: center;
+  column-gap: 0.7rem;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  list-style: none;
+}
+.canonical-theory .diagram-source > summary::-webkit-details-marker {
+  display: none;
+}
+.canonical-theory .diagram-source-label,
+.canonical-theory .diagram-source strong {
+  display: block;
+}
+.canonical-theory .diagram-source-label {
+  grid-column: 1;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.canonical-theory .diagram-source strong {
+  grid-column: 1;
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 760;
+  line-height: 1.35;
+}
+.canonical-theory .diagram-source > summary::after {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+.canonical-theory .diagram-source-hint {
+  margin: 0 1rem 0.85rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.canonical-theory .study-question-cards {
+  display: grid;
+  gap: 0.8rem;
+  margin: 1rem 0;
+}
+.canonical-theory .study-retrieval > summary {
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  padding: 0;
+  cursor: pointer;
+  list-style: none;
+}
+.canonical-theory .study-retrieval > summary::-webkit-details-marker {
+  display: none;
+}
+.canonical-theory .study-retrieval > summary strong {
+  line-height: 1.35;
+}
+.canonical-theory .study-retrieval-answer {
+  margin-top: 0.7rem;
+}
+.canonical-theory .study-retrieval-answer > p {
+  margin: 0;
+}
+/* Flashcard state is visible without adding text to the question. */
+.learning-studio .flashcard button[data-flash-flip] {
+  position: relative;
+  padding-inline-end: 3.5rem;
+}
+.learning-studio .flashcard button[data-flash-flip]::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  background: var(--accent);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.25'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.25'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  transition: transform 0.15s ease;
+}
+.learning-studio .flashcard button[data-flash-flip][aria-pressed='false']::after {
+  transform: translateY(-50%);
+}
+.learning-studio .flashcard button[data-flash-flip][aria-pressed='true']::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+/* One visual system for content cards that do not carry a sequence number. */
+.canonical-theory
+  :is(
+    .concept-definition--paragraph,
+    .statement-card,
+    .concept-list > .concept-definition,
+    .reading-level,
+    .deep-dive,
+    .lab-feedback,
+    .flow-card,
+    .instructional-block,
+    .concept-disclosure,
+    .mechanism-retrieval,
+    .study-retrieval
+  ),
+.reference-result {
+  max-width: none;
+  margin: 1rem 0;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 0.8em;
+  background: var(--surface);
+  box-shadow: none;
+  color: var(--ink);
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: 1.68;
+}
+.canonical-theory
+  :is(
+    .concept-definition--paragraph,
+    .statement-card,
+    .concept-list > .concept-definition,
+    .reading-level,
+    .lab-feedback,
+    .reference-result
+  )
+  > :is(h3, h4, h5, h6),
+.reference-result > :is(h3, h4, h5, h6) {
+  margin: 0 0 0.35rem;
+  font-size: calc(1.12rem + 6px);
+  line-height: 1.28;
+}
+.canonical-theory
+  :is(
+    .concept-definition--paragraph,
+    .statement-card,
+    .concept-list > .concept-definition,
+    .reading-level,
+    .lab-feedback,
+    .flow-card,
+    .instructional-block,
+    .mechanism-retrieval
+  )
+  > p,
+.reference-result > p {
+  max-width: none;
+  margin: 0;
+}
+.canonical-theory
+  :is(
+    .concept-definition--paragraph,
+    .statement-card,
+    .concept-list > .concept-definition,
+    .reading-level,
+    .lab-feedback,
+    .flow-card,
+    .instructional-block,
+    .mechanism-retrieval
+  )
+  > p
+  + p,
+.reference-result > p + p {
+  margin-top: 0.35rem;
+}
+/* Retrieval questions reserve a full text column; the control stays at the far edge. */
+.canonical-theory .instructional-retrieval > summary {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 1rem;
+  grid-template-rows: auto auto;
+  max-width: none;
+  width: 100%;
+  align-items: center;
+  column-gap: 1rem;
+  row-gap: 0.35rem;
+}
+.canonical-theory .instructional-retrieval > summary > .instructional-label {
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0;
+}
+.canonical-theory .instructional-retrieval > summary > strong {
+  grid-column: 1;
+  grid-row: 2;
+}
+.canonical-theory .instructional-retrieval > summary::after {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  justify-self: end;
+}
+/* Outcomes turn long exercise feedback into scan-friendly, semantic callouts. */
+.canonical-theory .instructional-outcome {
+  --outcome-accent: var(--accent);
+  display: grid;
+  gap: 0.8rem;
+  margin: 1.15rem 0;
+  padding: 1.8rem 1.7rem;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--outcome-accent);
+  border-radius: 0.8em;
+  color: var(--ink);
+}
+.canonical-theory .instructional-outcome--deliverable {
+  --outcome-accent: var(--focus);
+}
+.canonical-theory .instructional-outcome-label {
+  margin: 0;
+  color: var(--outcome-accent);
+  font-size: 48px;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+.canonical-theory .instructional-outcome > p:not(.instructional-outcome-label) {
+  max-width: none;
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.7;
+}
+.canonical-theory .instructional-outcome > p:not(.instructional-outcome-label) code {
+  color: var(--accent);
+}
+.canonical-theory .instructional-outcome .reference-links {
+  margin: 0.25rem 0 0;
+}
+@media (max-width: 40rem) {
+  .canonical-theory
+    :is(
+      .concept-definition--paragraph,
+      .statement-card,
+      .concept-list > .concept-definition,
+      .reading-level,
+      .deep-dive,
+      .lab-feedback,
+      .flow-card,
+      .instructional-block,
+      .concept-disclosure,
+      .mechanism-retrieval,
+      .study-retrieval
+    ),
+  .reference-result {
+    padding: 0.9rem 1rem;
+  }
 }
 @media (max-width: 40rem) {
   .canonical-theory .instructional-heading {
