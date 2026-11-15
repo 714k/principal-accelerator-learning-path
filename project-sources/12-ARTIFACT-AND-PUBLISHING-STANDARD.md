@@ -1,4 +1,4 @@
-# Artefactos y publicación — v10
+# Artefactos y publicación — v11
 
 ## Regla de integridad
 
@@ -6,7 +6,7 @@ La fase editorial genera bloques revisados por el usuario, no un build automáti
 
 ## Jerarquía y presentación
 
-Un único H1 visible por idioma; breadcrumb y código de sesión en metadatos; subtítulos naturales. Los IDs semánticos del esquema sirven para citas, anclas, seguimiento e integridad, pero **jamás aparecen ante el lector** como prefijos, códigos con puntos o rótulos de concepto. «Aplicación: ...» es una definición visible válida; «Aplicación (scope.application)» no lo es. No imprimir «Nivel 1 — Fundamento», «Nivel 2 — Mecanismo» ni otras capas. La diferenciación entre L1–L5 queda exclusivamente en progreso/mastery.
+Un único H1 visible por idioma; breadcrumb y código de sesión en metadatos; subtítulos naturales. Los IDs semánticos del esquema sirven para citas, anclas, seguimiento e integridad, pero **jamás aparecen ante el lector** como prefijos, códigos con puntos o rótulos de concepto. Aplicación: ... es una definición visible válida; `Aplicación (scope.application)` no lo es. No imprimir «Nivel 1 — Fundamento», «Nivel 2 — Mecanismo» ni otras capas. La diferenciación entre L1–L5 queda exclusivamente en progreso/mastery.
 
 ## Secciones obligatorias
 
@@ -41,3 +41,15 @@ Por sesión: teoría canónica bilingüe aprobada, páginas publicadas, artefact
 ## Publicación y reporte
 
 Verificar `git diff`, tests ejecutados, build, HTML ES/EN, cobertura atómica, accesibilidad relevante, Mermaid→SVG, flashcards, controles de UI, tests de regresión de sesiones anteriores y Storybook cuando corresponda. Reportar salida observada y límites, no afirmar resultados no ejecutados. Registrar diferencias entre texto aprobado y render, y detener si se modifican hechos o desaparecen mecanismos.
+
+## v11 — Contrato semántico de la página educativa
+
+Publicar encabezado de contexto **una sola vez**: `Fase 0 · PA-S002` para la sesión de referencia, y de manera equivalente `Fase N · PA-Sxxx` en otras. El nombre de fase se escribe completo; el único H1 es el título académico. Breadcrumb puede contener una referencia de navegación corta, sin duplicar la leyenda compuesta. Ninguna «comilla angular» envuelve definiciones.
+
+- **Vista previa:** recorrido conceptual **vertical**, secciones distintas para Staff→Principal, FPA y AIPE cuando realmente aplican. Términos en formato visible `Concepto: definición`; ejemplo concreto dentro de su `dd`/bloque semántico.
+- **Capítulo Tema principal y cada Subtema:** `section` con `aria-labelledby` y ancla propia; síntesis propia de tres ideas (p. ej. `ol`); `Conceptos del tema principal` o `Conceptos del subtema N` con `dl/dt/dd`; desarrollo técnico; figura Mermaid→SVG accesible propia, junto a prosa explicativa; ejemplo, ejercicio/solución, preguntas/flashcards locales, Studio local, recursos con URLs verificadas y `Comprueba lo aprendido` con respuestas. El Visual Learning Studio integral sigue teniendo mapa mental y tarjetas con cobertura de la sesión completa.
+- **Semántica HTML:** `p` párrafos, `ol/li` secuencias, `ul/li` colecciones, `strong` énfasis, `em` matiz, `figure/figcaption` visual, `pre/code` código, `fieldset/legend` grupos de preguntas, `table/caption/th[scope]` si hay datos comparables. Jamás `p` repetidos para simular pasos ni `br` como viñeta.
+- **Enlaces:** mostrar rótulos legibles, `a[href="#subtopic-7"]` solo si existe un `id="subtopic-7"`, IDs sin duplicados; resolver rutas internas con `BASE_PATH` y probar anchors de URL directa. Enlaces externos a recursos concretos, con dominio oficial y lectura útil (no URL falsa o decorativa).
+- **Visuales:** además de los diagramas obligatorios por capítulo, usar contraste, dependencias, secuencia, estado, predict/reveal, ejemplo trabajado, matriz de decisión, errores guiados o simulación honesta según el concepto. Cada interacción debe tener una finalidad didáctica, feedback y alternativa accesible/no-JS.
+
+**Publicación fiel:** si falta contenido canónico en un capítulo, no inventarlo en el renderer. Marcar `MISSING_LOCAL_CHAPTER_COVERAGE` en auditoría editorial y devolverlo a revisión. Si un cambio de estructura altera teoría aprobada, pedir reconfirmación. ES/EN equivalente y sin cambios encubiertos de lógica de negocio.

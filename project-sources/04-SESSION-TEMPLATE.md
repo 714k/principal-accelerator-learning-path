@@ -1,4 +1,4 @@
-# Plantilla editorial y de estudio — PA-Sxxx (v10)
+# Plantilla editorial y de estudio — PA-Sxxx (v11)
 
 ## Activación — Etapa 0
 
@@ -10,7 +10,7 @@ En un mensaje que contenga únicamente PA-Sxxx, presentar **una planificación r
 
 ```markdown
 <!-- session_id, section_id, concept_id, source_refs y tracking_id son metadatos no visibles -->
-F0 · PA-S001 · Staff → Principal / FPA / AIPE
+Fase 0 · PA-S001 · Staff → Principal / FPA / AIPE
 # Fundamentos de ingeniería de software: arquitectura, plataforma y alcance Staff → Principal
 
 Analizar las decisiones de arquitectura y sus consecuencias en sistemas reales.
@@ -55,3 +55,30 @@ La descripción debajo del H1 no es otro título. No añadir marcadores vacíos 
 ## Estado editorial y bloqueos
 
 `PENDIENTE → EN REVISIÓN → APROBADO (usuario) → CONSOLIDADO ES → EN VALIDADO → PUBLICADO (si Codex ejecutó)`. Cada transición exige la evidencia que indica; generar teoría no autoriza aceptar ni publicar. Mantener historial de correcciones; si un cambio afecta material aprobado, solicitar reconfirmación para esa parte y sincronizar EN. El avance entre sesiones nunca se bloquea por estado previo.
+
+## v11 — Plantilla obligatoria de capítulo autosuficiente (Tema principal y cada Subtema)
+
+Conservar el orden de secciones de la sesión. Dentro de **cada** capítulo desarrollado, usar este contrato, sin reemplazar el aprendizaje profundo por una rejilla de tarjetas:
+
+1. Título natural `Tema principal: ...` o `Subtema N: ...` (H2/H3 según jerarquía, nunca H1 adicional).
+2. `Síntesis en 30 segundos`: **tres ideas propias de ese capítulo**, no las tres de la sesión repetidas.
+3. Objetivo propio del capítulo y conocimientos necesarios, solo cuando aporten.
+4. `Conceptos del tema principal` o `Conceptos del subtema N`: cada concepto aparece como `Nombre: definición`, más **ejemplo propio inequívoco** que muestra ese concepto en un sistema externo concreto; diferenciarlos entre Staff→Principal, FPA y AIPE cuando sean pertinentes sin mezclarlos en una lista horizontal.
+5. Teoría desarrollada: componentes, entradas, estados, contratos, mecanismos, respuestas y excepciones, alternativas y trade-offs, con explicaciones secuenciales y código cuando corresponda.
+6. **Al menos un diagrama propio, técnico, explicado y situado junto al mecanismo de ese capítulo**, escrito en Mermaid fuente y publicado como SVG responsive accesible; diagramas adicionales para mecanismos complejos. No sustituirlo con el mapa general.
+7. Ejemplo resuelto en un dominio externo, consecuencias de producción y verificación.
+8. `Ejercicios del tema principal` o `Ejercicios del subtema N`: una o más actividades pertinentes con solución/criterio y alternativa incorrecta explicada.
+9. `Tarjetas de estudio del tema principal` o `Tarjetas de estudio del subtema N`: preguntas que exijan recordar/decidir, respuesta y explicación (sin inventar respuestas de otras secciones).
+10. `Visual Learning Studio del tema principal` o `Visual Learning Studio del subtema N`: además del diagrama, un recurso adaptativo pertinente (contraste, mapa de dependencias, predecir/revelar, ejemplo trabajado con guía decreciente, explorador de errores, matriz decisional o simulación fiel). Interactividad solo si hay un mecanismo comprobable y alternativa sin JS.
+11. `Recursos del tema principal` o `Recursos del subtema N`: enlaces específicos de esa sección, texto descriptivo, y justificación de lectura. Mantener también bibliografía general curada de la sesión.
+12. `Comprueba lo aprendido`: pregunta(s) propias del bloque con respuesta(s) razonadas. No usar `Recuperación` como título visible.
+
+**No fijar la cantidad de conceptos, tarjetas, ejercicios o diagramas más allá del mínimo de un diagrama por capítulo y la síntesis de tres ideas**. La profundidad de cada mecanismo y la selección visual dependen del tema. No mostrar el contenido global de toda la sesión si el usuario pidió un capítulo.
+
+### Ejemplo de escritura visible (sin IDs ni comillas angulares)
+
+**Ownership:** responsabilidad identificable de mantener y revisar un componente. **Ejemplo:** el equipo responsable de una API pública revisa un cambio de campo antes de publicarlo porque tres clientes dependen de él.
+
+**Excepción documentada:** permiso acotado para no cumplir temporalmente una regla general, con causa, responsable y revisión. **Ejemplo:** un consumidor heredado conserva un import interno durante una migración registrada y con fecha de revisión.
+
+El primer ejemplo enseña *responsabilidad* y el segundo enseña *excepción*; no intercambiar ejemplos o repetir una misma descripción para todos los conceptos.

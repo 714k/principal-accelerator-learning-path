@@ -1,4 +1,7 @@
-# Principal Accelerator Learning Path — Sources v10
+# Principal Accelerator Learning Path — Sources v11
+
+**Edición vigente: v11, 14 de noviembre de 2026.** Contrato de Learning Site basado exclusivamente en el feedback del usuario y la revisión de la fuente española y el renderizador de PA-S002. **Source 16 v11 prevalece** para el formato visible y la aprobación. Sin cambio de roadmap, apps, teoría aprobada, porcentajes de dominio ni código de producción. El identificador de fase se ve una sola vez como **Fase 0 · PA-S002**, no `F0 · PA-S002` repetido. Los contenidos académicos no imprimen IDs de máquina.
+
 
 **Edición consolidada:** 31 de octubre de 2026. **Estado:** paquete documental preparado para instalar; no representa cambios en Git, aprendizaje acreditado ni publicación efectuada.
 
@@ -25,7 +28,7 @@ Formar al estudiante desde Staff hacia Principal Software Engineering, Frontend 
 - **Capítulos completos**: definiciones → mecanismo concreto con actores, datos, estados y contratos → consecuencias → fallos/alternativas → comprobación → recuperación con respuesta explicativa; no eslóganes ni párrafos vacíos.
 - **Ejemplos externos** para la enseñanza: documentos oficiales de empresas reales (Netflix, Google, Stripe, Cloudflare, etc.) o investigaciones verificadas, atribuyendo solo lo demostrado. Nuestro Accelerator se utiliza como transferencia práctica, nunca como autoridad académica.
 - **Ejemplo production-ready**: sistema de referencia externo reproducible; llamarlo *diseño no verificado* mientras no existan código, pruebas y ejecución acreditada.
-- **No imprimir «Nivel 1/2/3» como etiquetas didácticas**. Niveles L1–L5 sí aparecen únicamente como modelo de competencia/evidencia.
+- **No imprimir `Nivel 1/2/3` como etiquetas didácticas**. Niveles L1–L5 sí aparecen únicamente como modelo de competencia/evidencia.
 - **Aprobación por bloques** y preservación exacta del contenido ya aceptado; traducción EN sin compresión; Codex no reescribe teoría.
 - **Aplicación ejecutable y sitio teórico son entregables diferentes**. PA-S004 debe contener Design System + Storybook funcional; PA-S039 lo evoluciona. No imponer números fijos de componentes.
 - **Piloto PA-S001–PA-S005:** conservar capacidades antes de extraer plantilla común para PA-S006–PA-S120; contratos universales, representaciones pedagógicas variables.
@@ -40,9 +43,9 @@ Formar al estudiante desde Staff hacia Principal Software Engineering, Frontend 
 - `CODEX-SESSION-MASTER-PROMPT.md`: contrato para preparar un handoff bajo petición explícita, no prompt prellenado.
 - `SESSION-APP-TARGETS-120.csv`: mapa planificado de aplicaciones por sesión; consultar Git para confirmar estado real.
 - `SESSION-OUTPUTS-120.md`: entregables orientativos por sesión; no evidencia de implementación.
-- `EXAMPLE-PA-S001-INVENTORY.md`: muestra de la etapa editorial 0, **no teoría final aprobada**.
-- `PA-S001-QUALITY-REFERENCE.md`: ejemplo de redacción y control de calidad; **no sustituye la teoría íntegra**.
+- `PA-S002-INVENTORY-REFERENCE.md`: muestra v11 de la etapa editorial 0, **no teoría final aprobada**.
+- `PA-S002-SUBTOPIC-7-STRUCTURE-REFERENCE.md` y `PA-S002-SEMANTIC-HTML-REFERENCE.html`: ejemplos de escritura y marcado semántico **no aprobados ni publicados**.
 - `VERIFY-V10.py` y `CURRENT-VERIFICATION.md`: auditoría estructural y límites.
 - `INSTALL-REPLACE-ALL.md`: reemplazo de la versión previa.
 
-**Precedencia sobre documentos históricos:** se eliminan los disparadores contradictorios de handoff inmediato, las instrucciones de entrega total de teoría sin aprobación y las etiquetas didácticas «Nivel 1/2/3». El usuario puede pedir explícitamente una muestra completa no aprobada; ello no altera el estado editorial.
+**Precedencia sobre documentos históricos:** se eliminan los disparadores contradictorios de handoff inmediato, las instrucciones de entrega total de teoría sin aprobación y las etiquetas didácticas `Nivel 1/2/3`. El usuario puede pedir explícitamente una muestra completa no aprobada; ello no altera el estado editorial.

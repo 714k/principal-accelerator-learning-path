@@ -1,4 +1,4 @@
-# Codex — límites, handoff y verificación (v10)
+# Codex — límites, handoff y verificación (v11)
 
 ## Cuándo se autoriza
 
@@ -41,3 +41,11 @@ Cada sesión selecciona modo Scaffold, Pair o Build contextual. Scripts `.sh` so
 ## Errores que detienen publicación
 
 `MISSING_CANONICAL_THEORY_PAYLOAD`; `MISSING_ATOMIC_CONCEPT_COVERAGE`; `MISSING_SESSION_APP_TARGET`. Un borrador sin aprobación o versión EN semánticamente incompleta no puede publicarse como canónico.
+
+## v11 — Handoff limitado a la presentación de teoría en Learning Site
+
+Si el usuario solicita aplicar el nuevo formato a una página existente, Codex primero inventaría el HTML, Markdown canónico y renderer real de la sesión solicitada; no inspecciona otras sesiones cuando la revisión está explícitamente limitada a PA-S002. Presenta propuesta de cambios a contenido aprobado y mantiene su integridad. `PUBLISH VERBATIM SEMANTICS; DO NOT REAUTHOR THEORY.` `DO NOT CHANGE APPLICATION CODE LOGIC FOR PRESENTATION.`
+
+El renderizador deja de depender de comillas angulares para reconocer definiciones: utilizar un esquema/AST explícito cuando exista, o un parser con pruebas sobre `Nombre: definición` y ejemplos asociados; nunca publicar `« »` como envoltorio editorial. Renderiza `dl/dt/dd` (o estructura semántica equivalente) con término+definición+ejemplo. Las frases de introducción deben ser `<p>`, los pasos `<ol><li>`, colecciones `<ul><li>`; no usar saltos para imitar listas. `Fase N · PA-Sxxx` aparece una sola vez como metadato visible, no en hero, breadcrumb y tarjetas simultáneamente. H1 único por idioma. Previsualización vertical y tres carriles profesionales separados.
+
+Cada capítulo principal/subtema recibe tres ideas locales de síntesis, objetivo, `Conceptos del ...`, ejemplo realista de cada concepto, diagrama Mermaid fuente/figura SVG contextual, ejercicios resueltos, tarjetas, Studio local con técnica adaptativa y recursos verificables. Preservar Studio global y cobertura ES/EN. Construir anchors con IDs estables y validar cada `href="#..."` contra destino real, incluido `#subtopic-7`; verificar base path. Las pruebas DOM/HTML no sustituyen una inspección visual de teléfono, tableta y escritorio ni la comprobación pedagógica.

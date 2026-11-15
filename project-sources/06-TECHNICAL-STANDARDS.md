@@ -317,3 +317,13 @@ The canonical site check should fail when practical if:
 
 ## v10 — Revisión del output visible
 Los identificadores estables de concepto/estado se almacenan en metadatos y anclas no visibles. El HTML no presenta prefijos de IDs o rótulos de niveles de lectura. Las pruebas de accesibilidad también comprueban que los controles son operables y el contenido completo se lee sin JS. Mantener separación entre estructura técnica y títulos de aprendizaje.
+
+## v11 — Marcado semántico y navegación de contenido del Learning Site
+
+El autor entrega contenido estructurado y Codex/renderer produce HTML semántico. Usar `main`, `article`, `section`, encabezados jerárquicos `h1`–`h4`, `p` para párrafos, `ol > li` para pasos ordenados, `ul > li` para colecciones sin orden, `dl > dt + dd` para conceptos con definición y ejemplo (cada elemento visible muestra `Nombre: definición`), `strong` para énfasis, `em` para matiz, `span` solo para texto breve de interfaz, `figure/figcaption` para diagramas, `pre/code` para código, `table` con `caption`, `thead`, `th[scope]` y `tbody` cuando hay datos tabulares, y `fieldset/legend` para preguntas/controles relacionados. No simular listas con `p` más saltos, ni usar `div` en lugar de semántica disponible, ni `br` como separador editorial.
+
+**Un solo H1.** Una sola leyenda completa `Fase N · PA-Sxxx`, sin `F0 · PA-Sxxx` duplicado en subtítulos, tarjetas o TOC. Mostrar `Fase 0` en lugar de `F0` cuando se trata de una etiqueta visible. Los ids técnicos estables se conservan en metadatos/DOM no visible, nunca como títulos académicos.
+
+Capítulos `main-topic` y `subtopic-N`: encabezado semántico, resumen local de 3 ideas, objetivo, `Conceptos del tema principal`/`Conceptos del subtema N`, ejemplos por concepto, al menos un `figure` con SVG contextual + `figcaption`, ejercicio con solución y feedback, tarjetas locales accesibles, Studio local y recursos de la sección. El Studio de sesión se conserva adicionalmente y no reemplaza estos elementos. Diseñar navegación de conceptos en **flujo vertical** en todos los breakpoints; no tabla/carrusel horizontal.
+
+Enlaces internos `a[href="#slug"]` con destinos `id="slug"` presentes, únicos y estables; utilizar nombres legibles, no URL raw como texto de enlace. Links externos HTTPS con URL confirmada, y enlaces de recursos de lecturas reales. Respetar `BASE_PATH` de GitHub Pages para rutas internas. Comprobar hash links y fragmentos desde páginas publicadas ES/EN, incluyendo apertura directa a `#subtopic-7`; comprobar teclado, foco, reducido movimiento y no-JS.

@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Monorepos y estándares de ingeniería — muestra semántica</title>
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Ruta de navegación">
+        <ol>
+          <li><a href="../../index.html">Sesiones</a></li>
+          <li><a href="#subtopic-7">Subtema 7</a></li>
+        </ol>
+      </nav>
+      <p class="session-context">Fase 0 · PA-S002</p>
+    </header>
+    <main id="main">
+      <article aria-labelledby="session-title">
+        <h1 id="session-title">
+          Monorepos y estándares de ingeniería: organizar código, dependencias y calidad
+        </h1>
+        <nav aria-label="Contenido de esta muestra">
+          <ol>
+            <li><a href="#preview-concepts">Recorrido de conceptos</a></li>
+            <li><a href="#subtopic-7">Subtema 7: Ownership y evolución de estándares</a></li>
+            <li><a href="#subtopic-7-resources">Recursos del subtema 7</a></li>
+          </ol>
+        </nav>
+        <section aria-labelledby="preview-concepts" id="preview-concepts">
+          <h2>Recorrido de conceptos</h2>
+          <div class="concept-journey" style="display: flex; flex-direction: column; gap: 1rem">
+            <section aria-label="Staff a Principal">
+              <h3>Staff → Principal</h3>
+              <p>
+                <strong>Ownership:</strong> responsabilidad explícita sobre un componente. Por
+                ejemplo, el equipo de biblioteca UI revisa los cambios de su API pública.
+              </p>
+            </section>
+            <section aria-label="Arquitectura de Plataforma Frontend">
+              <h3>Arquitectura de Plataforma Frontend</h3>
+              <p>
+                <strong>Contrato público:</strong> operaciones y comportamientos admitidos. Por
+                ejemplo, una aplicación importa un botón desde la entrada oficial del paquete.
+              </p>
+            </section>
+            <section aria-label="Ingeniería de Producto con IA">
+              <h3>Ingeniería de Producto con IA</h3>
+              <p>
+                <strong>Evaluación:</strong> comprobación del comportamiento de una función de IA.
+                Por ejemplo, comparar resúmenes de documentos con casos de referencia autorizados.
+              </p>
+            </section>
+          </div>
+        </section>
+        <section id="subtopic-7" aria-labelledby="subtopic-7-title">
+          <h2 id="subtopic-7-title">Subtema 7. Ownership y evolución de estándares</h2>
+          <section aria-labelledby="subtopic-7-synthesis">
+            <h3 id="subtopic-7-synthesis">Síntesis en 30 segundos</h3>
+            <ol>
+              <li>Ownership identifica quién mantiene el contrato.</li>
+              <li>Una excepción necesita alcance, responsable y revisión.</li>
+              <li>Una migración protege los consumidores durante un cambio.</li>
+            </ol>
+          </section>
+          <p>
+            El objetivo es reconocer propietarios, gestionar excepciones y justificar el orden de
+            una migración.
+          </p>
+          <section aria-labelledby="subtopic-7-concepts">
+            <h3 id="subtopic-7-concepts">Conceptos del subtema 7</h3>
+            <dl>
+              <dt><strong>Ownership:</strong></dt>
+              <dd>
+                <p>Responsabilidad identificable de mantener y revisar un componente.</p>
+                <p>
+                  <strong>Ejemplo:</strong> el equipo que publica una biblioteca revisa cambios que
+                  afectan a sus tres consumidores.
+                </p>
+              </dd>
+              <dt><strong>Excepción documentada:</strong></dt>
+              <dd>
+                <p>Desviación acotada y revisable de una regla general.</p>
+                <p>
+                  <strong>Ejemplo:</strong> una aplicación antigua mantiene un import privado con
+                  fecha de revisión y responsable.
+                </p>
+              </dd>
+              <dt><strong>Migración:</strong></dt>
+              <dd>
+                <p>Transición planificada de productores y consumidores.</p>
+                <p>
+                  <strong>Ejemplo:</strong> un paquete ofrece exports públicos antes de bloquear los
+                  imports internos.
+                </p>
+              </dd>
+              <dt><strong>Decisión de arquitectura:</strong></dt>
+              <dd>
+                <p>Selección documentada de alternativa, contexto y consecuencias.</p>
+                <p>
+                  <strong>Ejemplo:</strong> el equipo aprueba exigir imports públicos y registra el
+                  coste de migrar consumidores.
+                </p>
+              </dd>
+            </dl>
+          </section>
+          <section aria-labelledby="subtopic-7-mechanism">
+            <h3 id="subtopic-7-mechanism">Cómo funciona la migración</h3>
+            <p>
+              Primero se detectan importaciones internas. Después la biblioteca ofrece exports
+              compatibles, los consumidores migran y el gate empieza a rechazar nuevos accesos
+              internos.
+            </p>
+            <ol>
+              <li>Inventariar consumidores afectados.</li>
+              <li>Publicar un contrato de entrada compatible.</li>
+              <li>Migrar consumidores y comprobar comportamiento.</li>
+              <li>Activar el gate y acotar excepciones existentes.</li>
+            </ol>
+            <figure id="subtopic-7-diagram">
+              <svg
+                role="img"
+                aria-labelledby="svg-title svg-desc"
+                viewBox="0 0 600 120"
+                style="width: 100%; height: auto"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <title id="svg-title">Relación entre biblioteca y consumidores</title>
+                <desc id="svg-desc">
+                  La biblioteca ofrece una API pública a dos aplicaciones; el responsable gobierna
+                  el contrato y el gate.
+                </desc>
+                <rect x="8" y="30" width="180" height="52" rx="7" fill="#e8f3f7" stroke="#26708e" />
+                <text x="22" y="60" fill="#123b4c">Biblioteca API pública</text>
+                <path d="M190 42 H320 M190 70 H320" stroke="#26708e" stroke-width="2" />
+                <rect
+                  x="320"
+                  y="16"
+                  width="240"
+                  height="36"
+                  rx="7"
+                  fill="#eef4ee"
+                  stroke="#658b65"
+                />
+                <text x="334" y="40" fill="#234023">Aplicación de ventas</text>
+                <rect
+                  x="320"
+                  y="64"
+                  width="240"
+                  height="36"
+                  rx="7"
+                  fill="#eef4ee"
+                  stroke="#658b65"
+                />
+                <text x="334" y="88" fill="#234023">Aplicación de soporte</text>
+              </svg>
+              <figcaption>
+                Diagrama didáctico de consumidor y contrato; no representa el grafo real del
+                repositorio.
+              </figcaption>
+            </figure>
+            <p>
+              El esquema muestra las dependencias permitidas: los consumidores se conectan mediante
+              la API pública, no por archivos internos.
+            </p>
+          </section>
+          <section aria-labelledby="subtopic-7-exercise">
+            <h3 id="subtopic-7-exercise">Ejercicio del subtema 7</h3>
+            <p>
+              Una aplicación heredada no puede migrar este mes. Define una excepción verificable.
+            </p>
+            <details>
+              <summary>Mostrar solución razonada</summary>
+              <p>
+                Registrar alcance exacto del import, motivo, responsable, fecha de revisión y gate
+                que rechaza otras excepciones nuevas.
+              </p>
+            </details>
+          </section>
+          <section aria-labelledby="subtopic-7-cards">
+            <h3 id="subtopic-7-cards">Tarjetas de estudio del subtema 7</h3>
+            <details>
+              <summary>¿En qué se diferencia ownership de una excepción?</summary>
+              <p>
+                Ownership asigna responsabilidad; una excepción autoriza temporalmente un desvío con
+                límites y revisión.
+              </p>
+            </details>
+          </section>
+          <section aria-labelledby="subtopic-7-studio">
+            <h3 id="subtopic-7-studio">Visual Learning Studio del subtema 7</h3>
+            <p>
+              <strong>Predice:</strong> ¿qué ocurre si el gate se activa antes de publicar exports
+              públicos?
+            </p>
+            <details>
+              <summary>Revelar mecanismo y respuesta</summary>
+              <p>
+                Los consumidores aún dependientes de rutas antiguas pueden fallar. Primero se
+                habilita el contrato nuevo y se coordina la migración; después se activa el gate.
+              </p>
+            </details>
+          </section>
+          <section aria-labelledby="subtopic-7-resources" id="subtopic-7-resources">
+            <h3>Recursos del subtema 7</h3>
+            <ul>
+              <li>
+                <a
+                  href="https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners"
+                  >GitHub: propietarios de código</a
+                >
+                — revisar alcance y límites de CODEOWNERS.
+              </li>
+              <li>
+                <a href="https://docs.npmjs.com/cli/v11/configuring-npm/package-json#exports"
+                  >npm: entradas públicas de un paquete</a
+                >
+                — estudiar cómo definir exports.
+              </li>
+            </ul>
+          </section>
+          <section aria-labelledby="subtopic-7-check">
+            <h3 id="subtopic-7-check">Comprueba lo aprendido</h3>
+            <p>¿Por qué una política de imports no demuestra por sí sola la migración?</p>
+            <p>
+              <strong>Respuesta:</strong> la política puede estar escrita sin que todos los
+              consumidores utilicen la API pública; deben inspeccionarse imports y ejecutar pruebas.
+            </p>
+            <fieldset>
+              <legend>Revisión de comprensión</legend>
+              <label><input type="checkbox" /> He revisado las alternativas de migración</label>
+            </fieldset>
+          </section>
+        </section>
+      </article>
+    </main>
+  </body>
+</html>
