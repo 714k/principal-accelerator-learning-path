@@ -1,4 +1,4 @@
-# Auditoría de aceptación — v11
+# Auditoría de aceptación — v12
 
 ## 0. Enrutamiento y flujo editorial
 
@@ -36,7 +36,7 @@
 ## 4. Aprendizaje adaptativo y Studio
 
 - [ ] Síntesis de tres ideas; glosas ≤10 palabras cuando útiles; progresión comprensión→mecanismo→profundización opcional sin «niveles» impresos.
-- [ ] Se elige la técnica por concepto (contraste, dependencia, predecir/revelar, ejemplo trabajado, matriz decisional), sin widgets obligatorios.
+- [ ] Se elige la técnica por concepto (contraste, dependencia, predecir/revelar, ejemplo trabajado, matriz decisional), respetando el mínimo obligatorio v12 de recursos interactivos por capítulo.
 - [ ] Recuperación y explicación por concepto, repaso de transferencia, mecanismos de interacción accesibles con fallback.
 - [ ] Mapa mental Mermaid cubre todos los Conceptos/Tema/Subtemas; `.mmd` y SVG legible, responsive, accesible; flashcards cubren todo con respuestas, fuentes y teclado/touch/no-JS.
 
@@ -68,7 +68,7 @@
 - [ ] TODOS los conceptos aparecen como `Término: definición`, y cada uno tiene ejemplo pertinente inmediatamente próximo y distinguible de su definición.
 - [ ] Cada Tema principal y cada Subtema incluye síntesis **local** en 30 segundos (tres ideas), encabezado explícito `Conceptos del tema principal`/`Conceptos del subtema N`, mecanismo profundo y ejemplo.
 - [ ] Hay al menos un diagrama propio, explicativo y contiguo a la teoría de **cada** Tema principal/Subtema; no se acepta como sustituto el mapa mental final.
-- [ ] Cada capítulo contiene ejercicios con soluciones, tarjetas con respuestas, Visual Learning Studio local con recurso adecuado y recursos específicos con links verificados. El Studio general cubre además los conceptos globales y todos los capítulos.
+- [ ] Cada capítulo contiene ejercicios con soluciones, tarjetas con respuestas, Visual Learning Studio local con cobertura interactiva 5/3 y recursos específicos con links verificados. El Studio general cubre además los conceptos globales y todos los capítulos.
 
 ### HTML, URLs y comportamiento
 - [ ] HTML semántico validado: `article/section`, `p`, pasos `ol/li`, conjuntos `ul/li`, términos `dl/dt/dd`, `figure/figcaption`, énfasis `strong/em`, `fieldset/legend` cuando se agrupan controles, código `pre/code` y tablas con encabezados.
@@ -79,4 +79,17 @@
 - [ ] ES/EN tienen la misma cobertura de conceptos, ejemplos, diagramas, actividades, recursos y anclas semánticas.
 - [ ] En auditoría de sitio, registrar página/versión Git exacta, HTML generado examinado, comandos y resultados; no dar por aprobada una prueba por estar escrita en el contrato.
 
-**Gates editorial/publicación:** `MISSING_LOCAL_CHAPTER_COVERAGE` para capítulos sin síntesis/definiciones+ejemplos/diagrama/ejercicios/flashcards/Studio local/recursos; `INVALID_SEMANTIC_MARKUP` para estructura de HTML; `BROKEN_ANCHOR` para enlaces fragmentarios; `DUPLICATE_SESSION_CONTEXT` para rótulo compuesto repetido. Verificador auxiliar `VERIFY-V11.py` ofrece revisión parcial automática; no sustituye prueba física o evaluación académica.
+**Gates editorial/publicación:** `MISSING_LOCAL_CHAPTER_COVERAGE` para capítulos sin síntesis/definiciones+ejemplos/diagrama/ejercicios/flashcards/Studio local/recursos; `INVALID_SEMANTIC_MARKUP` para estructura de HTML; `BROKEN_ANCHOR` para enlaces fragmentarios; `DUPLICATE_SESSION_CONTEXT` para rótulo compuesto repetido. Verificador auxiliar `VERIFY-V12.py` ofrece revisión parcial automática; no sustituye prueba física o evaluación académica.
+
+## v12 — Gates de auditoría adicionales
+
+- [ ] Inventario inicial: estructura numerada después del título; solo inventario y STOP si petición bare PA-Sxxx.
+- [ ] Conceptos agrupados por Staff→Principal/FPA/AIPE en vertical, cada uno con definición y párrafo `Ejemplo:`; sin tablas, IDs, comillas angulares. Flashcards no tabulares.
+- [ ] Tema principal: 5 modos distintos (mapa, tarjetas, simulador, explorador, matriz); cada Subtema: 3 como mínimo (mapa, tarjetas, otro de los tres). Studio global adicional.
+- [ ] Cada control produce respuesta visible; nodos seleccionables y resaltados, tarjetas navegables, simulador cambia resultado, explorador revela contrato/dependencias, matriz recalcula scores/ranking. Contar recursos funcionales, no estáticos, fallback, código ni promesas. Verificar manualmente, documentar limitaciones sin declarar PASS ficticio.
+- [ ] Studio/diagramas/recursos locales cubren los conceptos de esa sección; pruebas ES/EN, teclado/touch/no-JS, responsive y reduced-motion.
+- [ ] Entregables antes del Checklist: site ES/EN, objetivo Source 09, Portfolio si aplica, instrucciones numeradas, comandos comprobados, rutas, responsables y aceptación/evidencia.
+- [ ] Código legible sin ofuscación/minificación propia; Prettier y check/CI ejecutados cuando hay implementación; preservar semántica y fuentes aprobadas.
+- [ ] PA-S003 punto 13 es integración transversal de AIPE/Staff/FPA.
+
+Bloquear completitud editorial si falta cobertura funcional, no confundir verificación documental con prueba de navegador o aprendizaje. Sources 14 y 16 definen los comportamientos.

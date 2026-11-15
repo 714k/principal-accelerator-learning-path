@@ -1,4 +1,4 @@
-# Protocolo editorial de revisión por bloques — v11 (vigente)
+# Protocolo editorial de revisión por bloques — v12 (vigente)
 
 ## Antecedentes y decisiones
 
@@ -89,7 +89,7 @@ Esta sección incorpora el feedback de 14 de noviembre de 2026 sobre la **única
 4. Teoría sustantiva con componentes, contrato, datos, estados, flujo, fallos, límites, decisiones y verificación cuando corresponda.
 5. **Diagrama técnico propio al lado del mecanismo**, Mermaid fuente→SVG responsive accesible, título/pie y explicación; un diagrama por Tema principal/Subtema como mínimo. No valen diagrams solamente al final.
 6. Ejemplo concreto trabajado; ejercicios del capítulo con resolución/feedback; tarjetas locales con respuesta explicativa y fuente cuando haga falta.
-7. **Visual Learning Studio local**: recurso de aprendizaje adicional seleccionado por tipo de conocimiento y accesible/no-JS; conservar Studio integral de sesión (mapa mental de todas las secciones y flashcards totales).
+7. **Visual Learning Studio local**: mínimo 5 recursos interactivos en el Tema principal y 3 en cada Subtema según contrato v12 de abajo; conservar Studio integral de sesión y fallback accesible adicional.
 8. Recursos específicos del capítulo con links funcionales y razón de consulta; `Comprueba lo aprendido` con preguntas y respuestas del mismo bloque.
 
 No multiplicar controles vacíos ni usar una cuota fija de tarjetas. Si una sección requiere cambios a texto previamente aceptado, registrar diff conceptual y pedir nueva aprobación. La autorización de una sesión íntegra sigue dando un **borrador no aprobado** salvo aceptación expresa.
@@ -109,3 +109,19 @@ No multiplicar controles vacíos ni usar una cuota fija de tarjetas. Si una secc
 - Fallo de cobertura local → `MISSING_LOCAL_CHAPTER_COVERAGE`; HTML inválido → `INVALID_SEMANTIC_MARKUP`; ancla rota → `BROKEN_ANCHOR`; rótulo repetido → `DUPLICATE_SESSION_CONTEXT`.
 
 **PA-S002 no fue modificado en Git:** el paquete v11 solo cambia reglas y añade referencia del subtema 7 para revisión. La evidencia de implementación, build, a11y y renderizado deberá recopilarse cuando se use Codex.
+
+## v12 — Prioridad editorial: obligatorio para todas las sesiones
+
+Tras título/contexto mostrar la **estructura completa y numerada** de la sesión, incluidos los subtemas del roadmap y las restantes secciones; si la petición es solo PA-Sxxx, entregar únicamente inventario, no desarrollar teoría ni Codex, y detenerse. Después desarrollar exclusivamente el bloque solicitado y esperar aprobación explícita.
+
+Todos los conceptos globales y locales, incluso en el inventario, se organizan verticalmente por Staff → Principal, FPA y AIPE (indicar cuando no aplique). Cada entrada es `Concepto: definición` y un párrafo independiente `Ejemplo:` propio y contextualizado en software; nunca tabla, grid horizontal, comillas angulares o ID visible. Flashcards individuales, nunca tablas.
+
+**Mínimos obligatorios v12:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional conserva mapa y tarjetas de cobertura integral. Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
+
+Source 14 especifica los cinco comportamientos obligatorios. Cada recurso se entrega renderizado en la conversación y más tarde en el Learning Site; incluir controles funcionales, datos específicos del tema e instrucciones breves, reacción visible y explicación. Si existe limitación del cliente, declarar qué recurso falta y no contarlo. No presentar el bloque como completo antes de comprobar cobertura/funcionalidad. Si se solicita solo Studio, regenerar exclusivamente ese Studio, conservar texto aprobado y no avanzar a Codex.
+
+Incluir `Entregables de la sesión` antes del Checklist y anticiparlo en el inventario. Separar Learning Site ES/EN, app/lab/package/tool o artefacto de diseño/revisión de Source 09, contribución al Portfolio (o N/A justificado), tareas CODEX-OWNED/LEARNER-OWNED y pruebas/evidencia. Para cada entregable: propósito, instrucciones numeradas de qué crear/modificar, comandos verificados si existen, resultado esperado, ruta relativa al monorepo (verificada o propuesta), responsable y criterio de aceptación/verificación. Consultar Git, Sources 03/09 y SESSION-OUTPUTS-120; ninguna página teórica sustituye el objetivo de ingeniería.
+
+PA-S003, punto 13: **Integración entre AI Product Engineering, Staff Software Engineer y Frontend Platform Architect**. Síntesis transversal de conceptos, mecanismos, fronteras, arquitectura y responsabilidades después de enseñar cada área; integración del Portfolio/site corresponde a aplicación posterior, no a esta teoría.
+
+Preservar capítulos aprobados; cambios de contenido requieren revisión explícita. Los mínimos Studio no sustituyen la teoría, ejemplos, ejercicios, fuentes ni diagramas propios. Source 13 es la lista de comprobación y Source 06 rige código/Prettier.

@@ -1,4 +1,4 @@
-# Handoff maestro de Codex — versión v11 (solo tras solicitud explícita)
+# Handoff maestro de Codex — versión v12 (solo tras solicitud explícita)
 
 **NO es un prompt de una sesión listo para ejecutar:** debe rellenarse con la sesión real, estado de Git y **DOS contenidos académicos canónicos aprobados**.
 
@@ -40,3 +40,15 @@ CODEX-OWNED: scaffolding y tareas repetitivas delimitadas, tests/harness, integr
 ## Addendum v11 — Solo Learning Site (sin reautoría de teoría)
 
 Al aplicar el estilo educativo v11, inspeccionar contenido canónico de la sesión autorizada y su renderer, sin leer otras sesiones si el usuario limitó la revisión a PA-S002. Conservar texto aprobado y proteger lógica de las aplicaciones. Publicar semántica: una sola leyenda `Fase N · PA-Sxxx`, H1 único; vista previa vertical separada por dominio; conceptos `Nombre: definición` con ejemplo propio, sin « »; `Conceptos del tema principal` y `Conceptos del subtema N`; síntesis de tres ideas por capítulo; diagrama Mermaid→SVG propio contextual, ejercicio y solución, flashcards, Studio local y recursos legibles por capítulo; Studio global sin pérdida. Render HTML nativo (`p`, `ol/li`, `ul/li`, `dl/dt/dd`, `strong`, `em`, `figure/figcaption`, `fieldset/legend`); probar anchors únicos y existentes, incluyendo `#subtopic-7` y base GitHub Pages. Adjuntar evidencia de HTML realmente generado, no solo chequeos textuales. Para contenido adicional no aprobado, detener publicación y solicitar aceptación editorial.
+
+## Addendum v12 — Contrato de entrega y renderizado
+
+Todos los conceptos globales y locales, incluso en el inventario, se organizan verticalmente por Staff → Principal, FPA y AIPE (indicar cuando no aplique). Cada entrada es `Concepto: definición` y un párrafo independiente `Ejemplo:` propio y contextualizado en software; nunca tabla, grid horizontal, comillas angulares o ID visible. Flashcards individuales, nunca tablas.
+
+**Mínimos obligatorios v12:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional conserva mapa y tarjetas de cobertura integral. Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
+
+Incluir `Entregables de la sesión` antes del Checklist y anticiparlo en el inventario. Separar Learning Site ES/EN, app/lab/package/tool o artefacto de diseño/revisión de Source 09, contribución al Portfolio (o N/A justificado), tareas CODEX-OWNED/LEARNER-OWNED y pruebas/evidencia. Para cada entregable: propósito, instrucciones numeradas de qué crear/modificar, comandos verificados si existen, resultado esperado, ruta relativa al monorepo (verificada o propuesta), responsable y criterio de aceptación/verificación. Consultar Git, Sources 03/09 y SESSION-OUTPUTS-120; ninguna página teórica sustituye el objetivo de ingeniería.
+
+Código legible y mantenible en todo el monorepo (apps, Portfolio, Learning Site y paquetes): nombres claros, módulos y tipos; prohibido ofuscar/minimizar código autorado o salida propia; preservar archivos de terceros y no usar bundles minificados como fuente. Usar configuración e ignore Prettier de raíz para JS/TS/JSX/TSX, HTML, CSS/SCSS/Sass (parser/plugin compatible), Markdown, JSON y otros formatos soportados; ejecutar formato y `prettier --check` en CI. Reportar comandos/resultados reales y no alterar semántica, convenciones ni teoría aprobada.
+
+Implementar los cinco modos interactivos según Source 14, a partir del material aprobado ES/EN; sin reautoría. Reportar pruebas de cada modo, cobertura 5/3, paridad, accesibilidad/fallback, comandos y resultados reales, rutas y responsables. Si falta payload o interacción aprobada, reportar bloqueo y no declarar publicación completa. No confundir especificación, código, imagen estática o fallback con widget interactivo.

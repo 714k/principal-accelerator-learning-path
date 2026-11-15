@@ -1,4 +1,4 @@
-# Artefactos y publicación — v11
+# Artefactos y publicación — v12
 
 ## Regla de integridad
 
@@ -10,7 +10,7 @@ Un único H1 visible por idioma; breadcrumb y código de sesión en metadatos; s
 
 ## Secciones obligatorias
 
-Síntesis en tres ideas → Objetivo → Preview → Conceptos → Tema principal → todos los Subtemas → Integración si procede → Theory→Practice → Time → Real-World Example → Production-Ready Example → Visual Learning Studio → Exercises → Sources → Resources → Checklist → Success Criteria → Bridge. No vaciar capítulos, colocar «contenido pendiente» ni sustituir mecanismo con listas/cajas. Conceptos locales se enseñan dentro de sus secciones.
+Estructura numerada → Síntesis en tres ideas → Objetivo → Preview → Conceptos → Tema principal → todos los Subtemas → Integración si procede → Theory→Practice → Time → Real-World Example → Production-Ready Example → Visual Learning Studio → Exercises → Sources → Resources → Entregables de la sesión → Checklist → Success Criteria → Bridge. No vaciar capítulos, colocar «contenido pendiente» ni sustituir mecanismo con listas/cajas. Conceptos locales se enseñan dentro de sus secciones.
 
 ## Casos reales y referencias
 
@@ -53,3 +53,15 @@ Publicar encabezado de contexto **una sola vez**: `Fase 0 · PA-S002` para la se
 - **Visuales:** además de los diagramas obligatorios por capítulo, usar contraste, dependencias, secuencia, estado, predict/reveal, ejemplo trabajado, matriz de decisión, errores guiados o simulación honesta según el concepto. Cada interacción debe tener una finalidad didáctica, feedback y alternativa accesible/no-JS.
 
 **Publicación fiel:** si falta contenido canónico en un capítulo, no inventarlo en el renderer. Marcar `MISSING_LOCAL_CHAPTER_COVERAGE` en auditoría editorial y devolverlo a revisión. Si un cambio de estructura altera teoría aprobada, pedir reconfirmación. ES/EN equivalente y sin cambios encubiertos de lógica de negocio.
+
+## v12 — Contrato de artefactos y Studio
+
+Todos los conceptos globales y locales, incluso en el inventario, se organizan verticalmente por Staff → Principal, FPA y AIPE (indicar cuando no aplique). Cada entrada es `Concepto: definición` y un párrafo independiente `Ejemplo:` propio y contextualizado en software; nunca tabla, grid horizontal, comillas angulares o ID visible. Flashcards individuales, nunca tablas.
+
+**Mínimos obligatorios v12:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional conserva mapa y tarjetas de cobertura integral. Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
+
+Incluir `Entregables de la sesión` antes del Checklist y anticiparlo en el inventario. Separar Learning Site ES/EN, app/lab/package/tool o artefacto de diseño/revisión de Source 09, contribución al Portfolio (o N/A justificado), tareas CODEX-OWNED/LEARNER-OWNED y pruebas/evidencia. Para cada entregable: propósito, instrucciones numeradas de qué crear/modificar, comandos verificados si existen, resultado esperado, ruta relativa al monorepo (verificada o propuesta), responsable y criterio de aceptación/verificación. Consultar Git, Sources 03/09 y SESSION-OUTPUTS-120; ninguna página teórica sustituye el objetivo de ingeniería.
+
+Código legible y mantenible en todo el monorepo (apps, Portfolio, Learning Site y paquetes): nombres claros, módulos y tipos; prohibido ofuscar/minimizar código autorado o salida propia; preservar archivos de terceros y no usar bundles minificados como fuente. Usar configuración e ignore Prettier de raíz para JS/TS/JSX/TSX, HTML, CSS/SCSS/Sass (parser/plugin compatible), Markdown, JSON y otros formatos soportados; ejecutar formato y `prettier --check` en CI. Reportar comandos/resultados reales y no alterar semántica, convenciones ni teoría aprobada.
+
+El handoff identifica los recursos por sección, los datos y supuestos aprobados, la interacción esperada, sus respuestas y fallback. El chat debe mostrar recursos utilizables directamente; el site implementa la misma semántica interactiva ES/EN. Si un recurso no se puede renderizar en chat o site, informar, no contarlo ni afirmar completitud. No usar IDs visibles ni reautorizar teoría.

@@ -1,6 +1,6 @@
-# Principal Accelerator Learning Path — Sources v11
+# Principal Accelerator Learning Path — Sources v12
 
-**Edición vigente: v11, 14 de noviembre de 2026.** Contrato de Learning Site basado exclusivamente en el feedback del usuario y la revisión de la fuente española y el renderizador de PA-S002. **Source 16 v11 prevalece** para el formato visible y la aprobación. Sin cambio de roadmap, apps, teoría aprobada, porcentajes de dominio ni código de producción. El identificador de fase se ve una sola vez como **Fase 0 · PA-S002**, no `F0 · PA-S002` repetido. Los contenidos académicos no imprimen IDs de máquina.
+**Edición vigente: v12, 15 de noviembre de 2026.** Incorpora el feedback editorial y visual del usuario posterior a v11. Source 16 y sus requisitos v12 prevalecen sobre reglas anteriores incompatibles. Sin cambio de roadmap, apps, teoría aprobada, progreso ni código de producción.
 
 
 **Edición consolidada:** 31 de octubre de 2026. **Estado:** paquete documental preparado para instalar; no representa cambios en Git, aprendizaje acreditado ni publicación efectuada.
@@ -41,11 +41,28 @@ Formar al estudiante desde Staff hacia Principal Software Engineering, Frontend 
 
 - `PROJECT-INSTRUCTIONS-SETTINGS.md`: texto exacto para Project → Settings → Instructions.
 - `CODEX-SESSION-MASTER-PROMPT.md`: contrato para preparar un handoff bajo petición explícita, no prompt prellenado.
+- `VISUAL-LEARNING-STUDIO-PROMPT.md`: prompt reutilizable para regenerar exclusivamente el Studio de un capítulo en conversación.
 - `SESSION-APP-TARGETS-120.csv`: mapa planificado de aplicaciones por sesión; consultar Git para confirmar estado real.
 - `SESSION-OUTPUTS-120.md`: entregables orientativos por sesión; no evidencia de implementación.
 - `PA-S002-INVENTORY-REFERENCE.md`: muestra v11 de la etapa editorial 0, **no teoría final aprobada**.
 - `PA-S002-SUBTOPIC-7-STRUCTURE-REFERENCE.md` y `PA-S002-SEMANTIC-HTML-REFERENCE.html`: ejemplos de escritura y marcado semántico **no aprobados ni publicados**.
-- `VERIFY-V10.py` y `CURRENT-VERIFICATION.md`: auditoría estructural y límites.
+- `VERIFY-V12.py` y `CURRENT-VERIFICATION.md`: auditoría estructural y límites; `VERIFY-V11.py` se conserva como histórico para snapshots v11.
 - `INSTALL-REPLACE-ALL.md`: reemplazo de la versión previa.
 
 **Precedencia sobre documentos históricos:** se eliminan los disparadores contradictorios de handoff inmediato, las instrucciones de entrega total de teoría sin aprobación y las etiquetas didácticas `Nivel 1/2/3`. El usuario puede pedir explícitamente una muestra completa no aprobada; ello no altera el estado editorial.
+
+## Reglas críticas v12
+
+Tras título/contexto mostrar la **estructura completa y numerada** de la sesión, incluidos los subtemas del roadmap y las restantes secciones; si la petición es solo PA-Sxxx, entregar únicamente inventario, no desarrollar teoría ni Codex, y detenerse. Después desarrollar exclusivamente el bloque solicitado y esperar aprobación explícita.
+
+Todos los conceptos globales y locales, incluso en el inventario, se organizan verticalmente por Staff → Principal, FPA y AIPE (indicar cuando no aplique). Cada entrada es `Concepto: definición` y un párrafo independiente `Ejemplo:` propio y contextualizado en software; nunca tabla, grid horizontal, comillas angulares o ID visible. Flashcards individuales, nunca tablas.
+
+**Mínimos obligatorios v12:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional conserva mapa y tarjetas de cobertura integral. Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
+
+Incluir `Entregables de la sesión` antes del Checklist y anticiparlo en el inventario. Separar Learning Site ES/EN, app/lab/package/tool o artefacto de diseño/revisión de Source 09, contribución al Portfolio (o N/A justificado), tareas CODEX-OWNED/LEARNER-OWNED y pruebas/evidencia. Para cada entregable: propósito, instrucciones numeradas de qué crear/modificar, comandos verificados si existen, resultado esperado, ruta relativa al monorepo (verificada o propuesta), responsable y criterio de aceptación/verificación. Consultar Git, Sources 03/09 y SESSION-OUTPUTS-120; ninguna página teórica sustituye el objetivo de ingeniería.
+
+Código legible y mantenible en todo el monorepo (apps, Portfolio, Learning Site y paquetes): nombres claros, módulos y tipos; prohibido ofuscar/minimizar código autorado o salida propia; preservar archivos de terceros y no usar bundles minificados como fuente. Usar configuración e ignore Prettier de raíz para JS/TS/JSX/TSX, HTML, CSS/SCSS/Sass (parser/plugin compatible), Markdown, JSON y otros formatos soportados; ejecutar formato y `prettier --check` en CI. Reportar comandos/resultados reales y no alterar semántica, convenciones ni teoría aprobada.
+
+PA-S003, punto 13: **Integración entre AI Product Engineering, Staff Software Engineer y Frontend Platform Architect**. Síntesis transversal de conceptos, mecanismos, fronteras, arquitectura y responsabilidades después de enseñar cada área; integración del Portfolio/site corresponde a aplicación posterior, no a esta teoría.
+
+Las muestras v11 son referencias históricas parciales; no satisfacen por sí solas el contrato interactivo v12.

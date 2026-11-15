@@ -1,4 +1,4 @@
-# Aprendizaje adaptativo por tipo de conocimiento — v11
+# Aprendizaje adaptativo por tipo de conocimiento — v12
 
 **Autoridad pedagógica:** compatible con Source 16, que gobierna flujo editorial y presentación visible. Las decisiones de técnicas no alteran ni reescriben teoría; Codex publica exactamente el contenido aprobado.
 
@@ -47,4 +47,10 @@ Mantener la secuencia propia de cada capítulo: síntesis 30 segundos → concep
 - Concepto **procedimental**: ejemplo trabajado, pasos numerados reales `ol`, práctica con menor guía.
 - Concepto **decisional**: matriz de opciones, restricciones, fallo e implicaciones de la decisión.
 
-El diagrama propio es un mínimo en cada capítulo, no cuota de widgets ni permiso para diagramas decorativos. La cantidad de tarjetas responde a los conceptos efectivamente tratados. Establecer finalidad y feedback de cada interacción. Reutilizar datos del capítulo sin inventar métricas, resultados de pruebas o aprendizaje observado.
+El diagrama propio es un mínimo adicional en cada capítulo; v12 requiere 5/3 recursos interactivos por capítulo, no widgets decorativos. La cantidad de tarjetas responde a los conceptos efectivamente tratados. Establecer finalidad y feedback de cada interacción. Reutilizar datos del capítulo sin inventar métricas, resultados de pruebas o aprendizaje observado.
+
+## v12 — Selección adaptativa dentro del mínimo
+
+**Mínimos obligatorios v12:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional conserva mapa y tarjetas de cobertura integral. Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
+
+Clasificar finalidad y elegir el tercer modo y otros adicionales en cada Subtema por utilidad. En tema principal usar los cinco modos desde un problema o decisión concreta, con escenarios hipotéticos explícitos si no existen datos medidos. Para cada recurso describir entrada, comportamiento, salida, feedback y limitaciones; ver Source 14. No exigir cuota de tarjetas individuales ni una herramienta por concepto.

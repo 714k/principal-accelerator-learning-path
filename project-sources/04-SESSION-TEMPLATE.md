@@ -1,4 +1,4 @@
-# Plantilla editorial y de estudio — PA-Sxxx (v11)
+# Plantilla editorial y de estudio — PA-Sxxx (v12)
 
 ## Activación — Etapa 0
 
@@ -20,24 +20,26 @@ La descripción debajo del H1 no es otro título. No añadir marcadores vacíos 
 
 ## Esqueleto del documento español final
 
-1. Síntesis en 30 segundos — exactamente tres ideas, no reemplaza teoría.
-2. Objetivo — aprendizaje y decisiones técnicas que podrán comprobarse.
-3. Vista previa del aprendizaje — dominios, conceptos necesarios, preguntas, actividades y dependencias.
-4. Conceptos — conceptos fundacionales enseñados según su dominio (Staff→Principal, FPA, AIPE), sin mezclar carreras ni llenar carriles artificialmente. Cada término explicado, no IDs impresos.
-5. Tema principal — conceptos locales individuales, definición/alcance, mecanismo concreto, ejemplo explicado, contraejemplo, alternativas, calidad y verificaciones, diagrama/tabla/code cuando agrega valor, respuesta de recuperación.
-6. Subtemas — exactamente los determinados por Source 03 más conceptos implícitos necesarios. Cada uno mini-capítulo autosuficiente con fundamentos locales, mecanismo, caso, fallos, producción y comprobación.
-7. Integración entre dominios — solo si la conexión es útil y después de enseñar por separado.
-8. Teoría → Práctica — el único bloque teórico destinado a trasladar al Portfolio, Learning Site o app de la sesión.
-9. Tiempo — **estimación**, entradas y suma; no confundir con horas medidas.
-10. Ejemplo del mundo real — entidad identificable, fuente oficial, problema, mecanismo publicado, alternativas/limitaciones, distinción hecho/inferencia y lección.
-11. Ejemplo listo para producción — referencia implementable en dominio externo: componentes, flujo de datos y control, API, estados, contrato de errores, autenticación/autorización, seguridad, concurrencia/idempotencia si aplica, pruebas, despliegue, observabilidad, fallos/operación; decir **no validado** si no se ejecutó.
-12. Visual Learning Studio — mapa mental Mermaid source-linked de Concepts/Tema/Subtemas y flashcards de cobertura total con pregunta, respuesta razonada y referencias; otras formas adaptativas solo cuando correspondan.
-13. Ejercicios — casos concretos, criterios, respuesta/solución explicativa, transferencia y fallos; distinta dificultad según contenido.
-14. Fuentes verificadas — referencias específicas utilizadas y enlaces a evidencias reales, no bibliografía decorativa.
-15. Recursos complementarios — lectura/curso específico, propósito y apartado útil, sin placeholders.
-16. Checklist de estudio — acciones reversibles y accesibles, independientes de evidencia.
-17. Criterios de éxito — resultados evaluables, evidencia requerida para L1–L5 sin otorgarla automáticamente.
-18. Puente — conexión conceptual y técnica con PA-Sxxx siguiente.
+1. Estructura numerada completa — después del título, todos los apartados y subtemas.
+2. Síntesis en 30 segundos — exactamente tres ideas, no reemplaza teoría.
+3. Objetivo — aprendizaje y decisiones técnicas que podrán comprobarse.
+4. Vista previa del aprendizaje — dominios, conceptos necesarios, preguntas, actividades y dependencias.
+5. Conceptos — conceptos fundacionales enseñados según su dominio (Staff→Principal, FPA, AIPE), sin mezclar carreras ni llenar carriles artificialmente. Cada término explicado, no IDs impresos.
+6. Tema principal — conceptos locales individuales, definición/alcance, mecanismo concreto, ejemplo explicado, contraejemplo, alternativas, calidad y verificaciones, diagrama/tabla/code cuando agrega valor, respuesta de recuperación.
+7. Subtemas — exactamente los determinados por Source 03 más conceptos implícitos necesarios. Cada uno mini-capítulo autosuficiente con fundamentos locales, mecanismo, caso, fallos, producción y comprobación.
+8. Integración entre dominios — solo si la conexión es útil y después de enseñar por separado.
+9. Teoría → Práctica — el único bloque teórico destinado a trasladar al Portfolio, Learning Site o app de la sesión.
+10. Tiempo — **estimación**, entradas y suma; no confundir con horas medidas.
+11. Ejemplo del mundo real — entidad identificable, fuente oficial, problema, mecanismo publicado, alternativas/limitaciones, distinción hecho/inferencia y lección.
+12. Ejemplo listo para producción — referencia implementable en dominio externo: componentes, flujo de datos y control, API, estados, contrato de errores, autenticación/autorización, seguridad, concurrencia/idempotencia si aplica, pruebas, despliegue, observabilidad, fallos/operación; decir **no validado** si no se ejecutó.
+13. Visual Learning Studio — mapa mental Mermaid source-linked de Concepts/Tema/Subtemas y flashcards de cobertura total con pregunta, respuesta razonada y referencias; otras formas adaptativas solo cuando correspondan.
+14. Ejercicios — casos concretos, criterios, respuesta/solución explicativa, transferencia y fallos; distinta dificultad según contenido.
+15. Fuentes verificadas — referencias específicas utilizadas y enlaces a evidencias reales, no bibliografía decorativa.
+16. Recursos complementarios — lectura/curso específico, propósito y apartado útil, sin placeholders.
+17. Entregables de la sesión — site, artefacto de ingeniería, Portfolio si aplica, tareas y evidencia con instrucciones y rutas.
+18. Checklist de estudio — acciones reversibles y accesibles, independientes de evidencia.
+19. Criterios de éxito — resultados evaluables, evidencia requerida para L1–L5 sin otorgarla automáticamente.
+20. Puente — conexión conceptual y técnica con PA-Sxxx siguiente.
 
 ## Capítulo desarrollado — patrón pedagógico adaptable
 
@@ -69,7 +71,7 @@ Conservar el orden de secciones de la sesión. Dentro de **cada** capítulo desa
 7. Ejemplo resuelto en un dominio externo, consecuencias de producción y verificación.
 8. `Ejercicios del tema principal` o `Ejercicios del subtema N`: una o más actividades pertinentes con solución/criterio y alternativa incorrecta explicada.
 9. `Tarjetas de estudio del tema principal` o `Tarjetas de estudio del subtema N`: preguntas que exijan recordar/decidir, respuesta y explicación (sin inventar respuestas de otras secciones).
-10. `Visual Learning Studio del tema principal` o `Visual Learning Studio del subtema N`: además del diagrama, un recurso adaptativo pertinente (contraste, mapa de dependencias, predecir/revelar, ejemplo trabajado con guía decreciente, explorador de errores, matriz decisional o simulación fiel). Interactividad solo si hay un mecanismo comprobable y alternativa sin JS.
+10. `Visual Learning Studio del tema principal` o `Visual Learning Studio del subtema N`: además del diagrama, mínimo 5 recursos interactivos para el Tema principal y 3 para cada Subtema según Source 16; comportamientos verificables según Source 14, fallback sin JS adicional.
 11. `Recursos del tema principal` o `Recursos del subtema N`: enlaces específicos de esa sección, texto descriptivo, y justificación de lectura. Mantener también bibliografía general curada de la sesión.
 12. `Comprueba lo aprendido`: pregunta(s) propias del bloque con respuesta(s) razonadas. No usar `Recuperación` como título visible.
 
@@ -82,3 +84,23 @@ Conservar el orden de secciones de la sesión. Dentro de **cada** capítulo desa
 **Excepción documentada:** permiso acotado para no cumplir temporalmente una regla general, con causa, responsable y revisión. **Ejemplo:** un consumidor heredado conserva un import interno durante una migración registrada y con fecha de revisión.
 
 El primer ejemplo enseña *responsabilidad* y el segundo enseña *excepción*; no intercambiar ejemplos o repetir una misma descripción para todos los conceptos.
+
+## v12 — Inventario, conceptos y entregables
+
+Tras título/contexto mostrar la **estructura completa y numerada** de la sesión, incluidos los subtemas del roadmap y las restantes secciones; si la petición es solo PA-Sxxx, entregar únicamente inventario, no desarrollar teoría ni Codex, y detenerse. Después desarrollar exclusivamente el bloque solicitado y esperar aprobación explícita.
+
+Todos los conceptos globales y locales, incluso en el inventario, se organizan verticalmente por Staff → Principal, FPA y AIPE (indicar cuando no aplique). Cada entrada es `Concepto: definición` y un párrafo independiente `Ejemplo:` propio y contextualizado en software; nunca tabla, grid horizontal, comillas angulares o ID visible. Flashcards individuales, nunca tablas.
+
+**Mínimos obligatorios v12:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional conserva mapa y tarjetas de cobertura integral. Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
+
+Incluir `Entregables de la sesión` antes del Checklist y anticiparlo en el inventario. Separar Learning Site ES/EN, app/lab/package/tool o artefacto de diseño/revisión de Source 09, contribución al Portfolio (o N/A justificado), tareas CODEX-OWNED/LEARNER-OWNED y pruebas/evidencia. Para cada entregable: propósito, instrucciones numeradas de qué crear/modificar, comandos verificados si existen, resultado esperado, ruta relativa al monorepo (verificada o propuesta), responsable y criterio de aceptación/verificación. Consultar Git, Sources 03/09 y SESSION-OUTPUTS-120; ninguna página teórica sustituye el objetivo de ingeniería.
+
+PA-S003, punto 13: **Integración entre AI Product Engineering, Staff Software Engineer y Frontend Platform Architect**. Síntesis transversal de conceptos, mecanismos, fronteras, arquitectura y responsabilidades después de enseñar cada área; integración del Portfolio/site corresponde a aplicación posterior, no a esta teoría.
+
+### Ejemplo de formato de concepto
+
+**Frontend Platform Architecture**
+
+**Contrato de componente:** interfaz pública que establece las entradas, eventos y comportamiento que un consumidor puede utilizar.
+
+**Ejemplo:** un botón de un Design System recibe el estado deshabilitado y emite un evento de activación; una aplicación consumidora no necesita acceder a su implementación interna.
