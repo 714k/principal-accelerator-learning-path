@@ -1,36 +1,154 @@
 {
-  "version": "v10",
-  "prepared": "2026-10-31",
+  "version": "v11",
   "source_count": 17,
-  "app_target_rows": 120,
-  "project_instruction_characters": 6399,
-  "project_instruction_bytes": 6489,
-  "files_sha256": {
-    "00-README.md": "731eed43392dd13517536b1a7f60883619f5a846cd3c2eb0aa3185a1d641f4c6",
-    "01-PROJECT-INSTRUCTIONS.md": "64d994db7b012fe264614e20fc7b49b7e69859b914ffca1b48ab523f66841e12",
-    "02-LEARNER-CONTEXT.md": "fde3472b020f919023fbc6f270fc923c872336b8bde8d0280f6fb72371b290e9",
-    "03-MASTER-ROADMAP.md": "472d8d253e591c259ee303002ecd76fef85afb6582c73fdd7d954911359f4452",
-    "04-SESSION-TEMPLATE.md": "e78ccfe45f2e19b3434bfdd528190734ecc050b764247ebd06e780c52ecd118d",
-    "05-LEARNING-METHODOLOGY.md": "a1fd0318396bf402a74d183e1f7449de08548d0481ff3afd4235b9fb5a4db14e",
-    "06-TECHNICAL-STANDARDS.md": "b9d71da3be92bbddf9ce9770418a7fa0cb08347fe0913f4636ecf30a47102f7a",
-    "07-PROGRESS.md": "f379c380e04f3d68c449cb5c8557562bfce67915e7ded804b5941dde22e4ba23",
-    "08-COMPETENCY-MATRIX.md": "da6ce6a257db4767c407f74f51e41215dcbbc97aa0a11186130161372ef6abe2",
-    "09-PROJECTS-AND-APPS.md": "45c18313938858de62187f8d10a48e3852176bbf4d5ba8a1113b6f0e2a01f108",
-    "10-DECISION-LOG.md": "1cc55cf4e744384c693a2b635ba84db416383ff466af8f09d14917e0d5b6c92f",
-    "11-CODEX-GUIDELINES.md": "274f2c7476f47c2c4798e2f26ad62a680290907ca845dcb2390b32e559d6b528",
-    "12-ARTIFACT-AND-PUBLISHING-STANDARD.md": "8d43d0084c8ad1b684a7d426260d7186c40bc2596b18a56ca677e05d23672e5d",
-    "13-CANONICAL-SESSION-AUDIT.md": "6e401627c0ff3b6e54df5ef2f1ed956982c40b00f1afa96edf4d9496456d59a0",
-    "14-ACCELERATED-LEARNING-UX.md": "a91edc30f3c26f4552e4085891de60e196f89491d4116b7a1e191a7c4e875793",
-    "15-ADAPTIVE-LEARNING-EXPERIENCE.md": "c55c4f06673c3fa59e5d592f3845969c07293675d34716f0c40f0a2c7ecee3f0",
-    "16-EDITORIAL-REVIEW-PROTOCOL.md": "4bc84701d8a4819e0052d8da253f8b76afca8bf743a205dcd9d8c2b43896a345",
-    "CODEX-SESSION-MASTER-PROMPT.md": "92ce8c3ad43121035ea1ca3bc0342e050c326bc607a1afc213e67d1d04428952",
-    "EXAMPLE-PA-S001-INVENTORY.md": "929e5e1ffafd0925dbbaeec91d2256ff5a2b5292c0306fe2c3037964a3e14d25",
-    "INSTALL-REPLACE-ALL.md": "32a1692c8606a3df7c6cf6542a15d5cd6eddef6ca51dde4cda4e034bf4a30bbc",
-    "PA-S001-QUALITY-REFERENCE.md": "9a4dc7558ce561626a5c140de8b4fadf580ddbb55f0a9c27970acfa4b5a2b2c6",
-    "PROJECT-INSTRUCTIONS-SETTINGS.md": "2d373b7ebccc98f4db4cffa634f4bebca77d86db7f9df3a841e5740e465d0eba",
-    "SESSION-APP-TARGETS-120.csv": "abb7d1897b3b54b13bdcee17f73748bab831e0e56a4eeaccfc837e06776e84df",
-    "SESSION-OUTPUTS-120.md": "42142bcc10669c1bf0cc5da080c922ef5537007f2fc50ec269896cc422087f3c",
-    "VERIFY-V10.py": "1d0cda4cc26d766856d323ec5ed18e9dc37ac00b8b2ab63634cf4cbe4945d628"
-  },
-  "note": "This manifest describes files only; it does not verify teaching semantics, app code, or completed work."
+  "file_count": 29,
+  "base_commit": "f0430974751f38726bd983a65044ce28e8268e28",
+  "verification": "Git blob SHA-1 for each file; Python verifier checks bytes and numbered Sources. Semantic, browser and build checks remain separate.",
+  "files": [
+    {
+      "filename": "00-README.md",
+      "bytes": 5957,
+      "git_blob_sha1": "7f872218ece45d662086a9bda7afcda2a09b1b13"
+    },
+    {
+      "filename": "01-PROJECT-INSTRUCTIONS.md",
+      "bytes": 9860,
+      "git_blob_sha1": "44de3970dd449be6f323c35986e68760f256a76f"
+    },
+    {
+      "filename": "02-LEARNER-CONTEXT.md",
+      "bytes": 3483,
+      "git_blob_sha1": "5a1b71744af5bd8e8778b529dbcc9ae71b8cb20d"
+    },
+    {
+      "filename": "03-MASTER-ROADMAP.md",
+      "bytes": 21173,
+      "git_blob_sha1": "d037033205c403f8eacaf199faf0b40c1d20d65f"
+    },
+    {
+      "filename": "04-SESSION-TEMPLATE.md",
+      "bytes": 9469,
+      "git_blob_sha1": "7bdbd3255896a1fbf2decbeb64deabb3ace952f6"
+    },
+    {
+      "filename": "05-LEARNING-METHODOLOGY.md",
+      "bytes": 7380,
+      "git_blob_sha1": "25c71fe525d6fe371e0d2d18dfe4c34658a1e587"
+    },
+    {
+      "filename": "06-TECHNICAL-STANDARDS.md",
+      "bytes": 15555,
+      "git_blob_sha1": "2f136038dcc315c94f989e38f6c55b2ba6f5e02f"
+    },
+    {
+      "filename": "07-PROGRESS.md",
+      "bytes": 2564,
+      "git_blob_sha1": "2ae61596ab09e6cf0323b838a16f9697010adc46"
+    },
+    {
+      "filename": "08-COMPETENCY-MATRIX.md",
+      "bytes": 2789,
+      "git_blob_sha1": "0d5766372ec85ca9198c56fa047edb227cf2fe92"
+    },
+    {
+      "filename": "09-PROJECTS-AND-APPS.md",
+      "bytes": 22613,
+      "git_blob_sha1": "a1c83b799e8d02c53ac1cf7b3a30dcf8969acefd"
+    },
+    {
+      "filename": "10-DECISION-LOG.md",
+      "bytes": 13132,
+      "git_blob_sha1": "8c22daab47127c6e3563c9258826543eadee2f94"
+    },
+    {
+      "filename": "11-CODEX-GUIDELINES.md",
+      "bytes": 6451,
+      "git_blob_sha1": "6f2484dc86f3fe8ac7fbd6fbb6e5e388e1b9842f"
+    },
+    {
+      "filename": "12-ARTIFACT-AND-PUBLISHING-STANDARD.md",
+      "bytes": 7690,
+      "git_blob_sha1": "ceddd0d800462f75c906f09fd5d1b49b35173171"
+    },
+    {
+      "filename": "13-CANONICAL-SESSION-AUDIT.md",
+      "bytes": 7942,
+      "git_blob_sha1": "320368ffdcb29f60cec7296ad7104fdd4bff6df1"
+    },
+    {
+      "filename": "14-ACCELERATED-LEARNING-UX.md",
+      "bytes": 4532,
+      "git_blob_sha1": "4a4bc28aa28e1ea7eee96c5d9af71a9cb40f5638"
+    },
+    {
+      "filename": "15-ADAPTIVE-LEARNING-EXPERIENCE.md",
+      "bytes": 5016,
+      "git_blob_sha1": "50111982cafc63fde989ab6c6545294527ea17a6"
+    },
+    {
+      "filename": "16-EDITORIAL-REVIEW-PROTOCOL.md",
+      "bytes": 13405,
+      "git_blob_sha1": "fd41a63872d59a7c6c797a7f59ece0c4bf021333"
+    },
+    {
+      "filename": "CODEX-SESSION-MASTER-PROMPT.md",
+      "bytes": 5264,
+      "git_blob_sha1": "9e9c20a4bd26678fb38c78950a95d1022f3794ef"
+    },
+    {
+      "filename": "CURRENT-VERIFICATION.md",
+      "bytes": 5436,
+      "git_blob_sha1": "b815c22d9f2a4dbe41a17525f60d5d9856c953c6"
+    },
+    {
+      "filename": "EXAMPLE-PA-S001-INVENTORY.md",
+      "bytes": 6801,
+      "git_blob_sha1": "2f1f17ef9536c191c022dba5c0454ce3ffb8524b"
+    },
+    {
+      "filename": "INSTALL-REPLACE-ALL.md",
+      "bytes": 1696,
+      "git_blob_sha1": "83f504df379b6c9e5f6f8dc502706420bec450c3"
+    },
+    {
+      "filename": "PA-S001-QUALITY-REFERENCE.md",
+      "bytes": 2779,
+      "git_blob_sha1": "b100d87f2c1dbbd6f727ccdd6e819bed47c0c587"
+    },
+    {
+      "filename": "PA-S002-INVENTORY-REFERENCE.md",
+      "bytes": 7298,
+      "git_blob_sha1": "1a2dbf120980afe058592c7ef0c96002a575a485"
+    },
+    {
+      "filename": "PA-S002-SEMANTIC-HTML-REFERENCE.html",
+      "bytes": 7450,
+      "git_blob_sha1": "dd01591aca4f9062c4d2fca519e2d0ffc648d324"
+    },
+    {
+      "filename": "PA-S002-SUBTOPIC-7-STRUCTURE-REFERENCE.md",
+      "bytes": 5289,
+      "git_blob_sha1": "0c4cf4263a7de69cadf8de69e0dcb7f817ea8c09"
+    },
+    {
+      "filename": "PROJECT-INSTRUCTIONS-SETTINGS.md",
+      "bytes": 8023,
+      "git_blob_sha1": "d3f8ee54621c5e49dd5ec4da36e67e82d6c34896"
+    },
+    {
+      "filename": "SESSION-APP-TARGETS-120.csv",
+      "bytes": 6891,
+      "git_blob_sha1": "049b6b6cadbe721575eef70dbdb4794aca63bbcd"
+    },
+    {
+      "filename": "SESSION-OUTPUTS-120.md",
+      "bytes": 33124,
+      "git_blob_sha1": "9f3b62d51f7da353f36e688483f9f965eb578304"
+    },
+    {
+      "filename": "V11-CHANGELOG.md",
+      "bytes": 1774,
+      "git_blob_sha1": "4da533a32c742184eaddee867eef8ed41757dff9"
+    }
+  ]
 }
