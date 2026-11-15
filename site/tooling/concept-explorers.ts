@@ -52,9 +52,9 @@ function outcomeHtml(outcome: Outcome, es: boolean, limitation?: string): string
   ];
   if (limitation) parts.push(['limitation', label(es, 'Limitaciones', 'Limitations'), limitation]);
   return (
-    '<h5>' +
+    '<p class="reference-outcome-title"><strong>' +
     escape(outcome.title) +
-    '</h5>' +
+    '</strong></p>' +
     parts
       .map(
         ([key, title, value]) =>
@@ -76,6 +76,7 @@ export function renderReferenceExperience(
   id: string,
   lang: Locale,
   labels: Record<string, string>,
+  headingLevel: number,
 ): string {
   const lab = specs[lang].labs.find((entry) => entry.id === referenceExperiences[id]);
   if (!lab) return '';
@@ -176,6 +177,7 @@ export function renderReferenceExperience(
       ai: 'decisional',
     } as Record<string, string>
   )[lab.kind]!;
+  const tag = Math.min(headingLevel + 1, 6);
   return (
     '<section class="reference-explorer" data-explorer="' +
     pattern +
@@ -185,11 +187,15 @@ export function renderReferenceExperience(
     escape(lab.kind) +
     '"><p class="concept-eyebrow">' +
     escape(lab.eyebrow) +
-    '</p><h4 id="lab-' +
+    '</p><h' +
+    tag +
+    ' id="lab-' +
     escape(lab.kind) +
     '">' +
     escape(lab.title) +
-    '</h4><p><strong>' +
+    '</h' +
+    tag +
+    '><p><strong>' +
     (es ? 'Objetivo' : 'Learning objective') +
     ':</strong> ' +
     escape(lab.objective) +

@@ -1,0 +1,7 @@
+flowchart TD
+    Change["Change in booking-client"] --> Lint["Lint and types"]
+    Change --> Contract["Contract tests"]
+    Contract --> ClientBuild["Client build"]
+    ClientBuild --> WebTests["booking-web tests"]
+    Lint --> Gate["CI gate"]
+    WebTests --> Gate
