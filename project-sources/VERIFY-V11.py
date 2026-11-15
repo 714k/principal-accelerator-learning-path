@@ -17,7 +17,7 @@ for x in files:
         errors.append("missing "+x["filename"])
         continue
     blob=p.read_bytes()
-    digest=hashlib.sha1(b"blob "+str(len(blob)).encode()+b"\\0"+blob).hexdigest()
+    digest=hashlib.sha1(b"blob "+str(len(blob)).encode()+b"\0"+blob).hexdigest()
     check(len(blob)==x["bytes"] and digest==x["git_blob_sha1"],"integrity "+x["filename"])
 settings=root/"PROJECT-INSTRUCTIONS-SETTINGS.md"
 if settings.exists():
