@@ -1,4 +1,4 @@
-# Handoff maestro de Codex — versión v10 (solo tras solicitud explícita)
+# Handoff maestro de Codex — versión v11 (solo tras solicitud explícita)
 
 **NO es un prompt de una sesión listo para ejecutar:** debe rellenarse con la sesión real, estado de Git y **DOS contenidos académicos canónicos aprobados**.
 
@@ -36,3 +36,7 @@ CODEX-OWNED: scaffolding y tareas repetitivas delimitadas, tests/harness, integr
 - Theory site: ES/EN, index, dashboard, Diagram SVG, flashcards, citas, y preservación.
 - Tests: comandos reales, resultados, alcance, HTML inspeccionado, a11y/responsive, regresiones y `git diff`.
 - Excepciones/desviaciones, riesgo, correcciones y tareas LEARNER-OWNED pendientes.
+
+## Addendum v11 — Solo Learning Site (sin reautoría de teoría)
+
+Al aplicar el estilo educativo v11, inspeccionar contenido canónico de la sesión autorizada y su renderer, sin leer otras sesiones si el usuario limitó la revisión a PA-S002. Conservar texto aprobado y proteger lógica de las aplicaciones. Publicar semántica: una sola leyenda `Fase N · PA-Sxxx`, H1 único; vista previa vertical separada por dominio; conceptos `Nombre: definición` con ejemplo propio, sin « »; `Conceptos del tema principal` y `Conceptos del subtema N`; síntesis de tres ideas por capítulo; diagrama Mermaid→SVG propio contextual, ejercicio y solución, flashcards, Studio local y recursos legibles por capítulo; Studio global sin pérdida. Render HTML nativo (`p`, `ol/li`, `ul/li`, `dl/dt/dd`, `strong`, `em`, `figure/figcaption`, `fieldset/legend`); probar anchors únicos y existentes, incluyendo `#subtopic-7` y base GitHub Pages. Adjuntar evidencia de HTML realmente generado, no solo chequeos textuales. Para contenido adicional no aprobado, detener publicación y solicitar aceptación editorial.

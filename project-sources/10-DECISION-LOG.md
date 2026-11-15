@@ -94,8 +94,18 @@ Supersedes FLOW-006 immediate Codex prompt. Bare `PA-Sxxx` now triggers only a c
 
 **FLOW-010 (Accepted).** La versión vigente revisa por bloques con aceptación explícita; petición literal de sesión completa permite un borrador íntegro pero **no implica aprobación**. Los fragmentos aprobados no se modifican sin reconfirmación. La activación de entrega inmediata de Codex de versiones anteriores permanece **SUPERSEDED** dentro de este paquete documental.
 
-**CONTENT-010 (Accepted).** Se prohíben los IDs de máquina impresos en cualquier texto académico visible (título, índice, definición, tarjetas, tablas). Cada concepto en el inventario se expresa **«término: definición breve»**, y se desarrolla localmente dentro del Tema principal o Subtema correspondiente. Un H1 único y títulos naturales. Ningún «Nivel 1/2/3» visible para capas de lectura. La teoría trata sistemas externos; Accelerator solo en Teoría→Práctica/entregables.
+**CONTENT-010 (Accepted).** Se prohíben los IDs de máquina impresos en cualquier texto académico visible (título, índice, definición, tarjetas, tablas). Cada concepto en el inventario se expresa **término: definición breve**, y se desarrolla localmente dentro del Tema principal o Subtema correspondiente. Un H1 único y títulos naturales. Ningún `Nivel 1/2/3` visible para capas de lectura. La teoría trata sistemas externos; Accelerator solo en Teoría→Práctica/entregables.
 
 **QUALITY-010 (Accepted).** La profundidad se prueba con mecanismos técnicos concretos, escenarios adversos, alternativas, justificación y verificación; un marcador «ejemplo real» requiere una fuente primaria que sustente exactamente el mecanismo descrito. Production-ready sin implementación y pruebas ejecutadas se denomina *diseño de referencia no validado*. Diagramas y flashcards no sustituyen desarrollo. Auditoría humana obligatoria tras checks automáticos.
 
 **PILOT-010 (Accepted).** PA-S001–PA-S005: comparar los cinco antes de estandarizar S006–S120, y preservar productos/capacidades existentes; no imponer estructuras internas iguales.
+
+## CONTENT-011 / UX-011 / PUBLISH-011 — Feedback del piloto PA-S002, 2026-11-14
+
+**Estado: aceptado como requisito editorial por solicitud del usuario; implementación y adecuación visual aún no verificadas.** El contenido de PA-S002 y su renderizador sirvieron exclusivamente de referencia; no se revisaron las otras sesiones en esta iteración.
+
+- `CONTENT-011`: una leyenda visible de fase/sesión por página (`Fase N · PA-Sxxx`, nombre de fase desarrollado); un H1; vista previa vertical por dominio; nombre de concepto seguido de definición y ejemplo local, sin comillas angulares ni IDs de máquina; etiquetas `Conceptos del tema principal` y `Conceptos del subtema N`.
+- `UX-011`: cada Tema principal y cada Subtema contiene su síntesis propia de tres ideas, diagrama contextual Mermaid→SVG, ejemplo, ejercicio resuelto, flashcards, recursos y Studio local; la sesión además conserva su Studio integral. Elementos interactivos adicionales según mecanismo pedagógico válido.
+- `PUBLISH-011`: HTML semántico (p, ol, ul, dl, figure, strong/em, fieldset) y anchors legibles válidos, sin convertir secuencias en párrafos o `br`. Navegación de anclas y base GitHub Pages verificadas contra el HTML generado. Codex no reautoriza ni modifica lógica de aplicación para cumplir presentación.
+
+**Efecto retroactivo:** no se reescriben automáticamente bloques aprobados. PA-S002 puede migrarse al contrato v11 cuando el usuario autorice revisar sus bloques; diferencias conceptuales requieren confirmación editorial. Fuente de verdad de aceptación: Source 16, no el estado impreso dentro de un archivo histórico.

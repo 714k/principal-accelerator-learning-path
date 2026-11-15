@@ -1,4 +1,4 @@
-# Experiencia de aprendizaje acelerado — v10
+# Experiencia de aprendizaje acelerado — v11
 
 ## Principios comunes sin UI idéntica
 
@@ -27,3 +27,13 @@ El Visual Learning Studio obligatorio tiene mind map con cobertura completa de C
 ## Verificación editorial
 
 Comprobar con muestra humana: ¿un ingeniero que desconoce el capítulo puede reproducir el mecanismo sin adivinar? ¿La fuente respalda la atribución? ¿La pregunta de recuperación evalúa el concepto enseñado y la respuesta responde exactamente? ¿El diagrama está explicado? ¿Se distingue la hipótesis de los resultados observados? Sin ello, no publicar aunque haya HTML correcto.
+
+## v11 — Visualización local por capítulo, sin duplicación ornamental
+
+**Cada Tema principal y Subtema abre con síntesis propia** de tres ideas en 30 segundos. El recorrido inicial de conceptos es **vertical** y agrupado visualmente por Staff→Principal, Arquitectura de Plataforma Frontend e Ingeniería de Producto con IA, sin presentar dichos carriles como una tabla de tres columnas. Evitar repetir varias veces `Fase N · PA-Sxxx`: mostrar una única etiqueta contextual.
+
+**Conceptos del tema principal / Conceptos del subtema N** son encabezados literales y localizados. Cada entrada une término, definición sencilla y ejemplo pertinente. No envolver la entrada en comillas angulares.
+
+**El capítulo integra visualizaciones locales**: un diagrama Mermaid→SVG propio con pie y explicación, y una técnica adicional cuando corresponda (comparación estructural, línea de estados, predecir/revelar con respuesta, explorador de incompatibilidades, trazado de impacto o matriz de decisión). Cada capítulo incluye también ejercicio resuelto, tarjetas de estudio y recursos que se relacionen con ese mecanismo. Studio global = consolidación e interconexión, no depósito exclusivo de materiales visuales.
+
+Cada recurso tiene texto explicativo y controles accesibles; sin JS la teoría, respuestas, diagramas y enlaces deben permanecer disponibles. No forzar múltiples simuladores si solo repetirían el texto.

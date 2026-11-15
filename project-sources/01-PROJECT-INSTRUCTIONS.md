@@ -1,4 +1,4 @@
-# Instrucciones operativas — Principal Accelerator v10
+# Instrucciones operativas — Principal Accelerator v11
 
 ## Rol y objetivo
 
@@ -18,7 +18,7 @@ Solo tras aprobación de todos los bloques, y petición del estudiante, consolid
 
 Una sola cabecera H1; ID de sesión en breadcrumb/metadatos, nunca repetido como título. Estructura: tres ideas de síntesis → Objetivo → Vista previa → Conceptos/organización por dominios → Tema principal → Subtemas → integración entre dominios solo si justificada → Teoría→Práctica → Tiempo → Caso real → Ejemplo de producción → Visual Learning Studio → Ejercicios → Fuentes → Recursos → Checklist → Criterios de éxito → Puente. Sin secciones vacías ni marcadores.
 
-**NO imprimir IDs de máquina en el contenido visible**, incluidos códigos unidos por puntos; los IDs estables ES/EN se preservan en frontmatter/atributos/anclas internas, nunca como prefijos de conceptos o subtítulos. En inventario escribir «Aplicación: software que permite ...», no «Aplicación (scope.application)». Tampoco mostrar «Nivel 1», «Nivel 2», «Nivel 3» o lecturas de nivel como heading; usar «Concepto», «Cómo funciona», «Mecanismo», «Ejemplo resuelto», «Fallos y límites» y «Profundización» cuando aporten significado.
+**NO imprimir IDs de máquina en el contenido visible**, incluidos códigos unidos por puntos; los IDs estables ES/EN se preservan en frontmatter/atributos/anclas internas, nunca como prefijos de conceptos o subtítulos. En inventario escribir «Aplicación: software que permite ...», no `Aplicación (scope.application)`. Tampoco mostrar «Nivel 1», «Nivel 2», «Nivel 3» o lecturas de nivel como heading; usar «Concepto», «Cómo funciona», «Mecanismo», «Ejemplo resuelto», «Fallos y límites» y «Profundización» cuando aporten significado.
 
 Cada concepto importante necesita una definición verificable, elementos concretos y contrato, entrada/estado, secuencia causal real, resultado, excepción/fallo, alternativa/compromiso y forma de comprobarlo. Distinguir definición sustentada, ejemplo inventado etiquetado, inferencia y propuesta. Un índice global de conceptos no sustituye las explicaciones **dentro de cada Tema principal/Subtema**. Enseñar Staff/Principal, FPA y AIPE por carriles independientes antes de la síntesis; no rellenar carriles vacíos. Tablas y diagramas al lado de la explicación que sustentan. Pregunta de recuperación específica y respuesta razonada, no una instrucción genérica de explicar.
 
@@ -37,3 +37,16 @@ Codex sigue **Design→Build→Prove→Think→Publish**. ChatGPT escribe toda t
 ## Evidencia
 
 Mastery L1 explicar, L2 implementar, L3 operar, L4 decidir, L5 liderar exige pruebas distintas. Un clic de lectura, aprobación editorial, script presente o CI verde no demuestra dominio ni UX real en dispositivo. Verificar fuentes contra texto publicado, ES/EN semántico, contratos, IDs internos y visibilidad, tests reales, builds, HTML renderizado, diagramas, Studio, teclado/touch, regresiones y `git diff`. Reportar comandos/resultados/limitaciones, sin inventar. Para decisiones críticas pedir validación de especialista o prueba reproducible.
+
+## v11 — Contrato del contenido publicado en el Learning Site (prioritario frente a ejemplos v10)
+
+La sesión conserva el flujo editorial Source 16: `PA-Sxxx` solo inventario; capítulo a capítulo después de la solicitud; aprobación expresa; ES→EN→Codex solo en el orden vigente. **NO** reescribir teoría ya aprobada por cambios de presentación sin revisión del usuario.
+
+- Encabezado de contexto visible: una única leyenda `Fase N · PA-Sxxx`, con nombre completo de fase en español, una sola vez por página. El H1 contiene solo el título humano. El breadcrumb puede utilizar enlaces/nombres de navegación sin repetir la leyenda compuesta.
+- Inventario y vista previa: conceptos organizados verticalmente (un grupo por línea/bloque), por **Staff → Principal**, **Arquitectura de Plataforma Frontend**, **Ingeniería de Producto con IA** donde aplique; no columnas horizontales para el recorrido de conceptos. Cada concepto se escribe `Término: definición precisa` y va seguido de un **ejemplo propio** directamente relacionado.
+- En el Tema principal y **todos los Subtemas**: síntesis local en 30 segundos (tres proposiciones sustantivas), objetivo, encabezado literal `Conceptos del tema principal` o `Conceptos del subtema N`, definiciones+ejemplos, mecanismo y fallos, **diagrama contextual y explicado**, ejemplo resuelto, ejercicios con soluciones, tarjetas de estudio y respuestas, Visual Learning Studio local, recursos específicos con links reales, `Comprueba lo aprendido` con respuestas. El Studio global sigue existiendo y cubre la sesión íntegra.
+- No usar comillas angulares `« »` como envoltorio de conceptos. No imprimir código semántico de máquina ni etiquetas `Nivel 1/2/3` en contenidos.
+- La autoría debe conservar semántica HTML: secciones, párrafos, listas `ol/li` de secuencia, `ul/li` de elementos no ordenados, `dl/dt/dd` para términos, `strong` para énfasis; `figure/figcaption` para diagramas; `fieldset/legend` para grupos de controles. Nada de simular listas con `p` y saltos de línea, ni de convertir secciones largas en una única tarjeta.
+- Los enlaces de tabla de contenidos y referencias locales utilizan `href="#id"` con `id` único existente, rotulado legible, y enlaces externos HTTPS realmente verificados. La navegación mantiene la base de despliegue en GitHub Pages sin hardcodear rutas de raíz que rompan enlaces.
+
+Fuente 16 es el contrato detallado. Source 12 define HTML y Source 13 valida resultado renderizado; ningún PASS de texto por sí solo acredita resultado visual en dispositivo.

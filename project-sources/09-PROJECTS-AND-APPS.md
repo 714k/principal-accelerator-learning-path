@@ -1,4 +1,4 @@
-# Projects and Apps — targets for 120 sessions (v10)
+# Projects and Apps — targets for 120 sessions (v11; map unchanged)
 
 **APP TARGET IS NOT THE ACADEMIC CASE STUDY.** Source 09 determines *what will be built after editorial approval*; university/industry examples explain theory elsewhere. A session's `site/` page, Portfolio link or diagram is not an executable substitute for its named app. Targets are plans, not confirmed Git paths or completed builds.
 

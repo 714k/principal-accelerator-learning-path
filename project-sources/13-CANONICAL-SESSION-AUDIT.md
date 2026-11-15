@@ -1,4 +1,4 @@
-# Auditoría de aceptación — v10
+# Auditoría de aceptación — v11
 
 ## 0. Enrutamiento y flujo editorial
 
@@ -12,7 +12,7 @@
 
 - [ ] Exactamente **un H1** por documento y páginas publicadas; sesión/fase en metadatos/breadcrumb.
 - [ ] No hay segundo título equivalente ni IDs impresos como `engineering.software`, `scope.application` o `Sxxx-C01` en textos académicos visibles.
-- [ ] Todos los conceptos del inventario se muestran **«término: definición breve»**, no listados solos ni con código de máquina.
+- [ ] Todos los conceptos del inventario se muestran **término: definición breve**, no listados solos ni con código de máquina.
 - [ ] No hay etiquetas «Nivel 1/2/3/4/5» como estructura pedagógica; L1–L5 solo para competencias en sección pertinente.
 - [ ] No hay placeholders, secciones vacías, listas sin prosa suficiente ni «mecanismos resueltos» sin ejecución explicada.
 
@@ -58,3 +58,25 @@
 - Falla precisión de caso empresarial o ejemplo production-ready → devolver al bloque editorial; **no publicar**.
 
 **Cobertura por grep/script, presencia de heading y CI verde no certifican calidad pedagógica ni comportamiento de dispositivos físicos. Revisión humana indispensable.**
+
+## v11 — Checklist de aceptación específico del Learning Site (PA-S002 es único caso inspeccionado)
+
+### Editorial
+- [ ] Un solo rótulo contextual visible `Fase N · PA-Sxxx`; no repetir combinación ni usar `F0` en texto visible.
+- [ ] Exactamente un H1 humano, sin machine IDs ni comillas angulares en definiciones.
+- [ ] Vista previa de conceptos en secuencia **vertical**, separada por ámbito profesional, sin mezclar listas de FPA/AIPE/Staff.
+- [ ] TODOS los conceptos aparecen como `Término: definición`, y cada uno tiene ejemplo pertinente inmediatamente próximo y distinguible de su definición.
+- [ ] Cada Tema principal y cada Subtema incluye síntesis **local** en 30 segundos (tres ideas), encabezado explícito `Conceptos del tema principal`/`Conceptos del subtema N`, mecanismo profundo y ejemplo.
+- [ ] Hay al menos un diagrama propio, explicativo y contiguo a la teoría de **cada** Tema principal/Subtema; no se acepta como sustituto el mapa mental final.
+- [ ] Cada capítulo contiene ejercicios con soluciones, tarjetas con respuestas, Visual Learning Studio local con recurso adecuado y recursos específicos con links verificados. El Studio general cubre además los conceptos globales y todos los capítulos.
+
+### HTML, URLs y comportamiento
+- [ ] HTML semántico validado: `article/section`, `p`, pasos `ol/li`, conjuntos `ul/li`, términos `dl/dt/dd`, `figure/figcaption`, énfasis `strong/em`, `fieldset/legend` cuando se agrupan controles, código `pre/code` y tablas con encabezados.
+- [ ] Ninguna lista lógica convertida en párrafos + saltos, ni elementos `li` fuera de `ol/ul`.
+- [ ] Todas las anclas `href="#..."` apuntan a destinos presentes con `id` único, incluido `#subtopic-7` cuando se inspecciona PA-S002; links externos con texto legible y URL verificable.
+- [ ] Enlaces entre rutas funcionan bajo el prefijo de GitHub Pages y en carga directa de una URL con fragmento.
+- [ ] SVG accesibles con fuente Mermaid conservada, sin fallos de responsive/teclado/touch/no-JS/reduced-motion.
+- [ ] ES/EN tienen la misma cobertura de conceptos, ejemplos, diagramas, actividades, recursos y anclas semánticas.
+- [ ] En auditoría de sitio, registrar página/versión Git exacta, HTML generado examinado, comandos y resultados; no dar por aprobada una prueba por estar escrita en el contrato.
+
+**Gates editorial/publicación:** `MISSING_LOCAL_CHAPTER_COVERAGE` para capítulos sin síntesis/definiciones+ejemplos/diagrama/ejercicios/flashcards/Studio local/recursos; `INVALID_SEMANTIC_MARKUP` para estructura de HTML; `BROKEN_ANCHOR` para enlaces fragmentarios; `DUPLICATE_SESSION_CONTEXT` para rótulo compuesto repetido. Verificador auxiliar `VERIFY-V11.py` ofrece revisión parcial automática; no sustituye prueba física o evaluación académica.

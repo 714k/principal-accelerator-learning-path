@@ -1,4 +1,4 @@
-F0 · PA-S001 · Staff → Principal / Frontend Platform Architecture / AI Product Engineering
+Fase 0 · PA-S001 · Staff → Principal / Frontend Platform Architecture / AI Product Engineering
 
 # Fundamentos de ingeniería de software: arquitectura, plataforma y alcance Staff → Principal
 

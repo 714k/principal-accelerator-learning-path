@@ -1,4 +1,4 @@
-# Protocolo editorial de revisión por bloques — v10 (vigente)
+# Protocolo editorial de revisión por bloques — v11 (vigente)
 
 ## Antecedentes y decisiones
 
@@ -12,7 +12,7 @@ La primera salida se presenta como una sola página de planificación **sin desa
 
 - Un único H1 de título humano, ID/fase fuera del H1, síntesis de tres ideas, objetivo y preguntas que guiarán el capítulo.
 - Índice de secciones y ámbitos profesionales que sean pertinentes.
-- **Conceptos locales en lenguaje natural con definición inmediata**: «Aplicación: software que permite a una persona efectuar una tarea concreta». No mostrar solo «aplicación», una lista «Conceptos, en orden: ...», ni `scope.application` en paréntesis.
+- **Conceptos locales en lenguaje natural con definición inmediata**: Aplicación: software que permite a una persona efectuar una tarea concreta. No mostrar solo «aplicación», una lista «Conceptos, en orden: ...», ni `scope.application` en paréntesis.
 - Tema principal y todos los Subtemas con sus conceptos necesarios y definiciones breves, sin repetir texto genérico. Su desarrollo profundo ocurre en la etapa de redacción.
 - Caso real propuesto con fuente primaria concreta o estado «pendiente de verificar». Diferenciar empresa real documentada de un ejemplo hipotético. Evitar usar Accelerator como materia de teoría.
 - Ejemplo de producción externo: dominio, actores, datos/contratos, invariantes, seguridad, concurrencia si aplica, fallos, pruebas, observabilidad, despliegue y estado no verificado.
@@ -65,3 +65,47 @@ Ejemplo externo: documentación de ingeniería real (Google, Netflix, Cloudflare
 10. ¿Está claro qué está propuesto, qué se aprobó y qué se comprobó?
 
 Sin superar esta preflight, no presentar el bloque como completo.
+
+## v11 — Autoridad editorial específica del Learning Site (prevalece sobre v10)
+
+Esta sección incorpora el feedback de 14 de noviembre de 2026 sobre la **única sesión inspeccionada: PA-S002**. Sus reglas se aplican a nuevos contenidos de todas las sesiones, pero **no reescriben silenciosamente bloques aprobados**. Para migrar PA-S002 u otra teoría existente, primero presentar diferencias, solicitar revisión y conservar el contenido validado. La URL de GitHub Pages proporcionada fue inaccesible desde la herramienta web en esta auditoría; sí se leyó la fuente canónica ES y el renderizador PA-S002 del repositorio GitHub conectado. No afirmar inspección visual del HTML publicado.
+
+### Identidad y navegación
+
+- Presentar solo **una** leyenda de contexto con nombre completo: `Fase 0 · PA-S002` en esta sesión y `Fase N · PA-Sxxx` para las demás; no imprimir `F0 · PA-S002` en otra parte. Breadcrumb legible sin duplicar la leyenda. Un único H1 humano.
+- Enlaces internos son `href="#id"` con IDs semánticos estables, únicos y existentes; etiquetas de ancla describen la sección, nunca códigos de máquina. Comprobar `#subtopic-7` en PA-S002. Links externos HTTPS reales, rótulos de título legibles y prefijo de despliegue correcto en rutas internas.
+
+### Conceptos y vista previa
+
+- Vista previa **vertical**: grupos separados, cada uno con encabezado para `Staff → Principal`, `Arquitectura de Plataforma Frontend` y `Ingeniería de Producto con IA` si es aplicable. Sin grid de tres columnas ni carrusel para el recorrido.
+- **Todos** los conceptos aparecen `Término: definición clara` y un ejemplo directamente asociado en su misma entrada o inmediatamente después. No utilizar `«Monorepo: ...»`, `«Polyrepo: ...»` ni otros envoltorios angulares. Los conceptos no tienen IDs técnicos visibles.
+- Cada Tema principal incluye encabezado `Conceptos del tema principal`. Cada Subtema N incluye `Conceptos del subtema N`, en ES; títulos equivalentes en EN. No ocultar definiciones únicamente en la sección de conceptos general.
+
+### Cobertura obligatoria por capítulo (Tema principal y CADA Subtema)
+
+1. Título natural con ancla, sin H1 nuevo.
+2. **Síntesis en 30 segundos** del bloque con tres ideas **diferentes a la síntesis general**.
+3. Objetivo claro y conceptos locales con `Término: definición` + **ejemplo propio** de cada concepto.
+4. Teoría sustantiva con componentes, contrato, datos, estados, flujo, fallos, límites, decisiones y verificación cuando corresponda.
+5. **Diagrama técnico propio al lado del mecanismo**, Mermaid fuente→SVG responsive accesible, título/pie y explicación; un diagrama por Tema principal/Subtema como mínimo. No valen diagrams solamente al final.
+6. Ejemplo concreto trabajado; ejercicios del capítulo con resolución/feedback; tarjetas locales con respuesta explicativa y fuente cuando haga falta.
+7. **Visual Learning Studio local**: recurso de aprendizaje adicional seleccionado por tipo de conocimiento y accesible/no-JS; conservar Studio integral de sesión (mapa mental de todas las secciones y flashcards totales).
+8. Recursos específicos del capítulo con links funcionales y razón de consulta; `Comprueba lo aprendido` con preguntas y respuestas del mismo bloque.
+
+No multiplicar controles vacíos ni usar una cuota fija de tarjetas. Si una sección requiere cambios a texto previamente aceptado, registrar diff conceptual y pedir nueva aprobación. La autorización de una sesión íntegra sigue dando un **borrador no aprobado** salvo aceptación expresa.
+
+### Marcado semántico del HTML publicado
+
+- `main` → `article` → `section` por capítulo/subsección cuando sea una región identificable; un `h1` y encabezados progresivos.
+- Párrafos reales `p`; pasos con `ol > li`, conjuntos sin orden `ul > li`; no representar listas con varios párrafos/`br`.
+- Conceptos con `dl > dt` (término) + `dd` (definición y ejemplo) o estructura equivalente justificada con etiquetas nativas; visual `Término: definición` sin comillas angulares, incluso con lector de pantalla.
+- Enfatizar con `strong`; matizar con `em`; usar `span` para texto inline solo cuando corresponda; `figure/figcaption` para diagramas, `pre/code` para código, `table` con encabezados para datos tabulares, `fieldset/legend` para grupos de preguntas/controles. `div` solo si necesita layout y no reemplaza una etiqueta semántica.
+- No inventar `href` o enlaces; para diagramas y controles, texto alternativo, captions, teclado, touch, reduced-motion y fallback sin JS.
+
+### Revisión previa a salida/publicación
+
+- Revisar **la estructura del capítulo solicitado**, sin avanzar a otros bloques. Responder las 10 comprobaciones previas del Source 16 + las nuevas comprobaciones de semántica, diagramas locales y recursos.
+- Validación del Markdown/AST → HTML final: H1 único, rótulo de fase único, contenido local íntegro, marcado semántico y anchors resolubles en ES/EN. Un chequeo por regex no reemplaza inspección DOM ni dispositivo.
+- Fallo de cobertura local → `MISSING_LOCAL_CHAPTER_COVERAGE`; HTML inválido → `INVALID_SEMANTIC_MARKUP`; ancla rota → `BROKEN_ANCHOR`; rótulo repetido → `DUPLICATE_SESSION_CONTEXT`.
+
+**PA-S002 no fue modificado en Git:** el paquete v11 solo cambia reglas y añade referencia del subtema 7 para revisión. La evidencia de implementación, build, a11y y renderizado deberá recopilarse cuando se use Codex.

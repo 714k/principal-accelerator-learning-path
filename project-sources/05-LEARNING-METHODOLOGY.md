@@ -1,4 +1,4 @@
-# Metodología académica y aprendizaje profundo (v10)
+# Metodología académica y aprendizaje profundo (v11)
 
 ## Autoría en secciones; el conocimiento no se produce a partir de etiquetas
 
@@ -8,7 +8,7 @@ El índice de la sesión es un contrato de cobertura y orden, no la lección. El
 
 Un epígrafe compuesto como «Aplicación, sistema, plataforma y ecosistema» exige cuatro definiciones conceptuales independientes, cada una **con mecanismo, ejemplo propio, contraejemplo y preguntas**, antes de comparar categorías. Los conceptos también se enseñan en el Tema principal y en cada Subtema donde se usan, incluso si ya tuvieron una introducción en «Conceptos». Repetir el mismo glosario sin explicar el nuevo mecanismo es incumplimiento.
 
-El manifiesto técnico conserva identificadores semánticos estables ES/EN y referencias; la persona solo ve **término y explicación normal**. El inventario editorial inicial utiliza **«Aplicación: software que ...»** y NO «Aplicación (scope.application)». Preguntas, flashcards y tarjetas visibles tampoco imprimen IDs técnicos.
+El manifiesto técnico conserva identificadores semánticos estables ES/EN y referencias; la persona solo ve **término y explicación normal**. El inventario editorial inicial utiliza **Aplicación: software que ...** y NO `Aplicación (scope.application)`. Preguntas, flashcards y tarjetas visibles tampoco imprimen IDs técnicos.
 
 ## Calidad de una mini-lección
 
@@ -54,3 +54,13 @@ Rechazar párrafos sin actores/datos/mecanismo, «mecanismo resuelto» sin ejecu
 ## Repaso y evidencia
 
 Cada concepto importante incluye recuperación con solución y oportunidad futura de revisión. Estudiar, responder preguntas o marcar casillas puede registrar actividad; mastery L1–L5 se atribuye solo con evidencia separada. Aprobación editorial ≠ dominio.
+
+## v11 — Distribución de aprendizaje a escala de capítulo
+
+Cada Tema principal y Subtema es un capítulo autosuficiente, no un fragmento de una única sección «ejercicios/flashcards/resources» situada al final. Debe contener tres ideas de síntesis local, conceptos con definición y **un ejemplo distinto y pertinente por concepto**, una visualización diagramática obligatoria (sin datos inventados), ejercicios resueltos, tarjetas con respuestas, recursos de esa sección y su propio Studio. Las secciones globales de la sesión reúnen cobertura y repaso, sin borrar ni duplicar automáticamente los materiales locales.
+
+Los ejemplos de un concepto deben mostrar por qué lo representan: **actor + operación concreta + objeto/estado + resultado** según el tipo de conocimiento. Un ejemplo de *ownership* muestra quién revisa o mantiene; uno de *compatibilidad* muestra qué contrato anterior sigue funcionando; uno de *excepción* muestra desviación, plazo y responsable. Si no se puede explicar esa vinculación, revisar el ejemplo.
+
+La vista previa presenta un **recorrido vertical**, con grupos de ámbito profesional separados; no usar carruseles, rejillas horizontales ni tablas multicolumna para la secuencia conceptual. Tablas comparativas dentro de la explicación sí son admisibles cuando aportan contraste.
+
+Variar los elementos visuales **por objetivo didáctico**: en un capítulo estructural, mapa de dependencias + comparación; en uno causal, diagrama de secuencia + predecir/revelar; en uno procedimental, ejemplo trabajado + pasos incompletos; en uno decisional, matriz + escenarios de elección. Todo recurso incluye su premisa, mecanismo, límite y respuesta/interpretación, sin simular aprendizaje medido.

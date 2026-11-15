@@ -1,4 +1,4 @@
-# Aprendizaje adaptativo por tipo de conocimiento — v10
+# Aprendizaje adaptativo por tipo de conocimiento — v11
 
 **Autoridad pedagógica:** compatible con Source 16, que gobierna flujo editorial y presentación visible. Las decisiones de técnicas no alteran ni reescriben teoría; Codex publica exactamente el contenido aprobado.
 
@@ -36,3 +36,15 @@ Evaluar cada carril en conceptos propios, no repetir artificialmente los tres en
 ## Evaluación y publicación
 
 L1 Explicar, L2 Implementar, L3 Operar, L4 Decidir, L5 Liderar son dimensiones de competencia/evidencia, NO etiquetas de lectura. El estudiante revisa y aprueba editorialmente cada bloque; una aprobación no acredita dominio. El texto ES y EN se conserva completo para Codex, con mind map y flashcards de cobertura completa, HTML sin IDs visibles, y pruebas automáticas más revisión humana.
+
+## v11 — Cobertura y variación a nivel de Tema principal y Subtema
+
+Mantener la secuencia propia de cada capítulo: síntesis 30 segundos → conceptos con definición y ejemplo → explicación/mecanismo → diagrama explicativo → ejemplo resuelto → ejercicio y respuesta → tarjetas de estudio → Studio local → recursos → Comprueba lo aprendido. El contenido didáctico puede intercalar visuales/ejercicios junto al mecanismo y no debe quedar relegado a las secciones globales.
+
+- Concepto **conceptual**: contraste verdadero con contraejemplo y caso clasificado.
+- Concepto **estructural**: diagrama de dependencias con propietario, contrato y propagación.
+- Concepto **causal**: secuencia de estados, predicción y revelación del resultado justificado.
+- Concepto **procedimental**: ejemplo trabajado, pasos numerados reales `ol`, práctica con menor guía.
+- Concepto **decisional**: matriz de opciones, restricciones, fallo e implicaciones de la decisión.
+
+El diagrama propio es un mínimo en cada capítulo, no cuota de widgets ni permiso para diagramas decorativos. La cantidad de tarjetas responde a los conceptos efectivamente tratados. Establecer finalidad y feedback de cada interacción. Reutilizar datos del capítulo sin inventar métricas, resultados de pruebas o aprendizaje observado.

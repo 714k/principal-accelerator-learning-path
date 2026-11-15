@@ -1,11 +1,11 @@
-# Instalación — Reemplazo completo v10
+# Instalación v11 — reemplazo completo de reglas
 
-1. Haz copia local de los Sources y Project Instructions previos antes de retirar documentos de la interfaz.
-2. Abre el ZIP v10 y sube **únicamente `00-README.md` a `16-EDITORIAL-REVIEW-PROTOCOL.md`** como los 17 Sources del proyecto. Retira copias duplicadas de v7/v8/v9 para evitar colisión de reglas. Esta acción requiere realizarse manualmente en la interfaz del proyecto; no ha sido ejecutada por este archivo.
-3. En **Project → Settings → Instructions**, reemplaza todo el texto anterior por el contenido íntegro de `PROJECT-INSTRUCTIONS-SETTINGS.md`. No concatenarlo con versiones previas: algunas exigían handoff inmediato y contradicen la revisión por bloques solicitada después.
-4. Conserva `CODEX-SESSION-MASTER-PROMPT.md`, los CSV y ejemplos como referencia descargable o en Git, **no como Sources duplicados**. `PA-S001-QUALITY-REFERENCE.md` es una muestra no aprobada y no debe publicarse como teoría.
-5. Valida `PA-S001` (solo inventario, definiciones breves, sin IDs visibles). Luego «muéstrame el tema principal» (solo capítulo), revisa y acepta. Pide expresamente una sesión íntegra solo cuando quieras evaluar un borrador completo no aprobado.
-6. Valida PA-S004: inventario contempla Design System + Storybook ejecutable aparte del Portfolio y Learning Site; la entrega real debe probarlo cuando se autorice Codex.
-7. Ejecuta `python VERIFY-V10.py` en la carpeta descomprimida; lee `CURRENT-VERIFICATION.md`. Estas pruebas estructurales NO certifican rigor pedagógico ni revisión del repositorio.
+1. Descargar el ZIP y hacer copia de Sources 00–16 e instrucciones actuales.
+2. Reemplazar en Project → Sources **exactamente 17** ficheros numerados 00–16 con los de v11; evitar duplicados v9/v10. Los auxiliares NO van en Sources.
+3. Reemplazar íntegramente Project → Settings → Instructions con `PROJECT-INSTRUCTIONS-SETTINGS.md`. No concatenar v10/v11. Su tamaño se comprueba en `CURRENT-VERIFICATION.md`.
+4. No modificar contenido canónico o Git automáticamente: el ZIP cambia **contratos**, no ejecuta el build del sitio ni cambia teoría aprobada.
+5. Para la prueba, utilizar PA-S002 como único caso: revisar el inventario, pedir el Subtema 7 con síntesis local, conceptos+ejemplo, diagrama, ejercicio, tarjetas, Studio, recursos; comprobar la leyenda única y anchors legibles.
+6. Al solicitar Codex, proporcionar teorías canónicas aprobadas ES/EN realmente disponibles. Aplicar pruebas a HTML generado, incluyendo `#subtopic-7` y enlaces de recursos, sin tocar lógica de aplicación. El `PA-S002-SEMANTIC-HTML-REFERENCE.html` ilustra el marcado; NO es la página publicada ni está aprobado.
+7. Ejecutar `python VERIFY-V11.py`. Opcionalmente `python VERIFY-V11.py --html path/a/PA-S002/index.html` para controles parciales del HTML real. Revisar manualmente teclado, touch, zoom, responsive, no-JS, reduced-motion, enlaces HTTP y calidad académica.
 
-**Importante:** el paquete cambia Sources e instrucciones; **no modifica Git**, las apps ni el estado de progreso real. La versión ES/EN canónica de PA-S001 no se considera aprobada por haber mostrado un borrador en conversación.
+**Limitación:** la página de GitHub Pages enviada no se pudo leer mediante la herramienta web; se recuperaron del repositorio GitHub el Markdown canónico PA-S002 en español y su renderizador. No se inspeccionó ninguna otra sesión del sitio en esta revisión.
