@@ -10,6 +10,8 @@ Este inventario es una **propuesta técnica**; no demuestra rutas existentes, ap
 
 Cada sesión incluye en su handoff: teoría canónica completa en español e inglés (separación de Staff→Principal, FPA y AIPE; conceptos atómicos; síntesis; fundamentos, mecanismos y profundización opcional; ejemplos, ejercicios, fuentes, recuperación y respuestas), publicación bajo `site/es/sessions/PA-Sxxx/` y `site/en/sessions/PA-Sxxx/`, mapa mental Mermaid→SVG, flashcards de cobertura completa, visuales pertinentes, tracking de estudio distinto de evidence/mastery, y reporte de validaciones reales con diff y desviaciones. Una app o laboratorio indicado abajo es **adicional** al site.
 
+**V12:** el inventario y la sección Entregables de la sesión (antes del checklist) desglosan site, destino de ingeniería, Portfolio cuando aplique (o N/A motivado) y evidencia. Para cada salida: propósito, acciones numeradas, comandos verificados cuando disponibles, resultado esperado, ruta relativa al monorepo (verificada/propuesta), responsable del trabajo y criterio de aceptación. El Studio local debe cubrir cinco modos interactivos en el tema principal y tres por subtema, adicional al global. Consultar Sources 14 y 16; este mapa de 120 destinos no cambia.
+
 Una sesión de diseño o revisión entrega artefactos duraderos y no crea una nueva aplicación automáticamente. Una sesión de implementación preserva capacidades previas; nuevos proyectos requieren verificación previa de ruta/estado real. `PA-S004` debe crear o extender el Design System y ofrecer Storybook ejecutable; el número de componentes no es una cuota global.
 
 ## F0 — Accelerator Platform

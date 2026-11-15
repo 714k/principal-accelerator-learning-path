@@ -1,4 +1,4 @@
-# Experiencia de aprendizaje acelerado — v11
+# Experiencia de aprendizaje acelerado — v12
 
 ## Principios comunes sin UI idéntica
 
@@ -34,6 +34,20 @@ Comprobar con muestra humana: ¿un ingeniero que desconoce el capítulo puede re
 
 **Conceptos del tema principal / Conceptos del subtema N** son encabezados literales y localizados. Cada entrada une término, definición sencilla y ejemplo pertinente. No envolver la entrada en comillas angulares.
 
-**El capítulo integra visualizaciones locales**: un diagrama Mermaid→SVG propio con pie y explicación, y una técnica adicional cuando corresponda (comparación estructural, línea de estados, predecir/revelar con respuesta, explorador de incompatibilidades, trazado de impacto o matriz de decisión). Cada capítulo incluye también ejercicio resuelto, tarjetas de estudio y recursos que se relacionen con ese mecanismo. Studio global = consolidación e interconexión, no depósito exclusivo de materiales visuales.
+**El capítulo integra visualizaciones locales**: un diagrama Mermaid→SVG propio con pie y explicación, y los recursos interactivos mínimos definidos en v12 (comparación estructural, línea de estados, predecir/revelar con respuesta, explorador de incompatibilidades, trazado de impacto o matriz de decisión). Cada capítulo incluye también ejercicio resuelto, tarjetas de estudio y recursos que se relacionen con ese mecanismo. Studio global = consolidación e interconexión, no depósito exclusivo de materiales visuales.
 
 Cada recurso tiene texto explicativo y controles accesibles; sin JS la teoría, respuestas, diagramas y enlaces deben permanecer disponibles. No forzar múltiples simuladores si solo repetirían el texto.
+
+## v12 — Estándar visual interactivo obligatorio en conversación y site
+
+**Mínimos obligatorios v12:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional conserva mapa y tarjetas de cobertura integral. Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
+
+### Comportamiento verificable de cada recurso
+
+1. **Mapa mental:** grafo de nodos y ramificaciones etiquetadas; al seleccionar nodo, resaltarlo y mostrar definición, ejemplo y relaciones/fuentes del concepto. Navegación por teclado/touch, no lista estática que simula grafo.
+2. **Flashcards:** tarjetas individuales (nunca tabla), pregunta, giro/revelado, anterior/siguiente y contador; respuesta explicada y referencias; cubrir los conceptos locales.
+3. **Simulador:** controles de escenario/variables modificables; grafo, estados y salidas que reaccionan inmediatamente; explicar mecanismo y consecuencias, éxito/error/límites aplicables; transparentar unidades, fórmula, entradas e hipótesis.
+4. **Explorador de arquitectura:** grafo de componentes/capas/servicios/conexiones etiquetadas; selección y resaltado de componente y dependencias; panel dinámico de responsabilidades, entradas/salidas, contratos y decisiones.
+5. **Matriz de decisión:** criterios y pesos ajustables, alternativas contextualizadas, puntuaciones base y cálculo transparente (ponderación normalizada o fórmula declarada), comparación gráfica/barras y ranking recalculados; supuestos, trade-offs y caso de pesos nulos explícitos.
+
+Cada widget incluye instrucciones de uso, estado inicial, controles reales y feedback que varía con la interacción. Adaptar al conocimiento, no repetir el mismo dato sin valor. No inventar métricas de empresa, etiquetar escenarios hipotéticos. Mostrar aquí en conversación componentes visuales funcionales, no código fuente ni instrucciones para Codex en su lugar; cuando el cliente no los soporte, declarar qué quedó sin entregar. En el site conservar fallback accesible sin JS, pero no contabilizarlo como interacción. Verificar antes de presentar como completo (Source 13).

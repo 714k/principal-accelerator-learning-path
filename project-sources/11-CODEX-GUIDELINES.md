@@ -1,4 +1,4 @@
-# Codex — límites, handoff y verificación (v11)
+# Codex — límites, handoff y verificación (v12)
 
 ## Cuándo se autoriza
 
@@ -49,3 +49,13 @@ Si el usuario solicita aplicar el nuevo formato a una página existente, Codex p
 El renderizador deja de depender de comillas angulares para reconocer definiciones: utilizar un esquema/AST explícito cuando exista, o un parser con pruebas sobre `Nombre: definición` y ejemplos asociados; nunca publicar `« »` como envoltorio editorial. Renderiza `dl/dt/dd` (o estructura semántica equivalente) con término+definición+ejemplo. Las frases de introducción deben ser `<p>`, los pasos `<ol><li>`, colecciones `<ul><li>`; no usar saltos para imitar listas. `Fase N · PA-Sxxx` aparece una sola vez como metadato visible, no en hero, breadcrumb y tarjetas simultáneamente. H1 único por idioma. Previsualización vertical y tres carriles profesionales separados.
 
 Cada capítulo principal/subtema recibe tres ideas locales de síntesis, objetivo, `Conceptos del ...`, ejemplo realista de cada concepto, diagrama Mermaid fuente/figura SVG contextual, ejercicios resueltos, tarjetas, Studio local con técnica adaptativa y recursos verificables. Preservar Studio global y cobertura ES/EN. Construir anchors con IDs estables y validar cada `href="#..."` contra destino real, incluido `#subtopic-7`; verificar base path. Las pruebas DOM/HTML no sustituyen una inspección visual de teléfono, tableta y escritorio ni la comprobación pedagógica.
+
+## v12 — Handoff y Definition of Done
+
+Incluir `Entregables de la sesión` antes del Checklist y anticiparlo en el inventario. Separar Learning Site ES/EN, app/lab/package/tool o artefacto de diseño/revisión de Source 09, contribución al Portfolio (o N/A justificado), tareas CODEX-OWNED/LEARNER-OWNED y pruebas/evidencia. Para cada entregable: propósito, instrucciones numeradas de qué crear/modificar, comandos verificados si existen, resultado esperado, ruta relativa al monorepo (verificada o propuesta), responsable y criterio de aceptación/verificación. Consultar Git, Sources 03/09 y SESSION-OUTPUTS-120; ninguna página teórica sustituye el objetivo de ingeniería.
+
+Código legible y mantenible en todo el monorepo (apps, Portfolio, Learning Site y paquetes): nombres claros, módulos y tipos; prohibido ofuscar/minimizar código autorado o salida propia; preservar archivos de terceros y no usar bundles minificados como fuente. Usar configuración e ignore Prettier de raíz para JS/TS/JSX/TSX, HTML, CSS/SCSS/Sass (parser/plugin compatible), Markdown, JSON y otros formatos soportados; ejecutar formato y `prettier --check` en CI. Reportar comandos/resultados reales y no alterar semántica, convenciones ni teoría aprobada.
+
+**Mínimos obligatorios v12:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional conserva mapa y tarjetas de cobertura integral. Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
+
+Materializar los cinco modos según Source 14 y el inventario canónico; no inventar teoría/datos/respuestas faltantes. Comprobar relaciones, controles y resultados reales de cada modo en ES/EN y reportar cobertura 5/3 por capítulo, desviaciones, accesibilidad y salida sin JS. Si faltan especificaciones aprobadas, detener y solicitar bloque editorial; no sustituir por placeholders.

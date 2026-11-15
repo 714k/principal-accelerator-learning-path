@@ -1,4 +1,4 @@
-# Metodología académica y aprendizaje profundo (v11)
+# Metodología académica y aprendizaje profundo (v12)
 
 ## Autoría en secciones; el conocimiento no se produce a partir de etiquetas
 
@@ -64,3 +64,11 @@ Los ejemplos de un concepto deben mostrar por qué lo representan: **actor + ope
 La vista previa presenta un **recorrido vertical**, con grupos de ámbito profesional separados; no usar carruseles, rejillas horizontales ni tablas multicolumna para la secuencia conceptual. Tablas comparativas dentro de la explicación sí son admisibles cuando aportan contraste.
 
 Variar los elementos visuales **por objetivo didáctico**: en un capítulo estructural, mapa de dependencias + comparación; en uno causal, diagrama de secuencia + predecir/revelar; en uno procedimental, ejemplo trabajado + pasos incompletos; en uno decisional, matriz + escenarios de elección. Todo recurso incluye su premisa, mecanismo, límite y respuesta/interpretación, sin simular aprendizaje medido.
+
+## v12 — Enseñanza local y recursos funcionales
+
+Todos los conceptos globales y locales, incluso en el inventario, se organizan verticalmente por Staff → Principal, FPA y AIPE (indicar cuando no aplique). Cada entrada es `Concepto: definición` y un párrafo independiente `Ejemplo:` propio y contextualizado en software; nunca tabla, grid horizontal, comillas angulares o ID visible. Flashcards individuales, nunca tablas.
+
+**Mínimos obligatorios v12:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional conserva mapa y tarjetas de cobertura integral. Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
+
+Cada recurso reutiliza un mecanismo, ejemplo o decisión concreta del capítulo; no sustituye la teoría. Elegir escenarios verificables o hipotéticos etiquetados, no inventar métricas ni usar herramientas decorativas.

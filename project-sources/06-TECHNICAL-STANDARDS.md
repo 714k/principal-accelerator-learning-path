@@ -217,7 +217,9 @@ Validation must reject theory-bearing `session` pages that lack:
 - visual guide/studio declaration;
 - mind-map mode covering Concepts, Main Topic and all theoretical Subtopics;
 - flashcard coverage for the same set;
-- ES/EN structural parity of visual mode identifiers/coverage.
+- ES/EN structural parity of visual mode identifiers/coverage;
+- per-section minimums: Main Topic five distinct interactive modes; each Subtopic three, with types required by Source 16; global Studio additional;
+- working controls, changing graph/state/output and meaningful feedback; fallback alone never satisfies an interactive mode.
 
 Mind maps are Mermaid-authored and participate in the same diagram discovery/build pipeline as section diagrams. Preserve Puppeteer/browser configuration required by the current Mermaid build unless deliberately replaced through an accepted technology/architecture decision.
 
@@ -327,3 +329,11 @@ El autor entrega contenido estructurado y Codex/renderer produce HTML semántico
 Capítulos `main-topic` y `subtopic-N`: encabezado semántico, resumen local de 3 ideas, objetivo, `Conceptos del tema principal`/`Conceptos del subtema N`, ejemplos por concepto, al menos un `figure` con SVG contextual + `figcaption`, ejercicio con solución y feedback, tarjetas locales accesibles, Studio local y recursos de la sección. El Studio de sesión se conserva adicionalmente y no reemplaza estos elementos. Diseñar navegación de conceptos en **flujo vertical** en todos los breakpoints; no tabla/carrusel horizontal.
 
 Enlaces internos `a[href="#slug"]` con destinos `id="slug"` presentes, únicos y estables; utilizar nombres legibles, no URL raw como texto de enlace. Links externos HTTPS con URL confirmada, y enlaces de recursos de lecturas reales. Respetar `BASE_PATH` de GitHub Pages para rutas internas. Comprobar hash links y fragmentos desde páginas publicadas ES/EN, incluyendo apertura directa a `#subtopic-7`; comprobar teclado, foco, reducido movimiento y no-JS.
+
+## v12 — Legibilidad, formato y validación de recursos
+
+Código legible y mantenible en todo el monorepo (apps, Portfolio, Learning Site y paquetes): nombres claros, módulos y tipos; prohibido ofuscar/minimizar código autorado o salida propia; preservar archivos de terceros y no usar bundles minificados como fuente. Usar configuración e ignore Prettier de raíz para JS/TS/JSX/TSX, HTML, CSS/SCSS/Sass (parser/plugin compatible), Markdown, JSON y otros formatos soportados; ejecutar formato y `prettier --check` en CI. Reportar comandos/resultados reales y no alterar semántica, convenciones ni teoría aprobada.
+
+**Mínimos obligatorios v12:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional conserva mapa y tarjetas de cobertura integral. Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
+
+Registrar cada modo con scope de sección, IDs estables, cobertura de conceptos y configuración de estado/controles. Probar selección de nodos y dependencias, giro/navegación de tarjetas, cambios de escenario, actualización de salida y rankings al ajustar pesos; probar teclado/touch, zoom, reduced-motion, responsive, no-JS y paridad ES/EN. Exigir estados iniciales, errores/límites y reset cuando corresponda. No afirmar resultados no ejecutados.

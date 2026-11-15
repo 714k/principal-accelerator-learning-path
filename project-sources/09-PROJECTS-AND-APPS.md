@@ -1,4 +1,4 @@
-# Projects and Apps — targets for 120 sessions (v11; map unchanged)
+# Projects and Apps — targets for 120 sessions (v12; map unchanged)
 
 **APP TARGET IS NOT THE ACADEMIC CASE STUDY.** Source 09 determines *what will be built after editorial approval*; university/industry examples explain theory elsewhere. A session's `site/` page, Portfolio link or diagram is not an executable substitute for its named app. Targets are plans, not confirmed Git paths or completed builds.
 
@@ -12,6 +12,8 @@ Sessions should advance longitudinal systems whenever possible. Do not create a 
 At session start, identify the primary project/app/lab and state whether the session **initializes**, **extends**, **compares**, or **reviews** it.
 
 A bare `PA-Sxxx` requests the complete editorial inventory first; individual sections are drafted and approved by the learner before any canonical ES/EN consolidation and later Codex handoff. Use a `.sh` only to initialize a NEW repository/app/lab/system from zero when no compatible baseline exists; once structure exists, Codex creates all session deliverables directly.
+
+V12: preserve every destination and modality below. In the inventory and final `Entregables de la sesión` before the study checklist, specify separate site, assigned engineering artifact, Portfolio contribution or justified N/A, learner/Codex ownership, numbered actions, verified commands if available, expected outcome, verified/proposed monorepo-relative paths and acceptance evidence. Source 16 governs the editorial flow and Source 06 the readable code/Prettier contract.
 
 
 ## Non-blocking project continuity
