@@ -1,8 +1,11 @@
-# Codex — límites, handoff y verificación (v12)
+# Codex — límites, handoff y verificación (v13)
+
+**Contrato v13 vigente:** Sources 18 (orden y alcance), 19 (HTML incremental), 20 (validación no bloqueante), 21 (entregables), 22 (profundidad) y 17 (Studio 5/3/5) prevalecen sobre cualquier formulación anterior incompatible. No comprimir capítulos ni impedir crear, revisar, editar, traducir o consolidar por estados previos. Las puertas de aprobación/pruebas son exclusivamente de publicación canónica.
+
 
 ## Cuándo se autoriza
 
-El disparador `PA-Sxxx` **no** autoriza por sí solo un handoff técnico en este contrato editorial. Codex se solicita expresamente después de aprobar y consolidar las teorías ES/EN. Si el usuario pide «Codex» antes y faltan payloads, responder `MISSING_CANONICAL_THEORY_PAYLOAD` y detener publicación, sin pedir a Codex que escriba o resuma teoría. Un borrador íntegro mostrado en chat sin aprobación no es payload canónico aprobado.
+A solicitud del estudiante, consolidar lo disponible en ES o traducir EN sin bloquear por estados previos; distinguir borrador de canónico. Codex solo bajo solicitud expresa: permitir handoff de borrador identificado con pendientes; prohibir publicación canónica sin aprobación y payloads ES/EN íntegros, accesibles y equivalentes. Nunca pedir a Codex reautoría ni fingir evidencia. Registrar MISSING_CANONICAL_THEORY_PAYLOAD, MISSING_ATOMIC_CONCEPT_COVERAGE o MISSING_SESSION_APP_TARGET como diagnósticos de publicación, no bloqueos de autoría.
 
 ## Dos superficies y un destino de ingeniería
 
@@ -50,12 +53,12 @@ El renderizador deja de depender de comillas angulares para reconocer definicion
 
 Cada capítulo principal/subtema recibe tres ideas locales de síntesis, objetivo, `Conceptos del ...`, ejemplo realista de cada concepto, diagrama Mermaid fuente/figura SVG contextual, ejercicios resueltos, tarjetas, Studio local con técnica adaptativa y recursos verificables. Preservar Studio global y cobertura ES/EN. Construir anchors con IDs estables y validar cada `href="#..."` contra destino real, incluido `#subtopic-7`; verificar base path. Las pruebas DOM/HTML no sustituyen una inspección visual de teléfono, tableta y escritorio ni la comprobación pedagógica.
 
-## v12 — Handoff y Definition of Done
+## v13 — Handoff y Definition of Done
 
-Incluir `Entregables de la sesión` antes del Checklist y anticiparlo en el inventario. Separar Learning Site ES/EN, app/lab/package/tool o artefacto de diseño/revisión de Source 09, contribución al Portfolio (o N/A justificado), tareas CODEX-OWNED/LEARNER-OWNED y pruebas/evidencia. Para cada entregable: propósito, instrucciones numeradas de qué crear/modificar, comandos verificados si existen, resultado esperado, ruta relativa al monorepo (verificada o propuesta), responsable y criterio de aceptación/verificación. Consultar Git, Sources 03/09 y SESSION-OUTPUTS-120; ninguna página teórica sustituye el objetivo de ingeniería.
+Incluir `Entregables de la sesión` antes del Checklist y listar solo su encabezado en el índice inicial; desarrollar a solicitud. Separar Learning Site ES/EN, app/lab/package/tool o artefacto de diseño/revisión de Source 09, contribución al Portfolio (o N/A justificado), tareas CODEX-OWNED/LEARNER-OWNED y pruebas/evidencia. Para cada entregable: propósito, instrucciones numeradas de qué crear/modificar, comandos verificados si existen, resultado esperado, ruta relativa al monorepo (verificada o propuesta), responsable y criterio de aceptación/verificación. Consultar Git, Sources 03/09 y SESSION-OUTPUTS-120; ninguna página teórica sustituye el objetivo de ingeniería.
 
 Código legible y mantenible en todo el monorepo (apps, Portfolio, Learning Site y paquetes): nombres claros, módulos y tipos; prohibido ofuscar/minimizar código autorado o salida propia; preservar archivos de terceros y no usar bundles minificados como fuente. Usar configuración e ignore Prettier de raíz para JS/TS/JSX/TSX, HTML, CSS/SCSS/Sass (parser/plugin compatible), Markdown, JSON y otros formatos soportados; ejecutar formato y `prettier --check` en CI. Reportar comandos/resultados reales y no alterar semántica, convenciones ni teoría aprobada.
 
-**Mínimos obligatorios v12:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional conserva mapa y tarjetas de cobertura integral. Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
+**Mínimos obligatorios v13:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional exige los cinco modos integradores de cobertura integral (5/3/5; 10 + 3N como mínimo). Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
 
-Materializar los cinco modos según Source 14 y el inventario canónico; no inventar teoría/datos/respuestas faltantes. Comprobar relaciones, controles y resultados reales de cada modo en ES/EN y reportar cobertura 5/3 por capítulo, desviaciones, accesibilidad y salida sin JS. Si faltan especificaciones aprobadas, detener y solicitar bloque editorial; no sustituir por placeholders.
+Materializar los cinco modos según Source 14 y el inventario canónico; no inventar teoría/datos/respuestas faltantes. Comprobar relaciones, controles y resultados reales de cada modo en ES/EN y reportar cobertura 5/3/5 por ámbito, desviaciones, accesibilidad y salida sin JS. Si faltan especificaciones aprobadas, registrar pendientes de publicación y proporcionar el trabajo solicitado en borrador; no sustituir por placeholders.

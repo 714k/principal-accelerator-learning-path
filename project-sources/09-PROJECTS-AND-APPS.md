@@ -1,4 +1,7 @@
-# Projects and Apps — targets for 120 sessions (v12; map unchanged)
+# Projects and Apps — targets for 120 sessions (v13; map unchanged)
+
+**Contrato v13 vigente:** Sources 18 (orden y alcance), 19 (HTML incremental), 20 (validación no bloqueante), 21 (entregables), 22 (profundidad) y 17 (Studio 5/3/5) prevalecen sobre cualquier formulación anterior incompatible. No comprimir capítulos ni impedir crear, revisar, editar, traducir o consolidar por estados previos. Las puertas de aprobación/pruebas son exclusivamente de publicación canónica.
+
 
 **APP TARGET IS NOT THE ACADEMIC CASE STUDY.** Source 09 determines *what will be built after editorial approval*; university/industry examples explain theory elsewhere. A session's `site/` page, Portfolio link or diagram is not an executable substitute for its named app. Targets are plans, not confirmed Git paths or completed builds.
 

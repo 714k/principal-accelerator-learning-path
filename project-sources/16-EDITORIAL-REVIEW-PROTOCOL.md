@@ -1,4 +1,7 @@
-# Protocolo editorial de revisión por bloques — v12 (vigente)
+# Protocolo editorial de revisión por bloques — v13 (vigente)
+
+**Contrato v13 vigente:** Sources 18 (orden y alcance), 19 (HTML incremental), 20 (validación no bloqueante), 21 (entregables), 22 (profundidad) y 17 (Studio 5/3/5) prevalecen sobre cualquier formulación anterior incompatible. No comprimir capítulos ni impedir crear, revisar, editar, traducir o consolidar por estados previos. Las puertas de aprobación/pruebas son exclusivamente de publicación canónica.
+
 
 ## Antecedentes y decisiones
 
@@ -8,30 +11,13 @@ Este Source 16 gobierna el **flujo editorial y la visualización** frente a inst
 
 ## Etapa 0 — INVENTARIO (bare `PA-Sxxx`)
 
-La primera salida se presenta como una sola página de planificación **sin desarrollar toda la teoría**. Contiene:
+Tras título/contexto, bare `PA-Sxxx` entrega exclusivamente las secciones 1–6 de Source 18: estructura completa con Subtemas anidados bajo 7, tiempo estimado inmediatamente después, síntesis de tres ideas, objetivo, vista previa y conceptos con definición y ejemplo. Detenerse sin desarrollar capítulos ni Codex. Cada solicitud posterior desarrolla a profundidad solo el bloque pedido, en cualquier orden y sin depender de aprobación previa; crear o actualizar el HTML progresivo según Source 19.
 
-- Un único H1 de título humano, ID/fase fuera del H1, síntesis de tres ideas, objetivo y preguntas que guiarán el capítulo.
-- Índice de secciones y ámbitos profesionales que sean pertinentes.
-- **Conceptos locales en lenguaje natural con definición inmediata**: Aplicación: software que permite a una persona efectuar una tarea concreta. No mostrar solo «aplicación», una lista «Conceptos, en orden: ...», ni `scope.application` en paréntesis.
-- Tema principal y todos los Subtemas con sus conceptos necesarios y definiciones breves, sin repetir texto genérico. Su desarrollo profundo ocurre en la etapa de redacción.
-- Caso real propuesto con fuente primaria concreta o estado «pendiente de verificar». Diferenciar empresa real documentada de un ejemplo hipotético. Evitar usar Accelerator como materia de teoría.
-- Ejemplo de producción externo: dominio, actores, datos/contratos, invariantes, seguridad, concurrencia si aplica, fallos, pruebas, observabilidad, despliegue y estado no verificado.
-- Visuales cercanos previstos, mapa mental total, flashcards con respuestas, ejercicios, bibliografía y recursos, time estimate, Theory→Practice, resultados de app/lab separados de site.
-- Registro de estado por sección **PENDIENTE**, sin fingir aceptaciones.
+## Autoría y revisión no bloqueantes
 
-**DETENERSE AL CERRAR INVENTARIO.** No pedir permiso para lo que ya se sabe, pero no avanzar al Tema principal sin solicitud posterior.
+A solicitud del estudiante, consolidar lo disponible en ES o traducir EN sin bloquear por estados previos; distinguir borrador de canónico. Codex solo bajo solicitud expresa: permitir handoff de borrador identificado con pendientes; prohibir publicación canónica sin aprobación y payloads ES/EN íntegros, accesibles y equivalentes. Nunca pedir a Codex reautoría ni fingir evidencia. Registrar MISSING_CANONICAL_THEORY_PAYLOAD, MISSING_ATOMIC_CONCEPT_COVERAGE o MISSING_SESSION_APP_TARGET como diagnósticos de publicación, no bloqueos de autoría.
 
-## Etapas siguientes — AUTORÍA Y REVISIÓN
-
-1. «Muéstrame el tema principal»: redactar solo el Tema principal íntegro en español, con todos sus conceptos desarrollados individualmente y luego síntesis, diagramas pertinentes y recuperación con respuestas. Finalizar sin adelantar el siguiente bloque.
-2. Usuario corrige: corregir ese mismo bloque completo, conservar correcciones anteriores, responder con el texto revisado. Se detiene hasta aprobación **explícita**.
-3. «Subtema 1» (y 2, ..., N): desarrollar cada mini-capítulo con la misma calidad, esperando revisión/aprobación en cada etapa.
-4. Casos reales, ejemplo de producción, ejercicios y Studio: cada uno también puede revisarse en bloque; completar las restantes secciones obligatorias.
-5. «Dame el contenido completo en español»: consolidar **solo texto aprobado** en un documento con único H1, metadatos internos invisibles y contenido íntegro. Si todavía falta material, identificar exactamente el bloque ausente y no declarar aprobación.
-6. Traducción inglesa: equivalencia semántica de definiciones, mecanismos, código, casos, límites, respuestas, diagramas, recursos y criterios; permitir revisión de EN cuando se solicite.
-7. «Genera el prompt de Codex»: solo cuando ES/EN estén íntegros y realmente disponibles para Codex; respetar destino de aplicación Source 09 y firewall de publicación.
-
-**Solicitud excepcional** «muéstrame la sesión entera aquí»: mostrar toda la sesión como **borrador no aprobado**. La longitud de la petición no justifica convertir cada subtema en tres definiciones o saltar ejemplos. Si el texto resulta incompleto, declarar qué falta y no usarlo como canónico. No cambiar a un flujo diferente para siguientes sesiones sin decisión explícita.
+Cada capítulo solicitado se desarrolla como unidad profunda según Source 22; nunca pasar automáticamente al siguiente. El estudiante puede pedir cualquiera, corregir aprobado, generar HTML, traducir, consolidar o pedir handoff aun con pendientes. Actualizar solo el bloque pedido y conservar los demás. Una sesión completa explícita es borrador no aprobado; dividir en incrementos si hace falta.
 
 ## Formato visible — rechazo inmediato por regresión
 
@@ -89,10 +75,10 @@ Esta sección incorpora el feedback de 14 de noviembre de 2026 sobre la **única
 4. Teoría sustantiva con componentes, contrato, datos, estados, flujo, fallos, límites, decisiones y verificación cuando corresponda.
 5. **Diagrama técnico propio al lado del mecanismo**, Mermaid fuente→SVG responsive accesible, título/pie y explicación; un diagrama por Tema principal/Subtema como mínimo. No valen diagrams solamente al final.
 6. Ejemplo concreto trabajado; ejercicios del capítulo con resolución/feedback; tarjetas locales con respuesta explicativa y fuente cuando haga falta.
-7. **Visual Learning Studio local**: mínimo 5 recursos interactivos en el Tema principal y 3 en cada Subtema según contrato v12 de abajo; conservar Studio integral de sesión y fallback accesible adicional.
+7. **Visual Learning Studio local**: mínimo 5 recursos interactivos en el Tema principal y 3 en cada Subtema según contrato v13 de abajo; conservar Studio integral de sesión y fallback accesible adicional.
 8. Recursos específicos del capítulo con links funcionales y razón de consulta; `Comprueba lo aprendido` con preguntas y respuestas del mismo bloque.
 
-No multiplicar controles vacíos ni usar una cuota fija de tarjetas. Si una sección requiere cambios a texto previamente aceptado, registrar diff conceptual y pedir nueva aprobación. La autorización de una sesión íntegra sigue dando un **borrador no aprobado** salvo aceptación expresa.
+No multiplicar controles vacíos ni usar una cuota fija de tarjetas. Si una sección requiere cambios a texto previamente aceptado, registrar diff conceptual y registrar nueva revisión; solicitar aprobación solo para promoción canónica. La autorización de una sesión íntegra sigue dando un **borrador no aprobado** salvo aceptación expresa.
 
 ### Marcado semántico del HTML publicado
 
@@ -110,18 +96,18 @@ No multiplicar controles vacíos ni usar una cuota fija de tarjetas. Si una secc
 
 **PA-S002 no fue modificado en Git:** el paquete v11 solo cambia reglas y añade referencia del subtema 7 para revisión. La evidencia de implementación, build, a11y y renderizado deberá recopilarse cuando se use Codex.
 
-## v12 — Prioridad editorial: obligatorio para todas las sesiones
+## v13 — Prioridad editorial: obligatorio para todas las sesiones
 
-Tras título/contexto mostrar la **estructura completa y numerada** de la sesión, incluidos los subtemas del roadmap y las restantes secciones; si la petición es solo PA-Sxxx, entregar únicamente inventario, no desarrollar teoría ni Codex, y detenerse. Después desarrollar exclusivamente el bloque solicitado y esperar aprobación explícita.
+Tras título/contexto, bare `PA-Sxxx` entrega exclusivamente las secciones 1–6 de Source 18: estructura completa con Subtemas anidados bajo 7, tiempo estimado inmediatamente después, síntesis de tres ideas, objetivo, vista previa y conceptos con definición y ejemplo. Detenerse sin desarrollar capítulos ni Codex. Cada solicitud posterior desarrolla a profundidad solo el bloque pedido, en cualquier orden y sin depender de aprobación previa; crear o actualizar el HTML progresivo según Source 19.
 
 Todos los conceptos globales y locales, incluso en el inventario, se organizan verticalmente por Staff → Principal, FPA y AIPE (indicar cuando no aplique). Cada entrada es `Concepto: definición` y un párrafo independiente `Ejemplo:` propio y contextualizado en software; nunca tabla, grid horizontal, comillas angulares o ID visible. Flashcards individuales, nunca tablas.
 
-**Mínimos obligatorios v12:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional conserva mapa y tarjetas de cobertura integral. Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
+**Mínimos obligatorios v13:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional exige los cinco modos integradores de cobertura integral (5/3/5; 10 + 3N como mínimo). Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
 
-Source 17 (`17-VISUAL-LEARNING-STUDIO-INTERACTIVE.md`) especifica los cinco comportamientos obligatorios y sus pruebas de aceptación. Consultarlo íntegramente antes de cualquier inventario, capítulo o Studio. Cada recurso se entrega renderizado en la conversación y más tarde en el Learning Site; incluir controles funcionales, datos específicos del tema e instrucciones breves, reacción visible y explicación. Si existe limitación del cliente, declarar qué recurso falta y no contarlo. No presentar el bloque como completo antes de comprobar cobertura/funcionalidad. Si se solicita solo Studio, regenerar exclusivamente ese Studio, conservar texto aprobado y no avanzar a Codex.
+Source 17 (`17-VISUAL-LEARNING-STUDIO-INTERACTIVE.md`) especifica los cinco comportamientos obligatorios y sus pruebas de aceptación. Consultarlo íntegramente antes de cualquier inventario, capítulo o Studio. Cada recurso se entrega en el HTML funcional y más tarde en el Learning Site; incluir controles funcionales, datos específicos del tema e instrucciones breves, reacción visible y explicación. Si la vista previa limita JavaScript, ofrecer el HTML para abrir en navegador y declarar qué pruebas faltan. No presentar el bloque como completo antes de comprobar cobertura/funcionalidad. Si se solicita solo Studio, regenerar exclusivamente ese Studio, conservar texto aprobado y no avanzar a Codex.
 
-Incluir `Entregables de la sesión` antes del Checklist y anticiparlo en el inventario. Separar Learning Site ES/EN, app/lab/package/tool o artefacto de diseño/revisión de Source 09, contribución al Portfolio (o N/A justificado), tareas CODEX-OWNED/LEARNER-OWNED y pruebas/evidencia. Para cada entregable: propósito, instrucciones numeradas de qué crear/modificar, comandos verificados si existen, resultado esperado, ruta relativa al monorepo (verificada o propuesta), responsable y criterio de aceptación/verificación. Consultar Git, Sources 03/09 y SESSION-OUTPUTS-120; ninguna página teórica sustituye el objetivo de ingeniería.
+Incluir `Entregables de la sesión` antes del Checklist y listar solo su encabezado en el índice inicial; desarrollar a solicitud. Separar Learning Site ES/EN, app/lab/package/tool o artefacto de diseño/revisión de Source 09, contribución al Portfolio (o N/A justificado), tareas CODEX-OWNED/LEARNER-OWNED y pruebas/evidencia. Para cada entregable: propósito, instrucciones numeradas de qué crear/modificar, comandos verificados si existen, resultado esperado, ruta relativa al monorepo (verificada o propuesta), responsable y criterio de aceptación/verificación. Consultar Git, Sources 03/09 y SESSION-OUTPUTS-120; ninguna página teórica sustituye el objetivo de ingeniería.
 
-PA-S003, punto 13: **Integración entre AI Product Engineering, Staff Software Engineer y Frontend Platform Architect**. Síntesis transversal de conceptos, mecanismos, fronteras, arquitectura y responsabilidades después de enseñar cada área; integración del Portfolio/site corresponde a aplicación posterior, no a esta teoría.
+PA-S003, sección 8 (antes punto 13): **Integración entre AI Product Engineering, Staff Software Engineer y Frontend Platform Architect**. Síntesis transversal de conceptos, mecanismos, fronteras, arquitectura y responsabilidades después de enseñar cada área; integración del Portfolio/site corresponde a aplicación posterior, no a esta teoría.
 
 Preservar capítulos aprobados; cambios de contenido requieren revisión explícita. Los mínimos Studio no sustituyen la teoría, ejemplos, ejercicios, fuentes ni diagramas propios. Source 13 es la lista de comprobación y Source 06 rige código/Prettier.

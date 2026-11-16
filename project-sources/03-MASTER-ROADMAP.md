@@ -1,5 +1,8 @@
 # Roadmap maestro — 120 sesiones
 
+**Contrato v13 vigente:** Sources 18 (orden y alcance), 19 (HTML incremental), 20 (validación no bloqueante), 21 (entregables), 22 (profundidad) y 17 (Studio 5/3/5) prevalecen sobre cualquier formulación anterior incompatible. No comprimir capítulos ni impedir crear, revisar, editar, traducir o consolidar por estados previos. Las puertas de aprobación/pruebas son exclusivamente de publicación canónica.
+
+
 **Fuente canónica de títulos, áreas y secuencia de PA-S001–PA-S120.** Las tablas siguientes se conservan del roadmap del paquete anterior. No afirman implementación ni progreso. Cada sesión sigue la revisión editorial por etapas descrita en Source 16 y el objetivo de app/lab de Source 09. Ninguna sesión queda bloqueada por estado anterior.
 
 ## PA-S001 — cobertura mínima obligatoria
