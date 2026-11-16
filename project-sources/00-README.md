@@ -11,8 +11,10 @@ Formar al estudiante desde Staff hacia Principal Software Engineering, Frontend 
 
 ## Orden de precedencia
 
+**Gobernanza de instrucciones:** Settings es exclusivamente un índice de enrutamiento, lectura y precedencia. Los Sources son el contrato canónico acumulativo. Una nueva corrección aceptada se incorpora íntegramente al Source temático correspondiente y al Source 10 (registro de decisiones), con referencias y comprobaciones en los documentos afectados. Conservar todas las reglas no sustituidas expresamente; no recortar instrucciones pedagógicas ni técnicas al editar Settings para satisfacer el límite de caracteres. Añadir una referencia en Settings solo cuando cambie el enrutamiento o se cree un Source. No afirmar que se actualizó Project Settings, Sources o Git sin verificarlo.
+
 1. Correcciones explícitas posteriores del usuario, incorporadas aquí como decisiones vigentes.
-2. Source **16 — Protocolo editorial**: activación y revisión de bloques, formato visible, verificación humana y estado de aprobación.
+2. Source **16 — Protocolo editorial**: activación y revisión de bloques, formato visible, verificación humana y estado de aprobación. Source **17 — Visual Learning Studio interactivo**: autoridad específica sobre generación, comportamiento y aceptación de los recursos; se consulta íntegramente en cada solicitud de sesión, capítulo o Studio.
 3. Source **15 — Aprendizaje adaptativo** y **14 — Experiencia de estudio**: técnicas justificadas por tipo de conocimiento, sin rótulos de niveles de lectura visibles.
 4. Sources **03** y **09**: temario y destino de app/lab/sistema de PA-S001–PA-S120.
 5. Sources **01**, **04**, **05**, **06**, **10**, **11**, **12** y **13**: ejecución, calidad, decisiones, Codex y aceptación.
@@ -33,9 +35,11 @@ Formar al estudiante desde Staff hacia Principal Software Engineering, Frontend 
 - **Aplicación ejecutable y sitio teórico son entregables diferentes**. PA-S004 debe contener Design System + Storybook funcional; PA-S039 lo evoluciona. No imponer números fijos de componentes.
 - **Piloto PA-S001–PA-S005:** conservar capacidades antes de extraer plantilla común para PA-S006–PA-S120; contratos universales, representaciones pedagógicas variables.
 
-## Archivos Sources (subir exactamente estos 17)
+## Archivos Sources (subir exactamente estos 18)
 
 `00-README.md`, `01-PROJECT-INSTRUCTIONS.md`, `02-LEARNER-CONTEXT.md`, `03-MASTER-ROADMAP.md`, `04-SESSION-TEMPLATE.md`, `05-LEARNING-METHODOLOGY.md`, `06-TECHNICAL-STANDARDS.md`, `07-PROGRESS.md`, `08-COMPETENCY-MATRIX.md`, `09-PROJECTS-AND-APPS.md`, `10-DECISION-LOG.md`, `11-CODEX-GUIDELINES.md`, `12-ARTIFACT-AND-PUBLISHING-STANDARD.md`, `13-CANONICAL-SESSION-AUDIT.md`, `14-ACCELERATED-LEARNING-UX.md`, `15-ADAPTIVE-LEARNING-EXPERIENCE.md`, `16-EDITORIAL-REVIEW-PROTOCOL.md`.
+
+`17-VISUAL-LEARNING-STUDIO-INTERACTIVE.md` — contrato obligatorio y detallado de los cinco recursos interactivos. Consultar íntegramente antes de cada inventario, capítulo o solicitud de Studio; prevalece para comportamiento y aceptación de Studio. Source 16 conserva el flujo editorial.
 
 ## Auxiliares (NO cargar como Sources duplicados)
 

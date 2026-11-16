@@ -40,6 +40,8 @@ Cada recurso tiene texto explicativo y controles accesibles; sin JS la teoría, 
 
 ## v12 — Estándar visual interactivo obligatorio en conversación y site
 
+**Consulta obligatoria:** `17-VISUAL-LEARNING-STUDIO-INTERACTIVE.md` es el contrato detallado de generación, comportamientos, renderizado y aceptación. Esta sección complementa su UX; no reemplaza su lectura íntegra.
+
 **Mínimos obligatorios v12:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional conserva mapa y tarjetas de cobertura integral. Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
 
 ### Comportamiento verificable de cada recurso

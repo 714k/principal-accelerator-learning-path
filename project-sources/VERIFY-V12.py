@@ -25,8 +25,8 @@ check(len(names) == len(set(names)), "unique manifest files")
 numbered = sorted(
     name[:2] for name in names if re.match(r"^\d{2}-.*\.md$", name)
 )
-check(numbered == [f"{i:02d}" for i in range(17)], "Sources 00–16")
-check(manifest["source_count"] == 17, "manifest Sources count")
+check(numbered == [f"{i:02d}" for i in range(18)], "Sources 00–17")
+check(manifest["source_count"] == 18, "manifest Sources count")
 for item in files:
     path = root / item["filename"]
     if not path.is_file():
@@ -43,20 +43,27 @@ settings = (root / "PROJECT-INSTRUCTIONS-SETTINGS.md").read_text(encoding="utf-8
 check(len(settings) <= 8000, "Project Instructions exceed 8000 characters")
 for marker in (
     "Settings v12",
-    "ONLY editorial inventory",
-    "OWN separate `Ejemplo:`",
-    "minimum 5 distinct INTERACTIVE resources in Main Topic, 3 in EVERY Subtopic",
-    "Deliverables outside `site/` mandatory",
-    "prettier --check",
-    "PA-S003 §13:",
+    "17-VISUAL-LEARNING-STUDIO-INTERACTIVE.md",
+    "ONLY a router",
+    "MANDATORY",
+    "Do not silently",
 ):
     check(marker in settings, "Settings requirement: " + marker)
+for name in names:
+    if re.match(r"^\d{2}-.*\.md$", name):
+        check(name in settings, "routing reference " + name)
+operating = (root / "01-PROJECT-INSTRUCTIONS.md").read_text(encoding="utf-8")
+for marker in ("Etapa 0: inventario editorial", "Ejemplo:", "Entregables de la sesión", "prettier --check", "PA-S003, punto 13"):
+    check(marker in operating, "migrated operating requirement: " + marker)
 protocol = (root / "16-EDITORIAL-REVIEW-PROTOCOL.md").read_text(encoding="utf-8")
 check("5 recursos interactivos" in protocol and "al menos 3" in protocol, "Studio minima")
 check("Entregables de la sesión" in protocol, "delivery section")
 ux = (root / "14-ACCELERATED-LEARNING-UX.md").read_text(encoding="utf-8")
 for mode in ("Mapa mental", "Flashcards", "Simulador", "Explorador de arquitectura", "Matriz de decisión"):
     check(f"**{mode}:**" in ux, "Studio behavior: " + mode)
+studio = (root / "17-VISUAL-LEARNING-STUDIO-INTERACTIVE.md").read_text(encoding="utf-8")
+for heading in ("Mapa mental interactivo", "Flashcards interactivas", "Simulador interactivo", "Explorador de arquitectura interactivo", "Matriz de decisión interactiva", "Definition of Done editorial y funcional", "Prompt de regeneración"):
+    check(heading in studio, "Source 17: " + heading)
 with (root / "SESSION-APP-TARGETS-120.csv").open(encoding="utf-8-sig", newline="") as file:
     sessions = list(csv.DictReader(file))
 check([row["session"] for row in sessions] == [f"PA-S{i:03d}" for i in range(1, 121)], "120 sessions")

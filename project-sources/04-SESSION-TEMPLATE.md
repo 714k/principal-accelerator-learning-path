@@ -71,7 +71,7 @@ Conservar el orden de secciones de la sesión. Dentro de **cada** capítulo desa
 7. Ejemplo resuelto en un dominio externo, consecuencias de producción y verificación.
 8. `Ejercicios del tema principal` o `Ejercicios del subtema N`: una o más actividades pertinentes con solución/criterio y alternativa incorrecta explicada.
 9. `Tarjetas de estudio del tema principal` o `Tarjetas de estudio del subtema N`: preguntas que exijan recordar/decidir, respuesta y explicación (sin inventar respuestas de otras secciones).
-10. `Visual Learning Studio del tema principal` o `Visual Learning Studio del subtema N`: además del diagrama, mínimo 5 recursos interactivos para el Tema principal y 3 para cada Subtema según Source 16; comportamientos verificables según Source 14, fallback sin JS adicional.
+10. `Visual Learning Studio del tema principal` o `Visual Learning Studio del subtema N`: además del diagrama, mínimo 5 recursos interactivos para el Tema principal y 3 para cada Subtema. Leer y aplicar obligatoriamente Source 17 íntegro antes de entregar el bloque; Source 14 aporta UX, fallback sin JS adicional.
 11. `Recursos del tema principal` o `Recursos del subtema N`: enlaces específicos de esa sección, texto descriptivo, y justificación de lectura. Mantener también bibliografía general curada de la sesión.
 12. `Comprueba lo aprendido`: pregunta(s) propias del bloque con respuesta(s) razonadas. No usar `Recuperación` como título visible.
 

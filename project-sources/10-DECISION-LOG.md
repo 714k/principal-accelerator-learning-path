@@ -122,3 +122,9 @@ Aceptado como requisito por solicitud expresa del estudiante; no evidencia de im
 - PA-S003: PA-S003, punto 13: **Integración entre AI Product Engineering, Staff Software Engineer y Frontend Platform Architect**. Síntesis transversal de conceptos, mecanismos, fronteras, arquitectura y responsabilidades después de enseñar cada área; integración del Portfolio/site corresponde a aplicación posterior, no a esta teoría.
 
 Las decisiones no otorgan dominio, no cambian contenido aprobado automáticamente y no certifican que widgets o CI funcionen.
+
+## GOVERNANCE-012 / UX-012-A — Settings como router y Source 17
+
+Aceptado por solicitud del estudiante: Settings se limita a enrutamiento y precedencia; las reglas detalladas y todas las correcciones aprobadas se conservan de forma acumulativa en Sources. Actualizar el Source temático, este registro y referencias/auditorías afectadas en cada cambio; no perder requisitos anteriores para respetar el límite de Settings.
+
+Source 17 es la autoridad específica del Visual Learning Studio: cinco modos interactivos en Tema principal, tres en cada Subtema y Studio global adicional; generación directa en chat, comportamiento observable y pruebas de aceptación. Source 16 conserva flujo y aprobación, Source 14 aporta UX. No modifica roadmap, aplicación, teoría aprobada ni evidencia.

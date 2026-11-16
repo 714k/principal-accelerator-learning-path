@@ -92,4 +92,4 @@
 - [ ] Código legible sin ofuscación/minificación propia; Prettier y check/CI ejecutados cuando hay implementación; preservar semántica y fuentes aprobadas.
 - [ ] PA-S003 punto 13 es integración transversal de AIPE/Staff/FPA.
 
-Bloquear completitud editorial si falta cobertura funcional, no confundir verificación documental con prueba de navegador o aprendizaje. Sources 14 y 16 definen los comportamientos.
+Bloquear completitud editorial si falta cobertura funcional, no confundir verificación documental con prueba de navegador o aprendizaje. Source 17 define el contrato obligatorio y las pruebas de aceptación por tipo; Sources 14 y 16 complementan UX y flujo. No afirmar cumplimiento sin verificar funcionalidad o declarar limitaciones.
