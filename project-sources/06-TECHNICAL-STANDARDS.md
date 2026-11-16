@@ -1,5 +1,8 @@
 # Technical Standards
 
+**Contrato v13 vigente:** Sources 18 (orden y alcance), 19 (HTML incremental), 20 (validación no bloqueante), 21 (entregables), 22 (profundidad) y 17 (Studio 5/3/5) prevalecen sobre cualquier formulación anterior incompatible. No comprimir capítulos ni impedir crear, revisar, editar, traducir o consolidar por estados previos. Las puertas de aprobación/pruebas son exclusivamente de publicación canónica.
+
+
 These are defaults, not immutable technology mandates. A session may
 deliberately compare or replace them when that choice is itself part of
 the learning.
@@ -330,10 +333,10 @@ Capítulos `main-topic` y `subtopic-N`: encabezado semántico, resumen local de 
 
 Enlaces internos `a[href="#slug"]` con destinos `id="slug"` presentes, únicos y estables; utilizar nombres legibles, no URL raw como texto de enlace. Links externos HTTPS con URL confirmada, y enlaces de recursos de lecturas reales. Respetar `BASE_PATH` de GitHub Pages para rutas internas. Comprobar hash links y fragmentos desde páginas publicadas ES/EN, incluyendo apertura directa a `#subtopic-7`; comprobar teclado, foco, reducido movimiento y no-JS.
 
-## v12 — Legibilidad, formato y validación de recursos
+## v13 — Legibilidad, formato y validación de recursos
 
 Código legible y mantenible en todo el monorepo (apps, Portfolio, Learning Site y paquetes): nombres claros, módulos y tipos; prohibido ofuscar/minimizar código autorado o salida propia; preservar archivos de terceros y no usar bundles minificados como fuente. Usar configuración e ignore Prettier de raíz para JS/TS/JSX/TSX, HTML, CSS/SCSS/Sass (parser/plugin compatible), Markdown, JSON y otros formatos soportados; ejecutar formato y `prettier --check` en CI. Reportar comandos/resultados reales y no alterar semántica, convenciones ni teoría aprobada.
 
-**Mínimos obligatorios v12:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional conserva mapa y tarjetas de cobertura integral. Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
+**Mínimos obligatorios v13:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional exige los cinco modos integradores de cobertura integral (5/3/5; 10 + 3N como mínimo). Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
 
 Registrar cada modo con scope de sección, IDs estables, cobertura de conceptos y configuración de estado/controles. Probar selección de nodos y dependencias, giro/navegación de tarjetas, cambios de escenario, actualización de salida y rankings al ajustar pesos; probar teclado/touch, zoom, reduced-motion, responsive, no-JS y paridad ES/EN. Exigir estados iniciales, errores/límites y reset cuando corresponda. No afirmar resultados no ejecutados.

@@ -1,4 +1,7 @@
-# Metodología académica y aprendizaje profundo (v12)
+# Metodología académica y aprendizaje profundo (v13)
+
+**Contrato v13 vigente:** Sources 18 (orden y alcance), 19 (HTML incremental), 20 (validación no bloqueante), 21 (entregables), 22 (profundidad) y 17 (Studio 5/3/5) prevalecen sobre cualquier formulación anterior incompatible. No comprimir capítulos ni impedir crear, revisar, editar, traducir o consolidar por estados previos. Las puertas de aprobación/pruebas son exclusivamente de publicación canónica.
+
 
 ## Autoría en secciones; el conocimiento no se produce a partir de etiquetas
 
@@ -65,10 +68,10 @@ La vista previa presenta un **recorrido vertical**, con grupos de ámbito profes
 
 Variar los elementos visuales **por objetivo didáctico**: en un capítulo estructural, mapa de dependencias + comparación; en uno causal, diagrama de secuencia + predecir/revelar; en uno procedimental, ejemplo trabajado + pasos incompletos; en uno decisional, matriz + escenarios de elección. Todo recurso incluye su premisa, mecanismo, límite y respuesta/interpretación, sin simular aprendizaje medido.
 
-## v12 — Enseñanza local y recursos funcionales
+## v13 — Enseñanza local y recursos funcionales
 
 Todos los conceptos globales y locales, incluso en el inventario, se organizan verticalmente por Staff → Principal, FPA y AIPE (indicar cuando no aplique). Cada entrada es `Concepto: definición` y un párrafo independiente `Ejemplo:` propio y contextualizado en software; nunca tabla, grid horizontal, comillas angulares o ID visible. Flashcards individuales, nunca tablas.
 
-**Mínimos obligatorios v12:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional conserva mapa y tarjetas de cobertura integral. Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
+**Mínimos obligatorios v13:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional exige los cinco modos integradores de cobertura integral (5/3/5; 10 + 3N como mínimo). Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
 
 Cada recurso reutiliza un mecanismo, ejemplo o decisión concreta del capítulo; no sustituye la teoría. Elegir escenarios verificables o hipotéticos etiquetados, no inventar métricas ni usar herramientas decorativas.

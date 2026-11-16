@@ -128,3 +128,11 @@ Las decisiones no otorgan dominio, no cambian contenido aprobado automáticament
 Aceptado por solicitud del estudiante: Settings se limita a enrutamiento y precedencia; las reglas detalladas y todas las correcciones aprobadas se conservan de forma acumulativa en Sources. Actualizar el Source temático, este registro y referencias/auditorías afectadas en cada cambio; no perder requisitos anteriores para respetar el límite de Settings.
 
 Source 17 es la autoridad específica del Visual Learning Studio: cinco modos interactivos en Tema principal, tres en cada Subtema y Studio global adicional; generación directa en chat, comportamiento observable y pruebas de aceptación. Source 16 conserva flujo y aprobación, Source 14 aporta UX. No modifica roadmap, aplicación, teoría aprobada ni evidencia.
+
+## v13 — 16 de noviembre de 2026: contratos acumulativos aprobados para actualización
+
+- Primera respuesta limitada a seis apartados, orden 18; tiempo enseguida del índice, subtemas anidados, integración PA-S003 en 8.
+- Autoría por bloques profundos a solicitud, sin estados que bloqueen creación, edición, traducción o consolidación; publicación canónica conserva sus puertas.
+- HTML de aprendizaje autónomo incremental por sesión/idioma; contenido aprobado sin cambios fuera del alcance; Markdown ES/EN al handoff.
+- Studio 5/3/5, mínimo global cinco modos adicionales, HTML funcional como superficie principal; pruebas de comportamiento y declaración de pendientes.
+- Contratos 18–22, auditoría y referencia ejecutable; fuentes detalladas, Settings router, entregables Learner/Codex diferenciados. Las decisiones anteriores no incompatibles permanecen; no cambia roadmap ni progreso real.

@@ -1,19 +1,19 @@
 {
-  "version": "v12",
-  "source_count": 18,
-  "file_count": 32,
-  "base_commit": "00ac50ac9d99ce8373d2ff31bc63325c630914bd",
-  "verification": "Git blob SHA-1 and byte count per file; VERIFY-V12.py checks integrity, numbered Sources, session sequence, source routing and static v12 markers. Functional checks remain separate. Verifiers and manifest excluded.",
+  "version": "v13",
+  "source_count": 23,
+  "file_count": 43,
+  "base_commit": "8e2079154322c404997f5e2d71d4975200ac1edc",
+  "verification": "Git blob SHA-1 and byte counts. Verifiers and manifest excluded.",
   "files": [
     {
       "filename": "00-README.md",
-      "bytes": 10088,
-      "git_blob_sha1": "e66a2e8db2378b748c6db238db15f04fab7089ad"
+      "bytes": 11117,
+      "git_blob_sha1": "545f444673d272207f80d1b7e8015ff154ddcf3f"
     },
     {
       "filename": "01-PROJECT-INSTRUCTIONS.md",
-      "bytes": 13768,
-      "git_blob_sha1": "e5090385304545fa0f7b6feaeac1e839032453c1"
+      "bytes": 14264,
+      "git_blob_sha1": "3867149e03de3b7ab878fce3af153ab3c0459519"
     },
     {
       "filename": "02-LEARNER-CONTEXT.md",
@@ -22,23 +22,23 @@
     },
     {
       "filename": "03-MASTER-ROADMAP.md",
-      "bytes": 21173,
-      "git_blob_sha1": "d037033205c403f8eacaf199faf0b40c1d20d65f"
+      "bytes": 21587,
+      "git_blob_sha1": "e6b0f01f9bb44e703dffe9565c745f1995ba5b69"
     },
     {
       "filename": "04-SESSION-TEMPLATE.md",
-      "bytes": 12334,
-      "git_blob_sha1": "6e14737d0763ad626c7ba4010825fe8e3ce1c589"
+      "bytes": 10630,
+      "git_blob_sha1": "d1afa2b4c03c91a899835209d2fa0c4aad2e47a0"
     },
     {
       "filename": "05-LEARNING-METHODOLOGY.md",
-      "bytes": 8582,
-      "git_blob_sha1": "ff7f40b4389bc7c6d06261e203b29ef9dabcfb47"
+      "bytes": 9036,
+      "git_blob_sha1": "ffb24189189506e2510685dec36bf1105624d397"
     },
     {
       "filename": "06-TECHNICAL-STANDARDS.md",
-      "bytes": 17457,
-      "git_blob_sha1": "70717d79e7cd486dbbb73f4fb505115588fd1735"
+      "bytes": 17911,
+      "git_blob_sha1": "7b3250763ef65fdcd01e4a2bd0e37ec2b199733b"
     },
     {
       "filename": "07-PROGRESS.md",
@@ -52,58 +52,88 @@
     },
     {
       "filename": "09-PROJECTS-AND-APPS.md",
-      "bytes": 23092,
-      "git_blob_sha1": "be9ff0d059a6f8d4e9b5f047ee36187d747a8e4b"
+      "bytes": 23506,
+      "git_blob_sha1": "ec7f7e17270829a1a8488036affa8f1ea359b804"
     },
     {
       "filename": "10-DECISION-LOG.md",
-      "bytes": 17174,
-      "git_blob_sha1": "03f0cf1dade9e6cb9000933dc6a2b91736fd5b3f"
+      "bytes": 18086,
+      "git_blob_sha1": "69ca709314fca2e52395ee1f875c8a0b6f87f622"
     },
     {
       "filename": "11-CODEX-GUIDELINES.md",
-      "bytes": 8638,
-      "git_blob_sha1": "8f415c18b0c3e27703092d0a671babb2d4d69d9d"
+      "bytes": 9296,
+      "git_blob_sha1": "cd6594307c42868275f41a01b5b8eb4c5a429e73"
     },
     {
       "filename": "12-ARTIFACT-AND-PUBLISHING-STANDARD.md",
-      "bytes": 10318,
-      "git_blob_sha1": "b405aedd8fad0e29654b9ff3047fe71fc155a31c"
+      "bytes": 10828,
+      "git_blob_sha1": "90aa6275f36eda9f5ca503de64718ba9bc3d1733"
     },
     {
       "filename": "13-CANONICAL-SESSION-AUDIT.md",
-      "bytes": 9774,
-      "git_blob_sha1": "821330049b3d1fd04a4c37f6c45b8a03470f40f1"
+      "bytes": 10304,
+      "git_blob_sha1": "e4ebc3417d24e8deb171acdc195a603a9d015ca7"
     },
     {
       "filename": "14-ACCELERATED-LEARNING-UX.md",
-      "bytes": 7203,
-      "git_blob_sha1": "1622691f48303ab4465bd93963c2ea105c39d745"
+      "bytes": 7648,
+      "git_blob_sha1": "c866c3d5162fa871f76f87e191ab75cd97fe5170"
     },
     {
       "filename": "15-ADAPTIVE-LEARNING-EXPERIENCE.md",
-      "bytes": 6067,
-      "git_blob_sha1": "dc21fbed79d62c6b9bf8c79ada3476287eb8702e"
+      "bytes": 6521,
+      "git_blob_sha1": "6ee78cc97c4d16e7ffcbc57c3f2074eb49c883df"
     },
     {
       "filename": "16-EDITORIAL-REVIEW-PROTOCOL.md",
-      "bytes": 16665,
-      "git_blob_sha1": "34411bae8bd6cb28843cc6e2d5830c39cb84a828"
+      "bytes": 15595,
+      "git_blob_sha1": "4d8d3d4d0eecaf04c590f5e68134002bc41dc04c"
     },
     {
       "filename": "17-VISUAL-LEARNING-STUDIO-INTERACTIVE.md",
-      "bytes": 9587,
-      "git_blob_sha1": "814d10fc12b18dda334d5f7e41b1c9dee76997f9"
+      "bytes": 10043,
+      "git_blob_sha1": "3a30249a3be9316a0f91e1155dd9239e199c7226"
+    },
+    {
+      "filename": "18-SESSION-DELIVERY-CONTRACT.md",
+      "bytes": 7563,
+      "git_blob_sha1": "84e06dace954847688c961eaa4600e08bc66638a"
+    },
+    {
+      "filename": "19-HTML-SESSION-STANDARD.md",
+      "bytes": 6122,
+      "git_blob_sha1": "a20201af0a752e942c234c398ac8379c448a6a7e"
+    },
+    {
+      "filename": "20-SESSION-VALIDATION-CONTRACT.md",
+      "bytes": 3875,
+      "git_blob_sha1": "f79d54ffe11fc5cba8bd6d6828c2feda88227f66"
+    },
+    {
+      "filename": "21-SESSION-DELIVERABLES-CONTRACT.md",
+      "bytes": 2983,
+      "git_blob_sha1": "47b7f2e4bfeb4d935f4541c65f3822e2b791afb2"
+    },
+    {
+      "filename": "22-ACADEMIC-DEPTH-CONTRACT.md",
+      "bytes": 4573,
+      "git_blob_sha1": "9d7d46a56684b1cadbd63991070e82b80dbfb295"
+    },
+    {
+      "filename": "BUILD-HTML-REFERENCE.py",
+      "bytes": 13510,
+      "git_blob_sha1": "f9a442071aee886ea4b0bd7e846f4aeb3041646d"
     },
     {
       "filename": "CODEX-SESSION-MASTER-PROMPT.md",
-      "bytes": 7990,
-      "git_blob_sha1": "4f0455ac1369af9d07de1445a706adadad16199e"
+      "bytes": 8488,
+      "git_blob_sha1": "4c5c1ec95a34470d279da47dab5baf7e0bff0ab0"
     },
     {
       "filename": "CURRENT-VERIFICATION.md",
-      "bytes": 1242,
-      "git_blob_sha1": "c914aca8281e0f46519023823eb03da03965b349"
+      "bytes": 1193,
+      "git_blob_sha1": "3e398343c0fb48d8270ac301d9cc2480ee6c03c2"
     },
     {
       "filename": "EXAMPLE-PA-S001-INVENTORY.md",
@@ -112,8 +142,8 @@
     },
     {
       "filename": "INSTALL-REPLACE-ALL.md",
-      "bytes": 1989,
-      "git_blob_sha1": "415300e6e1b5908cc6ae824ecb684a8da0b05976"
+      "bytes": 1213,
+      "git_blob_sha1": "c222b6a328e6e16057252bbf867537476d450755"
     },
     {
       "filename": "PA-S001-QUALITY-REFERENCE.md",
@@ -137,8 +167,8 @@
     },
     {
       "filename": "PROJECT-INSTRUCTIONS-SETTINGS.md",
-      "bytes": 2932,
-      "git_blob_sha1": "ac6c3d1b1486f0ca03a79a4fc8de831958d37830"
+      "bytes": 2630,
+      "git_blob_sha1": "024a7e12f6729c5ba09d18edd5e90850f63d4c67"
     },
     {
       "filename": "SESSION-APP-TARGETS-120.csv",
@@ -146,9 +176,24 @@
       "git_blob_sha1": "049b6b6cadbe721575eef70dbdb4794aca63bbcd"
     },
     {
+      "filename": "SESSION-HTML-REFERENCE.html",
+      "bytes": 29472,
+      "git_blob_sha1": "5db4ff3a742dc3e6d7672aa8c20174d18e9fdd20"
+    },
+    {
       "filename": "SESSION-OUTPUTS-120.md",
       "bytes": 33696,
       "git_blob_sha1": "5b9a0ff16a329bfbbae02e4c5d82f57b7337568a"
+    },
+    {
+      "filename": "SESSION-SCHEMA.json",
+      "bytes": 1020,
+      "git_blob_sha1": "50fad6034c103867e04db041ba9ac846ce1b0a06"
+    },
+    {
+      "filename": "TEST-SESSION-INTERACTIONS.cjs",
+      "bytes": 3007,
+      "git_blob_sha1": "e4b803abe5e84073bfe777bc4d4eb0970352667b"
     },
     {
       "filename": "V11-CHANGELOG.md",
@@ -161,9 +206,19 @@
       "git_blob_sha1": "362e2b1a35d955d067e155cf664615d923538447"
     },
     {
+      "filename": "V13-CHANGELOG.md",
+      "bytes": 872,
+      "git_blob_sha1": "a51223796175c5ffa5dd99d674770011ffd52ef1"
+    },
+    {
+      "filename": "VALIDATE-SESSION.py",
+      "bytes": 4907,
+      "git_blob_sha1": "9bff1293272c2054e5d585c396d76bd547213f30"
+    },
+    {
       "filename": "VISUAL-LEARNING-STUDIO-PROMPT.md",
-      "bytes": 1573,
-      "git_blob_sha1": "729b99bdd10bd9793bb548d8870c9f84e4ef9908"
+      "bytes": 2007,
+      "git_blob_sha1": "1f022322c1b78de97b00a740a6746081da9bb984"
     }
   ]
 }

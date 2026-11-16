@@ -1,0 +1,13 @@
+{
+  "version": "v13",
+  "sections": ["structure", "estimated-time", "summary", "objective", "preview", "concepts", "main-topic", "integration", "theory-practice", "real-world", "production-example", "global-studio", "exercises", "sources", "work-resources", "deliverables", "checklist", "success-criteria", "bridge"],
+  "initialSectionCount": 6,
+  "subtopicPattern": "^subtopic-[1-9][0-9]*$",
+  "allModes": ["mind-map", "flashcards", "simulator", "architecture-explorer", "decision-matrix"],
+  "subtopicRequiredModes": ["mind-map", "flashcards"],
+  "minimumMain": 5,
+  "minimumSubtopic": 3,
+  "minimumGlobal": 5,
+  "attributes": {"section": "data-section", "studio": "data-studio-scope", "widget": "data-widget", "concept": "data-concept", "conceptId": "data-concept-id", "definition": "data-definition", "example": "data-example", "coverage": "data-coverage", "diagram": "data-diagram"},
+  "notes": "Descriptive DOM contract. Minimum 10+3*N scoped resources. Structure is not evidence of academic depth or behavior."
+}

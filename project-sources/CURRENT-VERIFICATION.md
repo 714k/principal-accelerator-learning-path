@@ -1,13 +1,10 @@
-# Verificación de Sources v12 — 15 de noviembre de 2026
+# Verificación v13 — 2026-11-16
 
-Base: main `00ac50ac9d99ce8373d2ff31bc63325c630914bd` (PR #30, v12). Ampliación de Source 17 y Settings como router. No modifica aplicaciones, teoría canónica, progreso ni sitio publicado.
+Base main `8e2079154322c404997f5e2d71d4975200ac1edc` (PR #31 fusionado). Cambios en project-sources exclusivamente.
 
-## Verificación reproducible
+- `python3 VALIDATE-SESSION.py SESSION-HTML-REFERENCE.html --complete`: PASS, 19/19 secciones, un subtema anidado, 13 widgets declarados (5/3/5); prueba estructural, no de dominio ni interacción.
+- `node --check TEST-SESSION-INTERACTIONS.cjs` y `node --check -` con script inline del HTML: PASS sintáctico.
+- `node TEST-SESSION-INTERACTIONS.cjs SESSION-HTML-REFERENCE.html`: PENDING, Chromium no pudo iniciarse por restricción de socket del entorno (`Operation not permitted`). Ejecutar en un entorno autorizado con Chromium y Playwright; no se afirma PASS funcional, accesibilidad en dispositivo ni contenido canónico aprobado.
+- `python3 VERIFY-V13.py`: verifica integridad, Sources, settings, orden y roadmap; no sustituye evaluación académica.
 
-- `python3 project-sources/VERIFY-V12.py`: integridad de blobs y bytes, 18 Sources numerados, 120 sesiones, longitud de Settings, presencia de requisitos v12 y referencia obligatoria a Source 17.
-- Revisar el diff para confirmar que no hay código de producción ni teoría aprobada modificados.
-- Las referencias HTML y de PA-S002 v11 son históricas; no demuestran interacción v12.
-
-## Pendiente de implementación y validación funcional
-
-En una sesión solicitar primero el inventario numerado, luego el Tema principal y un Subtema. Verificar los cinco y tres recursos respectivamente, Studio global adicional, controles y feedback, conceptos/ejemplos por dominio, instrucciones de entregables fuera de site. Después del handoff autorizado verificar ES/EN, HTML, teclado/touch, no-JS, responsive, reduced-motion, enlaces y comandos de formato/tests/build. Una comprobación documental no acredita ninguna de esas ejecuciones ni dominio del estudiante.
+Validación de adopción: instalar el ZIP y Settings, solicitar PA-S004, comprobar §§1–6, crear HTML, pedir un subtema no consecutivo, revisar profundidad, preservación y widgets. Probar los cinco modos globales. No afirmar que los 120 contenidos fueron producidos o verificados.
