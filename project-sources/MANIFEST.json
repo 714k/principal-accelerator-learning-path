@@ -122,8 +122,8 @@
     },
     {
       "filename": "BUILD-HTML-REFERENCE.py",
-      "bytes": 13510,
-      "git_blob_sha1": "f9a442071aee886ea4b0bd7e846f4aeb3041646d"
+      "bytes": 13910,
+      "git_blob_sha1": "8c1897b1590eadc76db59d616862fdda03abdba2"
     },
     {
       "filename": "CODEX-SESSION-MASTER-PROMPT.md",
@@ -132,8 +132,8 @@
     },
     {
       "filename": "CURRENT-VERIFICATION.md",
-      "bytes": 1193,
-      "git_blob_sha1": "3e398343c0fb48d8270ac301d9cc2480ee6c03c2"
+      "bytes": 1643,
+      "git_blob_sha1": "49118f27476fe062b1f93069b3348e4f26ae3a8e"
     },
     {
       "filename": "EXAMPLE-PA-S001-INVENTORY.md",
@@ -177,8 +177,8 @@
     },
     {
       "filename": "SESSION-HTML-REFERENCE.html",
-      "bytes": 29472,
-      "git_blob_sha1": "5db4ff3a742dc3e6d7672aa8c20174d18e9fdd20"
+      "bytes": 46918,
+      "git_blob_sha1": "509e03c5b2e809751f3876a00ea0c469e2a95d63"
     },
     {
       "filename": "SESSION-OUTPUTS-120.md",
@@ -192,8 +192,8 @@
     },
     {
       "filename": "TEST-SESSION-INTERACTIONS.cjs",
-      "bytes": 3007,
-      "git_blob_sha1": "e4b803abe5e84073bfe777bc4d4eb0970352667b"
+      "bytes": 3406,
+      "git_blob_sha1": "9abacf581004df54c0b8d498c96d2d8cba294e3d"
     },
     {
       "filename": "V11-CHANGELOG.md",

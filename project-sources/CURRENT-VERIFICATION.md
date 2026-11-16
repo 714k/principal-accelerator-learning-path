@@ -6,5 +6,6 @@ Base main `8e2079154322c404997f5e2d71d4975200ac1edc` (PR #31 fusionado). Cambios
 - `node --check TEST-SESSION-INTERACTIONS.cjs` y `node --check -` con script inline del HTML: PASS sintáctico.
 - `node TEST-SESSION-INTERACTIONS.cjs SESSION-HTML-REFERENCE.html`: PENDING, Chromium no pudo iniciarse por restricción de socket del entorno (`Operation not permitted`). Ejecutar en un entorno autorizado con Chromium y Playwright; no se afirma PASS funcional, accesibilidad en dispositivo ni contenido canónico aprobado.
 - `python3 VERIFY-V13.py`: verifica integridad, Sources, settings, orden y roadmap; no sustituye evaluación académica.
+- PR #32, CI run 43835142766: el paso `npm run format:check` rechazó `SESSION-HTML-REFERENCE.html` y `TEST-SESSION-INTERACTIONS.cjs`. Ambos se formatearon con Prettier 3.9.10 (versión del lockfile) y la configuración de raíz. El generador ahora aplica el mismo formatter al regenerar el HTML. `prettier --check 'project-sources/**/*.{html,css,js,mjs,cjs,ts,tsx}'`: PASS local; verificar el pipeline completo en el nuevo commit antes de fusionar.
 
 Validación de adopción: instalar el ZIP y Settings, solicitar PA-S004, comprobar §§1–6, crear HTML, pedir un subtema no consecutivo, revisar profundidad, preservación y widgets. Probar los cinco modos globales. No afirmar que los 120 contenidos fueron producidos o verificados.

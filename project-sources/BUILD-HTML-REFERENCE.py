@@ -2,6 +2,7 @@
 from pathlib import Path
 from html import escape
 import json
+import subprocess
 
 root = Path(__file__).parent
 schema = json.loads((root / 'SESSION-SCHEMA.json').read_text())
@@ -82,4 +83,10 @@ html='<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="vie
 for i,(key,name) in enumerate(zip(schema['sections'],names),1):
     html+=f'\n<section id="{key}" data-section="{key}"><h2>{i}. {escape(name)}</h2>{sections[key]}</section>'
 html+='</article></main><script>'+script+'</script></body></html>\n'
-(root/'SESSION-HTML-REFERENCE.html').write_text(html)
+output = root / 'SESSION-HTML-REFERENCE.html'
+prettier = root.parent / 'node_modules' / 'prettier' / 'bin' / 'prettier.cjs'
+if not prettier.is_file():
+    raise SystemExit('Install locked repository dependencies before generating the reference (npm ci).')
+output.write_text(html, encoding='utf-8')
+subprocess.run(['node', str(prettier.resolve()), '--write', str(output.resolve())],
+               cwd=root.parent.resolve(), check=True)
