@@ -1,7 +1,7 @@
 # Instalación v12 — reemplazo completo de reglas
 
-1. Descargar el ZIP y hacer copia de Sources 00–16 e instrucciones actuales.
-2. Reemplazar en Project → Sources **exactamente 17** ficheros numerados 00–16 con los de v12; evitar duplicados de versiones anteriores. Los auxiliares NO van en Sources.
+1. Descargar el ZIP y hacer copia de Sources e instrucciones actuales.
+2. Reemplazar en Project → Sources **exactamente 18** ficheros numerados 00–17 con los de v12 actualizados; evitar duplicados. Los auxiliares NO van en Sources. El nuevo Source 17 contiene el contrato de Studio obligatorio.
 3. Reemplazar íntegramente Project → Settings → Instructions con `PROJECT-INSTRUCTIONS-SETTINGS.md`. No concatenar versiones anteriores. Su tamaño se comprueba en `CURRENT-VERIFICATION.md`.
 4. No modificar contenido canónico o Git automáticamente: el ZIP cambia **contratos**, no ejecuta el build del sitio ni cambia teoría aprobada.
 5. Para la prueba, utilizar PA-S002 como único caso: revisar el inventario, pedir el Subtema 7 con síntesis local, conceptos+ejemplo, diagrama, ejercicio, tarjetas, Studio, recursos; comprobar la leyenda única y anchors legibles.

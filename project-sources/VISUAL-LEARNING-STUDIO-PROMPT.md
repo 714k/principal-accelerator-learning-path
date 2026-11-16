@@ -1,6 +1,6 @@
 # Prompt reutilizable — Visual Learning Studio v12
 
-Genera nuevamente solo el Visual Learning Studio de la sección actual, siguiendo Sources 14 y 16 v12. Conserva el contenido aprobado; no reautorices la sesión ni prepares un handoff de Codex.
+Genera nuevamente solo el Visual Learning Studio de la sección actual, leyendo y cumpliendo íntegramente `17-VISUAL-LEARNING-STUDIO-INTERACTIVE.md` (contrato obligatorio; Sources 14 y 16 complementarios). Conserva el contenido aprobado; no reautorices la sesión ni prepares un handoff de Codex.
 
 Renderiza componentes visuales realmente interactivos en la conversación, con instrucciones breves, controles y respuestas dinámicas:
 

@@ -1,10 +1,10 @@
 # Verificación de Sources v12 — 15 de noviembre de 2026
 
-Base: main `c0c067a98e67b955538a40f6dfe370d054b5e763` (PR #29, v11). Esta revisión sincroniza contratos de Sources con los requisitos de usuario; no modifica aplicaciones, teoría canónica, progreso ni sitio publicado.
+Base: main `00ac50ac9d99ce8373d2ff31bc63325c630914bd` (PR #30, v12). Ampliación de Source 17 y Settings como router. No modifica aplicaciones, teoría canónica, progreso ni sitio publicado.
 
 ## Verificación reproducible
 
-- `python3 project-sources/VERIFY-V12.py`: integridad de blobs y bytes, 17 Sources numerados, 120 sesiones, longitud de Settings y presencia de requisitos v12.
+- `python3 project-sources/VERIFY-V12.py`: integridad de blobs y bytes, 18 Sources numerados, 120 sesiones, longitud de Settings, presencia de requisitos v12 y referencia obligatoria a Source 17.
 - Revisar el diff para confirmar que no hay código de producción ni teoría aprobada modificados.
 - Las referencias HTML y de PA-S002 v11 son históricas; no demuestran interacción v12.
 
