@@ -1,11 +1,11 @@
-# Auditoría de aceptación — v13
+# Auditoría de aceptación — v14
 
-**Contrato v13 vigente:** Sources 18 (orden y alcance), 19 (HTML incremental), 20 (validación no bloqueante), 21 (entregables), 22 (profundidad) y 17 (Studio 5/3/5) prevalecen sobre cualquier formulación anterior incompatible. No comprimir capítulos ni impedir crear, revisar, editar, traducir o consolidar por estados previos. Las puertas de aprobación/pruebas son exclusivamente de publicación canónica.
+**Contrato v14 vigente:** Sources 23 (generación integral), 18 (orden y alcance), 19 (HTML incremental), 20 (validación no bloqueante), 21 (entregables), 22 (profundidad) y 17 (Studio 5/3/5) prevalecen sobre cualquier formulación anterior incompatible. No comprimir capítulos ni impedir crear, revisar, editar, traducir o consolidar por estados previos. Las puertas de aprobación/pruebas son exclusivamente de publicación canónica.
 
 
 ## 0. Enrutamiento y flujo editorial
 
-- [ ] Bare PA-Sxxx devolvió SOLO el inventario editorial en idioma solicitado, sin Codex ni capítulo completo.
+- [ ] Bare PA-Sxxx produjo o retomó el HTML integral y el plano B separado; solo modalidad introductoria/progresiva explícita se detuvo en 1–6.
 - [ ] Solicitud explícita de capítulo devolvió ÚNICAMENTE ese capítulo completo.
 - [ ] Solicitud explícita de toda la sesión devolvió borrador íntegro claramente **no aprobado** (nunca aprobación asumida).
 - [ ] Aprobaciones emitidas realmente por el usuario; correcciones afectan solo el bloque pertinente; cambios a bloque aprobado requieren reconfirmación.
@@ -39,7 +39,7 @@
 ## 4. Aprendizaje adaptativo y Studio
 
 - [ ] Síntesis de tres ideas; glosas ≤10 palabras cuando útiles; progresión comprensión→mecanismo→profundización opcional sin «niveles» impresos.
-- [ ] Se elige la técnica por concepto (contraste, dependencia, predecir/revelar, ejemplo trabajado, matriz decisional), respetando el mínimo obligatorio v13 de recursos interactivos por capítulo.
+- [ ] Se elige la técnica por concepto (contraste, dependencia, predecir/revelar, ejemplo trabajado, matriz decisional), respetando el mínimo obligatorio v14 de recursos interactivos por capítulo.
 - [ ] Recuperación y explicación por concepto, repaso de transferencia, mecanismos de interacción accesibles con fallback.
 - [ ] Mapa mental Mermaid cubre todos los Conceptos/Tema/Subtemas; `.mmd` y SVG legible, responsive, accesible; flashcards cubren todo con respuestas, fuentes y teclado/touch/no-JS.
 
@@ -84,9 +84,13 @@
 
 **Gates editorial/publicación:** `MISSING_LOCAL_CHAPTER_COVERAGE` para capítulos sin síntesis/definiciones+ejemplos/diagrama/ejercicios/flashcards/Studio local/recursos; `INVALID_SEMANTIC_MARKUP` para estructura de HTML; `BROKEN_ANCHOR` para enlaces fragmentarios; `DUPLICATE_SESSION_CONTEXT` para rótulo compuesto repetido. Verificador auxiliar `VERIFY-V12.py` ofrece revisión parcial automática; no sustituye prueba física o evaluación académica.
 
-## v13 — Gates de auditoría adicionales
+## v14 — Gates de auditoría adicionales
 
-- [ ] Inventario inicial: estructura numerada después del título; solo secciones 1–6 de Source 18 si petición bare PA-Sxxx; tiempo inmediatamente después del índice anidado.
+- [ ] H1 técnico sin ID, seguido inmediatamente de párrafo de capacidad; tabla Actividad/Tiempo/Total después del índice y suma comprobada.
+- [ ] En modo integral, el HTML solo contiene contenido académico y las fichas de ingeniería, prompt borrador y auditoría se entregan fuera. Se verifican todos los subtemas del roadmap y no solo los presentes en el DOM.
+- [ ] Checkpoints de autoría y reanudación preservan bloques; plan de trabajo no se presenta como implementación comprobada.
+
+- [ ] Inventario inicial: estructura numerada después del título; solo secciones 1–6 de Source 18 si modalidad introductoria/progresiva explícita; tiempo inmediatamente después del índice anidado.
 - [ ] Conceptos agrupados por Staff→Principal/FPA/AIPE en vertical, cada uno con definición y párrafo `Ejemplo:`; sin tablas, IDs, comillas angulares. Flashcards no tabulares.
 - [ ] Tema principal: 5 modos distintos (mapa, tarjetas, simulador, explorador, matriz); cada Subtema: 3 como mínimo (mapa, tarjetas, otro de los tres). Studio global adicional con los cinco modos y prueba funcional independiente.
 - [ ] Cada control produce respuesta visible; nodos seleccionables y resaltados, tarjetas navegables, simulador cambia resultado, explorador revela contrato/dependencias, matriz recalcula scores/ranking. Contar recursos funcionales, no estáticos, fallback, código ni promesas. Verificar manualmente, documentar limitaciones sin declarar PASS ficticio.

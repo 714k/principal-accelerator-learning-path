@@ -1,13 +1,19 @@
-# Source 18 — Contrato de entrega de sesiones (v13)
+# Source 18 — Contrato de entrega de sesiones (v14)
 
 Vigente para las 120 sesiones. Esta fuente determina orden, alcance y contenido visible; sustituye el orden e inventario inicial v12 donde sean incompatibles. Source 16 rige las solicitudes y estados no bloqueantes; 19 HTML; 20 validación; 21 entregables; 22 profundidad; 17 interacciones. Las correcciones expresas del estudiante prevalecen. Conservar roadmap, destinos, requisitos no sustituidos y textos aprobados.
 
-## Primera respuesta: alcance exacto
+## Activación y encabezado
 
-Ante únicamente `PA-Sxxx`, consultar 03, 09 y los contratos aplicables. Mostrar en la conversación SOLO el título humano (un H1), una leyenda de fase/sesión y los siguientes seis apartados en orden. No añadir un resumen de los capítulos posteriores, previews de widgets, casos, entregables detallados, ni prompts Codex. El índice sí enumera todos los apartados con sus títulos. Detenerse tras Conceptos; no pedir aprobación como condición para seguir.
+Ante únicamente `PA-Sxxx`, consultar 03, 09 y los contratos aplicables y ejecutar Source 23: generar HTML académico completo con los 19 apartados y documento independiente de entregables. Los seis apartados siguientes son la apertura del HTML; no un límite de autoría. Solo si el estudiante pide «Solo introducción» o «Modo progresivo» mostrar los seis y detenerse. No pedir aprobación como condición para seguir.
+
+Encabezado obligatorio: un H1 técnico, claro y específico, sin prefijo ID ni título abstracto, seguido inmediatamente de un párrafo que describa la capacidad concreta adquirida. El código de sesión/fase se conserva en metadatos o breadcrumb separado, nunca entre H1 y párrafo. Ejemplo:
+
+> **Monorepo del Accelerator y estándares de ingeniería**
+>
+> Poder decidir cuándo conviene reunir proyectos en un monorepo, diseñar sus límites y comprobar que los cambios respetan contratos técnicos sin perder las capacidades existentes.
 
 1. **Estructura de la sesión**: lista numerada completa, nombres concretos de los subtemas anidados bajo Tema principal (7.1, 7.2...); no contar cada subtema como sección global. La lista anticipa las secciones futuras sin desarrollarlas.
-2. **Tiempo estimado de aprendizaje**: inmediatamente después de la estructura; desglose por teoría, Studio, fuentes, ejercicios, implementación, documentación y validación según alcance; suma y unidades; distinguir estimado de medido y explicar supuestos. No reducir alcance artificialmente.
+2. **Tiempo estimado de aprendizaje**: inmediatamente después de la estructura; tabla sencilla de dos columnas Actividad y Tiempo, filas teoría, Studio, fuentes, ejercicios, implementación, documentación y validación según alcance, y fila Total. Unidades claras y suma comprobada. Nota breve fuera de la tabla con supuestos y carácter estimado. No reducir alcance artificialmente.
 3. **Síntesis en 30 segundos**: exactamente tres ideas sustantivas.
 4. **Objetivo**: conocimiento, problemas, decisiones, competencias y resultados esperados evaluables.
 5. **Vista previa del aprendizaje**: recorrido vertical Staff → Principal, Frontend Platform Architecture (FPA) y AI Product Engineering (AIPE), por dominio pertinente; indicar N/A justificado, no rellenar artificialmente.
@@ -15,7 +21,7 @@ Ante únicamente `PA-Sxxx`, consultar 03, 09 y los contratos aplicables. Mostrar
 
 ## Orden universal del documento de estudio
 
-Título fuera de numeración, leyenda de fase una vez, H1 único. Índice anidado y anchors únicos en HTML. Los siguientes son los números de sección (no variar según número de subtemas):
+Título y descripción de capacidad fuera de numeración, leyenda de fase una vez, H1 único. Índice anidado y anchors únicos en HTML. Los siguientes son los números de sección (no variar según número de subtemas):
 
 1. Estructura de la sesión
 2. Tiempo estimado de aprendizaje
@@ -63,4 +69,4 @@ Tema principal y **cada** Subtema: título, síntesis local de tres ideas, objet
 
 ## Presentación y revisión
 
-HTML es exclusivamente el documento académico destinado al Learning Site; las descripciones de práctica y entregables son material de estudio, sus implementaciones viven fuera. Ante `Crea el HTML`, materializar el documento inicial; ante cada capítulo solicitado, desarrollar con profundidad y agregar/revisar solo su bloque en ese mismo documento si está disponible. Si aún no existe, crear base parcial segura o entregar bloque identificado y ofrecer integración; jamás negar autoría por falta de aprobación. Source 19 gobierna persistencia y recuperación. Solicitud explícita de sesión completa permite borrador íntegro, preferentemente desarrollado por partes sin compresión, no aprobado automáticamente.
+HTML es exclusivamente el documento académico destinado al Learning Site; las descripciones de práctica y entregables son material de estudio, sus implementaciones y fichas operativas independientes viven fuera. Source 23 genera el HTML integral y el plano B; modo progresivo conserva la edición por bloques. Ante cada capítulo solicitado, desarrollar con profundidad y agregar/revisar solo su bloque en ese mismo documento si está disponible. Si aún no existe, crear base parcial segura o entregar bloque identificado y ofrecer integración; jamás negar autoría por falta de aprobación. Source 19 gobierna persistencia y recuperación. La entrega completa es borrador no aprobado automáticamente.

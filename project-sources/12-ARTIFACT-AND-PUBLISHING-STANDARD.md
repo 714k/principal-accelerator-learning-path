@@ -1,11 +1,11 @@
-# Artefactos y publicación — v13
+# Artefactos y publicación — v14
 
-**Contrato v13 vigente:** Sources 18 (orden y alcance), 19 (HTML incremental), 20 (validación no bloqueante), 21 (entregables), 22 (profundidad) y 17 (Studio 5/3/5) prevalecen sobre cualquier formulación anterior incompatible. No comprimir capítulos ni impedir crear, revisar, editar, traducir o consolidar por estados previos. Las puertas de aprobación/pruebas son exclusivamente de publicación canónica.
+**Contrato v14 vigente:** Sources 23 (generación integral), 18 (orden y alcance), 19 (HTML incremental), 20 (validación no bloqueante), 21 (entregables), 22 (profundidad) y 17 (Studio 5/3/5) prevalecen sobre cualquier formulación anterior incompatible. No comprimir capítulos ni impedir crear, revisar, editar, traducir o consolidar por estados previos. Las puertas de aprobación/pruebas son exclusivamente de publicación canónica.
 
 
 ## Regla de integridad
 
-La fase editorial genera bloques revisados por el usuario, no un build automático. Se consolida borrador cuando se solicita; para publicación canónica, con todos aprobados se genera exactamente un `.md` canónico ES y un `.md` EN semánticamente equivalente. Si el usuario solicita una muestra entera antes, se etiqueta **borrador, no aprobado**. Codex debe publicar el contenido de ambas fuentes sin abreviar ni reescribir; sus transformaciones son estructurales, no académicas.
+La fase editorial genera bloques revisables, no un build automático. Se consolida borrador integral por defecto (Source 23) o cuando se solicita; para publicación canónica, con todos aprobados se genera exactamente un `.md` canónico ES y un `.md` EN semánticamente equivalente. El borrador íntegro no implica aprobación. Codex debe publicar el contenido de ambas fuentes sin abreviar ni reescribir; sus transformaciones son estructurales, no académicas.
 
 ## Jerarquía y presentación
 
@@ -57,13 +57,13 @@ Publicar encabezado de contexto **una sola vez**: `Fase 0 · PA-S002` para la se
 
 **Publicación fiel:** si falta contenido canónico en un capítulo, no inventarlo en el renderer. Marcar `MISSING_LOCAL_CHAPTER_COVERAGE` en auditoría editorial y devolverlo a revisión. Si un cambio de estructura altera teoría aprobada, pedir reconfirmación. ES/EN equivalente y sin cambios encubiertos de lógica de negocio.
 
-## v13 — Contrato de artefactos y Studio
+## v14 — Contrato de artefactos y Studio
 
 Todos los conceptos globales y locales, incluso en el inventario, se organizan verticalmente por Staff → Principal, FPA y AIPE (indicar cuando no aplique). Cada entrada es `Concepto: definición` y un párrafo independiente `Ejemplo:` propio y contextualizado en software; nunca tabla, grid horizontal, comillas angulares o ID visible. Flashcards individuales, nunca tablas.
 
-**Mínimos obligatorios v13:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional exige los cinco modos integradores de cobertura integral (5/3/5; 10 + 3N como mínimo). Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
+**Mínimos obligatorios v14:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional exige los cinco modos integradores de cobertura integral (5/3/5; 10 + 3N como mínimo). Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
 
-Incluir `Entregables de la sesión` antes del Checklist y listar solo su encabezado en el índice inicial; desarrollar a solicitud. Separar Learning Site ES/EN, app/lab/package/tool o artefacto de diseño/revisión de Source 09, contribución al Portfolio (o N/A justificado), tareas CODEX-OWNED/LEARNER-OWNED y pruebas/evidencia. Para cada entregable: propósito, instrucciones numeradas de qué crear/modificar, comandos verificados si existen, resultado esperado, ruta relativa al monorepo (verificada o propuesta), responsable y criterio de aceptación/verificación. Consultar Git, Sources 03/09 y SESSION-OUTPUTS-120; ninguna página teórica sustituye el objetivo de ingeniería.
+Incluir `Entregables de la sesión` antes del Checklist como explicación académica; en modo integral producir el plano B separado (Source 21). En modo introducción, listar solo su encabezado en el índice. Separar Learning Site ES/EN, app/lab/package/tool o artefacto de diseño/revisión de Source 09, contribución al Portfolio (o N/A justificado), tareas CODEX-OWNED/LEARNER-OWNED y pruebas/evidencia. Para cada entregable: propósito, instrucciones numeradas de qué crear/modificar, comandos verificados si existen, resultado esperado, ruta relativa al monorepo (verificada o propuesta), responsable y criterio de aceptación/verificación. Consultar Git, Sources 03/09 y SESSION-OUTPUTS-120; ninguna página teórica sustituye el objetivo de ingeniería.
 
 Código legible y mantenible en todo el monorepo (apps, Portfolio, Learning Site y paquetes): nombres claros, módulos y tipos; prohibido ofuscar/minimizar código autorado o salida propia; preservar archivos de terceros y no usar bundles minificados como fuente. Usar configuración e ignore Prettier de raíz para JS/TS/JSX/TSX, HTML, CSS/SCSS/Sass (parser/plugin compatible), Markdown, JSON y otros formatos soportados; ejecutar formato y `prettier --check` en CI. Reportar comandos/resultados reales y no alterar semántica, convenciones ni teoría aprobada.
 

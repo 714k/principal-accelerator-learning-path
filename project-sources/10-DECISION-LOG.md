@@ -129,7 +129,14 @@ Aceptado por solicitud del estudiante: Settings se limita a enrutamiento y prece
 
 Source 17 es la autoridad específica del Visual Learning Studio: cinco modos interactivos en Tema principal, tres en cada Subtema y Studio global adicional; generación directa en chat, comportamiento observable y pruebas de aceptación. Source 16 conserva flujo y aprobación, Source 14 aporta UX. No modifica roadmap, aplicación, teoría aprobada ni evidencia.
 
-## v13 — 16 de noviembre de 2026: contratos acumulativos aprobados para actualización
+## v14 — 18 de noviembre de 2026: generación integral
+
+- FLOW-014: Source 23 sustituye el disparador bare ID de v13 y FLOW-009/012: `PA-Sxxx` genera HTML ES completo por bloques y plano B separado sin turnos de aprobación. Introducción/progresivo quedan como modalidades explícitas, y «Continúa» retoma checkpoints. Nunca reducir profundidad por longitud.
+- Encabezado H1 técnico específico seguido de párrafo de capacidad concreta. Tiempo inmediatamente después del índice en tabla Actividad/Tiempo/Total.
+- Conservar las 19 secciones académicas, subtemas anidados y Studio 5/3/5, diagramas y pruebas. Plano B B.1–B.11 en archivos separados, con prompt borrador, no handoff ejecutado ni publicación implícita.
+- Mantener currículo, destinos, teoría aprobada y estados; EN a solicitud. Source 19 incorpora el schema completo para el límite de 25 archivos de Sources; JSON sigue en Git.
+
+## v13 — 16 de noviembre de 2026: contratos acumulativos aprobados para actualización (histórico; disparador sustituido por v14)
 
 - Primera respuesta limitada a seis apartados, orden 18; tiempo enseguida del índice, subtemas anidados, integración PA-S003 en 8.
 - Autoría por bloques profundos a solicitud, sin estados que bloqueen creación, edición, traducción o consolidación; publicación canónica conserva sus puertas.

@@ -1,4 +1,4 @@
-"""Generate a small, noncanonical fixture for the v13 DOM and widget contract."""
+"""Generate a small, noncanonical fixture for the v14 DOM and widget contract."""
 from pathlib import Path
 from html import escape
 import json
@@ -31,7 +31,7 @@ def studio(scope, ids, modes):
 ids=list(records)
 sections={
 'structure':'<nav aria-label="Índice"><ol>'+''.join(f'<li><a href="#{key}">{name}</a>'+('<ol><li><a href="#subtopic-1">Subtema 1: validación de entradas</a></li></ol>' if key=='main-topic' else '')+'</li>' for key,name in zip(schema['sections'],names))+'</ol></nav>',
-'estimated-time':'<p>Estimación ilustrativa: teoría 20 min + práctica 10 min = 30 min; no es una sesión del roadmap.</p>',
+'estimated-time':'<table><thead><tr><th scope="col">Actividad</th><th scope="col">Tiempo</th></tr></thead><tbody><tr><td>Teoría</td><td>20 min</td></tr><tr><td>Práctica</td><td>10 min</td></tr><tr><th scope="row">Total</th><td>30 min</td></tr></tbody></table><p>Estimación ilustrativa; no es una sesión del roadmap.</p>',
 'summary':'<ol><li>Un contrato define fronteras.</li><li>Los cambios compatibles preservan consumidores.</li><li>La validación protege invariantes.</li></ol>',
 'objective':'<p>Distinguir cambios aditivos y rupturas, y predecir su respuesta.</p>',
 'preview':'<h3>Staff → Principal</h3><p>Contratos y decisiones de evolución.</p><h3>Frontend Platform Architecture</h3><p>Compatibilidad del cliente.</p><h3>AI Product Engineering</h3><p>No aplica al caso ilustrativo.</p>',
@@ -79,7 +79,7 @@ for(const widget of document.querySelectorAll('[data-widget]')) {
  }
  host.hidden=false;widget.querySelector('.fallback').hidden=true;
 }'''.replace('RECORDS',json.dumps(records,ensure_ascii=False))
-html='<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Referencia HTML v13</title><style>'+style+'</style></head><body><main><article><p>Fixture ilustrativo · No canónico</p><h1>Contratos de software: referencia funcional</h1>'
+html='<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Referencia HTML v14</title><style>'+style+'</style></head><body><main><article><p>Fixture ilustrativo · No canónico</p><h1>Contratos de software: referencia funcional</h1><p>Identificar cambios compatibles y comprobar entradas sin romper consumidores.</p>'
 for i,(key,name) in enumerate(zip(schema['sections'],names),1):
     html+=f'\n<section id="{key}" data-section="{key}"><h2>{i}. {escape(name)}</h2>{sections[key]}</section>'
 html+='</article></main><script>'+script+'</script></body></html>\n'

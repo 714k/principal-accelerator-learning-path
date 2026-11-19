@@ -1,6 +1,6 @@
-# Prompt reutilizable — Visual Learning Studio v13
+# Prompt reutilizable — Visual Learning Studio v14
 
-**Contrato v13 vigente:** Sources 18 (orden y alcance), 19 (HTML incremental), 20 (validación no bloqueante), 21 (entregables), 22 (profundidad) y 17 (Studio 5/3/5) prevalecen sobre cualquier formulación anterior incompatible. No comprimir capítulos ni impedir crear, revisar, editar, traducir o consolidar por estados previos. Las puertas de aprobación/pruebas son exclusivamente de publicación canónica.
+**Contrato v14 vigente:** Sources 23 (generación integral), 18 (orden y alcance), 19 (HTML incremental), 20 (validación no bloqueante), 21 (entregables), 22 (profundidad) y 17 (Studio 5/3/5) prevalecen sobre cualquier formulación anterior incompatible. No comprimir capítulos ni impedir crear, revisar, editar, traducir o consolidar por estados previos. Las puertas de aprobación/pruebas son exclusivamente de publicación canónica.
 
 
 Genera nuevamente solo el Visual Learning Studio de la sección actual, leyendo y cumpliendo íntegramente `17-VISUAL-LEARNING-STUDIO-INTERACTIVE.md` (contrato obligatorio; Sources 14 y 16 complementarios). Conserva el contenido aprobado; no reautorices la sesión ni prepares un handoff de Codex.

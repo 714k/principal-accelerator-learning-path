@@ -1,11 +1,11 @@
-# Plantilla editorial y de estudio — PA-Sxxx (v13)
+# Plantilla editorial y de estudio — PA-Sxxx (v14)
 
-**Contrato v13 vigente:** Sources 18 (orden y alcance), 19 (HTML incremental), 20 (validación no bloqueante), 21 (entregables), 22 (profundidad) y 17 (Studio 5/3/5) prevalecen sobre cualquier formulación anterior incompatible. No comprimir capítulos ni impedir crear, revisar, editar, traducir o consolidar por estados previos. Las puertas de aprobación/pruebas son exclusivamente de publicación canónica.
+**Contrato v14 vigente:** Sources 23 (generación integral), 18 (orden y alcance), 19 (HTML incremental), 20 (validación no bloqueante), 21 (entregables), 22 (profundidad) y 17 (Studio 5/3/5) prevalecen sobre cualquier formulación anterior incompatible. No comprimir capítulos ni impedir crear, revisar, editar, traducir o consolidar por estados previos. Las puertas de aprobación/pruebas son exclusivamente de publicación canónica.
 
 
-## Activación — Etapa 0
+## Activación — modalidad de generación
 
-Tras título/contexto, bare `PA-Sxxx` entrega exclusivamente las secciones 1–6 de Source 18: estructura completa con Subtemas anidados bajo 7, tiempo estimado inmediatamente después, síntesis de tres ideas, objetivo, vista previa y conceptos con definición y ejemplo. Detenerse sin desarrollar capítulos ni Codex. Cada solicitud posterior desarrolla a profundidad solo el bloque pedido, en cualquier orden y sin depender de aprobación previa; crear o actualizar el HTML progresivo según Source 19.
+Un identificador `PA-Sxxx` sin modificadores activa la sesión integral de Source 23: HTML académico ES con las 19 secciones y Studio 5/3/5, más entregables de ingeniería separados de Source 21. Generar por bloques y continuar sin esperar aprobaciones; si hay límites, guardar un checkpoint y reanudar con «Continúa». Solo «Solo introducción» o «Modo progresivo» limita el inicio a 1–6; una solicitud de bloque modifica exclusivamente ese bloque.
 
 **En esta etapa ninguna definición breve sustituye la lección extensa posterior.** No listar `scope.application` ni otros IDs de máquina. No imprimir un encabezado de «conceptos, en orden: ...»: usar cada término como inicio de una definición legible.
 
@@ -20,6 +20,8 @@ Analizar las decisiones de arquitectura y sus consecuencias en sistemas reales.
 ```
 
 La descripción debajo del H1 no es otro título. No añadir marcadores vacíos en el documento final. Un H1 máximo; `PA-S001` queda en metadatos/breadcrumb. Sin títulos con `PA-S001 —` repetidos.
+
+Inmediatamente después del H1 escribir el párrafo de capacidad adquirida (Source 18); después del índice, tabla simple de tiempo estimado con dos columnas Actividad y Tiempo, última fila Total y nota breve de supuestos.
 
 ## Esqueleto del documento español final
 
@@ -71,15 +73,15 @@ Conservar el orden de secciones de la sesión. Dentro de **cada** capítulo desa
 
 El primer ejemplo enseña *responsabilidad* y el segundo enseña *excepción*; no intercambiar ejemplos o repetir una misma descripción para todos los conceptos.
 
-## v13 — Inventario, conceptos y entregables
+## v14 — Inventario, conceptos y entregables
 
-Tras título/contexto, bare `PA-Sxxx` entrega exclusivamente las secciones 1–6 de Source 18: estructura completa con Subtemas anidados bajo 7, tiempo estimado inmediatamente después, síntesis de tres ideas, objetivo, vista previa y conceptos con definición y ejemplo. Detenerse sin desarrollar capítulos ni Codex. Cada solicitud posterior desarrolla a profundidad solo el bloque pedido, en cualquier orden y sin depender de aprobación previa; crear o actualizar el HTML progresivo según Source 19.
+Un identificador `PA-Sxxx` sin modificadores activa la sesión integral de Source 23: HTML académico ES con las 19 secciones y Studio 5/3/5, más entregables de ingeniería separados de Source 21. Generar por bloques y continuar sin esperar aprobaciones; si hay límites, guardar un checkpoint y reanudar con «Continúa». Solo «Solo introducción» o «Modo progresivo» limita el inicio a 1–6; una solicitud de bloque modifica exclusivamente ese bloque.
 
 Todos los conceptos globales y locales, incluso en el inventario, se organizan verticalmente por Staff → Principal, FPA y AIPE (indicar cuando no aplique). Cada entrada es `Concepto: definición` y un párrafo independiente `Ejemplo:` propio y contextualizado en software; nunca tabla, grid horizontal, comillas angulares o ID visible. Flashcards individuales, nunca tablas.
 
-**Mínimos obligatorios v13:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional exige los cinco modos integradores de cobertura integral (5/3/5; 10 + 3N como mínimo). Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
+**Mínimos obligatorios v14:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional exige los cinco modos integradores de cobertura integral (5/3/5; 10 + 3N como mínimo). Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
 
-Incluir `Entregables de la sesión` antes del Checklist y listar solo su encabezado en el índice inicial; desarrollar a solicitud. Separar Learning Site ES/EN, app/lab/package/tool o artefacto de diseño/revisión de Source 09, contribución al Portfolio (o N/A justificado), tareas CODEX-OWNED/LEARNER-OWNED y pruebas/evidencia. Para cada entregable: propósito, instrucciones numeradas de qué crear/modificar, comandos verificados si existen, resultado esperado, ruta relativa al monorepo (verificada o propuesta), responsable y criterio de aceptación/verificación. Consultar Git, Sources 03/09 y SESSION-OUTPUTS-120; ninguna página teórica sustituye el objetivo de ingeniería.
+Incluir `Entregables de la sesión` antes del Checklist como explicación académica; en modo integral producir el plano B separado (Source 21). En modo introducción, listar solo su encabezado en el índice. Separar Learning Site ES/EN, app/lab/package/tool o artefacto de diseño/revisión de Source 09, contribución al Portfolio (o N/A justificado), tareas CODEX-OWNED/LEARNER-OWNED y pruebas/evidencia. Para cada entregable: propósito, instrucciones numeradas de qué crear/modificar, comandos verificados si existen, resultado esperado, ruta relativa al monorepo (verificada o propuesta), responsable y criterio de aceptación/verificación. Consultar Git, Sources 03/09 y SESSION-OUTPUTS-120; ninguna página teórica sustituye el objetivo de ingeniería.
 
 PA-S003, sección 8 (antes punto 13): **Integración entre AI Product Engineering, Staff Software Engineer y Frontend Platform Architect**. Síntesis transversal de conceptos, mecanismos, fronteras, arquitectura y responsabilidades después de enseñar cada área; integración del Portfolio/site corresponde a aplicación posterior, no a esta teoría.
 
