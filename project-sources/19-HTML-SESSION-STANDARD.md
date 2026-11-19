@@ -1,4 +1,4 @@
-# Source 19 — HTML de aprendizaje progresivo (v13)
+# Source 19 — HTML de aprendizaje progresivo (v14)
 
 ## Superficie y autoridad
 
@@ -8,7 +8,7 @@ El HTML es la superficie principal para todos los interactivos y gráficos. No d
 
 ## Ciclo de vida no bloqueante
 
-1. Bare PA-Sxxx: solo primera respuesta (Source 18), sin resto de teoría. `Crea el HTML`: persistir exactamente los seis apartados disponibles, con estructura y anchors. El índice puede anunciar capítulos pendientes sin simular que existen ni enlazar a fragmentos inexistentes (usar texto hasta incorporarlos).
+1. Bare PA-Sxxx: iniciar o retomar el HTML integral de Source 23, persistir cada capítulo y continuar automáticamente mientras sea posible. En modo introductorio/progresivo explícito, persistir solo los seis apartados iniciales si se pide el HTML. El índice puede anunciar capítulos pendientes sin simular que existen ni enlazar a fragmentos inexistentes (usar texto hasta incorporarlos). Entregar un HTML por idioma, nunca partes finales separadas.
 2. Cada solicitud de capítulo activa Sources 18/22/17, sin pedir al usuario repetir instrucciones. Recuperar el HTML existente por sesión/idioma, leer su contenido y localizar la sección por identificador estable. Trabajar con fragmentos delimitados y conservar fuera del alcance texto, ejemplos, datos, controles y estilo. Si el capítulo no existe, insertarlo en orden semántico, aunque otros no existan. Generar base parcial si se necesita.
 3. Si el documento previo no es accesible, no sobreescribir ni afirmar recuperación. Entregar el bloque solicitado como revisión parcial claramente identificada; recuperar el original antes de fusionar. Nunca negar la autoría por falta de documento/estado/aprobación. Si el usuario pide corregir bloque aprobado, hacerlo; distinguir revisión nueva de la anterior y actualizar estado solo del bloque modificado.
 4. Persistir después de cada bloque; comprobar archivo y actualización. Registrar identidad/revisión/estado de bloques en metadatos internos, informe externo o mecanismo equivalente. Conservar contenido no solicitado mediante comparación estructural o hashes de segmentos; no reserializar/truncar bloques aprobados por ahorrar contexto. Evitar regenerar toda la sesión por un cambio local. No afirmar persistencia si no se confirmó el guardado.
@@ -27,3 +27,27 @@ Usar IDs globales de `SESSION-SCHEMA.json` y `data-section` para cada capítulo,
 ## Publicación posterior
 
 En handoff autorizado, Codex integra contenido ES/EN semánticamente idéntico y las interacciones verificadas en `site/`, preservando arquitectura y código de negocio; no copiar indiscriminadamente CSS/JS de referencia a producción. Mantener Mermaid fuente, SVG, cobertura 5/3/5, responsive, navegación, dashboard y tracking reversible compartido ES/EN; validar build/DOM/site real. Source 12/11/06 conservan criterios de producción. No confundir HTML de estudio con código publicado ni evidencia de app ejecutable.
+
+## Esquema DOM completo (equivalente a SESSION-SCHEMA.json)
+
+El JSON separado es auxiliar de Git, no se necesita cargarlo en Sources. Usar el esquema incluido aquí cuando no se tenga acceso al repositorio. La copia debe permanecer idéntica al archivo de herramientas.
+
+```json
+{
+  "version": "v14",
+  "defaultMode": "integral",
+  "requiredHeader": ["h1", "capability-paragraph"],
+  "estimatedTimeColumns": ["Actividad", "Tiempo"],
+  "estimatedTimeTotal": "Total",
+  "sections": ["structure", "estimated-time", "summary", "objective", "preview", "concepts", "main-topic", "integration", "theory-practice", "real-world", "production-example", "global-studio", "exercises", "sources", "work-resources", "deliverables", "checklist", "success-criteria", "bridge"],
+  "initialSectionCount": 6,
+  "subtopicPattern": "^subtopic-[1-9][0-9]*$",
+  "allModes": ["mind-map", "flashcards", "simulator", "architecture-explorer", "decision-matrix"],
+  "subtopicRequiredModes": ["mind-map", "flashcards"],
+  "minimumMain": 5,
+  "minimumSubtopic": 3,
+  "minimumGlobal": 5,
+  "attributes": {"section": "data-section", "studio": "data-studio-scope", "widget": "data-widget", "concept": "data-concept", "conceptId": "data-concept-id", "definition": "data-definition", "example": "data-example", "coverage": "data-coverage", "diagram": "data-diagram"},
+  "notes": "Descriptive DOM contract. Minimum 10+3*N scoped resources. Structure is not evidence of academic depth or behavior."
+}
+```

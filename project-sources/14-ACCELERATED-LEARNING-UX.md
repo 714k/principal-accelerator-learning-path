@@ -1,6 +1,6 @@
-# Experiencia de aprendizaje acelerado — v13
+# Experiencia de aprendizaje acelerado — v14
 
-**Contrato v13 vigente:** Sources 18 (orden y alcance), 19 (HTML incremental), 20 (validación no bloqueante), 21 (entregables), 22 (profundidad) y 17 (Studio 5/3/5) prevalecen sobre cualquier formulación anterior incompatible. No comprimir capítulos ni impedir crear, revisar, editar, traducir o consolidar por estados previos. Las puertas de aprobación/pruebas son exclusivamente de publicación canónica.
+**Contrato v14 vigente:** Sources 23 (generación integral), 18 (orden y alcance), 19 (HTML incremental), 20 (validación no bloqueante), 21 (entregables), 22 (profundidad) y 17 (Studio 5/3/5) prevalecen sobre cualquier formulación anterior incompatible. No comprimir capítulos ni impedir crear, revisar, editar, traducir o consolidar por estados previos. Las puertas de aprobación/pruebas son exclusivamente de publicación canónica.
 
 
 ## Principios comunes sin UI idéntica
@@ -37,15 +37,15 @@ Comprobar con muestra humana: ¿un ingeniero que desconoce el capítulo puede re
 
 **Conceptos del tema principal / Conceptos del subtema N** son encabezados literales y localizados. Cada entrada une término, definición sencilla y ejemplo pertinente. No envolver la entrada en comillas angulares.
 
-**El capítulo integra visualizaciones locales**: un diagrama Mermaid→SVG propio con pie y explicación, y los recursos interactivos mínimos definidos en v13 (comparación estructural, línea de estados, predecir/revelar con respuesta, explorador de incompatibilidades, trazado de impacto o matriz de decisión). Cada capítulo incluye también ejercicio resuelto, tarjetas de estudio y recursos que se relacionen con ese mecanismo. Studio global = consolidación e interconexión, no depósito exclusivo de materiales visuales.
+**El capítulo integra visualizaciones locales**: un diagrama Mermaid→SVG propio con pie y explicación, y los recursos interactivos mínimos definidos en v14 (comparación estructural, línea de estados, predecir/revelar con respuesta, explorador de incompatibilidades, trazado de impacto o matriz de decisión). Cada capítulo incluye también ejercicio resuelto, tarjetas de estudio y recursos que se relacionen con ese mecanismo. Studio global = consolidación e interconexión, no depósito exclusivo de materiales visuales.
 
 Cada recurso tiene texto explicativo y controles accesibles; sin JS la teoría, respuestas, diagramas y enlaces deben permanecer disponibles. No forzar múltiples simuladores si solo repetirían el texto.
 
-## v13 — Estándar visual interactivo obligatorio en HTML y site
+## v14 — Estándar visual interactivo obligatorio en HTML y site
 
 **Consulta obligatoria:** `17-VISUAL-LEARNING-STUDIO-INTERACTIVE.md` es el contrato detallado de generación, comportamientos, renderizado y aceptación. Esta sección complementa su UX; no reemplaza su lectura íntegra.
 
-**Mínimos obligatorios v13:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional exige los cinco modos integradores de cobertura integral (5/3/5; 10 + 3N como mínimo). Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
+**Mínimos obligatorios v14:** Tema principal: 5 recursos interactivos distintos (mapa mental, flashcards, simulador, explorador de arquitectura y matriz de decisión). Cada Subtema: al menos 3 (mapa mental, flashcards y simulador/explorador/matriz según objetivo). El Studio global adicional exige los cinco modos integradores de cobertura integral (5/3/5; 10 + 3N como mínimo). Una baraja o mapa cuenta una vez; un diagrama estático, tabla convencional, especificación, código, promesa o fallback sin JS no cuenta. Los diagramas explicativos junto al mecanismo se mantienen aparte.
 
 ### Comportamiento verificable de cada recurso
 

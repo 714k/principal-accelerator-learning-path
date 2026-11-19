@@ -10,6 +10,7 @@ schema = json.loads(Path(__file__).with_name('SESSION-SCHEMA.json').read_text())
 class Node:
     def __init__(self, tag, attrs, parent=None):
         self.tag, self.attrs, self.parent, self.children = tag, dict(attrs), parent, []
+        self.text = ''
     def descendants(self):
         for child in self.children:
             yield child
@@ -26,12 +27,21 @@ class Parser(HTMLParser):
         while parent.parent:
             if parent.tag==tag: self.node=parent.parent; return
             parent=parent.parent
+    def handle_data(self, data):
+        node=self.node
+        while node:
+            node.text+=data
+            node=node.parent
 
-def validate(path, complete=False):
+def validate(path, complete=False, expected_subtopics=None):
     parser=Parser(); parser.feed(path.read_text()); nodes=list(parser.root.descendants()); errors=[]; pending=[]
     def check(ok, message):
         if not ok: errors.append(message)
     check(sum(n.tag=='h1' for n in nodes)==1,'require exactly one H1')
+    for heading in [n for n in nodes if n.tag=='h1']:
+        siblings=heading.parent.children
+        following=siblings[siblings.index(heading)+1:]
+        check(bool(following) and following[0].tag=='p' and bool(following[0].text.strip()),'H1 must be immediately followed by a capability paragraph')
     ids=Counter(n.attrs['id'] for n in nodes if 'id' in n.attrs)
     check(all(v==1 for v in ids.values()),'duplicate anchors')
     for n in nodes:
@@ -43,7 +53,21 @@ def validate(path, complete=False):
         if key not in by_id: pending.append(key)
     actual=[n.attrs['data-section'] for n in sections if n.attrs['data-section'] in order]
     check(actual==[k for k in order if k in by_id],'incorrect section order')
+    if 'estimated-time' in by_id:
+        tables=[n for n in by_id['estimated-time'].descendants() if n.tag=='table']
+        check(len(tables)==1,'estimated time requires one table')
+        if len(tables)==1:
+            rows=[n for n in tables[0].descendants() if n.tag=='tr']
+            cells=[[c.text.strip() for c in row.children if c.tag in ('th','td')] for row in rows]
+            headers=['Activity','Time'] if any(n.tag=='html' and n.attrs.get('lang','').startswith('en') for n in nodes) else schema['estimatedTimeColumns']
+            check(bool(cells) and cells[0]==headers and all(len(r)==2 for r in cells),'estimated time requires Activity/Time columns')
+            check(len(cells)>=3 and cells[-1][0]==schema['estimatedTimeTotal'],'estimated time requires a Total row')
     subtopics=[n for n in sections if re.match(schema['subtopicPattern'],n.attrs['data-section'])]
+    if expected_subtopics is not None:
+        expected_ids={f'subtopic-{i}' for i in range(1,expected_subtopics+1)}
+        observed_ids={n.attrs['data-section'] for n in subtopics}
+        pending.extend(sorted(expected_ids-observed_ids))
+        check(observed_ids<=expected_ids,'unexpected subtopic(s)')
     for sub in subtopics: check(sub.parent is by_id.get('main-topic'),'subtopic must nest under main-topic')
     for n in nodes:
         if 'data-concept' in n.attrs:
@@ -72,4 +96,4 @@ def validate(path, complete=False):
     return not errors
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('html',type=Path);p.add_argument('--complete',action='store_true');args=p.parse_args();raise SystemExit(0 if validate(args.html,args.complete) else 1)
+    p=argparse.ArgumentParser();p.add_argument('html',type=Path);p.add_argument('--complete',action='store_true');p.add_argument('--expected-subtopics',type=int);args=p.parse_args();raise SystemExit(0 if validate(args.html,args.complete,args.expected_subtopics) else 1)

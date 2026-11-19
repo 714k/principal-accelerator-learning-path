@@ -1,8 +1,8 @@
-# Source 22 — Profundidad académica y autoría sin compresión (v13)
+# Source 22 — Profundidad académica y autoría sin compresión (v14)
 
 ## Norma prioritaria
 
-Cada solicitud `Tema principal`, `Subtema N` o equivalente activa de forma automática el desarrollo profundo; no exigir al estudiante repetir «ampliamente desarrollado», «agrega ejemplos» o «no olvides interactivos». Preferir autoría por capítulos (o partes del mismo capítulo si tamaño lo exige). La respuesta inicial se limita estrictamente a Source 18. Nunca comprimir el material para caber en un turno ni sustituir una explicación por un índice, glosario, bullets superficiales, diagrama o tarjetas. Si no cabe, producir partes sustantivas y conservar el HTML progresivamente, informar qué queda pendiente. No bloquear nuevas solicitudes ni declarar capítulo completo por tener todos los encabezados.
+Cada solicitud `Tema principal`, `Subtema N` o equivalente activa de forma automática el desarrollo profundo; no exigir al estudiante repetir «ampliamente desarrollado», «agrega ejemplos» o «no olvides interactivos». Preferir autoría por capítulos (o partes del mismo capítulo si tamaño lo exige). En modo integral aplicar este contrato a cada capítulo sin esperar solicitudes adicionales; Source 23 rige el alcance y persistencia. Nunca comprimir el material para caber en un turno ni sustituir una explicación por un índice, glosario, bullets superficiales, diagrama o tarjetas. Si no cabe, producir partes sustantivas y conservar el HTML progresivamente, informar qué queda pendiente. No bloquear nuevas solicitudes ni declarar capítulo completo por tener todos los encabezados.
 
 ## Cobertura por concepto atómico
 

@@ -1,5 +1,9 @@
 {
-  "version": "v13",
+  "version": "v14",
+  "defaultMode": "integral",
+  "requiredHeader": ["h1", "capability-paragraph"],
+  "estimatedTimeColumns": ["Actividad", "Tiempo"],
+  "estimatedTimeTotal": "Total",
   "sections": ["structure", "estimated-time", "summary", "objective", "preview", "concepts", "main-topic", "integration", "theory-practice", "real-world", "production-example", "global-studio", "exercises", "sources", "work-resources", "deliverables", "checklist", "success-criteria", "bridge"],
   "initialSectionCount": 6,
   "subtopicPattern": "^subtopic-[1-9][0-9]*$",

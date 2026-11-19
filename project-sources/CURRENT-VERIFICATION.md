@@ -1,4 +1,14 @@
-# Verificación v13 — 2026-11-16
+# Verificación v14 — 2026-11-18
+
+Base main `9c30f62eb48a4c420f9c791c0627e7fa2d11712f` (PR #32 fusionado). Solo project-sources. La v14 no crea las 120 lecciones ni modifica código de producto.
+
+- PASS: fixture de referencia, 19/19 secciones, H1 y capacidad, tabla de tiempo, un subtema y 13 widgets declarados; `VALIDATE-SESSION.py ... --complete --expected-subtopics 1`.
+- PASS: Prettier 3.9.10, configuración de raíz, archivos HTML/JS/CJS existentes, incluida referencia regenerada.
+- PENDING: Playwright/Chromium no pudo iniciar por restricción de socket (Operation not permitted); no se certifica comportamiento.
+- Verificación del paquete: `python3 project-sources/VERIFY-V14.py --zip <zip>`; hash e identidad del esquema integrado, ruta de Settings, 25 archivos exactos y 120 IDs de sesiones.
+- Adopción pendiente: instalar Sources y Settings, solicitar una sesión piloto integral, comprobar profundidad real, widgets funcionales y plano B, editar un bloque y probar una reanudación. Separar CI del repo, verificación de fixture y calidad real de sesiones.
+
+## Registro histórico v13
 
 Base main `8e2079154322c404997f5e2d71d4975200ac1edc` (PR #31 fusionado). Cambios en project-sources exclusivamente.
 
