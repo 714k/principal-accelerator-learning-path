@@ -369,7 +369,7 @@ function sessionToc(lang: 'es' | 'en'): string {
         'Quality gates, constraints and fitness',
         'Ownership and AI boundaries',
       ];
-  return `<details class="toc" id="table-of-contents"><summary>${es ? 'Contenido' : 'Contents'}</summary><nav aria-label="${es ? 'Contenido' : 'Contents'}"><ol class="toc-list">${sections
+  return `<details class="toc" id="table-of-contents"><summary>${es ? 'Tabla de contenido' : 'Table of contents'}</summary><nav aria-label="${es ? 'Tabla de contenido' : 'Table of contents'}"><ol class="toc-list">${sections
     .map(([id, label]) => {
       const children =
         id === 'subtopics'

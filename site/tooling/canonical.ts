@@ -364,7 +364,7 @@ export function renderCanonical(source: string, lang: 'es' | 'en', base: string)
   const lines = sourceLines(source),
     all = headings(source, lang),
     out: string[] = [];
-  const toc = `<details class="toc" id="table-of-contents"><summary>${lang === 'es' ? 'Contenido' : 'Contents'}</summary><nav aria-label="${lang === 'es' ? 'Contenido' : 'Contents'}"><ol class="toc-list">${all
+  const toc = `<details class="toc" id="table-of-contents"><summary>${lang === 'es' ? 'Tabla de contenido' : 'Table of contents'}</summary><nav aria-label="${lang === 'es' ? 'Tabla de contenido' : 'Table of contents'}"><ol class="toc-list">${all
     .filter((h) => h.level === 2)
     .map((h) => `<li><a href="#${h.id}">${inline(h.title.replace(/^`[^`]+` — /, ''))}</a></li>`)
     .join('')}</ol></nav></details>`;
@@ -518,7 +518,9 @@ export function renderCanonical(source: string, lang: 'es' | 'en', base: string)
           .map((cell) => cell.trim());
       const rows = table.filter((row) => !/^\|[-| :]+\|$/.test(row));
       out.push(
-        `<div class="scroll"><table><thead><tr>${cells(rows[0]!)
+        `<div class="scroll" tabindex="0" role="region" aria-label="${lang === 'es' ? 'Tabla con desplazamiento horizontal' : 'Table with horizontal scrolling'}"><table><thead><tr>${cells(
+          rows[0]!,
+        )
           .map((cell) => `<th scope="col">${inline(cell)}</th>`)
           .join('')}</tr></thead><tbody>${rows
           .slice(1)
@@ -551,8 +553,11 @@ export function renderCanonical(source: string, lang: 'es' | 'en', base: string)
     if (line.startsWith('- ')) {
       const items: string[] = [];
       while (lines[i]?.startsWith('- ')) items.push(lines[i++]!);
+      const listClass = ['sources', 'resources', 'work-resources'].includes(currentHeading)
+        ? ' class="resource-link-list"'
+        : '';
       out.push(
-        `<ul>${items
+        `<ul${listClass}>${items
           .map((item) => {
             const content = item.slice(2),
               check = content.match(/^\[ \] `(PA-S001\.check\.[a-z-]+)` (.+)$/);

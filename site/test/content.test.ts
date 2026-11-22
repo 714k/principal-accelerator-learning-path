@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { resolve, dirname } from 'node:path';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { loadPage, assertPair, validatePage } from '../tooling/content.ts';
+import { loadPage, assertPair, validatePage, assertSessionHtmlPair } from '../tooling/content.ts';
 import {
   assertCanonicalPair,
   renderCanonical,
@@ -21,6 +21,11 @@ import { searchIndex } from '../tooling/search.ts';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const source = (lang: 'es' | 'en') =>
   readFileSync(resolve(root, `site/content/canonical/PA-S001-theory-${lang}.md`), 'utf8');
+const sourceHtml = (lang: 'es' | 'en') =>
+  readFileSync(resolve(root, `site/content/canonical/PA-S001-session-${lang}.html`), 'utf8');
+const siteCss =
+  readFileSync(resolve(root, 'site/tooling/site.css'), 'utf8') +
+  readFileSync(resolve(root, 'site/shared/assets/session-ui.css'), 'utf8');
 const pages = {
   es: loadPage(resolve(root, 'site/es/sessions/PA-S001/page.json')),
   en: loadPage(resolve(root, 'site/en/sessions/PA-S001/page.json')),
@@ -31,6 +36,447 @@ test('canonical files retain learner supplied bytes and hashes', () => {
   assert.throws(
     () => assertCanonicalPair(source('es').replace('Ingeniería', 'Ingenieria'), source('en')),
     /MISSING_CANONICAL_THEORY_PAYLOAD/,
+  );
+});
+
+test('replacement PA-S001 HTML has bilingual structural parity and reversible success checks', () => {
+  assert.doesNotThrow(() => assertSessionHtmlPair(sourceHtml('es'), sourceHtml('en')));
+  for (const lang of ['es', 'en'] as const) {
+    const html = sourceHtml(lang);
+    const rendered = renderPage(pages[lang], '/', 'sessions/PA-S001', undefined, html);
+    const toc = html.match(/<nav aria-labelledby="toc-heading">[\s\S]*?<\/nav>/)?.[0] ?? '';
+    const success =
+      html.match(/<section\b(?=[^>]*\bid="success-criteria")[^>]*>[\s\S]*?<\/section>/)?.[0] ?? '';
+    assert.equal((html.match(/<h1\b/g) ?? []).length, 1);
+    assert.match(
+      rendered,
+      /<div class="site-grid"><button class="sidebar-collapse-toggle"[\s\S]*?<\/button><aside class="site-sidebar">/,
+    );
+    const mobileNavStart = rendered.indexOf('<details class="mobile-global">');
+    const mobileSummaryStart = rendered.indexOf('<summary', mobileNavStart);
+    const mobileSummaryEnd =
+      rendered.indexOf('</summary>', mobileSummaryStart) + '</summary>'.length;
+    const headerStart = rendered.indexOf('<header class="site-header">');
+    const brandStart = rendered.indexOf('<a class="brand"', headerStart);
+    assert.ok(headerStart >= 0 && headerStart < mobileNavStart && mobileNavStart < brandStart);
+    assert.match(
+      rendered.slice(mobileSummaryStart, mobileSummaryEnd),
+      /^<summary aria-label="(?:Navegación|Navigation)"><svg class="icon icon-menu"[\s\S]*<\/svg><\/summary>$/,
+    );
+    assert.equal((rendered.match(/class="toc-fab"/g) ?? []).length, 1);
+    assert.match(rendered, /class="toc-fab" href="#table-of-contents"/);
+    assert.match(
+      rendered,
+      new RegExp(
+        `aria-label="${lang === 'es' ? 'Volver a la tabla de contenido' : 'Back to the table of contents'}"`,
+      ),
+    );
+    assert.match(toc, /<h2 id="toc-heading">(?:Tabla de contenido|Table of contents)<\/h2>/);
+    assert.match(
+      rendered,
+      new RegExp(
+        `<h2 id="concepts-heading" class="section-heading"><span class="sr-only">1\\. <\\/span><span class="section-number" aria-hidden="true">${lang === 'es' ? 'Sección' : 'Section'} 1<\\/span>`,
+      ),
+    );
+    for (const id of ['concepts', 'main-topic', 'integration', 'theory-practice']) {
+      assert.match(rendered, new RegExp(`<a href="#${id}"\\s*>`));
+    }
+    for (const [id, title] of [
+      ['estimated-time', /Tiempo estimado de aprendizaje|Estimated learning time/],
+      ['summary', /Síntesis en 30 segundos|Synthesis in 30 seconds/],
+      ['objective', /Objetivo|Objective/],
+      ['preview', /Vista previa del aprendizaje|Learning preview/],
+    ] as const) {
+      assert.match(html, new RegExp(`<div class="session-intro-component" id="${id}">`));
+      assert.doesNotMatch(html, new RegExp(`<section\\b[^>]*\\bid="${id}"`));
+      assert.match(toc, new RegExp(`<a href="#${id}">`));
+      assert.match(html, new RegExp(`<h2 id="${id}-heading">(?:${title.source})</h2>`));
+    }
+    const preview = html.match(
+      /<div class="session-intro-component" id="preview">([\s\S]*?)<section id="concepts"/,
+    )?.[1];
+    assert.ok(preview, `${lang} learning preview exists`);
+    assert.equal((preview.match(/class="preview-entry-card"/g) ?? []).length, 3);
+    assert.equal((preview.match(/<h3\b/g) ?? []).length, 3);
+    assert.equal((preview.match(/<p\b/g) ?? []).length, 3);
+    assert.doesNotMatch(html, /<section id="structure"/);
+    assert.doesNotMatch(
+      toc,
+      /<a href="#(?:estimated-time|summary|objective|preview|concepts|main-topic|integration|theory-practice|real-world|production-example|global-studio|exercises|sources|work-resources|deliverables|checklist|success-criteria|bridge)">\s*\d+\./,
+    );
+    assert.match(
+      toc,
+      /<a href="#subtopic-1"\s*>\s*(?:Ingeniería de software|Software engineering)/,
+    );
+    assert.doesNotMatch(toc, />\s*6\.\d (?:Subtema|Subtopic) \d:/);
+    assert.match(html, /<ol class="synthesis-plain">/);
+    assert.match(
+      html,
+      /<section id="concepts"[\s\S]*?<div\s+data-concept[\s\S]*?<dd>[\s\S]*?<strong>Ejemplo:|Example:/,
+    );
+    assert.match(
+      html,
+      /<ol class="mechanism-steps">[\s\S]*?<span class="ordered-list-content"\s*>/,
+    );
+    assert.equal(
+      (
+        html.match(/<section\b[^>]*\bid="subtopic-[1-7]"[^>]*\bdata-section="subtopic-[1-7]"/gs) ??
+        []
+      ).length,
+      7,
+    );
+    assert.equal(
+      (success.match(/<input[^>]*type="checkbox"[^>]*data-study-check="success-l[1-5]"/g) ?? [])
+        .length,
+      5,
+    );
+    assert.match(html, /<section\b(?=[^>]*\bid="sources")(?=[^>]*\bdata-section="sources")[^>]*>/);
+  }
+  for (const lang of ['es', 'en'] as const) {
+    const introEntries = searchIndex(
+      lang,
+      '/',
+      [{ route: 'sessions/PA-S001', page: pages[lang] }],
+      sourceHtml(lang),
+    );
+    for (const id of ['estimated-time', 'summary', 'objective', 'preview'])
+      assert.ok(introEntries.some((entry) => entry.href === `/${lang}/sessions/PA-S001/#${id}`));
+  }
+  const rendered = renderPage(pages.en, '/', 'sessions/PA-S001', undefined, sourceHtml('en'));
+  assert.match(rendered, /<link rel="stylesheet" href="\/assets\/site\.css">/);
+  assert.match(rendered, /<link rel="stylesheet" href="\/assets\/session-ui\.css">/);
+  assert.match(rendered, /<script defer src="\/assets\/session-ui\.js"><\/script>/);
+  assert.match(rendered, /<a class="skip" href="#main-content">/);
+  assert.match(rendered, /<main id="main-content">/);
+  assert.match(rendered, /<body class="session-page pa-s001">/);
+  assert.match(
+    rendered,
+    /<nav aria-labelledby="toc-heading"><h2 class="sr-only" id="toc-heading">/,
+  );
+  assert.match(rendered, /Staff → Principal/);
+  assert.equal((rendered.match(/<h1\b/g) ?? []).length, 1);
+  assert.match(rendered, /<span class="external-link-icon" aria-hidden="true">↗<\/span>/);
+  assert.match(rendered, /<span class="sr-only">\(opens in a new tab\)<\/span>/);
+  assert.match(rendered, /target="_blank" rel="noopener noreferrer"/);
+  assert.ok(
+    rendered.indexOf('<div class="page-intro">') <
+      rendered.indexOf('<div class="layout"><details class="toc"'),
+  );
+  assert.ok(
+    rendered.indexOf('<details class="toc"') <
+      rendered.indexOf('<article class="canonical-theory session-source">'),
+  );
+  assert.doesNotMatch(rendered, /color-scheme: light dark; font-family: system-ui, sans-serif/);
+});
+
+test('PA-S001 concepts separate term and definition and collapse examples accessibly', () => {
+  for (const lang of ['es', 'en'] as const) {
+    const rendered = renderPage(pages[lang], '/', 'sessions/PA-S001', undefined, sourceHtml(lang));
+    const concepts = [
+      ...rendered.matchAll(/<div\b(?=[^<>]*\bdata-concept(?:\s|=|>))[^>]*>[\s\S]*?<\/div>/g),
+    ].map(([concept]) => concept!);
+    const sourceConceptCount = [
+      ...sourceHtml(lang).matchAll(/<div\b(?=[^<>]*\bdata-concept(?:\s|=|>))[^>]*>/g),
+    ].length;
+    assert.equal(concepts.length, sourceConceptCount);
+    for (const concept of concepts) {
+      assert.match(
+        concept,
+        /<dt[^>]*>\s*<strong[^>]*>[^<]+<\/strong>\s*<\/dt>\s*<dd[^>]*>\s*<p>[^<]+<\/p>\s*<details class="concept-example-disclosure">/,
+      );
+      assert.match(concept, /<summary>(?:Ejemplo|Example)<\/summary>/);
+      assert.doesNotMatch(concept, /<strong>(?:Ejemplo|Example):<\/strong>/);
+      assert.doesNotMatch(concept, /<dt[^>]*>[\s\S]*?<strong[^>]*>[^<]*:<\/strong>/);
+    }
+  }
+  assert.match(
+    siteCss,
+    /details\.concept-example-disclosure\s*\{[^}]*border:\s*1px solid var\(--line\);[^}]*background:\s*color-mix\(in srgb, var\(--soft\) 70%, var\(--surface\)\);/,
+  );
+  assert.match(
+    siteCss,
+    /details\.concept-example-disclosure > summary\s*\{[^}]*background: color-mix\(in srgb, var\(--accent\) 5%, var\(--surface\)\);[^}]*color: var\(--ink\);/,
+  );
+  assert.match(
+    siteCss,
+    /details\.concept-example-disclosure > summary::after\s*\{[^}]*width: 1\.2rem;[^}]*background-color: var\(--accent\);/,
+  );
+  assert.match(
+    siteCss,
+    /details\.concept-example-disclosure\[open\]\s*>\s*summary\s*\{[^}]*border-bottom: 1px solid var\(--line\);[^}]*background: transparent;/,
+  );
+  assert.match(
+    siteCss,
+    /details\.concept-example-disclosure\[open\]\s*>\s*summary::after\s*\{[^}]*transform: rotate\(180deg\);/,
+  );
+});
+
+test('session UI assets are shared, theme-aware, and keyboard-accessible', () => {
+  const sessionCss = readFileSync(resolve(root, 'site/shared/assets/session-ui.css'), 'utf8');
+  const sessionJs = readFileSync(resolve(root, 'site/shared/assets/session-ui.js'), 'utf8');
+  assert.match(sessionCss, /:focus-visible/);
+  assert.match(sessionCss, /prefers-reduced-motion/);
+  assert.match(sessionCss, /var\(--surface\)/);
+  assert.ok(
+    /\.session-page \.toc-fab\s*\{[^}]*right: max\(10px, env\(safe-area-inset-right\)\);[^}]*bottom: max\(10px, env\(safe-area-inset-bottom\)\);[^}]*width: 60px;[^}]*height: 60px;/.test(
+      sessionCss,
+    ),
+    'the TOC FAB must be circular, 60px, and clear the device safe area',
+  );
+  assert.ok(
+    /\.session-page \.toc-fab:focus-visible\s*\{[^}]*outline: 3px solid var\(--focus\);/.test(
+      sessionCss,
+    ),
+    'the TOC FAB must have a visible keyboard focus indicator',
+  );
+  assert.match(
+    sessionCss,
+    /\.session-source \.widget\[data-widget='simulator'\]\s*\{[^}]*border-top:\s*3px solid var\(--accent\);[^}]*background:\s*var\(--surface\);/,
+  );
+  assert.match(
+    sessionCss,
+    /\.session-source\s*>\s*\.session-intro-component#objective\s*\{[^}]*border-inline-start:\s*3px solid var\(--accent\);[^}]*background:\s*linear-gradient\(/,
+  );
+  assert.match(
+    sessionCss,
+    /\.session-source\s*>\s*\.session-intro-component#objective\s*>\s*h2::after\s*\{[^}]*background:\s*var\(--accent\);/,
+  );
+  assert.match(sessionCss, /\.session-page \.session-source select,[\s\S]*appearance: none/);
+  assert.match(sessionCss, /right 28px center,[\s\S]*right 20px center/);
+  assert.match(sessionCss, /@media \(forced-colors: active\)/);
+  assert.match(sessionCss, /\.session-page \.sidebar-collapse-toggle\s*\{[^}]*position: fixed;/);
+  assert.match(
+    sessionCss,
+    /\.session-source \.widget\[data-widget='architecture-explorer'\] \.widget-panel\s*\{[^}]*border:\s*0;[^}]*background:\s*transparent;[^}]*padding-inline:\s*0;/,
+  );
+  assert.match(
+    siteCss,
+    /\.mobile-global\s*>\s*summary\s*\{[^}]*width:\s*2\.75rem;[^}]*justify-content:\s*center;/,
+  );
+  assert.match(
+    siteCss,
+    /\.mobile-global\s*>\s*summary\s*>\s*\.icon-menu\s*\{[^}]*width:\s*1\.35rem;[^}]*height:\s*1\.35rem;/,
+  );
+  assert.match(
+    sessionCss,
+    /\.site-grid\[data-sidebar-collapsed='true'\] \.sidebar-collapse-toggle\s*\{[^}]*inset-inline-start:/,
+  );
+  assert.match(
+    sessionCss,
+    /details:not\(\.nav-group\):not\(\.mobile-global\)[\s\S]*width: 1\.2rem;[\s\S]*height: 1\.2rem;/,
+  );
+  assert.match(
+    sessionCss,
+    /details:not\(\.nav-group\):not\(\.mobile-global\)\[open\][\s\S]*transform: rotate\(180deg\);/,
+  );
+  assert.match(
+    sessionCss,
+    /details:is\(\.qa-disclosure, \.mechanism-retrieval\)\s*> summary\s*\{[^}]*display: block;[^}]*position: relative;/,
+  );
+  assert.match(
+    sessionCss,
+    /details:is\(\.qa-disclosure, \.mechanism-retrieval\)\s*> summary::after\s*\{[^}]*position: absolute;[^}]*inset-inline-end:/,
+  );
+  assert.match(
+    sessionCss,
+    /ul\.resource-link-list\s*>\s*li\s*>\s*a\s*\{[^}]*display: block;[^}]*width: fit-content;/,
+  );
+  assert.match(sessionJs, /aria-expanded/);
+  assert.match(sessionJs, /aria-pressed/);
+  assert.match(sessionJs, /ArrowLeft/);
+  assert.match(sessionJs, /groupCategorizedControls/);
+  assert.match(sessionJs, /groupCategorizedControls\(controls, buttons, localized, 'mind-map'\)/);
+  assert.match(sessionJs, /kind === 'architecture' && buttons\.length > 3/);
+  assert.match(sessionJs, /architecture-explorer-selector/);
+  assert.match(sessionJs, /Architecture component|Componente de arquitectura/);
+  assert.match(sessionJs, /setAttribute\('role', 'tablist'\)/);
+  assert.match(sessionJs, /setAttribute\('role', 'tabpanel'\)/);
+  assert.match(sessionJs, /event\.key === 'ArrowRight'/);
+  assert.match(sessionJs, /event\.key === 'Home'/);
+  assert.match(sessionJs, /decision-matrix-range-pair/);
+  assert.match(sessionJs, /dispatchEvent\(new globalThis\.Event\('input', \{ bubbles: true \}\)\)/);
+  assert.match(sessionJs, /decision-matrix-progress-toggle/);
+  assert.match(sessionJs, /decision-matrix-manual-note/);
+  assert.match(sessionJs, /const highlightTypescript/);
+  assert.match(sessionJs, /const highlightMermaid/);
+  assert.match(sessionJs, /code\.dataset\.syntaxEnhanced = 'typescript'/);
+  assert.match(sessionJs, /code\.dataset\.syntaxEnhanced = 'mermaid'/);
+  assert.match(sessionCss, /\.code-token-type\s*\{/);
+  assert.match(sessionCss, /\.code-token-property\s*\{/);
+  assert.match(sessionCss, /\.code-token-number\s*\{/);
+  assert.match(sessionCss, /\.code-token-function\s*\{/);
+  assert.match(sessionCss, /\.code-token-operator\s*\{/);
+  assert.match(sessionCss, /\.code-token-entity\s*\{/);
+  assert.match(sessionCss, /\.node-category-panel\[hidden\]\s*\{\s*display: none;/);
+  assert.match(
+    sessionCss,
+    /\.session-source \.session-map-graph\s*\{[^}]*max-height: min\(55vh, 30rem\);/,
+  );
+  assert.match(
+    sessionCss,
+    /\.session-source \.session-map-visual\s*\{[^}]*overflow-x: auto;[^}]*overflow-y: hidden;/,
+  );
+  assert.match(
+    sessionCss,
+    /@media\s*\(max-width:\s*42rem\)[\s\S]*?\.node-grid\.session-interactive-map\s*>\s*\.session-map-visual\s*>\s*\.session-map-graph\s*\{\s*display:\s*none;/,
+  );
+  assert.match(
+    sessionCss,
+    /\.node-grid\.session-interactive-map\s*\.node-category-panel\s*\{\s*grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\);/,
+  );
+  assert.match(
+    sessionCss,
+    /\.session-source :is\(\.session-map-selector, \.mind-map-controls\)\.categorized-node-picker\s*\{\s*display: block;/,
+  );
+});
+
+test('tables distinguish columns without taking the site link color', () => {
+  const sessionCss = readFileSync(resolve(root, 'site/shared/assets/session-ui.css'), 'utf8');
+  for (const [index, tone] of [
+    [1, '#ffb454'],
+    [2, '#aad94c'],
+    [3, '#c4a4ff'],
+    [4, '#55c99a'],
+    [5, '#f28b73'],
+    [6, '#e6c06f'],
+    [7, '#e6a6d7'],
+  ]) {
+    assert.match(sessionCss, new RegExp(`--table-col-${index}: ${tone};`));
+    assert.match(
+      sessionCss,
+      new RegExp(`table > :is\\(thead, tbody\\) > tr > :nth-child\\(${index}\\)`),
+    );
+  }
+  assert.match(sessionCss, /\.session-source table :is\(th, td\) a\s*\{\s*color: var\(--accent\);/);
+  assert.match(
+    sessionCss,
+    /table\.decision-matrix-table thead th\s*\{\s*background: var\(--surface\);/,
+  );
+});
+
+test('resource descriptions omit their colon and all external link icons have 8px left padding', () => {
+  const sessionCss = readFileSync(resolve(root, 'site/shared/assets/session-ui.css'), 'utf8');
+  for (const lang of ['es', 'en'] as const) {
+    const rendered = renderPage(pages[lang], '/', 'sessions/PA-S001', undefined, sourceHtml(lang));
+    const resourceLists = [
+      ...rendered.matchAll(
+        /<ul\b[^>]*class="[^"]*\bresource-link-list\b[^"]*"[^>]*>[\s\S]*?<\/ul>/g,
+      ),
+    ].map(([list]) => list!);
+    assert.ok(resourceLists.length > 0);
+    for (const list of resourceLists) {
+      assert.doesNotMatch(list, /<\/a\s*>\s*:/);
+      assert.doesNotMatch(list, /<\/a\s*>\s+[a-záéíóúñü]/);
+    }
+  }
+  assert.match(
+    sessionCss,
+    /\.session-page \.external-link-icon\s*\{[^}]*padding-inline-start: 8px;/,
+  );
+  assert.match(
+    readFileSync(resolve(root, 'site/tooling/site.css'), 'utf8'),
+    /main a\[href\^='http'\]::after\s*\{[^}]*padding-left: 8px;/,
+  );
+});
+
+test('select labels in widgets keep their text full-width above the control', () => {
+  assert.match(
+    siteCss,
+    /\.session-source \.widget label:has\(> select\)\s*\{[^}]*display: grid;[^}]*grid-template-columns: minmax\(0, 1fr\);[^}]*width: 100%;/,
+  );
+  assert.match(
+    siteCss,
+    /\.session-source \.widget label:has\(> select\) > select\s*\{[^}]*display: block;[^}]*width: 100%;[^}]*min-width: 0;/,
+  );
+});
+
+test('PA-S001 numbered lists keep mixed inline prose in one wrapping column', () => {
+  assert.match(
+    siteCss,
+    /ol:not\(\.synthesis-plain\):not\(\.mechanism-steps\)[\s\S]*?>\s+li\s*\{[^}]*display:\s*block;/,
+  );
+  assert.match(
+    siteCss,
+    /ol:not\(\.synthesis-plain\):not\(\.mechanism-steps\)[\s\S]*?>\s+li::before\s*\{[^}]*position:\s*absolute;/,
+  );
+  assert.match(
+    siteCss,
+    /ol\.mechanism-steps[^}]*grid-template-columns: max-content minmax\(0, 1fr\);[^}]*column-gap: 1rem;/s,
+  );
+});
+
+test('PA-S001 structural sections stay unboxed and every synthesis uses card rows', () => {
+  assert.match(
+    siteCss,
+    /\.session-source\s+section:not\(\.widget\)\s*\{\s*padding:\s*0;\s*border:\s*0;\s*border-radius:\s*0;\s*background:\s*transparent;\s*box-shadow:\s*none;/,
+  );
+  assert.match(siteCss, /\.session-source\s+ol\.synthesis-plain\s*\{\s*display:\s*grid;/);
+  assert.match(
+    siteCss,
+    /\.session-source\s+ol\.synthesis-plain\s*>\s*li\s*\{\s*display:\s*block;[^}]*border:\s*1px solid var\(--line\);[^}]*background:\s*var\(--surface\);/,
+  );
+  for (const lang of ['es', 'en'] as const) {
+    assert.match(renderCanonical(source(lang), lang, '/').html, /<ul class="resource-link-list">/);
+  }
+  assert.match(
+    siteCss,
+    /ul:not\(\.success-study-list\):not\(\.studio-coverage\):not\(\.references\):not\(\.resource-link-list\)/,
+  );
+  assert.match(
+    siteCss,
+    /ul\.resource-link-list\s*>\s*li\s*\{[^}]*padding:\s*0;[^}]*border:\s*0;[^}]*background:\s*transparent;/,
+  );
+  assert.match(siteCss, /ul\.resource-link-list\s*>\s*li\s*>\s*strong\s*\{\s*display:\s*block;/);
+  assert.match(
+    siteCss,
+    /ul\.resource-link-list\s+a\s*\{\s*color:\s*var\(--accent\);\s*text-decoration:\s*underline;/,
+  );
+});
+
+test('PA-S001 checklist criteria use reversible checkbox cards', () => {
+  assert.match(
+    siteCss,
+    /\.session-source\s+:is\(#study-checklist, \.success-study-list\)\s+label\s*\{[^}]*padding:\s*1\.25rem 1\.5rem;[^}]*border:\s*1px solid var\(--line\);[^}]*background:\s*var\(--surface\);/,
+  );
+  assert.match(
+    siteCss,
+    /\.session-source\s+:is\(#study-checklist, \.success-study-list\)\s+label\s*>\s*input\[type='checkbox'\]\s*\{[^}]*accent-color:\s*var\(--accent\);/,
+  );
+});
+
+test('PA-S001 paragraph and list Q&A use native accessible disclosures', () => {
+  for (const lang of ['es', 'en'] as const) {
+    const html = sourceHtml(lang);
+    const rendered = renderPage(pages[lang], '/', 'sessions/PA-S001', undefined, html);
+    assert.equal((html.match(/<details class="qa-disclosure">/g) ?? []).length, 44);
+    assert.ok((rendered.match(/<details\b[^>]*class="[^"]*\bqa-disclosure\b/g) ?? []).length > 44);
+    assert.match(html, /<summary>\s*<span class="sr-only">(?:Pregunta|Question):<\/span>/);
+    assert.match(html, /<p\b[^>]*>\s*<span class="sr-only">(?:Respuesta|Answer|Response):<\/span>/);
+    assert.match(html, /<li>\s*<details class="qa-disclosure">/);
+    assert.match(
+      rendered,
+      lang === 'es'
+        ? /<details class="qa-disclosure"><summary><span class="sr-only">Pregunta:<\/span>\s*Un equipo cambia internamente el adaptador de IA[\s\S]*?<\/summary><p><span class="sr-only">Respuesta razonada:<\/span>\s*no\./
+        : /<details class="qa-disclosure"><summary><span class="sr-only">Question:<\/span>\s*A team changes the AI[\s\S]*?adapter internally[\s\S]*?<\/summary><p><span class="sr-only">Reasoned response:<\/span>\s*no\./,
+    );
+    assert.match(
+      rendered,
+      lang === 'es'
+        ? /<li>\s*<details class="qa-disclosure"><summary><strong>Clasificación\.<\/strong>[\s\S]*?¿Arquitectura o diseño detallado\?<\/summary><p><span class="sr-only">Respuesta:<\/span>\s*normalmente diseño detallado/
+        : /<li>\s*<details class="qa-disclosure"><summary><strong>Classification\.<\/strong>[\s\S]*?Architecture or detailed design\?<\/summary><p><span class="sr-only">Answer:<\/span>\s*normally detailed design/,
+    );
+  }
+  assert.match(
+    siteCss,
+    /details\.qa-disclosure[^{}]*\{[^}]*border-inline-start:\s*3px solid var\(--accent\);[^}]*background:\s*var\(--surface\);/,
+  );
+  assert.match(
+    siteCss,
+    /details:not\(\.nav-group\):not\(\.mobile-global\)\s*>\s*summary::after\s*\{[^}]*width:\s*1\.2rem;[^}]*height:\s*1\.2rem;[^}]*background-color:\s*var\(--accent\);/,
+  );
+  assert.match(
+    siteCss,
+    /details:not\(\.nav-group\):not\(\.mobile-global\)\[open\]\s*>\s*summary::after\s*\{[^}]*transform:\s*rotate\(180deg\);/,
   );
 });
 
@@ -452,6 +898,28 @@ test('reference rules select the specified outcomes for every input combination'
     }
     assert.ok(html.includes('data-limitation'));
     assert.ok(!html.includes('data-possible-review'));
+  }
+});
+
+test('texts that begin with quotation marks render as blockquotes without changing their wording', () => {
+  for (const lang of ['es', 'en'] as const) {
+    const html = sourceHtml(lang);
+    const rendered = renderPage(pages[lang], '/', 'sessions/PA-S001', undefined, html);
+    const quote =
+      lang === 'es'
+        ? '«Es arquitectura porque usa microservicios»'
+        : '“It is architecture because it uses microservices”';
+    const explanation = lang === 'es' ? 'el estilo de despliegue no' : 'the deployment style';
+    assert.match(
+      rendered,
+      new RegExp(`<li\\b[^>]*>\\s*<blockquote>\\s*<strong>${quote}:<\\/strong>`),
+    );
+    assert.match(
+      siteCss,
+      /> li:has\(> blockquote:only-child\)\s*\{[^}]*padding: 0;[^}]*border: 0;[^}]*background: transparent;/,
+    );
+    assert.ok(rendered.includes(explanation), `${lang}: preserve the explanation after the quote`);
+    assert.ok(rendered.includes(`${quote}:</strong>`), `${lang}: preserve the quoted wording`);
   }
 });
 

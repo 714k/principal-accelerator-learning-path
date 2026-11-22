@@ -2,10 +2,10 @@
   "id": "PA-S001",
   "lang": "en",
   "kind": "session",
-  "title": "Software Engineering Foundations: Architecture, Platforms, and Staff → Principal Scope",
-  "description": "Build a technical model for reasoning about software as a system that evolves under needs, constraints, and quality attributes; distinguish engineering, architecture, and system scopes; and connect those foundations to FPA, AIPE, and Staff → Principal scope.",
+  "title": "Fundamentals of software engineering: architecture, platform and scope Staff → Principal",
+  "description": "You will be able to distinguish engineering, design and architecture decisions; justify boundaries and contracts for frontend platforms and AI products; and examine the consequences of your alternatives through scenarios and evidence.",
   "status": "editorial-draft",
-  "canonicalContent": "PA-S001-theory-en.md",
+  "canonicalContent": "PA-S001-session-en.html",
   "sections": [],
   "references": [],
   "dashboard": {

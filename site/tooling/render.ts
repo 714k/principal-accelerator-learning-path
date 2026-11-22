@@ -1,10 +1,110 @@
 import type { Page } from './content.ts';
-import { outputForDiagram } from './diagrams.ts';
+import { hasMobileDiagramVariant, outputForDiagram, outputForMobileDiagram } from './diagrams.ts';
 import { renderCanonical, SUCCESS_IDS } from './canonical.ts';
+import hljs from 'highlight.js';
 export function escapeHtml(value: string): string {
   return value.replace(
     /[&<>"']/g,
     (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!,
+  );
+}
+
+function decodeCodeEntities(source: string): string {
+  return source
+    .replace(/&(?:lt|gt|quot|apos|#39);/gi, (entity) => {
+      const entities: Record<string, string> = {
+        '&lt;': '<',
+        '&gt;': '>',
+        '&quot;': '"',
+        '&apos;': "'",
+        '&#39;': "'",
+      };
+      return entities[entity.toLowerCase()] ?? entity;
+    })
+    .replace(
+      /&#(?:x([\da-f]+)|(\d+));/gi,
+      (entity, hex: string | undefined, decimal: string | undefined) => {
+        const point = Number.parseInt(hex ?? decimal ?? '', hex ? 16 : 10);
+        return Number.isFinite(point) && point <= 0x10ffff ? String.fromCodePoint(point) : entity;
+      },
+    )
+    .replace(/&amp;/gi, '&');
+}
+
+function highlightCodeBlocks(markup: string): string {
+  const aliases: Record<string, string> = {
+    cjs: 'javascript',
+    css: 'css',
+    htm: 'xml',
+    html: 'xml',
+    js: 'javascript',
+    jsx: 'javascript',
+    jsonc: 'json',
+    md: 'markdown',
+    py: 'python',
+    sh: 'bash',
+    shell: 'bash',
+    ts: 'typescript',
+    tsx: 'typescript',
+    txt: 'plaintext',
+    yml: 'yaml',
+  };
+  const supported = new Set(hljs.listLanguages());
+  const mermaidPattern =
+    /^(?:\s*(?:%%|flowchart\b|graph\b|sequenceDiagram\b|stateDiagram(?:-v2)?\b|classDiagram\b|erDiagram\b|journey\b|gantt\b|pie\b|mindmap\b|gitGraph\b|timeline\b))/m;
+  const typedDeclarationPattern =
+    /^\s*(?:export\s+)?(?:type|interface)\s+[A-Z_$][\w$]*(?:<[^>\n]+>)?\s*(?:=|\{)/m;
+  const jsSyntaxPattern =
+    /^\s*(?:import\s|export\s|(?:const|let|var)\s+[A-Za-z_$][\w$]*\s*=|function\s+[A-Za-z_$][\w$]*\s*\()/m;
+
+  return markup.replace(
+    /(<pre\b[^>]*>\s*<code\b([^>]*)>)([\s\S]*?)(<\/code\s*>\s*<\/pre\s*>)/gi,
+    (whole, opening: string, attributes: string, encodedSource: string, closing: string) => {
+      if (/\bdata-syntax-enhanced=/.test(attributes)) return whole;
+      const source = decodeCodeEntities(encodedSource);
+      const languageClass = attributes.match(/\bclass="([^"]*)"/i)?.[1] ?? '';
+      const requestedLanguage = languageClass
+        .split(/\s+/)
+        .find((name) => name.startsWith('language-'))
+        ?.slice('language-'.length)
+        .toLowerCase();
+      if (requestedLanguage === 'mermaid' || mermaidPattern.test(source)) return whole;
+
+      let language = requestedLanguage ? (aliases[requestedLanguage] ?? requestedLanguage) : '';
+      if (!language && typedDeclarationPattern.test(source)) language = 'typescript';
+      else if (!language && jsSyntaxPattern.test(source)) language = 'javascript';
+      else if (!language && /<\/?[A-Za-z][\w:-]*(?:\s|\/?>)/.test(source)) language = 'xml';
+
+      let highlighted: ReturnType<typeof hljs.highlight> | undefined;
+      if (language && supported.has(language)) {
+        highlighted = hljs.highlight(source, { language, ignoreIllegals: true });
+      } else if (!language && !requestedLanguage) {
+        const detected = hljs.highlightAuto(source);
+        if (detected.language && detected.relevance >= 2) highlighted = detected;
+      }
+      if (!highlighted) return whole;
+
+      let nextAttributes = attributes.replace(/\s+data-syntax-enhanced="[^"]*"/i, '');
+      nextAttributes += ' data-syntax-enhanced="highlightjs"';
+      const classes = new Set(languageClass.split(/\s+/).filter(Boolean));
+      classes.add('hljs');
+      if (![...classes].some((name) => name.startsWith('language-')))
+        classes.add(`language-${highlighted.language}`);
+      else if (
+        requestedLanguage &&
+        !aliases[requestedLanguage] &&
+        requestedLanguage !== highlighted.language
+      ) {
+        classes.delete(`language-${requestedLanguage}`);
+        classes.add(`language-${highlighted.language}`);
+      }
+      const nextClass = `class="${[...classes].join(' ')}"`;
+      if (/\bclass="[^"]*"/i.test(nextAttributes))
+        nextAttributes = nextAttributes.replace(/\bclass="[^"]*"/i, nextClass);
+      else nextAttributes += ` ${nextClass}`;
+      const nextOpening = opening.replace(/<code\b[^>]*>/i, `<code${nextAttributes}>`);
+      return `${nextOpening}${highlighted.value}${closing}`;
+    },
   );
 }
 export function basePath(raw = '/'): string {
@@ -42,7 +142,7 @@ function icon(
   return `<svg class="icon icon-${name}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]}</svg>`;
 }
 export function tocFab(lang: 'es' | 'en'): string {
-  const label = lang === 'es' ? 'Volver al contenido' : 'Back to contents';
+  const label = lang === 'es' ? 'Volver a la tabla de contenido' : 'Back to the table of contents';
   return `<a class="toc-fab" href="#table-of-contents" aria-label="${label}" title="${label}"><span aria-hidden="true">↑</span><span class="sr-only">${label}</span></a>`;
 }
 export function themedMindMap(source: string, alt: string, className = ''): string {
@@ -94,7 +194,7 @@ function globalNav(
   const session = `${root}sessions/${sessionId}/`;
   const projects = `${root}projects/`;
   const id = `site-search-${variant}`;
-  const search = `<form class="site-search" role="search" data-site-search data-index-url="${base}assets/search-${lang}.json"><label class="sr-only" for="${id}">${es ? 'Buscar en el sitio' : 'Search the site'}</label>${icon('search')}<input id="${id}" type="search" autocomplete="off" placeholder="${es ? 'Buscar en el sitio…' : 'Search the site…'}" aria-controls="${id}-results"><div class="search-results" id="${id}-results" data-search-results hidden></div><p class="sr-only" role="status" aria-live="polite" data-search-status></p></form><noscript><p class="nav-empty">${es ? 'La búsqueda requiere JavaScript.' : 'Search requires JavaScript.'}</p></noscript>`;
+  const search = `<form class="site-search" role="search" data-site-search data-index-url="${base}assets/search-${lang}.json"><label class="sr-only" for="${id}">${es ? 'Buscar en el sitio' : 'Search the site'}</label>${icon('search')}<input id="${id}" type="search" autocomplete="off" placeholder="${es ? 'Buscar en el sitio…' : 'Search the site…'}" aria-controls="${id}-results"><button class="sr-only" type="submit">${es ? 'Buscar' : 'Search'}</button><div class="search-results" id="${id}-results" data-search-results hidden></div><p class="sr-only" role="status" aria-live="polite" data-search-status></p></form><noscript><p class="nav-empty">${es ? 'La búsqueda requiere JavaScript.' : 'Search requires JavaScript.'}</p></noscript>`;
   const sessionItems =
     link(`${root}sessions/`, es ? 'Todas las sesiones' : 'All sessions', current === 'sessions/') +
     `<p class="nav-phase">F0 · ${es ? 'Fundamentos' : 'Foundations'}</p>` +
@@ -130,13 +230,235 @@ function globalNav(
       link(`${session}#resources`, es ? 'Recursos' : 'Resources')
     : link(`${session}#sources`, es ? 'Fuentes y referencias' : 'Sources and references') +
       link(`${session}#resources`, es ? 'Recursos' : 'Resources');
-  return `<div class="sidebar-content"><a class="sidebar-brand" href="${root}"><span class="sidebar-logo">${icon('spark')}</span><span><strong>Principal Accelerator</strong><small>Learning Path</small></span></a>${search}<nav class="curriculum" aria-label="${es ? 'Navegación del programa' : 'Program navigation'}"><a class="nav-home" href="${root}"${current === '' ? ' aria-current="page"' : ''}>${icon('dashboard')}<span>Dashboard</span></a>${group('grid', es ? 'Sesiones' : 'Sessions', sessionItems, current.startsWith('sessions/'), 5)}${group('layers', es ? 'Proyectos' : 'Projects', projectItems, current.startsWith('projects/'), 4)}${group('book', es ? 'Aprender' : 'Learn', learnItems)}${group('bookmark', es ? 'Recursos' : 'Resources', resourceItems)}</nav><p class="sidebar-foot">F0 · ${es ? 'Plataforma Accelerator' : 'Accelerator platform'}</p></div>`;
+  const navigationLabel = es
+    ? variant === 'mobile'
+      ? 'Navegación del programa móvil'
+      : 'Navegación del programa'
+    : variant === 'mobile'
+      ? 'Mobile program navigation'
+      : 'Program navigation';
+  const hasSidebarToggle = variant === 'desktop' && /^sessions\/PA-S\d{3}\/$/.test(current);
+  const desktopNavId = hasSidebarToggle ? ' id="desktop-curriculum"' : '';
+  return `<div class="sidebar-content"><a class="sidebar-brand" href="${root}"><span class="sidebar-logo">${icon('spark')}</span><span><strong>Principal Accelerator</strong><small>Learning Path</small></span></a>${search}<nav class="curriculum" aria-label="${navigationLabel}"${desktopNavId}><a class="nav-home" href="${root}"${current === '' ? ' aria-current="page"' : ''}>${icon('dashboard')}<span>Dashboard</span></a>${group('grid', es ? 'Sesiones' : 'Sessions', sessionItems, current.startsWith('sessions/'), 5)}${group('layers', es ? 'Proyectos' : 'Projects', projectItems, current.startsWith('projects/'), 4)}${group('book', es ? 'Aprender' : 'Learn', learnItems)}${group('bookmark', es ? 'Recursos' : 'Resources', resourceItems)}</nav><p class="sidebar-foot">F0 · ${es ? 'Plataforma Accelerator' : 'Accelerator platform'}</p></div>`;
 }
-function learningStudioScript(): string {
-  return `<script>(()=>{for(const s of document.querySelectorAll('[data-learning-studio]')){const c=[...s.querySelectorAll('[data-mode-control]')],p=[...s.querySelectorAll('[data-visual-panel]')];if(!c.length||c.length!==p.length)continue;s.dataset.enhanced='true';s.querySelector('[data-mode-nav]')?.setAttribute('role','tablist');const set=(i,focus)=>{c.forEach((x,n)=>{x.setAttribute('role','tab');x.setAttribute('aria-selected',String(n===i));x.setAttribute('tabindex',n===i?'0':'-1');x.classList.toggle('is-active',n===i);x.setAttribute('aria-controls',p[n].id);p[n].setAttribute('role','tabpanel');p[n].setAttribute('aria-labelledby',x.id);p[n].hidden=n!==i});if(focus)c[i].focus()};c.forEach((x,i)=>{x.addEventListener('click',e=>{e.preventDefault();set(i,false)});x.addEventListener('keydown',e=>{let n=i;if(e.key==='ArrowRight')n=(i+1)%c.length;else if(e.key==='ArrowLeft')n=(i+c.length-1)%c.length;else if(e.key==='Home')n=0;else if(e.key==='End')n=c.length-1;else return;e.preventDefault();set(n,true)})});set(0,false)}for(const d of document.querySelectorAll('[data-flashcards]')){const c=[...d.querySelectorAll('[data-flashcard]')],n=d.querySelector('[data-flashcard-count]');if(!c.length)continue;let i=0;d.dataset.enhanced='true';const flip=(card,on)=>{const button=card.querySelector('[data-flash-flip]');card.classList.toggle('is-flipped',on);button?.setAttribute('aria-pressed',String(on));if(button)button.setAttribute('aria-label',on?button.dataset.hideLabel:button.dataset.revealLabel)};const set=x=>{i=(x+c.length)%c.length;c.forEach((card,k)=>{card.hidden=k!==i;flip(card,false)});if(n)n.textContent=(i+1)+' / '+c.length};d.querySelectorAll('[data-flash-flip]').forEach(button=>button.addEventListener('click',()=>{const card=button.closest('[data-flashcard]');if(card)flip(card,!card.classList.contains('is-flipped'))}));d.querySelector('[data-flash-prev]')?.addEventListener('click',()=>set(i-1));d.querySelector('[data-flash-next]')?.addEventListener('click',()=>set(i+1));d.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();set(i-1)}if(e.key==='ArrowRight'){e.preventDefault();set(i+1)}});set(0)}})()</script>`;
+function questionAnswerDisclosure(attributes: string, content: string): string | null {
+  const answerLabel =
+    /<strong\b[^>]*>\s*(Respuesta(?:\s+razonada|\s+a\s+la\s+pregunta\s+gu[ií]a)?|Answer(?:\s+reasoned|\s+to\s+the\s+guiding\s+question)?|Reasoned\s+(?:answer|response)|Response)\s*:\s*<\/strong>\s*/i.exec(
+      content,
+    );
+  if (!answerLabel) return null;
+
+  const questionLabel =
+    /^\s*(?:<strong\b[^>]*>\s*)?(Pregunta(?:\s+de\s+transferencia)?|Question(?:\s+of\s+transfer)?|Transfer\s+Question)\s*:\s*(?:<\/strong>)?\s*/i.exec(
+      content,
+    );
+  const questionEnd = answerLabel.index;
+  const question = content.slice(questionLabel?.[0].length ?? 0, questionEnd).trim();
+  const answer = content.slice(questionEnd + answerLabel[0].length).trim();
+  const plainQuestion = question.replace(/<[^>]*>/g, ' ');
+  if ((!questionLabel && !/[?¿]/.test(plainQuestion)) || !question || !answer) return null;
+
+  const labelText = answerLabel[1]!.replace(/\s+/g, ' ').trim();
+  const questionLabelText = questionLabel?.[1]?.replace(/\s+/g, ' ').trim();
+  const existingClasses = attributes.match(/\bclass="([^"]*)"/i)?.[1]?.split(/\s+/) ?? [];
+  const detailsClasses = [...new Set([...existingClasses, 'qa-disclosure'])].join(' ');
+  const otherAttributes = attributes.replace(/\sclass="[^"]*"/i, '');
+  return `<details${otherAttributes} class="${detailsClasses}"><summary>${questionLabelText ? `<span class="sr-only">${questionLabelText}:</span> ` : ''}${question}</summary><p><span class="sr-only">${labelText}:</span> ${answer}</p></details>`;
 }
-function decorateArrowFlows(markup: string): string {
+function decorateQuestionAnswerLists(markup: string): string {
+  const changes: { start: number; end: number; value: string }[] = [];
+  const stack: { contentStart: number }[] = [];
+  const listItemTags = /<\/?li\b[^>]*>/gi;
+  let tag: RegExpExecArray | null;
+  while ((tag = listItemTags.exec(markup))) {
+    if (/^<\//.test(tag[0])) {
+      const open = stack.pop();
+      if (!open) continue;
+      const content = markup.slice(open.contentStart, tag.index);
+      if (/<li\b/i.test(content) || /<details\b/i.test(content)) continue;
+      const disclosure = questionAnswerDisclosure('', content);
+      if (disclosure) changes.push({ start: open.contentStart, end: tag.index, value: disclosure });
+    } else stack.push({ contentStart: tag.index + tag[0].length });
+  }
+  let result = markup;
+  for (const change of changes.reverse())
+    result = result.slice(0, change.start) + change.value + result.slice(change.end);
+  return result;
+}
+function decorateProfessionalAreaTabs(markup: string, lang: 'es' | 'en'): string {
+  let groupIndex = 0;
   return markup.replace(
+    /(<h3\b[^>]*>[\s\S]*?<\/h3>)\s*(<p\b[^>]*>[\s\S]*?<\/p>)\s*(<p\b[^>]*>[\s\S]*?<\/p>)\s*(<p\b[^>]*>[\s\S]*?<\/p>)/gi,
+    (whole, heading: string, ...captures: (string | number)[]) => {
+      const paragraphs = captures.slice(0, 3) as string[];
+      const markers = [
+        /<strong\b[^>]*>\s*Staff\s*→\s*Principal\s*:\s*<\/strong>/i,
+        /<strong\b[^>]*>\s*FPA\s*:\s*<\/strong>/i,
+        /<strong\b[^>]*>\s*AIPE\s*:\s*<\/strong>/i,
+      ];
+      if (
+        paragraphs.length !== 3 ||
+        !markers.every((marker, index) => marker.test(paragraphs[index]!))
+      )
+        return whole;
+
+      const groupId = `professional-areas-${++groupIndex}`;
+      const labels =
+        lang === 'es'
+          ? [
+              'Staff → Principal:',
+              'Arquitectura de Plataforma Frontend (FPA):',
+              'Ingeniería de Producto con IA (AIPE):',
+            ]
+          : [
+              'Staff → Principal:',
+              'Frontend Platform Engineer (FPA):',
+              'AI Product Engineer (AIPE):',
+            ];
+      const shortLabels = ['Staff', 'FPA', 'AIPE'];
+      const tablistLabel = lang === 'es' ? 'Áreas profesionales' : 'Professional areas';
+      const tablist = `<div class="professional-area-tablist" role="tablist" aria-label="${tablistLabel}" hidden>${labels
+        .map(
+          (label, index) =>
+            `<button class="professional-area-tab" id="${groupId}-tab-${index + 1}" type="button" role="tab" aria-label="${label}" aria-controls="${groupId}-panel-${index + 1}" aria-selected="${index === 0}" tabindex="${index === 0 ? '0' : '-1'}"><span class="professional-area-tab-full">${label}</span><span class="professional-area-tab-short">${shortLabels[index]}</span></button>`,
+        )
+        .join('')}</div>`;
+      const panels = paragraphs
+        .map((paragraph, index) => {
+          const label = markers[index]!;
+          const content = paragraph.replace(
+            /^(<p\b[^>]*>)([\s\S]*?)(<\/p>)$/i,
+            (_match, opening: string, body: string, closing: string) =>
+              `${opening}${body.replace(label, '').trimStart()}${closing}`,
+          );
+          return `<div class="professional-area-panel" id="${groupId}-panel-${index + 1}" role="tabpanel" aria-labelledby="${groupId}-tab-${index + 1}" tabindex="0">${content}</div>`;
+        })
+        .join('');
+      return `${heading}<div class="professional-area-tabs" data-professional-area-tabs>${tablist}${panels}</div>`;
+    },
+  );
+}
+function decorateArrowFlows(
+  markup: string,
+  lang: 'es' | 'en',
+  decorateExternalLinks = false,
+): string {
+  const withProfessionalAreaTabs = decorateProfessionalAreaTabs(markup, lang);
+  const withConceptDisclosures = withProfessionalAreaTabs.replace(
+    /<div\b(?=[^<>]*\bdata-concept(?:\s|=|>))[^>]*>[\s\S]*?<\/div>/g,
+    (concept) => {
+      const term = concept.match(/<dt([^>]*)>([\s\S]*?)<\/dt>/);
+      const definition = term
+        ? term[2]!.match(/^\s*<strong([^>]*)>([\s\S]*?)<\/strong>([\s\S]*)$/)
+        : null;
+      const description = concept.match(/<dd([^>]*)>([\s\S]*?)<\/dd>/);
+      if (!term || !definition || !description) return concept;
+
+      const termText = definition[2]!.trim().replace(/:\s*$/, '');
+      const definitionText = definition[3]!.trim();
+      const exampleLabel = lang === 'es' ? 'Ejemplo' : 'Example';
+      const exampleContent = description[2]!.replace(
+        /<p([^>]*)>\s*<strong>(?:Ejemplo|Example):<\/strong>\s*([\s\S]*?)<\/p>/i,
+        (_match, attributes: string, content: string) =>
+          `<details class="concept-example-disclosure"><summary>${exampleLabel}</summary><p${attributes}>${content}</p></details>`,
+      );
+      const nextTerm = `<dt${term[1]}><strong${definition[1]}>${termText}</strong></dt>`;
+      const nextDescription = `<dd${description[1]}>${definitionText ? `<p>${definitionText}</p>` : ''}${exampleContent}</dd>`;
+      return concept.replace(term[0], nextTerm).replace(description[0], nextDescription);
+    },
+  );
+  const withListQuestionAnswers = decorateQuestionAnswerLists(withConceptDisclosures);
+  const isInsideDetails = (source: string, offset: number): boolean => {
+    const prefix = source.slice(0, offset);
+    return prefix.lastIndexOf('<details') > prefix.lastIndexOf('</details>');
+  };
+  const withQuestionAnswerParagraphs = withListQuestionAnswers.replace(
+    /<p\b([^>]*)>([\s\S]*?)<\/p\s*>/gi,
+    (whole, attributes: string, content: string, offset: number, source: string) => {
+      if (isInsideDetails(source, offset)) return whole;
+      const disclosure = questionAnswerDisclosure(attributes, content);
+      return disclosure ?? whole;
+    },
+  );
+  const withUnwrappedListQuestionAnswers = withQuestionAnswerParagraphs.replace(
+    /(<li\b[^>]*>)\s*<p\b[^>]*>\s*(<details\b(?=[^>]*\bclass="[^"]*\bqa-disclosure\b)[\s\S]*?<\/details>)\s*<\/p>\s*(<\/li>)/gi,
+    '$1$2$3',
+  );
+  const beginsWithQuotation = (content: string): boolean => {
+    let visibleStart = content.trimStart();
+    while (/^<(?:strong|b|em|i|span)\b[^>]*>\s*/i.test(visibleStart)) {
+      visibleStart = visibleStart.replace(/^<(?:strong|b|em|i|span)\b[^>]*>\s*/i, '');
+    }
+    return /^(?:[«“„‘"'`]|&(?:laquo|ldquo|bdquo|lsquo);)/i.test(visibleStart);
+  };
+  const isInsideBlockquote = (source: string, offset: number): boolean => {
+    const prefix = source.slice(0, offset);
+    return prefix.lastIndexOf('<blockquote') > prefix.lastIndexOf('</blockquote>');
+  };
+  const withParagraphQuotes = withUnwrappedListQuestionAnswers.replace(
+    /<p\b([^>]*)>([\s\S]*?)<\/p\s*>/gi,
+    (whole, attributes: string, content: string, offset: number, source: string) => {
+      if (isInsideBlockquote(source, offset) || !beginsWithQuotation(content)) return whole;
+      return `<blockquote><p${attributes}>${content}</p></blockquote>`;
+    },
+  );
+  const quoteListOpenings = [...withParagraphQuotes.matchAll(/<li\b[^>]*>/gi)]
+    .filter((match) =>
+      beginsWithQuotation(withParagraphQuotes.slice(match.index! + match[0].length)),
+    )
+    .filter((match) => !isInsideBlockquote(withParagraphQuotes, match.index!));
+  let withListQuotes = withParagraphQuotes;
+  for (const opening of quoteListOpenings.reverse()) {
+    const start = opening.index! + opening[0].length;
+    const listItemTags = /<\/?li\b[^>]*>/gi;
+    listItemTags.lastIndex = start;
+    let depth = 1;
+    let closing: RegExpExecArray | null = null;
+    let tag: RegExpExecArray | null;
+    while ((tag = listItemTags.exec(withListQuotes))) {
+      if (/^<\//.test(tag[0])) depth -= 1;
+      else depth += 1;
+      if (depth === 0) {
+        closing = tag;
+        break;
+      }
+    }
+    if (!closing) continue;
+    withListQuotes =
+      withListQuotes.slice(0, closing.index) +
+      '</blockquote>' +
+      withListQuotes.slice(closing.index);
+    withListQuotes = withListQuotes.slice(0, start) + '<blockquote>' + withListQuotes.slice(start);
+  }
+  const withExternalSemantics = decorateExternalLinks
+    ? withListQuotes.replace(
+        /<a\b([^>]*\bhref="https?:[^"]*"[^>]*)>([\s\S]*?)<\/a\s*>/g,
+        (whole, attrs: string, content: string) => {
+          const icon = '<span class="external-link-icon" aria-hidden="true">↗</span>';
+          let nextAttrs = attrs.replace(/\s+target="[^"]*"/i, '');
+          nextAttrs = `${nextAttrs} target="_blank"`;
+          const rel = nextAttrs.match(/\brel="([^"]*)"/i)?.[1]?.split(/\s+/) ?? [];
+          for (const token of ['noopener', 'noreferrer']) if (!rel.includes(token)) rel.push(token);
+          if (/\brel="[^"]*"/i.test(nextAttrs))
+            nextAttrs = nextAttrs.replace(/\brel="[^"]*"/i, `rel="${rel.join(' ')}"`);
+          else nextAttrs += ` rel="${rel.join(' ')}"`;
+          const newTab = `<span class="sr-only">${lang === 'es' ? '(se abre en una nueva pestaña)' : '(opens in a new tab)'}</span>`;
+          const localizedNewTabLabel =
+            lang === 'es' ? '(se abre en una nueva pestaña)' : '(opens in a new tab)';
+          return `<a${nextAttrs}>${content}${content.includes('external-link-icon') ? '' : icon}${content.includes(localizedNewTabLabel) ? '' : newTab}</a>`;
+        },
+      )
+    : withListQuotes;
+  const normalizedResourceLists = withExternalSemantics.replace(
+    /<ul\b(?=[^>]*\bclass="[^"]*\bresource-link-list\b[^"]*")[^>]*>[\s\S]*?<\/ul\s*>/g,
+    (list) =>
+      list.replace(
+        /(<\/a\s*>)\s*:\s*(\p{L})/gu,
+        (_match, close: string, firstLetter: string) =>
+          `${close} ${firstLetter.toLocaleUpperCase(lang)}`,
+      ),
+  );
+  const decoratedMarkup = normalizedResourceLists.replace(
     /<p([^>]*)>([\s\S]*?)<\/p>/g,
     (whole, attributes: string, content: string) => {
       const separatedFlow = content.match(
@@ -156,6 +478,7 @@ function decorateArrowFlows(markup: string): string {
       return `<p${nextAttributes}>${content}</p>`;
     },
   );
+  return decorateExternalLinks ? highlightCodeBlocks(decoratedMarkup) : decoratedMarkup;
 }
 export function shell(
   lang: 'es' | 'en',
@@ -166,13 +489,29 @@ export function shell(
 ): string {
   const es = lang === 'es';
   const current = other.replace(/^(?:es|en)\//, '');
-  return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)} · Principal Accelerator Learning Path</title><link rel="stylesheet" href="${base}assets/site.css"><script type="module" src="${base}assets/concept-explorers.js"></script><script defer src="${base}assets/study.js"></script><script defer src="${base}assets/search.js"></script></head><body><a class="skip" href="#main">${es ? 'Saltar al contenido' : 'Skip to content'}</a><div class="site-grid"><aside class="site-sidebar">${globalNav(lang, base, current, 'desktop')}</aside><div class="site-main-column"><header class="site-header"><a class="brand" href="${base}${lang}/">Principal Accelerator Learning Path</a><nav class="header-actions" aria-label="${es ? 'Idioma y tema' : 'Language and theme'}"><a lang="${es ? 'en' : 'es'}" hreflang="${es ? 'en' : 'es'}" href="${base}${other}">${es ? 'en' : 'es'}</a>${themeControl()}</nav></header><details class="mobile-global"><summary>${icon('menu')}${es ? 'Navegación' : 'Navigation'}${icon('chevron')}</summary>${globalNav(lang, base, current, 'mobile')}</details><main id="main">${decorateArrowFlows(body)}</main><footer>Principal Accelerator Learning Path · F0 · ${es ? 'Evidencia antes que afirmaciones.' : 'Evidence before claims.'}</footer></div></div>${themeScript()}${learningStudioScript()}</body></html>`;
+  const breadcrumb = body.match(/<nav class="breadcrumb"[\s\S]*?<\/nav>/)?.[0] ?? '';
+  const mainBody = breadcrumb ? body.replace(breadcrumb, '') : body;
+  const isSession = /^sessions\/PA-S\d{3}\/$/.test(current);
+  const paS001 = /sessions\/PA-S001\//.test(current);
+  const mainId = isSession ? 'main-content' : 'main';
+  const skipTarget = mainId;
+  const bodyClass = isSession ? ` class="session-page${paS001 ? ' pa-s001' : ''}"` : '';
+  const footer = `<footer><span>Principal Accelerator Learning Path</span><span>Victor Zamudio | 2026</span></footer>`;
+  const sessionAssets = isSession
+    ? `<link rel="stylesheet" href="${base}assets/session-ui.css"><script defer src="${base}assets/session-ui.js"></script>`
+    : '';
+  const sidebarToggle = isSession
+    ? `<button class="sidebar-collapse-toggle" type="button" aria-controls="desktop-curriculum" aria-expanded="true" aria-label="${es ? 'Contraer navegación lateral' : 'Collapse side navigation'}" title="${es ? 'Contraer navegación lateral' : 'Collapse side navigation'}" data-sidebar-toggle hidden>${icon('chevron')}<span class="sr-only">${es ? 'Contraer navegación lateral' : 'Collapse side navigation'}</span></button>`
+    : '';
+  return `<!DOCTYPE html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)} · Principal Accelerator Learning Path</title><link rel="stylesheet" href="${base}assets/site.css">${sessionAssets}<script type="module" src="${base}assets/concept-explorers.js"></script><script defer src="${base}assets/study.js"></script><script defer src="${base}assets/search.js"></script></head><body${bodyClass}><a class="skip" href="#${skipTarget}">${es ? 'Saltar al contenido' : 'Skip to content'}</a><div class="site-grid">${sidebarToggle}<aside class="site-sidebar">${globalNav(lang, base, current, 'desktop')}</aside><div class="site-main-column"><header class="site-header"><details class="mobile-global"><summary aria-label="${es ? 'Navegación' : 'Navigation'}">${icon('menu')}</summary>${globalNav(lang, base, current, 'mobile')}</details><a class="brand" href="${base}${lang}/">Principal Accelerator Learning Path</a><div class="header-context">${breadcrumb}<nav class="header-actions" aria-label="${es ? 'Idioma y tema' : 'Language and theme'}"><a lang="${es ? 'en' : 'es'}" hreflang="${es ? 'en' : 'es'}" href="${base}${other}">${es ? 'en' : 'es'}</a>${themeControl()}</nav></div></header><main id="${mainId}">${decorateArrowFlows(mainBody, lang, isSession)}</main>${footer}</div></div>${themeScript()}</body></html>`;
 }
 function inlineReferences(value: string): string {
   return escapeHtml(value).replace(/\[([A-Z][0-9]+)\]/g, '<a href="#ref-$1">[$1]</a>');
 }
-function renderTable(table: { headers: string[]; rows: string[][] }): string {
-  return `<div class="scroll"><table><thead><tr>${table.headers.map((h) => `<th scope="col">${escapeHtml(h)}</th>`).join('')}</tr></thead><tbody>${table.rows.map((row) => `<tr>${row.map((cell) => `<td>${inlineReferences(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+function renderTable(table: { headers: string[]; rows: string[][] }, lang: 'es' | 'en'): string {
+  const label =
+    lang === 'es' ? 'Tabla con desplazamiento horizontal' : 'Table with horizontal scrolling';
+  return `<div class="scroll" tabindex="0" role="region" aria-label="${label}"><table><thead><tr>${table.headers.map((h) => `<th scope="col">${escapeHtml(h)}</th>`).join('')}</tr></thead><tbody>${table.rows.map((row) => `<tr>${row.map((cell) => `<td>${inlineReferences(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 }
 function splitNumberedItems(value: string): string[] {
   const matches = [...value.matchAll(/(?:^|\s)(\d+)\.\s+/g)];
@@ -253,7 +592,11 @@ function renderDiagram(
   const relation = diagram.source.includes('architecture-quality-relation')
     ? ' session-diagram--relation'
     : '';
-  return `<figure class="diagram-card"><img class="session-diagram${relation}" src="${base}${lang}/${outputForDiagram(diagram.source)}" alt="${escapeHtml(diagram.description)}"><figcaption>${escapeHtml(diagram.description)}</figcaption></figure>`;
+  const desktopImage = `<img class="session-diagram${relation}" src="${base}${lang}/${outputForDiagram(diagram.source)}" alt="${escapeHtml(diagram.description)}">`;
+  const mobileSource = hasMobileDiagramVariant(process.cwd(), diagram.source)
+    ? `<picture class="responsive-diagram"><source media="(max-width: 52rem)" srcset="${base}${lang}/${outputForMobileDiagram(diagram.source)}">${desktopImage}</picture>`
+    : desktopImage;
+  return `<figure class="diagram-card">${mobileSource}<figcaption>${escapeHtml(diagram.description)}</figcaption></figure>`;
 }
 function renderToc(sections: Page['sections'], lang: 'es' | 'en'): string {
   const groups: { parent: Page['sections'][number]; children: Page['sections'] }[] = [];
@@ -263,7 +606,7 @@ function renderToc(sections: Page['sections'], lang: 'es' | 'en'): string {
   }
   const link = (section: Page['sections'][number]) =>
     `<a href="#${escapeHtml(section.id)}">${escapeHtml(section.title)}</a>`;
-  return `<details class="toc" id="table-of-contents"><summary>${lang === 'es' ? 'Contenido' : 'Contents'}</summary><nav aria-label="${lang === 'es' ? 'Contenido' : 'Contents'}"><ol class="toc-list">${groups.map((group) => `<li>${link(group.parent)}${group.children.length ? `<ol class="toc-sublist">${group.children.map((child) => `<li>${link(child)}</li>`).join('')}</ol>` : ''}</li>`).join('')}</ol></nav></details>`;
+  return `<details class="toc" id="table-of-contents"><summary>${lang === 'es' ? 'Tabla de contenido' : 'Table of contents'}</summary><nav aria-label="${lang === 'es' ? 'Tabla de contenido' : 'Table of contents'}"><ol class="toc-list">${groups.map((group) => `<li>${link(group.parent)}${group.children.length ? `<ol class="toc-sublist">${group.children.map((child) => `<li>${link(child)}</li>`).join('')}</ol>` : ''}</li>`).join('')}</ol></nav></details>`;
 }
 function renderStudyVisuals(
   lang: 'es' | 'en',
@@ -317,6 +660,211 @@ function renderSignalsTable(
       : sessionStatus;
   return `<div class="dashboard-table-wrap"><table class="dashboard-table"><caption>${es ? 'Estado y procedencia de las señales principales' : 'Status and source of key signals'}</caption><thead><tr><th scope="col">${es ? 'Señal' : 'Signal'}</th><th scope="col">${es ? 'Estado' : 'Status'}</th><th scope="col">${es ? 'Fuente' : 'Source'}</th></tr></thead><tbody><tr><th scope="row">${es ? 'Programa' : 'Program'}</th><td>${escapeHtml(statusLabel(canonicalStatus))}</td><td>07-PROGRESS.md</td></tr><tr><th scope="row">${es ? 'Dominio L1–L5' : 'L1–L5 mastery'}</th><td>${escapeHtml(mastery)}</td><td>data/mastery/PA-S001.json</td></tr><tr><th scope="row">${es ? 'Revisitas' : 'Revisits'}</th><td>${es ? 'Cola vacía' : 'Empty queue'}</td><td>07-PROGRESS.md</td></tr><tr><th scope="row">${es ? 'Publicación PA-S001' : 'PA-S001 publication'}</th><td>${escapeHtml(publication)}</td><td>site/${lang}/sessions/PA-S001/page.json</td></tr></tbody></table></div>`;
 }
+function mobileLinearFlow(
+  figure: string,
+  lang: 'es' | 'en',
+  base: string,
+  mobileDiagrams: ReadonlyMap<string, string>,
+): string | undefined {
+  if (
+    !/<code\b[^>]*>\s*(?:(?:flowchart|graph)\s+(?:LR|RL)(?:;|\s)|sequenceDiagram\b)/i.test(figure)
+  )
+    return;
+  const svg = figure.match(/<svg\b([^>]*)>([\s\S]*?)<\/svg>/);
+  if (!svg) return;
+  const diagramId = figure.match(/\bdata-diagram="([^"]+)"/)?.[1];
+  const mobileAsset = diagramId ? mobileDiagrams.get(`${lang}:${diagramId}`) : undefined;
+  if (mobileAsset) {
+    const description =
+      svg[2]!.match(/<desc\b[^>]*>([\s\S]*?)<\/desc>/)?.[1]?.replace(/<[^>]+>/g, '') ??
+      figure.match(/<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/i)?.[1]?.replace(/<[^>]+>/g, '') ??
+      '';
+    const desktop = `<svg${svg[1]!.replace(/\bclass="[^"]*"/, '').trimEnd()} class="diagram-desktop">${svg[2]}</svg>`;
+    const mobile = `<img class="diagram-mobile" src="${base}${lang}/${mobileAsset}" alt="${escapeHtml(description)}">`;
+    return figure.replace(svg[0], `${desktop}${mobile}`);
+  }
+  const attributes = (source: string): Record<string, string> =>
+    Object.fromEntries(
+      [...source.matchAll(/([\w:-]+)="([^"]*)"/g)].map((match) => [match[1]!, match[2]!]),
+    );
+  const rects = [...svg[2]!.matchAll(/<rect\b([^>]*)\/?\s*>/g)].map((match) =>
+    attributes(match[1]!),
+  );
+  const labels = [...svg[2]!.matchAll(/<text\b([^>]*)>([\s\S]*?)<\/text>/g)].map((match) => ({
+    attributes: attributes(match[1]!),
+    text: match[2]!
+      .replace(/<[^>]+>/g, '')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .trim(),
+  }));
+  if (rects.length < 3 || rects.length !== labels.length) return;
+  const values = rects.map((rect) => ({
+    x: Number(rect.x),
+    y: Number(rect.y),
+    width: Number(rect.width),
+    height: Number(rect.height),
+  }));
+  if (
+    values.some((rect) => !Object.values(rect).every(Number.isFinite)) ||
+    values.some(
+      (rect) =>
+        Math.abs(rect.y - values[0]!.y) > 1 || Math.abs(rect.height - values[0]!.height) > 1,
+    ) ||
+    labels.some(
+      (label, index) =>
+        Math.abs(Number(label.attributes.x) - (values[index]!.x + values[index]!.width / 2)) > 2,
+    )
+  )
+    return;
+
+  const flowId =
+    figure.match(/\bdata-diagram="([^"]+)"/)?.[1]?.replace(/[^\w-]/g, '-') ?? 'session-flow';
+  const title =
+    svg[2]!
+      .match(/<title\b[^>]*>([\s\S]*?)<\/title>/)?.[1]
+      ?.replace(/<[^>]+>/g, '')
+      .trim() ?? '';
+  const description =
+    svg[2]!
+      .match(/<desc\b[^>]*>([\s\S]*?)<\/desc>/)?.[1]
+      ?.replace(/<[^>]+>/g, '')
+      .replace(/\s+/g, ' ')
+      .trim() ?? title;
+  const toneFor = (label: string, index: number): string => {
+    const normalized = label
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase();
+    if (/origen|source|cliente|client/.test(normalized)) return 'blue';
+    if (/estimulo|stimulus|evento|event/.test(normalized)) return 'cyan';
+    if (/entorno|context|architecture|arquitectura/.test(normalized)) return 'violet';
+    if (/respuesta|response|quality|calidad/.test(normalized)) return 'amber';
+    if (/medida|measure|evidencia|evidence|receptor/.test(normalized)) return 'green';
+    if (/artefacto|artifact|stripe|external|externo/.test(normalized)) return 'coral';
+    return ['blue', 'cyan', 'violet', 'amber', 'green', 'coral'][index % 6]!;
+  };
+  const wrap = (value: string, limit = 27): string[] => {
+    const lines: string[] = [];
+    let line = '';
+    for (const word of value.split(/\s+/)) {
+      if (line && `${line} ${word}`.length > limit) {
+        lines.push(line);
+        line = word;
+      } else line = line ? `${line} ${word}` : word;
+    }
+    if (line) lines.push(line);
+    return lines;
+  };
+  const nodeWidth = 280;
+  const nodeX = 20;
+  const center = nodeX + nodeWidth / 2;
+  const gap = 30;
+  let y = 18;
+  const boxes: { y: number; height: number }[] = [];
+  const nodes = labels.map((label, index) => {
+    const lines = wrap(label.text);
+    const height = Math.max(52, lines.length * 18 + 20);
+    const nodeY = y;
+    boxes.push({ y: nodeY, height });
+    const tone = toneFor(label.text, index);
+    const text = lines
+      .map(
+        (line, lineIndex) =>
+          `<tspan x="${center}" dy="${lineIndex === 0 ? 0 : 18}">${escapeHtml(line)}</tspan>`,
+      )
+      .join('');
+    y += height + gap;
+    return `<g class="diagram-node" data-tone="${tone}"><rect x="${nodeX}" y="${nodeY}" width="${nodeWidth}" height="${height}" rx="10"/><text x="${center}" y="${nodeY + (height - lines.length * 18) / 2 + 14}" text-anchor="middle" data-node-label="true" data-tone="${tone}">${text}</text></g>`;
+  });
+  const arrows = nodes.slice(0, -1).map((_node, index) => {
+    const start = boxes[index]!.y + boxes[index]!.height + 4;
+    const next = boxes[index + 1]!.y - 8;
+    return `<path class="diagram-arrow" d="M${center} ${start}V${next}" marker-end="url(#${flowId}-mobile-arrow)"/>`;
+  });
+  const totalHeight = y - gap + 18;
+  const mobile = `<svg class="diagram-mobile" viewBox="0 0 320 ${totalHeight}" role="img" aria-labelledby="${flowId}-mobile-title ${flowId}-mobile-desc" preserveAspectRatio="xMidYMin meet"><title id="${flowId}-mobile-title">${escapeHtml(title)}</title><desc id="${flowId}-mobile-desc">${escapeHtml(description)}</desc><defs><marker id="${flowId}-mobile-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z" fill="#748194"/></marker></defs>${arrows.join('')}${nodes.join('')}</svg>`;
+  const desktop = `<svg${svg[1]!.replace(/\bclass="[^"]*"/, '').trimEnd()} class="diagram-desktop">${svg[2]}</svg>`;
+  return figure.replace(svg[0], `${desktop}${mobile}`);
+}
+function renderSourceSessionLayout(
+  source: string,
+  lang: 'es' | 'en',
+  base: string,
+  mobileDiagrams: ReadonlyMap<string, string>,
+): string {
+  const tocSource = source.match(
+    /<nav (?:aria-label="(?:Índice de la sesión|Session index)"|aria-labelledby="toc-heading")>[\s\S]*?<\/nav>/,
+  )?.[0];
+  if (!tocSource) throw new Error(`PA-S001 ${lang} session index is missing`);
+  let tocList = tocSource.match(/<ol>[\s\S]*<\/ol>/)?.[0];
+  if (!tocList) throw new Error(`PA-S001 ${lang} session index list is missing`);
+  let listDepth = 0;
+  tocList = tocList.replace(/<ol>/g, () => {
+    const className = listDepth++ === 0 ? 'toc-list' : 'toc-sublist';
+    return `<ol class="${className}">`;
+  });
+  const toc = `<details class="toc" id="table-of-contents"><summary>${lang === 'es' ? 'Tabla de contenido' : 'Table of contents'}</summary><nav aria-labelledby="toc-heading"><h2 class="sr-only" id="toc-heading">${lang === 'es' ? 'Tabla de contenido' : 'Table of contents'}</h2>${tocList}</nav></details>`;
+  let sectionNumber = 0;
+  const article = source
+    .replace(tocSource, '')
+    .replace(/<p class="eyebrow">[\s\S]*?<\/p>/, '')
+    .replace(/<h1\b[\s\S]*?<\/h1>/, '')
+    .replace(/<p class="capability">[\s\S]*?<\/p>/, '')
+    .replace(
+      /<h2([^>]*)>\s*(\d+)\.\s*([\s\S]*?)\s*<\/h2>/g,
+      (_heading, attributes: string, _sourceNumber: string, title: string) => {
+        const number = String(++sectionNumber);
+        const classAttribute = attributes.match(/\bclass="([^"]*)"/);
+        const nextAttributes = classAttribute
+          ? attributes.replace(
+              classAttribute[0],
+              `class="${[...new Set([...classAttribute[1]!.split(/\s+/), 'section-heading'])].join(' ')}"`,
+            )
+          : `${attributes} class="section-heading"`;
+        return `<h2${nextAttributes}><span class="sr-only">${number}. </span><span class="section-number" aria-hidden="true">${lang === 'es' ? 'Sección' : 'Section'} ${number}</span><span class="section-title">${title.trim()}</span></h2>`;
+      },
+    );
+  const responsiveFlows = article.replace(
+    /<figure\b[^>]*data-diagram="[^"]+"[^>]*>[\s\S]*?<\/figure>/g,
+    (figure) => mobileLinearFlow(figure, lang, base, mobileDiagrams) ?? figure,
+  );
+  const objectiveCards = responsiveFlows.replace(
+    /<h([34])\b([^>]*)>([^<]*)<\/h\1>\s*(<p\b[\s\S]*?<\/p>)/g,
+    (match, level: string, attributes: string, heading: string, paragraph: string) => {
+      const title = heading.replace(/\s+/g, ' ').trim();
+      const isObjective =
+        /^(?:Objetivo(?: del tema principal| del subtema \d+| práctico)?|Objective(?: of the main topic| of (?:the )?subtopic \d+)?|Subtopic \d+ Objective|Goal of subtopic \d+|Practical Goal)$/i.test(
+          title,
+        );
+      return isObjective
+        ? `<div class="session-objective-card"><h${level}${attributes}>${heading}</h${level}>${paragraph}</div>`
+        : match;
+    },
+  );
+  let tableIndex = 0;
+  const scrollableTables = objectiveCards.replace(
+    /<table\b([^>]*)>([\s\S]*?)<\/table>/g,
+    (_table, attributes: string, content: string) => {
+      const captionId = `session-table-caption-${++tableIndex}`;
+      const hasCaption = /<caption\b/.test(content);
+      const labelledContent = hasCaption
+        ? content.replace(/<caption\b([^>]*)>/, (_caption, captionAttributes: string) =>
+            /\bid=/.test(captionAttributes)
+              ? `<caption${captionAttributes}>`
+              : `<caption${captionAttributes} id="${captionId}">`,
+          )
+        : content;
+      const accessibleName = hasCaption
+        ? `aria-labelledby="${captionId}"`
+        : `aria-label="${lang === 'es' ? 'Tabla desplazable' : 'Scrollable table'}"`;
+      const tableAttributes = attributes.replace(/\s+tabindex="[^"]*"/, '');
+      return `<div class="session-table-scroll" tabindex="0" role="region" ${accessibleName}><table${tableAttributes}>${labelledContent}</table></div>`;
+    },
+  );
+  return `<div class="layout">${toc}${scrollableTables}</div>`;
+}
 function renderVisualLearning(page: Page, base: string): string {
   if (!page.visualLearning) return '';
   const es = page.lang === 'es';
@@ -328,12 +876,12 @@ function renderVisualLearning(page: Page, base: string): string {
     if (value.type === 'cards')
       return `<div class="studio-cards">${value.cards.map((card) => `<article class="studio-card">${card.eyebrow ? `<p class="eyebrow">${escapeHtml(card.eyebrow)}</p>` : ''}<h4>${escapeHtml(card.title)}</h4><p>${inlineReferences(card.body)}</p></article>`).join('')}</div>`;
     if (value.type === 'diagram') return renderDiagram(value.diagram, base, page.lang);
-    if (value.type === 'comparison') return renderTable(value.table);
+    if (value.type === 'comparison') return renderTable(value.table, page.lang);
     if (value.type === 'flow')
       return `<ol class="studio-flow">${value.steps.map((step, index) => `<li><span class="flow-index">${String(index + 1).padStart(2, '0')}</span><div><h4>${escapeHtml(step.title)}</h4><p>${inlineReferences(step.body)}</p></div></li>`).join('')}</ol>`;
     const reveal = es ? 'Mostrar respuesta' : 'Reveal answer';
     const hide = es ? 'Mostrar pregunta' : 'Show question';
-    return `<div class="flashcard-deck" data-flashcards tabindex="0" aria-label="${es ? 'Tarjetas de repaso' : 'Recall cards'}"><p class="flashcard-mode">${es ? 'MODO' : 'MODE'} ${modeNumber} ${es ? 'DE' : 'OF'} ${guide.modes.length}</p><div class="flashcard-controls"><button type="button" data-flash-prev>${es ? 'Anterior' : 'Previous'}</button><span aria-live="polite" data-flashcard-count></span><button type="button" data-flash-next>${es ? 'Siguiente' : 'Next'}</button></div>${value.cards.map((card) => `<article class="flashcard" data-flashcard data-flash-id="${escapeHtml(card.id)}"><button class="flashcard-flip" type="button" data-flash-flip aria-pressed="false" data-reveal-label="${escapeHtml(`${reveal}: ${card.question}`)}" data-hide-label="${escapeHtml(`${hide}: ${card.question}`)}" aria-label="${escapeHtml(`${reveal}: ${card.question}`)}"><span class="flashcard-inner"><span class="flashcard-face flashcard-question"><span class="eyebrow">${escapeHtml(card.id)} · ${escapeHtml(card.category)}</span><strong>${escapeHtml(card.question)}</strong><span class="flashcard-prompt">${es ? 'Toca para revelar la respuesta' : 'Tap to reveal the answer'}</span></span><span class="flashcard-face flashcard-answer"><span class="eyebrow">${es ? 'RESPUESTA' : 'ANSWER'}</span><strong>${inlineReferences(card.answer)}</strong><span class="flashcard-explanation">${inlineReferences(card.explanation)}</span></span></span></button></article>`).join('')}</div>`;
+    return `<div class="flashcard-deck" data-flashcards tabindex="0" aria-label="${es ? 'Tarjetas de repaso' : 'Recall cards'}"><p class="flashcard-mode">${es ? 'MODO' : 'MODE'} ${modeNumber} ${es ? 'DE' : 'OF'} ${guide.modes.length}</p><div class="flashcard-controls"><button type="button" data-flash-prev>${es ? 'Anterior' : 'Previous'}</button><span aria-live="polite" data-flashcard-count></span><button type="button" data-flash-next>${es ? 'Siguiente' : 'Next'}</button></div>${value.cards.map((card) => `<article class="flashcard" data-flashcard data-flash-id="${escapeHtml(card.id)}"><button class="flashcard-flip" type="button" data-flash-flip aria-pressed="false" aria-expanded="false" data-reveal-label="${escapeHtml(`${reveal}: ${card.question}`)}" data-hide-label="${escapeHtml(`${hide}: ${card.question}`)}" aria-label="${escapeHtml(`${reveal}: ${card.question}`)}"><span class="flashcard-inner"><span class="flashcard-face flashcard-question"><span class="eyebrow">${escapeHtml(card.id)} · ${escapeHtml(card.category)}</span><strong>${escapeHtml(card.question)}</strong><span class="flashcard-prompt">${es ? 'Toca para revelar la respuesta' : 'Tap to reveal the answer'}</span></span><span class="flashcard-face flashcard-answer"><span class="eyebrow">${es ? 'RESPUESTA' : 'ANSWER'}</span><strong>${inlineReferences(card.answer)}</strong><span class="flashcard-explanation">${inlineReferences(card.explanation)}</span></span></span></button></article>`).join('')}</div>`;
   };
   return `<div class="learning-studio" data-learning-studio><div class="studio-intro"><p class="eyebrow">${es ? 'ESTUDIO VISUAL' : 'VISUAL STUDIO'}</p><p>${inlineReferences(guide.intro)}</p></div><nav class="visual-mode-nav" data-mode-nav aria-label="${es ? 'Modos de aprendizaje' : 'Learning modes'}">${guide.modes.map((mode, index) => `<a id="visual-tab-${mode.id}" href="#visual-panel-${mode.id}" data-mode-control class="${index === 0 ? 'is-active' : ''}">${escapeHtml(mode.label)}</a>`).join('')}</nav>${guide.modes.map((mode, index) => `<div class="visual-mode-panel" id="visual-panel-${mode.id}" data-visual-panel><details class="visual-mode" open><summary>${escapeHtml(mode.label)}</summary><div class="visual-mode-content"><p class="eyebrow">${escapeHtml(mode.kind)}</p><h3>${escapeHtml(mode.title)}</h3><p class="studio-rationale">${inlineReferences(mode.rationale)}</p><p class="studio-sources">${es ? 'Derivado de' : 'Derived from'} ${mode.sourceSections.map((id) => `<a href="#${id}">#${escapeHtml(id)}</a>`).join(', ')}</p>${mode.blocks.map((block) => renderBlock(block, index + 1)).join('')}</div></details></div>`).join('')}</div>`;
 }
@@ -342,6 +890,8 @@ export function renderPage(
   base: string,
   route = page.kind === 'session' ? 'sessions/PA-S001' : 'projects/p0',
   canonicalTheory?: string,
+  sourceSessionHtml?: string,
+  mobileDiagrams: ReadonlyMap<string, string> = new Map(),
 ): string {
   const es = page.lang === 'es';
   const crumb =
@@ -349,6 +899,20 @@ export function renderPage(
       ? `<nav class="breadcrumb" aria-label="Breadcrumb"><a href="${base}${page.lang}/">Dashboard</a><span aria-hidden="true">/</span><a href="${base}${page.lang}/sessions/">${es ? 'Sesiones' : 'Sessions'}</a><span aria-hidden="true">/</span><span>PA-S001</span></nav>`
       : `<nav class="breadcrumb" aria-label="Breadcrumb"><a href="${base}${page.lang}/">Dashboard</a><span aria-hidden="true">/</span><a href="${base}${page.lang}/projects/">${es ? 'Proyectos' : 'Projects'}</a><span aria-hidden="true">/</span><span>${escapeHtml(page.title)}</span></nav>`;
   const intro = `${crumb}<div class="page-intro"><h1>${escapeHtml(page.title)}</h1><p class="lead">${escapeHtml(page.description)}</p><p class="notice">${es ? 'Borrador editorial · Dominio sin evaluar · Sin mediciones del alumno' : 'Editorial draft · Mastery not assessed · No learner measurements'}</p>${page.kind === 'session' ? `<noscript><p class="notice">${es ? 'La teoría y las respuestas son legibles; las casillas no se guardan sin JavaScript.' : 'Theory and answers remain readable; study boxes are not saved without JavaScript.'}</p></noscript>` : ''}</div>`;
+  if (sourceSessionHtml && page.kind === 'session') {
+    const sourceBody = placeTocFabsAtSectionEnds(
+      renderSourceSessionLayout(sourceSessionHtml, page.lang, base, mobileDiagrams),
+      page.lang,
+    );
+    const sourceIntro = `${crumb}<div class="page-intro"><h1>${escapeHtml(page.title)}</h1><p class="lead">${escapeHtml(page.description)}</p></div>`;
+    return shell(
+      page.lang,
+      page.title,
+      `${sourceIntro}${sourceBody}`,
+      base,
+      (es ? 'en/' : 'es/') + `${route}/`,
+    );
+  }
   const canonical =
     canonicalTheory && page.kind === 'session'
       ? renderCanonical(canonicalTheory, page.lang, base)
@@ -358,7 +922,7 @@ export function renderPage(
   const body = page.sections
     .map((s) => {
       const heading = s.level === 3 ? 3 : 2;
-      const table = s.table ? renderTable(s.table) : '';
+      const table = s.table ? renderTable(s.table, page.lang) : '';
       const diagram = s.diagram ? renderDiagram(s.diagram, base, page.lang) : '';
       const code = s.code ? `<pre class="code"><code>${escapeHtml(s.code)}</code></pre>` : '';
       const checklist = s.checklist
@@ -429,7 +993,7 @@ export function home(
 }
 export function sessionsIndex(lang: 'es' | 'en', base: string): string {
   const es = lang === 'es';
-  const body = `<nav class="breadcrumb" aria-label="Breadcrumb"><a href="${base}${lang}/">Dashboard</a><span aria-hidden="true">/</span><span>${es ? 'Sesiones' : 'Sessions'}</span></nav><p class="eyebrow">F0</p><h1>${es ? 'Sesiones' : 'Sessions'}</h1><p class="lead">${es ? 'Índice publicable de sesiones disponibles.' : 'Publishable index of available sessions.'}</p><div class="cards"><a class="card" href="${base}${lang}/sessions/PA-S001/"><span>PA-S001</span><h2>${es ? 'Fundamentos de ingeniería' : 'Engineering foundations'}</h2><p>${es ? 'Borrador editorial bilingüe; evidencia de dominio pendiente.' : 'Bilingual editorial draft; mastery evidence pending.'}</p></a><a class="card" href="${base}${lang}/sessions/PA-S002/"><span>PA-S002</span><h2>${es ? 'Monorepo y estándares de ingeniería' : 'Monorepo and engineering standards'}</h2><p>${es ? 'Borrador editorial bilingüe; dominio sin evaluar.' : 'Bilingual editorial draft; mastery not assessed.'}</p></a><a class="card" href="${base}${lang}/sessions/PA-S003/"><span>PA-S003</span><h2>${es ? 'Arquitectura del portafolio y Learning Site' : 'Portfolio and Learning Site architecture'}</h2><p>${es ? 'Borrador editorial bilingüe; dominio sin evaluar.' : 'Bilingual editorial draft; mastery not assessed.'}</p></a><a class="card" href="${base}${lang}/sessions/PA-S004/"><span>PA-S004</span><h2>${es ? 'Sistemas de diseño, tokens y accesibilidad' : 'Design systems, tokens, and accessibility'}</h2><p>${es ? 'Borrador editorial bilingüe; dominio sin evaluar.' : 'Bilingual editorial draft; mastery not assessed.'}</p></a><a class="card" href="${base}${lang}/sessions/PA-S005/"><span>PA-S005</span><h2>${es ? 'Arquitectura de contenido ES/EN e internacionalización' : 'ES/EN content architecture and internationalization'}</h2><p>${es ? 'Borrador editorial bilingüe; dominio sin evaluar.' : 'Bilingual editorial draft; mastery not assessed.'}</p></a></div>`;
+  const body = `<nav class="breadcrumb" aria-label="Breadcrumb"><a href="${base}${lang}/">Dashboard</a><span aria-hidden="true">/</span><span>${es ? 'Sesiones' : 'Sessions'}</span></nav><p class="eyebrow">F0</p><h1>${es ? 'Sesiones' : 'Sessions'}</h1><p class="lead">${es ? 'Índice publicable de sesiones disponibles.' : 'Publishable index of available sessions.'}</p><div class="cards"><a class="card" href="${base}${lang}/sessions/PA-S001/"><span>PA-S001</span><h2>${es ? 'Fundamentos de ingeniería de software: arquitectura, plataforma y alcance Staff → Principal' : 'Fundamentals of software engineering: architecture, platform and scope Staff → Principal'}</h2><p>${es ? 'Borrador editorial bilingüe; evidencia de dominio pendiente.' : 'Bilingual editorial draft; mastery evidence pending.'}</p></a><a class="card" href="${base}${lang}/sessions/PA-S002/"><span>PA-S002</span><h2>${es ? 'Monorepo y estándares de ingeniería' : 'Monorepo and engineering standards'}</h2><p>${es ? 'Borrador editorial bilingüe; dominio sin evaluar.' : 'Editorial draft; mastery not assessed.'}</p></a><a class="card" href="${base}${lang}/sessions/PA-S003/"><span>PA-S003</span><h2>${es ? 'Arquitectura del portafolio y Learning Site' : 'Portfolio and Learning Site architecture'}</h2><p>${es ? 'Borrador editorial bilingüe; dominio sin evaluar.' : 'Editorial draft; mastery not assessed.'}</p></a><a class="card" href="${base}${lang}/sessions/PA-S004/"><span>PA-S004</span><h2>${es ? 'Sistemas de diseño, tokens y accesibilidad' : 'Design systems, tokens, and accessibility'}</h2><p>${es ? 'Borrador editorial bilingüe; dominio sin evaluar.' : 'Editorial draft; mastery not assessed.'}</p></a><a class="card" href="${base}${lang}/sessions/PA-S005/"><span>PA-S005</span><h2>${es ? 'Arquitectura de contenido ES/EN e internacionalización' : 'ES/EN content architecture and internationalization'}</h2><p>${es ? 'Borrador editorial bilingüe; dominio sin evaluar.' : 'Editorial draft; mastery not assessed.'}</p></a></div>`;
   return shell(
     lang,
     es ? 'Sesiones' : 'Sessions',

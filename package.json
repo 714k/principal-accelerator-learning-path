@@ -13,7 +13,7 @@
     "dev": "npm run build -- --progress && node site/tooling/serve.ts",
     "preview": "node site/tooling/serve.ts",
     "build": "node site/tooling/build.ts",
-    "lint": "eslint site/tooling site/test site/shared/assets/study.js site/shared/assets/search.js apps/portfolio/src",
+    "lint": "eslint site/tooling site/test site/shared/assets/study.js site/shared/assets/search.js site/shared/assets/session-ui.js apps/portfolio/src",
     "format": "prettier --write \"**/*.{html,css,js,mjs,cjs,ts,tsx}\"",
     "format:check": "prettier --check \"**/*.{html,css,js,mjs,cjs,ts,tsx}\"",
     "typecheck": "tsc --noEmit",
@@ -24,6 +24,7 @@
     "@mermaid-js/mermaid-cli": "^12.0.0",
     "@types/node": "24.10.1",
     "eslint": "10.12.0",
+    "highlight.js": "^11.12.0",
     "prettier": "^3.9.10",
     "typescript": "5.9.3",
     "typescript-eslint": "8.71.0"

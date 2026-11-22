@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import ts from 'typescript';
 export interface Table {
   headers: string[];
   rows: string[][];
@@ -237,7 +238,7 @@ export function validatePage(value: unknown): asserts value is Page {
     (value.sections.length === 0 &&
       !(
         value.kind === 'session' &&
-        /^PA-S001-theory-(es|en)\.md$/.test(String(value.canonicalContent))
+        /^PA-S001-session-(es|en)\.html$/.test(String(value.canonicalContent))
       )) ||
     !Array.isArray(value.references)
   ) {
@@ -305,7 +306,7 @@ export function validatePage(value: unknown): asserts value is Page {
     ].map((id) => `PA-S001.check.${id}`);
     const dashboard = value.dashboard;
     if (
-      value.canonicalContent !== `PA-S001-theory-${value.lang}.md` ||
+      value.canonicalContent !== `PA-S001-session-${value.lang}.html` ||
       value.sections.length !== 0 ||
       value.references.length !== 0 ||
       value.visualLearning !== undefined ||
@@ -469,8 +470,8 @@ export function assertPair(es: Page, en: Page): void {
     es.id !== en.id ||
     es.kind !== en.kind ||
     (es.kind === 'session' &&
-      (es.canonicalContent !== `PA-S001-theory-es.md` ||
-        en.canonicalContent !== `PA-S001-theory-en.md`)) ||
+      (es.canonicalContent !== `PA-S001-session-es.html` ||
+        en.canonicalContent !== `PA-S001-session-en.html`)) ||
     es.sections.map((s) => s.id).join('|') !== en.sections.map((s) => s.id).join('|') ||
     es.sections.map((s) => s.blocks?.map((block) => block.kind).join(',') ?? '').join('|') !==
       en.sections.map((s) => s.blocks?.map((block) => block.kind).join(',') ?? '').join('|') ||
@@ -504,4 +505,73 @@ export function assertPair(es: Page, en: Page): void {
   ) {
     throw new Error('ES/EN structure or references differ; semantic review is still required');
   }
+}
+
+/** Ensure the two published PA-S001 HTML editions keep the same semantic structure and study IDs. */
+export function assertSessionHtmlPair(es: string, en: string): void {
+  const scriptSignature = (source: string) =>
+    [...source.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map((match) => {
+      const ast = ts.createSourceFile(
+        'session-script.js',
+        match[1]!,
+        ts.ScriptTarget.Latest,
+        true,
+        ts.ScriptKind.JS,
+      );
+      const visit = (node: ts.Node): string => {
+        if (
+          ts.isStringLiteral(node) ||
+          ts.isNoSubstitutionTemplateLiteral(node) ||
+          ts.isTemplateHead(node) ||
+          ts.isTemplateMiddle(node) ||
+          ts.isTemplateTail(node)
+        )
+          return `${node.kind}:text`;
+        const children: string[] = [];
+        node.forEachChild((child) => children.push(visit(child)));
+        const token = ts.isIdentifier(node) || ts.isNumericLiteral(node) ? node.getText(ast) : '';
+        return `${node.kind}:${token}(${children.join(',')})`;
+      };
+      return visit(ast);
+    });
+  const signature = (source: string) =>
+    source
+      .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '<script></script>')
+      .replace(
+        /\s+(?:aria-label|alt|title|placeholder|data-definition|data-example|lang)=(?:"[^"]*"|'[^']*')/gi,
+        '',
+      )
+      .replace(/>([^<]*)</g, '><')
+      .replace(/\s+>/g, '>')
+      .replace(/<\s+/g, '<')
+      .replace(/\s+/g, ' ')
+      .trim();
+  const sectionIds = (source: string) =>
+    [...source.matchAll(/<section\b[^>]*\bid="([^"]+)"[^>]*\bdata-section="([^"]+)"/g)].map(
+      (match) => `${match[1]}=${match[2]}`,
+    );
+  const studyIds = (source: string) =>
+    [...source.matchAll(/\bdata-study-check="([^"]+)"/g)].map((match) => match[1]);
+  for (const [lang, source] of [
+    ['es', es],
+    ['en', en],
+  ] as const) {
+    if ((source.match(/<h1\b/g) ?? []).length !== 1)
+      throw new Error(`PA-S001 ${lang} must contain exactly one page-level heading`);
+    if (sectionIds(source).length !== 21 || !sectionIds(source).includes('subtopic-7=subtopic-7'))
+      throw new Error(`PA-S001 ${lang} is missing required section or subtopic anchors`);
+    if (
+      !/<section\b(?=[^>]*\bid="success-criteria")[^>]*>[\s\S]*?<input[^>]*type="checkbox"[\s\S]*?<\/section>/.test(
+        source,
+      )
+    )
+      throw new Error(`PA-S001 ${lang} success criteria must be reversible checkboxes`);
+  }
+  if (signature(es) !== signature(en)) throw new Error('PA-S001 ES/EN HTML structure differs');
+  if (JSON.stringify(scriptSignature(es)) !== JSON.stringify(scriptSignature(en)))
+    throw new Error('PA-S001 ES/EN interaction code differs beyond localized text');
+  if (studyIds(es).join('|') !== studyIds(en).join('|') || studyIds(es).length !== 11)
+    throw new Error('PA-S001 ES/EN study identifiers differ');
+  if (sectionIds(es).join('|') !== sectionIds(en).join('|'))
+    throw new Error('PA-S001 ES/EN section anchors differ');
 }

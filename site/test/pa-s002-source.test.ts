@@ -166,11 +166,11 @@ test('PA-S002 is linked in bilingual navigation and renders complete Spanish con
   );
   assert.match(
     spanish,
-    /<p class="split-lead"><strong>Caso documentado: el repositorio monolítico de Google<\/strong><span>[\s\S]*?nuestro proyecto\.<\/span><\/p><ul class="reference-links"><li><a href="https:\/\/research\.google\/pubs\/why-google-stores-billions-of-lines-of-code-in-a-single-repository\/" rel="noreferrer">Publicación de Google Research: Potvin y Levenberg<\/a><\/li><li><a href="https:\/\/research\.google\/pubs\/advantages-and-disadvantages-of-a-monolithic-codebase\/" rel="noreferrer">Publicación de Google Research: Jaspan y colaboradores<\/a>/,
+    /<p class="split-lead"><strong>Caso documentado: el repositorio monolítico de Google<\/strong><span>[\s\S]*?nuestro proyecto\.<\/span><\/p><ul class="reference-links"><li><a href="https:\/\/research\.google\/pubs\/why-google-stores-billions-of-lines-of-code-in-a-single-repository\/"[^>]*target="_blank"[^>]*>Publicación de Google Research: Potvin y Levenberg<span class="external-link-icon" aria-hidden="true">↗<\/span><span class="sr-only">\(se abre en una nueva pestaña\)<\/span><\/a><\/li><li><a href="https:\/\/research\.google\/pubs\/advantages-and-disadvantages-of-a-monolithic-codebase\/"[^>]*target="_blank"[^>]*>Publicación de Google Research: Jaspan y colaboradores/,
   );
   assert.match(
     spanish,
-    /<article class="reference-entry"><p class="reference-entry-source"><strong>Google Research<\/strong><\/p><p class="reference-entry-link"><a href="https:\/\/research\.google\/pubs\/why-google-stores-billions-of-lines-of-code-in-a-single-repository\/" rel="noreferrer">Why Google Stores Billions of Lines of Code in a Single Repository<\/a><\/p><p class="reference-entry-description">Rachel Potvin y Josh Levenberg describen el repositorio monolítico de Google y las razones del modelo\./,
+    /<article class="reference-entry"><p class="reference-entry-source"><strong>Google Research<\/strong><\/p><p class="reference-entry-link"><a href="https:\/\/research\.google\/pubs\/why-google-stores-billions-of-lines-of-code-in-a-single-repository\/"[^>]*target="_blank"[^>]*>Why Google Stores Billions of Lines of Code in a Single Repository<span class="external-link-icon" aria-hidden="true">↗<\/span><span class="sr-only">\(se abre en una nueva pestaña\)<\/span><\/a><\/p><p class="reference-entry-description">Rachel Potvin y Josh Levenberg describen el repositorio monolítico de Google y las razones del modelo\./,
   );
   assert.doesNotMatch(spanish, /genui/);
   assert.doesNotMatch(spanish, /Estado editorial: EN REVISIÓN/);
