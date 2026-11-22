@@ -14,6 +14,38 @@ function strings(value: unknown): string[] {
   if (value && typeof value === 'object') return Object.values(value).flatMap(strings);
   return [];
 }
+function htmlSessionSearchSections(source: string): { id: string; title: string; text: string }[] {
+  const visible = source.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ');
+  const sections = [
+    ...[
+      ...visible.matchAll(/<section\b[^>]*\bid="([^"]+)"[^>]*\bdata-section="([^"]+)"[^>]*>/g),
+    ].map((match) => ({ index: match.index!, id: match[1]!, openingTagLength: match[0].length })),
+    ...[
+      ...visible.matchAll(/<div\b[^>]*class="session-intro-component"[^>]*\bid="([^"]+)"[^>]*>/g),
+    ].map((match) => ({ index: match.index!, id: match[1]!, openingTagLength: match[0].length })),
+  ].sort((a, b) => a.index - b.index);
+  const plain = (value: string) =>
+    value
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/\s+/g, ' ')
+      .trim();
+  return sections.map((section, index) => {
+    const start = section.index + section.openingTagLength;
+    const end = sections[index + 1]?.index ?? visible.length;
+    const body = visible.slice(start, end);
+    const heading = body.match(/<h[2-6]\b[^>]*>([\s\S]*?)<\/h[2-6]>/i);
+    return {
+      id: section.id,
+      title: heading ? plain(heading[1]!) : section.id,
+      text: plain(body),
+    };
+  });
+}
 
 export function searchIndex(
   lang: 'es' | 'en',
@@ -125,7 +157,9 @@ export function searchIndex(
     });
     const canonical =
       page.kind === 'session' && canonicalSession
-        ? canonicalSearchSections(canonicalSession)
+        ? canonicalSession.includes('<section')
+          ? htmlSessionSearchSections(canonicalSession)
+          : canonicalSearchSections(canonicalSession)
         : undefined;
     if (canonical)
       for (const section of canonical)

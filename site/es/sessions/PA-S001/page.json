@@ -3,9 +3,9 @@
   "lang": "es",
   "kind": "session",
   "title": "Fundamentos de ingeniería de software: arquitectura, plataforma y alcance Staff → Principal",
-  "description": "Construir un modelo técnico para razonar sobre software como sistema que evoluciona bajo necesidades, restricciones y atributos de calidad; distinguir ingeniería, arquitectura y escalas de sistema; y relacionar esas bases con FPA, AIPE y el alcance Staff → Principal.",
+  "description": "Podrás distinguir decisiones de ingeniería, diseño y arquitectura; justificar fronteras y contratos para plataformas frontend y productos con IA; y comprobar las consecuencias de tus alternativas mediante escenarios y evidencia.",
   "status": "editorial-draft",
-  "canonicalContent": "PA-S001-theory-es.md",
+  "canonicalContent": "PA-S001-session-es.html",
   "sections": [],
   "references": [],
   "dashboard": {

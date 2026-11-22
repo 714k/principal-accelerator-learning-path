@@ -429,7 +429,7 @@ export function renderS004(source: string, lang: Lang, base: string): string {
   return shell(
     lang,
     title,
-    `${crumb}<div class="page-intro"><p class="eyebrow">F0 / PA-S004</p><h1>${title}</h1><p class="lead">${lang === 'es' ? 'Contratos de plataforma, tokens y evidencia de accesibilidad verificable.' : 'Platform contracts, tokens, and verifiable accessibility evidence.'}</p></div><div class="layout"><details class="toc" id="table-of-contents"><summary>${lang === 'es' ? 'Contenido' : 'Contents'}</summary><nav><ol>${toc.join('')}</ol></nav></details><article class="canonical-theory">${placeTocFabsAtSectionEnds(out.join('\n'), lang)}</article></div>`,
+    `${crumb}<div class="page-intro"><p class="eyebrow">F0 / PA-S004</p><h1>${title}</h1><p class="lead">${lang === 'es' ? 'Contratos de plataforma, tokens y evidencia de accesibilidad verificable.' : 'Platform contracts, tokens, and verifiable accessibility evidence.'}</p></div><div class="layout"><details class="toc" id="table-of-contents"><summary>${lang === 'es' ? 'Tabla de contenido' : 'Table of contents'}</summary><nav><ol>${toc.join('')}</ol></nav></details><article class="canonical-theory">${placeTocFabsAtSectionEnds(out.join('\n'), lang)}</article></div>`,
     base,
     `${lang === 'es' ? 'en' : 'es'}/sessions/PA-S004/`,
   );

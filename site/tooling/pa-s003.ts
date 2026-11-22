@@ -110,7 +110,7 @@ export function renderS003(source: string, lang: 'es' | 'en', base: string): str
       ? 'Arquitectura del portafolio y Learning Site'
       : 'Portfolio and Learning Site Architecture';
   const crumb = `<nav class="breadcrumb" aria-label="Breadcrumb"><a href="${base}${lang}/">Dashboard</a><span aria-hidden="true">/</span><a href="${base}${lang}/sessions/">${lang === 'es' ? 'Sesiones' : 'Sessions'}</a><span aria-hidden="true">/</span><span>PA-S003</span></nav>`;
-  const tocHtml = `<details class="toc" id="table-of-contents"><summary>${lang === 'es' ? 'Contenido' : 'Contents'}</summary><nav><ol>${toc.join('')}</ol></nav></details>`;
+  const tocHtml = `<details class="toc" id="table-of-contents"><summary>${lang === 'es' ? 'Tabla de contenido' : 'Table of contents'}</summary><nav><ol>${toc.join('')}</ol></nav></details>`;
   const diagram = `<figure class="diagram"><img src="${base}${lang}/shared/diagrams/PA-S003/mindmap.svg" alt="${lang === 'es' ? 'Mapa mental de PA-S003: límites, ownership, arquitectura de información y verificación.' : 'PA-S003 mind map: boundaries, ownership, information architecture, and verification.'}"><figcaption>${lang === 'es' ? 'Mapa mental de la arquitectura P0.' : 'P0 architecture mind map.'}</figcaption></figure>`;
   return shell(
     lang,

@@ -1104,10 +1104,23 @@ footer {
   padding: 1rem;
 }
 .site-main-column > footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
   width: 100%;
   margin-top: 2rem;
   padding: 1rem max(1rem, calc((100vw - 84rem) / 2));
   font-size: 0.85rem;
+}
+.site-main-column > footer > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.site-main-column > footer > span:last-child {
+  margin-left: auto;
+  text-align: right;
 }
 .site-header {
   position: sticky;
@@ -1366,25 +1379,44 @@ html {
   font-size: 0.75rem;
 }
 .mobile-global {
-  margin: 1rem 1rem 0;
+  width: fit-content;
+  margin: 0.65rem 0.7rem 0;
   padding: 0;
+  border: 0;
+  border-radius: 0.8rem;
+  background: transparent;
   overflow: visible;
 }
 .mobile-global > summary {
-  gap: 0.65rem;
-  padding: 0.55rem 0.85rem;
+  display: flex;
+  width: 2.75rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 0.7rem;
+  background: var(--surface);
   list-style: none;
+}
+.mobile-global > summary > .icon-menu {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+.mobile-global[open] {
+  width: calc(100% - 1.4rem);
+  padding: 0.45rem 0.6rem 0.2rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.mobile-global[open] > summary {
+  margin-bottom: 0.35rem;
+  background: var(--soft);
 }
 .mobile-global > summary::-webkit-details-marker {
   display: none;
-}
-.mobile-global > summary > .icon-chevron {
-  margin-left: auto;
-  width: 1rem;
-  height: 1rem;
-}
-.mobile-global[open] > summary > .icon-chevron {
-  transform: rotate(180deg);
 }
 .mobile-global .sidebar-brand,
 .mobile-global .sidebar-foot {
@@ -1962,6 +1994,76 @@ article section {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
+.site-header .header-context {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-width: 0;
+}
+.site-header .breadcrumb {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+.site-header .header-actions {
+  margin-left: auto;
+}
+@media (max-width: 40rem) {
+  .site-header {
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    align-items: center;
+    column-gap: 0.55rem;
+    row-gap: 0.45rem;
+  }
+  .site-header .brand {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    max-width: none;
+    font-size: 0.8rem;
+    line-height: 1.15;
+    overflow-wrap: normal;
+  }
+  .site-header .header-context {
+    display: contents;
+  }
+  .site-header .mobile-global {
+    grid-column: 1;
+    grid-row: 1;
+    width: 2.75rem;
+    margin: 0;
+  }
+  .site-header .mobile-global[open] {
+    position: absolute;
+    inset: 100% 0.7rem auto;
+    z-index: 32;
+    width: auto;
+    margin: 0;
+  }
+  .site-header .mobile-global > summary {
+    width: 2.75rem;
+    min-width: 2.75rem;
+    height: 2.75rem;
+  }
+  .site-header .header-actions {
+    grid-column: 3;
+    grid-row: 1;
+    margin-left: 0;
+  }
+  .site-header .breadcrumb {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+  }
+  .site-header .breadcrumb {
+    gap: 0.25rem;
+    font-size: 0.78rem;
+  }
+}
 @media (max-width: 40rem) {
   .canonical-theory .concept-heading h3 {
     font-size: clamp(2rem, 9vw, 2.55rem);
@@ -1984,7 +2086,7 @@ article section {
 main a[href^='http']::after {
   content: '↗';
   display: inline-block;
-  margin-left: 0.2em;
+  padding-left: 8px;
   font-size: 0.78em;
   line-height: 1;
   text-decoration: none;
@@ -2252,7 +2354,8 @@ details:not(.nav-group):not(.mobile-global)[open] > summary::after {
   color: var(--accent);
 }
 .canonical-theory .reference-links a::after {
-  content: ' ↗';
+  content: '↗';
+  padding-left: 8px;
   font-size: 0.85em;
   text-decoration: none;
 }
@@ -2276,7 +2379,8 @@ details:not(.nav-group):not(.mobile-global)[open] > summary::after {
   margin-top: 0.12rem !important;
 }
 .canonical-theory .reference-entry-link a::after {
-  content: ' ↗';
+  content: '↗';
+  padding-left: 8px;
   font-size: 0.85em;
   text-decoration: none;
 }
@@ -3102,5 +3206,20 @@ ul {
   }
   .canonical-theory .mechanism-retrieval {
     margin: 1.3rem 0 1.7rem;
+  }
+}
+@media (max-width: 40rem) {
+  .site-main-column > footer {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 1rem 3rem 1.5rem;
+    text-align: center;
+  }
+  .site-main-column > footer > span,
+  .site-main-column > footer > span:last-child {
+    margin-inline: 0;
+    text-align: center;
   }
 }
