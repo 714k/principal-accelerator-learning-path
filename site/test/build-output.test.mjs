@@ -17,6 +17,7 @@ test('generated bilingual chapters load the emitted explorer module', () => {
 });
 
 test('session routes load the shared semantic UI assets and PA-S001 landmarks are linked', () => {
+  const base = basePath(process.env.BASE_PATH);
   for (const asset of ['session-ui.css', 'session-ui.js']) {
     const source = readFileSync(`site/shared/assets/${asset}`);
     assert.deepEqual(readFileSync(`dist/assets/${asset}`), source);
@@ -24,8 +25,8 @@ test('session routes load the shared semantic UI assets and PA-S001 landmarks ar
   for (const lang of ['es', 'en']) {
     for (const session of ['PA-S001', 'PA-S002']) {
       const html = readFileSync(`dist/${lang}/sessions/${session}/index.html`, 'utf8');
-      assert.match(html, /<link rel="stylesheet" href="\/assets\/session-ui\.css">/);
-      assert.match(html, /<script defer src="\/assets\/session-ui\.js"><\/script>/);
+      assert.ok(html.includes(`<link rel="stylesheet" href="${base}assets/session-ui.css">`));
+      assert.ok(html.includes(`<script defer src="${base}assets/session-ui.js"></script>`));
       assert.match(html, /<a class="skip" href="#main-content">/);
       assert.match(html, /<main id="main-content">/);
     }
@@ -58,6 +59,7 @@ test('session routes load the shared semantic UI assets and PA-S001 landmarks ar
 });
 
 test('PA-S001 horizontal Mermaid flows render a vertical mobile variant from their source', () => {
+  const base = basePath(process.env.BASE_PATH);
   for (const lang of ['es', 'en']) {
     const source = readFileSync(`site/content/canonical/PA-S001-session-${lang}.html`, 'utf8');
     const html = readFileSync(`dist/${lang}/sessions/PA-S001/index.html`, 'utf8');
@@ -73,7 +75,7 @@ test('PA-S001 horizontal Mermaid flows render a vertical mobile variant from the
       assert.match(
         html,
         new RegExp(
-          `<img class="diagram-mobile" src="/${lang}/shared/diagrams/inline/${id}\\.mobile\\.svg"`,
+          `<img class="diagram-mobile" src="${base}${lang}/shared/diagrams/inline/${id}\\.mobile\\.svg"`,
         ),
         `${lang}/${id}: mobile SVG is not selected by the session markup`,
       );
