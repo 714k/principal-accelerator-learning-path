@@ -2,9 +2,10 @@
 
 Este contrato se aplica a toda sesión `PA-S00X` antes de normalizar su presentación. El contenido del Project Source gobierna el currículo; la semántica puede cambiar la estructura de marcado, pero no la redacción.
 
-## Integridad del contenido
+## Integridad del contenido y de la fuente
 
-- Rescatar el 100 % del contenido textual, código, enlaces, tablas, diagramas, ejemplos, ejercicios y bloques del HTML de entrada. No resumir, parafrasear, corregir, traducir dentro del mismo locale ni borrar contenido.
+- Este contrato aplica cuando la fuente llega como texto plano, HTML, Markdown u otro formato. Rescatar el 100 % del contenido textual, código, enlaces, tablas, diagramas, ejemplos, ejercicios y bloques. No resumir, parafrasear, corregir, traducir dentro del mismo locale ni borrar contenido.
+- Al convertir HTML de entrada, solo se pueden retirar etiquetas basura, estilos inline viejos y otros restos exclusivamente presentacionales. La limpieza de marcado nunca debe eliminar texto, atributos que contengan contenido, destinos de enlaces, código, ejemplos, datos tabulares ni relaciones de diagramas.
 - Mantener la versión en español y su equivalente en inglés con la misma estructura, interacciones y contenido equivalente. La única diferencia intencional es el idioma.
 - El TOC es la representación de la estructura de navegación. No duplicarlo como una sección editorial en el cuerpo. Usar listas `<ol>` anidadas para que la numeración jerárquica, incluidos los subtemas, quede fuera de los enlaces y no se duplique en sus etiquetas. No representar subtemas como viñetas.
 
@@ -12,8 +13,8 @@ Este contrato se aplica a toda sesión `PA-S00X` antes de normalizar su presenta
 
 - Usar un único `<main id="main-content">` para el contenido principal y un skip-link cuyo destino sea `#main-content`.
 - Mantener un único `<h1>` en toda la página para el título principal de la sesión. No usar encabezados solo por su apariencia.
-- Representar el TOC como `<nav aria-labelledby="toc-heading">` con `<h2 id="toc-heading">Tabla de contenido</h2>` en español y `<h2 id="toc-heading">Table of contents</h2>` en inglés, seguido de una lista `<ol>` de enlaces a IDs válidos.
-- Mapear cada elemento estructural del TOC a un `<section id="slug" aria-labelledby="heading-id">` cuyo encabezado exista y tenga un ID único. Los cuatro componentes introductorios definidos en el contrato UI pueden conservar enlaces del TOC como anclas a sus contenedores, sin convertirlos en secciones.
+- Representar el TOC como `<nav aria-labelledby="toc-heading">` con `<h2 id="toc-heading">Contenido</h2>` en español y `<h2 id="toc-heading">Contents</h2>` en inglés, seguido de una lista `<ol>` de enlaces a IDs válidos. La etiqueta visible del disclosure del TOC conserva `Tabla de contenido` / `Table of contents` como en PA-S001.
+- Mapear cada destino del TOC a un `<section id="slug" aria-labelledby="heading-id">` cuyo encabezado exista y tenga un ID único. Esto incluye los componentes introductorios si aparecen en el TOC: pueden conservar su tratamiento visual y no numerarse como secciones temáticas, pero su contenedor es un `<section>` con nombre accesible.
 - Las secciones de primer nivel usan `<h2>`. Los subtemas, anidados en la sección del tema principal, usan `<section>` y `<h3>`. Los encabezados internos usan `<h4>`, `<h5>` y, cuando haga falta, `<h6>` sin saltar niveles.
 - No reutilizar IDs. Verificar que todos los fragmentos del TOC y atributos `aria-labelledby`, `aria-controls` y `aria-describedby` apunten a elementos existentes.
 

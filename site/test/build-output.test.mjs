@@ -88,16 +88,19 @@ test('PA-S001 horizontal Mermaid flows render a vertical mobile variant from the
   }
 });
 
-test('mind maps emit palettes for both site themes', () => {
+test('PA-S002 publishes the supplied interactive studio through shared session assets', () => {
   const page = readFileSync('dist/es/sessions/PA-S002/index.html', 'utf8');
-  assert.match(page, /data-theme-map="light"[\s\S]*studio-map-es\.svg/);
-  assert.match(page, /data-theme-map="dark"[\s\S]*studio-map-es\.dark\.svg/);
-  const light = 'dist/es/shared/diagrams/PA-S002/studio-map-es.svg';
-  const dark = 'dist/es/shared/diagrams/PA-S002/studio-map-es.dark.svg';
-  assert.ok(existsSync(light));
-  assert.ok(existsSync(dark));
-  assert.match(readFileSync(light, 'utf8'), /#my-svg\.mindmapDiagram\{background:#ffffff\}/);
-  assert.match(readFileSync(dark, 'utf8'), /#my-svg\.mindmapDiagram\{background:#10141c\}/);
+  assert.match(page, /<script type="application\/json" id="studio-data">/);
+  assert.match(page, /data-widget="mind-map"/);
+  assert.match(page, /data-widget="flashcards"/);
+  assert.match(page, /data-widget="simulator"/);
+  assert.match(page, /data-widget="architecture-explorer"/);
+  assert.match(page, /data-widget="decision-matrix"/);
+  assert.match(page, /assets\/session-ui\.css/);
+  assert.match(page, /assets\/session-ui\.js/);
+  assert.doesNotMatch(page, /--accent:#9b1c35/);
+  assert.doesNotMatch(page, /<script>\s*const scopes = JSON\.parse/);
+  assert.match(page, /class="toc-fab"/);
   const paS001Map = readFileSync('dist/es/shared/diagrams/PA-S001/canonical-map-es.svg', 'utf8');
   assert.match(paS001Map, /class="mindmap-legend" role="group"/);
   assert.match(paS001Map, />Fundamentos</);

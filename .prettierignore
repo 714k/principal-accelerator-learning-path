@@ -1,4 +1,5 @@
 node_modules/
 # dist/
 coverage/
+session-inputs/PA-S002-ES.html
 # site/shared/diagrams/**/*.svg

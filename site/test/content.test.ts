@@ -50,7 +50,15 @@ test('replacement PA-S001 HTML has bilingual structural parity and reversible su
     assert.equal((html.match(/<h1\b/g) ?? []).length, 1);
     assert.match(
       rendered,
-      /<div class="site-grid"><button class="sidebar-collapse-toggle"[\s\S]*?<\/button><aside class="site-sidebar">/,
+      /<dialog class="desktop-nav-dialog" id="desktop-navigation-dialog" aria-label="(?:Navegación del programa|Program navigation)" data-sidebar-dialog open><aside class="site-sidebar">[\s\S]*?id="desktop-curriculum"/,
+    );
+    assert.match(
+      rendered,
+      /<button class="desktop-nav-toggle" type="button" aria-controls="desktop-navigation-dialog" aria-expanded="false" aria-label="(?:Abrir navegación|Open navigation)"[\s\S]*?data-sidebar-toggle hidden>/,
+    );
+    assert.match(
+      rendered,
+      /data-sidebar-close aria-label="(?:Cerrar navegación|Close navigation)"/,
     );
     const mobileNavStart = rendered.indexOf('<details class="mobile-global">');
     const mobileSummaryStart = rendered.indexOf('<summary', mobileNavStart);
@@ -244,7 +252,15 @@ test('session UI assets are shared, theme-aware, and keyboard-accessible', () =>
   assert.match(sessionCss, /\.session-page \.session-source select,[\s\S]*appearance: none/);
   assert.match(sessionCss, /right 28px center,[\s\S]*right 20px center/);
   assert.match(sessionCss, /@media \(forced-colors: active\)/);
-  assert.match(sessionCss, /\.session-page \.sidebar-collapse-toggle\s*\{[^}]*position: fixed;/);
+  assert.match(sessionCss, /\.session-page \.desktop-nav-dialog\s*\{[^}]*position: fixed;/);
+  assert.match(
+    sessionCss,
+    /\.session-page \.desktop-nav-dialog::backdrop\s*\{[^}]*backdrop-filter: blur\(3px\);/,
+  );
+  assert.match(
+    sessionCss,
+    /\.session-page \.desktop-nav-dialog \.curriculum\s*\{[^}]*overflow-y: auto;[^}]*scrollbar-width: thin;/,
+  );
   assert.match(
     sessionCss,
     /\.session-source \.widget\[data-widget='architecture-explorer'\] \.widget-panel\s*\{[^}]*border:\s*0;[^}]*background:\s*transparent;[^}]*padding-inline:\s*0;/,
@@ -256,10 +272,6 @@ test('session UI assets are shared, theme-aware, and keyboard-accessible', () =>
   assert.match(
     siteCss,
     /\.mobile-global\s*>\s*summary\s*>\s*\.icon-menu\s*\{[^}]*width:\s*1\.35rem;[^}]*height:\s*1\.35rem;/,
-  );
-  assert.match(
-    sessionCss,
-    /\.site-grid\[data-sidebar-collapsed='true'\] \.sidebar-collapse-toggle\s*\{[^}]*inset-inline-start:/,
   );
   assert.match(
     sessionCss,
@@ -436,11 +448,11 @@ test('PA-S001 structural sections stay unboxed and every synthesis uses card row
 test('PA-S001 checklist criteria use reversible checkbox cards', () => {
   assert.match(
     siteCss,
-    /\.session-source\s+:is\(#study-checklist, \.success-study-list\)\s+label\s*\{[^}]*padding:\s*1\.25rem 1\.5rem;[^}]*border:\s*1px solid var\(--line\);[^}]*background:\s*var\(--surface\);/,
+    /\.session-source\s+:is\(#study-checklist, #success-study-checklist, \.success-study-list\)\s+label\s*\{[^}]*padding:\s*1\.25rem 1\.5rem;[^}]*border:\s*1px solid var\(--line\);[^}]*background:\s*var\(--surface\);/,
   );
   assert.match(
     siteCss,
-    /\.session-source\s+:is\(#study-checklist, \.success-study-list\)\s+label\s*>\s*input\[type='checkbox'\]\s*\{[^}]*accent-color:\s*var\(--accent\);/,
+    /\.session-source\s+:is\(#study-checklist, #success-study-checklist, \.success-study-list\)\s+label\s*>\s*input\[type='checkbox'\]\s*\{[^}]*accent-color:\s*var\(--accent\);/,
   );
 });
 

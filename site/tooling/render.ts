@@ -123,6 +123,7 @@ function icon(
     | 'moon'
     | 'sun'
     | 'menu'
+    | 'close'
     | 'bookmark',
 ): string {
   const paths: Record<typeof name, string> = {
@@ -137,6 +138,7 @@ function icon(
     moon: '<path d="M20.5 13.1A8.5 8.5 0 0 1 10.9 3.5 8.5 8.5 0 1 0 20.5 13.1Z"/>',
     sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
     menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+    close: '<path d="m6 6 12 12M18 6 6 18"/>',
     bookmark: '<path d="M5 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17l-7-4-7 4V4Z"/>',
   };
   return `<svg class="icon icon-${name}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]}</svg>`;
@@ -239,7 +241,10 @@ function globalNav(
       : 'Program navigation';
   const hasSidebarToggle = variant === 'desktop' && /^sessions\/PA-S\d{3}\/$/.test(current);
   const desktopNavId = hasSidebarToggle ? ' id="desktop-curriculum"' : '';
-  return `<div class="sidebar-content"><a class="sidebar-brand" href="${root}"><span class="sidebar-logo">${icon('spark')}</span><span><strong>Principal Accelerator</strong><small>Learning Path</small></span></a>${search}<nav class="curriculum" aria-label="${navigationLabel}"${desktopNavId}><a class="nav-home" href="${root}"${current === '' ? ' aria-current="page"' : ''}>${icon('dashboard')}<span>Dashboard</span></a>${group('grid', es ? 'Sesiones' : 'Sessions', sessionItems, current.startsWith('sessions/'), 5)}${group('layers', es ? 'Proyectos' : 'Projects', projectItems, current.startsWith('projects/'), 4)}${group('book', es ? 'Aprender' : 'Learn', learnItems)}${group('bookmark', es ? 'Recursos' : 'Resources', resourceItems)}</nav><p class="sidebar-foot">F0 · ${es ? 'Plataforma Accelerator' : 'Accelerator platform'}</p></div>`;
+  const closeButton = hasSidebarToggle
+    ? `<button class="sidebar-dialog-close" type="button" data-sidebar-close aria-label="${es ? 'Cerrar navegación' : 'Close navigation'}" title="${es ? 'Cerrar navegación' : 'Close navigation'}">${icon('close')}</button>`
+    : '';
+  return `<div class="sidebar-content"><div class="sidebar-top"><a class="sidebar-brand" href="${root}"><span class="sidebar-logo">${icon('spark')}</span><span><strong>Principal Accelerator</strong><small>Learning Path</small></span></a>${closeButton}</div>${search}<nav class="curriculum" aria-label="${navigationLabel}"${desktopNavId}><a class="nav-home" href="${root}"${current === '' ? ' aria-current="page"' : ''}>${icon('dashboard')}<span>Dashboard</span></a>${group('grid', es ? 'Sesiones' : 'Sessions', sessionItems, current.startsWith('sessions/'), 5)}${group('layers', es ? 'Proyectos' : 'Projects', projectItems, current.startsWith('projects/'), 4)}${group('book', es ? 'Aprender' : 'Learn', learnItems)}${group('bookmark', es ? 'Recursos' : 'Resources', resourceItems)}</nav><p class="sidebar-foot">F0 · ${es ? 'Plataforma Accelerator' : 'Accelerator platform'}</p></div>`;
 }
 function questionAnswerDisclosure(attributes: string, content: string): string | null {
   const answerLabel =
@@ -338,7 +343,7 @@ function decorateProfessionalAreaTabs(markup: string, lang: 'es' | 'en'): string
     },
   );
 }
-function decorateArrowFlows(
+export function normalizeSessionMarkup(
   markup: string,
   lang: 'es' | 'en',
   decorateExternalLinks = false,
@@ -501,9 +506,14 @@ export function shell(
     ? `<link rel="stylesheet" href="${base}assets/session-ui.css"><script defer src="${base}assets/session-ui.js"></script>`
     : '';
   const sidebarToggle = isSession
-    ? `<button class="sidebar-collapse-toggle" type="button" aria-controls="desktop-curriculum" aria-expanded="true" aria-label="${es ? 'Contraer navegación lateral' : 'Collapse side navigation'}" title="${es ? 'Contraer navegación lateral' : 'Collapse side navigation'}" data-sidebar-toggle hidden>${icon('chevron')}<span class="sr-only">${es ? 'Contraer navegación lateral' : 'Collapse side navigation'}</span></button>`
+    ? `<button class="desktop-nav-toggle" type="button" aria-controls="desktop-navigation-dialog" aria-expanded="false" aria-label="${es ? 'Abrir navegación' : 'Open navigation'}" title="${es ? 'Abrir navegación' : 'Open navigation'}" data-sidebar-toggle hidden>${icon('menu')}<span class="sr-only">${es ? 'Abrir navegación' : 'Open navigation'}</span></button>`
     : '';
-  return `<!DOCTYPE html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)} · Principal Accelerator Learning Path</title><link rel="stylesheet" href="${base}assets/site.css">${sessionAssets}<script type="module" src="${base}assets/concept-explorers.js"></script><script defer src="${base}assets/study.js"></script><script defer src="${base}assets/search.js"></script></head><body${bodyClass}><a class="skip" href="#${skipTarget}">${es ? 'Saltar al contenido' : 'Skip to content'}</a><div class="site-grid">${sidebarToggle}<aside class="site-sidebar">${globalNav(lang, base, current, 'desktop')}</aside><div class="site-main-column"><header class="site-header"><details class="mobile-global"><summary aria-label="${es ? 'Navegación' : 'Navigation'}">${icon('menu')}</summary>${globalNav(lang, base, current, 'mobile')}</details><a class="brand" href="${base}${lang}/">Principal Accelerator Learning Path</a><div class="header-context">${breadcrumb}<nav class="header-actions" aria-label="${es ? 'Idioma y tema' : 'Language and theme'}"><a lang="${es ? 'en' : 'es'}" hreflang="${es ? 'en' : 'es'}" href="${base}${other}">${es ? 'en' : 'es'}</a>${themeControl()}</nav></div></header><main id="${mainId}">${decorateArrowFlows(mainBody, lang, isSession)}</main>${footer}</div></div>${themeScript()}</body></html>`;
+  const desktopSidebar = globalNav(lang, base, current, 'desktop');
+  const sidebarDialog = isSession
+    ? `<dialog class="desktop-nav-dialog" id="desktop-navigation-dialog" aria-label="${es ? 'Navegación del programa' : 'Program navigation'}" data-sidebar-dialog open><aside class="site-sidebar">${desktopSidebar}</aside></dialog>`
+    : '';
+  const permanentSidebar = isSession ? '' : `<aside class="site-sidebar">${desktopSidebar}</aside>`;
+  return `<!DOCTYPE html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)} · Principal Accelerator Learning Path</title><link rel="stylesheet" href="${base}assets/site.css">${sessionAssets}<script type="module" src="${base}assets/concept-explorers.js"></script><script defer src="${base}assets/study.js"></script><script defer src="${base}assets/search.js"></script></head><body${bodyClass}><a class="skip" href="#${skipTarget}">${es ? 'Saltar al contenido' : 'Skip to content'}</a>${sidebarDialog}<div class="site-grid">${permanentSidebar}<div class="site-main-column"><header class="site-header">${sidebarToggle}<details class="mobile-global"><summary aria-label="${es ? 'Navegación' : 'Navigation'}">${icon('menu')}</summary>${globalNav(lang, base, current, 'mobile')}</details><a class="brand" href="${base}${lang}/">Principal Accelerator Learning Path</a><div class="header-context">${breadcrumb}<nav class="header-actions" aria-label="${es ? 'Idioma y tema' : 'Language and theme'}"><a lang="${es ? 'en' : 'es'}" hreflang="${es ? 'en' : 'es'}" href="${base}${other}">${es ? 'en' : 'es'}</a>${themeControl()}</nav></div></header><main id="${mainId}">${normalizeSessionMarkup(mainBody, lang, isSession)}</main>${footer}</div></div>${themeScript()}</body></html>`;
 }
 function inlineReferences(value: string): string {
   return escapeHtml(value).replace(/\[([A-Z][0-9]+)\]/g, '<a href="#ref-$1">[$1]</a>');
@@ -805,7 +815,7 @@ function renderSourceSessionLayout(
     const className = listDepth++ === 0 ? 'toc-list' : 'toc-sublist';
     return `<ol class="${className}">`;
   });
-  const toc = `<details class="toc" id="table-of-contents"><summary>${lang === 'es' ? 'Tabla de contenido' : 'Table of contents'}</summary><nav aria-labelledby="toc-heading"><h2 class="sr-only" id="toc-heading">${lang === 'es' ? 'Tabla de contenido' : 'Table of contents'}</h2>${tocList}</nav></details>`;
+  const toc = `<details class="toc" id="table-of-contents"><summary>${lang === 'es' ? 'Tabla de contenido' : 'Table of contents'}</summary><nav aria-labelledby="toc-heading"><h2 class="sr-only" id="toc-heading">${lang === 'es' ? 'Contenido' : 'Contents'}</h2>${tocList}</nav></details>`;
   let sectionNumber = 0;
   const article = source
     .replace(tocSource, '')
@@ -904,7 +914,13 @@ export function renderPage(
       renderSourceSessionLayout(sourceSessionHtml, page.lang, base, mobileDiagrams),
       page.lang,
     );
-    const sourceIntro = `${crumb}<div class="page-intro"><h1>${escapeHtml(page.title)}</h1><p class="lead">${escapeHtml(page.description)}</p></div>`;
+    const sourceMetadata =
+      sourceSessionHtml
+        .match(/<p class="eyebrow">([\s\S]*?)<\/p>/)?.[1]
+        ?.replace(/<[^>]+>/g, '')
+        .replace(/\s+/g, ' ')
+        .trim() ?? '';
+    const sourceIntro = `${crumb}<div class="page-intro">${sourceMetadata ? `<p class="eyebrow sr-only">${sourceMetadata}</p>` : ''}<h1>${escapeHtml(page.title)}</h1><p class="lead">${escapeHtml(page.description)}</p></div>`;
     return shell(
       page.lang,
       page.title,

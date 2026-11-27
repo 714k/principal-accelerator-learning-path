@@ -3,47 +3,48 @@
   if (!session) return;
 
   const sidebarToggle = session.querySelector('[data-sidebar-toggle]');
-  const siteGrid = sidebarToggle?.closest('.site-grid');
-  const desktopSidebar = siteGrid?.querySelector('.site-sidebar');
+  const desktopDialog = sidebarToggle
+    ?.closest('.site-main-column')
+    ?.ownerDocument.getElementById(sidebarToggle.getAttribute('aria-controls') ?? '');
+  const desktopSidebar = desktopDialog?.querySelector('.site-sidebar');
   const desktopNav = desktopSidebar?.querySelector('#desktop-curriculum');
-  if (sidebarToggle && desktopSidebar && siteGrid && desktopNav) {
-    const groups = [...desktopNav.querySelectorAll('.nav-group')];
-    const setCollapsed = (collapsed) => {
-      desktopSidebar.dataset.collapsed = String(collapsed);
-      siteGrid.dataset.sidebarCollapsed = String(collapsed);
-      const label =
-        document.documentElement.lang === 'es'
-          ? collapsed
-            ? 'Expandir navegación lateral'
-            : 'Contraer navegación lateral'
-          : collapsed
-            ? 'Expand side navigation'
-            : 'Collapse side navigation';
-      sidebarToggle.setAttribute('aria-expanded', String(!collapsed));
+  const sidebarClose = desktopDialog?.querySelector('[data-sidebar-close]');
+  if (sidebarToggle && desktopDialog && desktopSidebar && desktopNav) {
+    const labels =
+      document.documentElement.lang === 'es'
+        ? { open: 'Abrir navegación', close: 'Cerrar navegación' }
+        : { open: 'Open navigation', close: 'Close navigation' };
+    const setExpandedState = (expanded) => {
+      const label = expanded ? labels.close : labels.open;
+      sidebarToggle.setAttribute('aria-expanded', String(expanded));
       sidebarToggle.setAttribute('aria-label', label);
       sidebarToggle.title = label;
-
-      groups.forEach((group) => {
-        if (collapsed) {
-          if (group.open) group.dataset.openBeforeCollapse = 'true';
-          else delete group.dataset.openBeforeCollapse;
-          group.open = false;
-        } else {
-          if (group.dataset.openBeforeCollapse === 'true') group.open = true;
-          delete group.dataset.openBeforeCollapse;
-        }
-      });
+    };
+    const closeDialog = () => {
+      if (desktopDialog.open) desktopDialog.close();
     };
 
     sidebarToggle.hidden = false;
     sidebarToggle.addEventListener('click', () => {
-      setCollapsed(desktopSidebar.dataset.collapsed !== 'true');
+      if (!desktopDialog.open) {
+        desktopDialog.showModal();
+        setExpandedState(true);
+        sidebarClose?.focus();
+      } else closeDialog();
     });
-    groups.forEach((group) => {
-      group.addEventListener('toggle', () => {
-        if (desktopSidebar.dataset.collapsed === 'true' && group.open) setCollapsed(false);
-      });
+    sidebarClose?.addEventListener('click', closeDialog);
+    desktopDialog.addEventListener('close', () => {
+      setExpandedState(false);
+      sidebarToggle.focus();
     });
+    desktopDialog.addEventListener('click', (event) => {
+      if (event.target === desktopDialog) closeDialog();
+    });
+    desktopNav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', closeDialog);
+    });
+    if (desktopDialog.open) desktopDialog.open = false;
+    setExpandedState(false);
   }
 
   const makeCodeToken = (value, type) => {
@@ -704,6 +705,12 @@
       );
       nodeSource.className = 'architecture-explorer-node-source';
       nodeSource.hidden = true;
+      buttons.forEach((button) => {
+        button.removeAttribute('role');
+        button.removeAttribute('aria-controls');
+        button.removeAttribute('aria-selected');
+        button.removeAttribute('tabindex');
+      });
 
       const addSelectLabel = (select, labelText, ariaLabel) => {
         const label = document.createElement('label');
@@ -957,6 +964,196 @@
       ...(mobilePicker ? [mobilePicker, tablist, ...panels] : [tablist, ...panels]),
     );
   };
+  let mindMapScopes = {};
+  try {
+    mindMapScopes = JSON.parse(session.querySelector('#studio-data')?.textContent || '{}');
+  } catch {
+    mindMapScopes = {};
+  }
+  const localizedMindMap = document.documentElement.lang.startsWith('en') ? 'en' : 'es';
+  const makeSvgElement = (tag, attributes = {}, text = '') => {
+    const element = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, String(value)));
+    if (text) element.textContent = text;
+    return element;
+  };
+  const mapDetailPanelFor = (widget) =>
+    widget.querySelector('.widget-panel, .panel, .widget-output, [aria-live="polite"]');
+  const ensureMapDetailId = (widget, panel) => {
+    if (!panel) return '';
+    if (!panel.id) {
+      const widgetId =
+        widget.id || widget.dataset.widgetId || `mind-map-${++categoryPickerSequence}`;
+      panel.id = `${widgetId}-detail`;
+    }
+    return panel.id;
+  };
+  const mapButtonsFor = (widget) =>
+    [
+      ...widget.querySelectorAll(
+        '.node-grid button, .mind-graph button, .mind-map-controls button, #global-map-chapters button, [data-concept]',
+      ),
+    ].filter(
+      (button, index, buttons) =>
+        !button.classList.contains('session-map-node-button') && buttons.indexOf(button) === index,
+    );
+  const mapControlsFor = (button) =>
+    button.closest(
+      '.session-map-selector, .mind-map-controls, #global-map-chapters, .node-grid, .mind-graph',
+    ) || button.parentElement;
+  const mindMapSvgFor = (widget) =>
+    widget.querySelector('svg.session-map-graph, :scope > svg, .node-grid > svg');
+  const createConceptMapDiagram = (widget, buttons, localized) => {
+    const scope = mindMapScopes[widget.dataset.studioScope];
+    const terms = Array.isArray(scope?.terms) ? scope.terms : [];
+    const grouped = new Map();
+    buttons.forEach((button, index) => {
+      const term = terms[index];
+      const tone = mapToneFor(term?.area || button.textContent.trim());
+      button.dataset.tone = tone;
+      const groupName = term?.area || mapToneLabels[localized][tone];
+      if (!grouped.has(groupName)) grouped.set(groupName, { tone, buttons: [] });
+      grouped.get(groupName).buttons.push(button);
+    });
+    const groups = [...grouped.entries()];
+    if (!groups.length) return null;
+    const columns = Math.min(3, groups.length);
+    const rows = Math.ceil(groups.length / columns);
+    const width = columns * 300 + 40;
+    const groupHeights = Array.from({ length: rows }, (_, row) => {
+      const rowGroups = groups.slice(row * columns, (row + 1) * columns);
+      return 150 + Math.max(...rowGroups.map(([, value]) => value.buttons.length)) * 78;
+    });
+    const rowOffsets = groupHeights.map((_, index) =>
+      groupHeights.slice(0, index).reduce((sum, height) => sum + height, 0),
+    );
+    const height = groupHeights.reduce((sum, item) => sum + item, 0) + 12;
+    const heading = widget.querySelector('h3, h4, h5, h6')?.textContent.trim();
+    const detailId = ensureMapDetailId(widget, mapDetailPanelFor(widget));
+    const svg = makeSvgElement('svg', {
+      viewBox: `0 0 ${width} ${height}`,
+      role: 'group',
+      'aria-label': heading
+        ? `${heading}${localized === 'es' ? ': diagrama interactivo' : ': interactive diagram'}`
+        : localized === 'es'
+          ? 'Diagrama interactivo de conceptos'
+          : 'Interactive concept diagram',
+      class: 'session-map-graph session-map-generated-graph',
+    });
+    const title = makeSvgElement(
+      'title',
+      {},
+      heading || (localized === 'es' ? 'Diagrama de conceptos' : 'Concept diagram'),
+    );
+    const description = makeSvgElement(
+      'desc',
+      {},
+      localized === 'es'
+        ? 'Los conceptos se agrupan por su perspectiva compartida. Selecciona un nodo para consultar su detalle.'
+        : 'Concepts are grouped by their shared area. Select a node to view its details.',
+    );
+    svg.append(title, description);
+    groups.forEach(([groupName, group], index) => {
+      const row = Math.floor(index / columns);
+      const column = index % columns;
+      const centerX = 170 + column * 300;
+      const top = rowOffsets[row] + 14;
+      const headingWidth = 258;
+      const header = makeSvgElement('rect', {
+        x: centerX - headingWidth / 2,
+        y: top,
+        width: headingWidth,
+        height: 42,
+        rx: 8,
+        class: 'session-map-group-node',
+        'data-tone': group.tone,
+      });
+      const headerLabel = makeSvgElement(
+        'text',
+        {
+          x: centerX,
+          y: top + 26,
+          'text-anchor': 'middle',
+          class: 'session-map-group-label',
+        },
+        groupName,
+      );
+      svg.append(header, headerLabel);
+      group.buttons.forEach((button, itemIndex) => {
+        const nodeY = top + 122 + itemIndex * 78;
+        const edge = makeSvgElement('path', {
+          d: `M ${centerX} ${top + 48} C ${centerX} ${top + 72}, ${centerX} ${nodeY - 44}, ${centerX} ${nodeY - 30}`,
+          class: 'session-map-edge',
+          'data-tone': group.tone,
+        });
+        const foreignObject = makeSvgElement('foreignObject', {
+          x: centerX - 125,
+          y: nodeY - 28,
+          width: 250,
+          height: 56,
+          class: 'session-map-node-object',
+        });
+        const nodeButton = document.createElement('button');
+        nodeButton.type = 'button';
+        nodeButton.className = 'session-map-node-button';
+        nodeButton.dataset.tone = group.tone;
+        nodeButton.textContent = button.dataset.concept || button.textContent.trim();
+        nodeButton.setAttribute('aria-pressed', button.getAttribute('aria-pressed') === 'true');
+        nodeButton.setAttribute(
+          'aria-label',
+          `${nodeButton.textContent}${localized === 'es' ? ', seleccionar concepto' : ', select concept'}`,
+        );
+        if (detailId) nodeButton.setAttribute('aria-controls', detailId);
+        nodeButton.addEventListener('click', () => button.click());
+        const sync = () => {
+          const selected = button.getAttribute('aria-pressed') === 'true';
+          nodeButton.setAttribute('aria-pressed', String(selected));
+          nodeButton.classList.toggle('is-related', button.classList.contains('related'));
+          edge.classList.toggle('is-active', selected || button.classList.contains('related'));
+        };
+        sync();
+        new globalThis.MutationObserver(sync).observe(button, {
+          attributes: true,
+          attributeFilter: ['aria-pressed', 'class'],
+        });
+        foreignObject.append(nodeButton);
+        svg.append(edge, foreignObject);
+      });
+    });
+    return { svg, tones: [...new Set(groups.map(([, group]) => group.tone))] };
+  };
+  session.querySelectorAll('[data-widget="mind-map"]').forEach((widget) => {
+    if (mindMapSvgFor(widget)) return;
+    const buttons = mapButtonsFor(widget);
+    if (!buttons.length) return;
+    const diagram = createConceptMapDiagram(widget, buttons, localizedMindMap);
+    if (!diagram) return;
+    const controls = mapControlsFor(buttons[0]);
+    if (controls?.matches('.node-grid, .mind-graph')) {
+      controls.insertBefore(diagram.svg, controls.firstChild);
+    } else if (controls) {
+      const visual = document.createElement('div');
+      visual.className = 'session-map-visual';
+      visual.setAttribute('role', 'region');
+      visual.setAttribute(
+        'aria-label',
+        localizedMindMap === 'es'
+          ? 'Diagrama interactivo de conceptos'
+          : 'Interactive concept diagram',
+      );
+      visual.tabIndex = 0;
+      visual.append(diagram.svg);
+      controls.before(visual);
+      addMindMapLegend(
+        visual,
+        diagram.tones,
+        localizedMindMap === 'es'
+          ? 'Línea punteada: conceptos agrupados por función'
+          : 'Dotted line: concepts grouped by function',
+      );
+    }
+    widget.dataset.interactiveMap = 'true';
+  });
   session.querySelectorAll('.node-grid').forEach((container) => {
     const svg = container.querySelector(':scope > svg');
     const buttons = [...container.querySelectorAll(':scope > button')];
@@ -983,11 +1180,15 @@
     visual.append(svg);
 
     const nodes = [...svg.querySelectorAll('circle')];
-    const labels = [...svg.querySelectorAll('text')];
+    const labels = svg.classList.contains('session-map-generated-graph')
+      ? []
+      : [...svg.querySelectorAll('text')];
     const labelMap = new Map();
     buttons.forEach((button, index) => {
       const fullLabel = button.textContent.trim();
-      const tone = mapToneFor(fullLabel);
+      const tone = svg.classList.contains('session-map-generated-graph')
+        ? button.dataset.tone || mapToneFor(fullLabel)
+        : mapToneFor(fullLabel);
       button.dataset.tone = tone;
       labelMap.set(button, tone);
       const node = nodes[index];
@@ -1091,13 +1292,323 @@
       tones.add(tone);
     });
     groupCategorizedControls(controls, buttons, localized, 'mind-map');
-    addMindMapLegend(
-      controls.parentElement,
-      [...tones],
-      localized === 'es'
-        ? 'Las conexiones se describen al seleccionar un nodo'
-        : 'Connections are described when a node is selected',
+    if (!controls.parentElement.querySelector('.session-map-legend'))
+      addMindMapLegend(
+        controls.parentElement,
+        [...tones],
+        localized === 'es'
+          ? 'Las conexiones se describen al seleccionar un nodo'
+          : 'Connections are described when a node is selected',
+      );
+  });
+  const attachDiagramButtons = (widget, svg, buttons, localized) => {
+    if (!svg || !buttons.length || svg.querySelector('.session-map-node-button')) return;
+    const viewBox = (svg.getAttribute('viewBox') || '0 0 800 300')
+      .trim()
+      .split(/[ ,]+/)
+      .map(Number);
+    const viewWidth = viewBox[2] || 800;
+    const viewHeight = viewBox[3] || 300;
+    const detailId = ensureMapDetailId(widget, mapDetailPanelFor(widget));
+    const nodes = [...svg.querySelectorAll('circle, rect[data-node-index]')];
+    if (nodes.length !== buttons.length) return;
+    const xValues = nodes.map((node) =>
+      Number(
+        node.tagName.toLowerCase() === 'circle'
+          ? node.getAttribute('cx')
+          : Number(node.getAttribute('x')) + Number(node.getAttribute('width')) / 2,
+      ),
     );
+    const columns = [...new Set(xValues)].sort((a, b) => a - b);
+    const gap =
+      columns.length > 1
+        ? Math.min(...columns.slice(1).map((x, index) => x - columns[index]))
+        : 230;
+    const nodeWidth = Math.max(136, Math.min(218, gap * 0.82));
+    nodes.forEach((node, index) => {
+      const button = buttons[index];
+      const centerX = Number(
+        node.tagName.toLowerCase() === 'circle'
+          ? node.getAttribute('cx')
+          : Number(node.getAttribute('x')) + Number(node.getAttribute('width')) / 2,
+      );
+      const centerY = Number(
+        node.tagName.toLowerCase() === 'circle'
+          ? node.getAttribute('cy')
+          : Number(node.getAttribute('y')) + Number(node.getAttribute('height')) / 2,
+      );
+      const nodeTone = button.dataset.tone || mapToneFor(button.textContent.trim());
+      button.dataset.tone = nodeTone;
+      const object = makeSvgElement('foreignObject', {
+        x: Math.max(4, Math.min(viewWidth - nodeWidth - 4, centerX - nodeWidth / 2)),
+        y: Math.max(4, Math.min(viewHeight - 62, centerY - 29)),
+        width: nodeWidth,
+        height: 58,
+        class: 'session-map-node-object',
+      });
+      const graphButton = document.createElement('button');
+      graphButton.type = 'button';
+      graphButton.className = 'session-map-node-button';
+      graphButton.dataset.tone = nodeTone;
+      graphButton.dataset.mapNodeIndex = String(index);
+      graphButton.textContent = button.dataset.concept || button.textContent.trim();
+      graphButton.setAttribute('aria-pressed', button.getAttribute('aria-pressed') === 'true');
+      graphButton.setAttribute(
+        'aria-label',
+        `${graphButton.textContent}${localized === 'es' ? ', seleccionar concepto' : ', select concept'}`,
+      );
+      if (detailId) graphButton.setAttribute('aria-controls', detailId);
+      graphButton.addEventListener('click', () => button.click());
+      const sync = () => {
+        const selected = button.getAttribute('aria-pressed') === 'true';
+        graphButton.setAttribute('aria-pressed', String(selected));
+        graphButton.classList.toggle('is-related', button.classList.contains('related'));
+      };
+      sync();
+      new globalThis.MutationObserver(sync).observe(button, {
+        attributes: true,
+        attributeFilter: ['aria-pressed', 'class'],
+      });
+      object.append(graphButton);
+      svg.append(object);
+      node.setAttribute('aria-hidden', 'true');
+      node.style.opacity = '0';
+    });
+    svg.querySelectorAll('text').forEach((label) => {
+      label.setAttribute('aria-hidden', 'true');
+      label.style.opacity = '0';
+    });
+    svg.setAttribute('role', 'group');
+  };
+  const enhanceGlobalMindMap = (widget, localized) => {
+    const svg = widget.querySelector('#global-map-svg');
+    const source = widget.querySelector('#global-map-chapters');
+    const buttons = source ? [...source.querySelectorAll(':scope > button')] : [];
+    const conceptSelect = widget.querySelector('#global-map-concept');
+    if (!svg || !source || !buttons.length || !conceptSelect || svg.dataset.mapEnhanced === 'true')
+      return;
+    svg.dataset.mapEnhanced = 'true';
+    const detailId = ensureMapDetailId(widget, widget.querySelector('#global-map-panel'));
+    const columnCount = 2;
+    const rows = Math.ceil(buttons.length / columnCount);
+    const width = 940;
+    const height = rows * 100 + 48;
+    svg.replaceChildren();
+    svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+    svg.setAttribute('role', 'group');
+    svg.setAttribute(
+      'aria-label',
+      localized === 'es' ? 'Diagrama interactivo de capítulos' : 'Interactive chapter diagram',
+    );
+    svg.classList.add('session-map-graph', 'session-map-generated-graph');
+    const defs = makeSvgElement('defs');
+    const marker = makeSvgElement('marker', {
+      id: 'global-map-arrow',
+      viewBox: '0 0 10 10',
+      refX: 8,
+      refY: 5,
+      markerWidth: 6,
+      markerHeight: 6,
+      orient: 'auto-start-reverse',
+    });
+    marker.append(
+      makeSvgElement('path', { d: 'M 0 0 L 10 5 L 0 10 z', class: 'session-map-arrow' }),
+    );
+    defs.append(marker);
+    svg.append(
+      defs,
+      makeSvgElement(
+        'title',
+        {},
+        localized === 'es' ? 'Capítulos de la sesión' : 'Session chapters',
+      ),
+      makeSvgElement(
+        'desc',
+        {},
+        localized === 'es'
+          ? 'Secuencia de capítulos. Selecciona un capítulo para cargar sus conceptos.'
+          : 'Chapter sequence. Select a chapter to load its concepts.',
+      ),
+    );
+    const points = buttons.map((_, index) => ({
+      x: index % columnCount === 0 ? 260 : 680,
+      y: 48 + Math.floor(index / columnCount) * 100,
+    }));
+    buttons.slice(0, -1).forEach((_, index) => {
+      const from = points[index];
+      const to = points[index + 1];
+      const sameRow = Math.floor(index / columnCount) === Math.floor((index + 1) / columnCount);
+      const path = sameRow
+        ? `M ${from.x + 112} ${from.y + 25} H ${to.x - 112}`
+        : `M ${from.x} ${from.y + 32} C ${from.x} ${from.y + 82}, ${to.x} ${to.y - 22}, ${to.x} ${to.y - 32}`;
+      svg.append(
+        makeSvgElement('path', {
+          d: path,
+          class: 'session-map-edge session-map-edge--directed',
+          'marker-end': 'url(#global-map-arrow)',
+        }),
+      );
+    });
+    buttons.forEach((sourceButton, index) => {
+      sourceButton.dataset.tone = mapToneFor(sourceButton.textContent.trim());
+      const point = points[index];
+      const object = makeSvgElement('foreignObject', {
+        x: point.x - 112,
+        y: point.y - 28,
+        width: 224,
+        height: 56,
+        class: 'session-map-node-object',
+      });
+      const nodeButton = document.createElement('button');
+      nodeButton.type = 'button';
+      nodeButton.className = 'session-map-node-button';
+      nodeButton.dataset.tone = sourceButton.dataset.tone;
+      nodeButton.textContent = sourceButton.textContent.trim();
+      nodeButton.setAttribute('aria-pressed', sourceButton.getAttribute('aria-pressed') || 'false');
+      if (detailId) nodeButton.setAttribute('aria-controls', detailId);
+      nodeButton.addEventListener('click', () => sourceButton.click());
+      const sync = () => {
+        const selected = sourceButton.getAttribute('aria-pressed') === 'true';
+        nodeButton.setAttribute('aria-pressed', String(selected));
+        nodeButton.classList.toggle('is-related', sourceButton.classList.contains('related'));
+      };
+      sync();
+      new globalThis.MutationObserver(sync).observe(sourceButton, {
+        attributes: true,
+        attributeFilter: ['aria-pressed', 'class'],
+      });
+      object.append(nodeButton);
+      svg.append(object);
+    });
+    const picker = document.createElement('div');
+    picker.className = 'mind-map-mobile-picker session-map-picker';
+    picker.setAttribute('role', 'group');
+    picker.setAttribute(
+      'aria-label',
+      localized === 'es' ? 'Explorar capítulos y conceptos' : 'Explore chapters and concepts',
+    );
+    const chapterLabel = document.createElement('label');
+    const chapterLabelText = document.createElement('span');
+    chapterLabelText.textContent = localized === 'es' ? 'Capítulo' : 'Chapter';
+    const chapterSelect = document.createElement('select');
+    chapterSelect.className = 'mind-map-category-select';
+    chapterSelect.setAttribute('aria-label', chapterLabelText.textContent);
+    const chapterSectionIds = [
+      'concepts',
+      'main-topic',
+      ...Array.from({ length: 7 }, (_, index) => `subtopic-${index + 1}`),
+    ];
+    buttons.forEach((button, index) => {
+      const option = document.createElement('option');
+      option.value = String(index);
+      const conceptCount =
+        session.querySelector(`#${chapterSectionIds[index]}`)?.querySelectorAll('[data-concept-id]')
+          .length ?? 0;
+      option.textContent = `${button.textContent.trim()} (${conceptCount})`;
+      option.selected = button.getAttribute('aria-pressed') === 'true';
+      chapterSelect.append(option);
+    });
+    chapterSelect.addEventListener('change', () => buttons[Number(chapterSelect.value)]?.click());
+    buttons.forEach((button, index) => {
+      button.addEventListener('click', () => {
+        chapterSelect.value = String(index);
+      });
+    });
+    chapterLabel.append(chapterLabelText, chapterSelect);
+    picker.append(chapterLabel);
+    const conceptLabel = conceptSelect.closest('label');
+    if (conceptLabel) picker.append(conceptLabel);
+    const visual = document.createElement('div');
+    visual.className = 'session-map-visual';
+    visual.setAttribute('role', 'region');
+    visual.setAttribute(
+      'aria-label',
+      localized === 'es' ? 'Diagrama de capítulos' : 'Chapter diagram',
+    );
+    visual.tabIndex = 0;
+    svg.before(visual);
+    visual.append(svg);
+    source.hidden = true;
+    source.classList.add('session-map-control-source');
+    source.before(picker);
+    const tones = [...new Set(buttons.map((button) => button.dataset.tone))];
+    addMindMapLegend(
+      visual,
+      tones,
+      localized === 'es'
+        ? 'Flecha punteada: orden de los capítulos'
+        : 'Dotted arrow: chapter order',
+    );
+  };
+  session.querySelectorAll('[data-widget="mind-map"]').forEach((widget) => {
+    if (widget.querySelector('#global-map-svg')) {
+      enhanceGlobalMindMap(widget, localizedMindMap);
+      return;
+    }
+    let svg = mindMapSvgFor(widget);
+    const buttons = mapButtonsFor(widget);
+    if (!svg && buttons.length) {
+      const diagram = createConceptMapDiagram(widget, buttons, localizedMindMap);
+      if (diagram) {
+        svg = diagram.svg;
+        const controls = mapControlsFor(buttons[0]);
+        if (controls?.matches('.node-grid, .mind-graph')) {
+          controls.insertBefore(svg, controls.firstChild);
+        } else if (controls) {
+          const visual = document.createElement('div');
+          visual.className = 'session-map-visual';
+          visual.setAttribute('role', 'region');
+          visual.setAttribute(
+            'aria-label',
+            localizedMindMap === 'es'
+              ? 'Diagrama interactivo de conceptos'
+              : 'Interactive concept diagram',
+          );
+          visual.tabIndex = 0;
+          visual.append(svg);
+          controls.before(visual);
+          addMindMapLegend(
+            visual,
+            diagram.tones,
+            localizedMindMap === 'es'
+              ? 'Línea punteada: conceptos agrupados por función'
+              : 'Dotted line: concepts grouped by function',
+          );
+        }
+        widget.dataset.interactiveMap = 'true';
+      }
+    }
+    if (!svg || !buttons.length) return;
+    if (!svg.closest('.session-map-visual')) {
+      const visual = document.createElement('div');
+      visual.className = 'session-map-visual';
+      visual.setAttribute('role', 'region');
+      visual.setAttribute(
+        'aria-label',
+        localizedMindMap === 'es'
+          ? 'Diagrama interactivo de conceptos'
+          : 'Interactive concept diagram',
+      );
+      visual.tabIndex = 0;
+      svg.before(visual);
+      visual.append(svg);
+      addMindMapLegend(
+        visual,
+        [
+          ...new Set(
+            buttons.map((button) => button.dataset.tone || mapToneFor(button.textContent.trim())),
+          ),
+        ],
+        localizedMindMap === 'es'
+          ? 'Línea punteada: relación documentada entre conceptos'
+          : 'Dotted line: documented relationship between concepts',
+      );
+    }
+    svg.classList.add('session-map-graph');
+    attachDiagramButtons(widget, svg, buttons, localizedMindMap);
+    const controls = mapControlsFor(buttons[0]);
+    if (controls && buttons.length > 3 && !controls.classList.contains('categorized-node-picker'))
+      groupCategorizedControls(controls, buttons, localizedMindMap, 'mind-map');
   });
   session.querySelectorAll('[data-widget="architecture-explorer"]').forEach((explorer) => {
     const controls = [
@@ -1554,6 +2065,122 @@
     select(0, false);
   });
 
+  const visualStudioWidgets = new Map();
+  session.querySelectorAll('[data-studio-scope]').forEach((element) => {
+    const scope = element.dataset.studioScope;
+    if (!scope) return;
+    if (element.matches('[data-widget]')) {
+      if (!visualStudioWidgets.has(scope)) visualStudioWidgets.set(scope, []);
+      visualStudioWidgets.get(scope).push(element);
+      return;
+    }
+    const widgets = [...element.children].filter((child) => child.matches('[data-widget]'));
+    if (widgets.length > 1) visualStudioWidgets.set(scope, widgets);
+  });
+
+  let visualStudioSequence = 0;
+  visualStudioWidgets.forEach((widgets, scope) => {
+    if (widgets.length < 2) return;
+    const first = widgets[0];
+    const studio = first.matches('[data-studio-scope]')
+      ? document.createElement('div')
+      : first.parentElement;
+    if (!studio) return;
+
+    if (studio !== first.parentElement) {
+      studio.className = 'visual-learning-studio visual-learning-studio-tabs';
+      studio.dataset.studioScope = scope;
+      first.before(studio);
+      widgets.forEach((widget) => studio.append(widget));
+    } else {
+      studio.classList.add('visual-learning-studio', 'visual-learning-studio-tabs');
+    }
+
+    const groupId = `visual-studio-${++visualStudioSequence}`;
+    const tablist = document.createElement('div');
+    tablist.className = 'visual-learning-studio-tablist';
+    tablist.setAttribute('role', 'tablist');
+    tablist.setAttribute(
+      'aria-label',
+      document.documentElement.lang.startsWith('en')
+        ? 'Visual learning resources'
+        : 'Recursos de aprendizaje visual',
+    );
+
+    const tabs = widgets.map((widget, index) => {
+      const heading = widget.querySelector(':scope > :is(h3, h4, h5, h6)');
+      const english = document.documentElement.lang.startsWith('en');
+      const labels = english
+        ? {
+            'mind-map': 'Mind map',
+            flashcards: 'Flashcards',
+            simulator: 'Simulator',
+            'architecture-explorer': 'Explorer',
+            'decision-matrix': 'Decision matrix',
+          }
+        : {
+            'mind-map': 'Mapa mental',
+            flashcards: 'Flashcards',
+            simulator: 'Simulador',
+            'architecture-explorer': 'Explorador',
+            'decision-matrix': 'Matriz',
+          };
+      const headingPrefix = heading?.textContent.trim().split(':', 1)[0] ?? '';
+      const shortHeading = headingPrefix
+        .replace(/^\s*\d+[.)]?\s*/, '')
+        .split(/\s+/)
+        .slice(0, 2)
+        .join(' ');
+      const label =
+        labels[widget.dataset.widget] ??
+        (shortHeading || (english ? `Resource ${index + 1}` : `Recurso ${index + 1}`));
+      const tab = document.createElement('button');
+      const tabId = `${groupId}-tab-${index + 1}`;
+      const panelId = widget.id || `${groupId}-panel-${index + 1}`;
+      widget.id = panelId;
+      tab.type = 'button';
+      tab.className = 'visual-learning-studio-tab';
+      tab.id = tabId;
+      tab.textContent = label;
+      tab.setAttribute('role', 'tab');
+      tab.setAttribute('aria-controls', panelId);
+      tab.setAttribute('aria-selected', String(index === 0));
+      tab.tabIndex = index === 0 ? 0 : -1;
+      widget.setAttribute('role', 'tabpanel');
+      widget.setAttribute('aria-labelledby', tabId);
+      widget.tabIndex = 0;
+      widget.hidden = index !== 0;
+      tablist.append(tab);
+      return tab;
+    });
+    widgets[0].before(tablist);
+
+    const selectTab = (selected, moveFocus = false) => {
+      tabs.forEach((tab, index) => {
+        const active = index === selected;
+        tab.setAttribute('aria-selected', String(active));
+        tab.tabIndex = active ? 0 : -1;
+        widgets[index].hidden = !active;
+      });
+      if (moveFocus) tabs[selected].focus();
+    };
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => selectTab(index));
+    });
+    tablist.addEventListener('keydown', (event) => {
+      const current = tabs.indexOf(document.activeElement);
+      if (current < 0) return;
+      let next = current;
+      if (event.key === 'ArrowRight') next = (current + 1) % tabs.length;
+      else if (event.key === 'ArrowLeft') next = (current - 1 + tabs.length) % tabs.length;
+      else if (event.key === 'Home') next = 0;
+      else if (event.key === 'End') next = tabs.length - 1;
+      else return;
+      event.preventDefault();
+      selectTab(next, true);
+    });
+  });
+
   const areaTabLabels = document.documentElement.lang.startsWith('en')
     ? {
         staff: { full: 'Staff → Principal', short: 'Staff' },
@@ -1801,4 +2428,286 @@
     });
     show(0);
   });
+
+  const studioData = document.getElementById('studio-data');
+  if (studioData) {
+    const scopes = JSON.parse(studioData.textContent ?? '{}');
+    const english = document.documentElement.lang === 'en';
+    const uiText = english
+      ? {
+          example: 'Example',
+          relation: 'Relationship',
+          sharedArea: 'highlighted concepts share this area.',
+          question: 'What decision or mechanism explains',
+          hide: 'Hide answer',
+          reveal: 'Show answer',
+          consumer: 'consumer',
+          consumers: 'consumers',
+          knownConsumers: 'known consumer(s)',
+          publicContract:
+            'check the public contract and relevant tests; unregistered consumers may still exist even when n=0.',
+          migration:
+            'require migration or temporary compatibility. Review deployments before retiring the contract.',
+          hiddenDependency: 'there is a hidden dependency: the graph of',
+          graphIncomplete:
+            'known consumer(s) is incomplete. Search for dynamic uses and broaden validation; actual impact is undetermined.',
+          incoming: 'Incoming from',
+          noConsumers: 'no consumers in this diagram',
+          outgoing: 'Outgoing dependencies to',
+          noOutgoing: 'no declared outgoing dependency',
+          contract:
+            'Contract: verify direction and public entry points; highlighted relationships are direct neighbors. Hypothetical diagram.',
+          hypotheticalScores: 'Hypothetical scores (coordination, autonomy, boundaries): ',
+          adjust: '. Adjust criteria and compare them with real evidence.',
+          allZero:
+            'All weights are zero: average and ranking are undefined. Set at least one criterion.',
+          tied: 'The current weights produce a tie. Review constraints or evidence before deciding.',
+          first: 'First choice under these hypothetical scores: ',
+          difference: '. Difference: ',
+          noProductionEvidence: '; this is not production evidence.',
+          editValue: 'Edit value manually',
+          visualOnly: 'Visual-only override; calculated ranking is unchanged.',
+          displayedValue: 'Displayed bar value',
+        }
+      : {
+          example: 'Ejemplo',
+          relation: 'Relación',
+          sharedArea: 'conceptos resaltados comparten ámbito.',
+          question: '¿Qué decisión o mecanismo explica',
+          hide: 'Ocultar respuesta',
+          reveal: 'Mostrar respuesta',
+          consumer: 'consumidor',
+          consumers: 'consumidores',
+          knownConsumers: 'consumidor(es) conocidos',
+          publicContract:
+            'comprobar contrato público y tests pertinentes; si n=0 aún puede haber consumidores no registrados.',
+          migration:
+            'requieren migración o compatibilidad temporal. Revisar despliegues antes de retirar el contrato.',
+          hiddenDependency: 'hay una dependencia oculta: el grafo de',
+          graphIncomplete:
+            'consumidor(es) conocidos está incompleto. Buscar usos dinámicos y ampliar validación; impacto real indeterminado.',
+          incoming: 'Entradas desde',
+          noConsumers: 'sin consumidor en este esquema',
+          outgoing: 'Salidas/dependencias hacia',
+          noOutgoing: 'sin salida declarada',
+          contract:
+            'Contrato: verificar dirección y entradas públicas; relaciones resaltadas son vecinas directas. Esquema hipotético.',
+          hypotheticalScores: 'Puntuaciones hipotéticas (coordinación, autonomía, límites): ',
+          adjust: '. Ajusta criterios y contrasta con evidencia real.',
+          allZero:
+            'Todos los pesos son cero: promedio y ranking indefinidos. Define al menos un criterio.',
+          tied: 'Empate con pesos actuales. Revisar restricciones o evidencia antes de decidir.',
+          first: 'Primera opción bajo estas puntuaciones hipotéticas: ',
+          difference: '. Diferencia ',
+          noProductionEvidence: '; no es evidencia de producción.',
+          editValue: 'Editar valor manualmente',
+          visualOnly: 'Ajuste solo visual; la clasificación calculada no cambia.',
+          displayedValue: 'Valor visual de la barra',
+        };
+    const setPressed = (buttons, selected, related = []) => {
+      buttons.forEach((button, index) => {
+        const active = index === selected;
+        button.setAttribute('aria-pressed', String(active));
+        button.classList.toggle('related', related.includes(index) && !active);
+      });
+    };
+
+    for (const widget of document.querySelectorAll('[data-widget]')) {
+      const data = scopes[widget.dataset.studioScope];
+      if (!data) continue;
+      const mode = widget.dataset.widget;
+      if (mode === 'mind-map') {
+        const buttons = [...widget.querySelectorAll('.node')];
+        const panel = widget.querySelector('.panel');
+        buttons.forEach((button, index) =>
+          button.addEventListener('click', () => {
+            const item = data.terms[index];
+            setPressed(
+              buttons,
+              index,
+              data.terms
+                .map((_, relatedIndex) => relatedIndex)
+                .filter(
+                  (relatedIndex) =>
+                    relatedIndex !== index && data.terms[relatedIndex].area === item.area,
+                ),
+            );
+            panel.textContent = `${item.term}: ${item.definition}. ${uiText.example}: ${item.example}. ${uiText.relation}: ${item.area}; ${uiText.sharedArea}`;
+          }),
+        );
+      }
+      if (mode === 'flashcards') {
+        let index = 0;
+        let shown = false;
+        const question = widget.querySelector('.question');
+        const answer = widget.querySelector('.answer');
+        const count = widget.querySelector('.counter');
+        const flip = widget.querySelector('.flip');
+        const previous = widget.querySelector('.prev');
+        const next = widget.querySelector('.next');
+        const render = () => {
+          const item = data.terms[index];
+          question.textContent = `${uiText.question} ${item.term}?`;
+          answer.textContent = `${item.definition}. ${uiText.example}: ${item.example}.`;
+          answer.hidden = !shown;
+          count.textContent = `${index + 1} / ${data.terms.length}`;
+          previous.disabled = index === 0;
+          next.disabled = index === data.terms.length - 1;
+          flip.textContent = shown ? uiText.hide : uiText.reveal;
+          flip.setAttribute('aria-expanded', String(shown));
+        };
+        previous.addEventListener('click', () => {
+          if (index > 0) {
+            index -= 1;
+            shown = false;
+            render();
+          }
+        });
+        next.addEventListener('click', () => {
+          if (index < data.terms.length - 1) {
+            index += 1;
+            shown = false;
+            render();
+          }
+        });
+        flip.addEventListener('click', () => {
+          shown = !shown;
+          render();
+        });
+        render();
+      }
+      if (mode === 'simulator') {
+        const range = widget.querySelector('.count');
+        const scenario = widget.querySelector('.scenario');
+        const result = widget.querySelector('.result');
+        const target = widget.querySelector('.sim-target');
+        const value = widget.querySelector('.count-value');
+        const render = () => {
+          const count = Number(range.value);
+          const kind = scenario.value;
+          value.textContent = String(count);
+          target.textContent = `${count} ${count === 1 ? uiText.consumer : uiText.consumers}`;
+          target.style.borderColor = kind === 'compatible' ? 'var(--line)' : 'var(--accent)';
+          const label = data.scenario;
+          result.textContent =
+            kind === 'compatible'
+              ? `${label}: ${count} ${uiText.knownConsumers}: ${uiText.publicContract}`
+              : kind === 'incompatible'
+                ? `${label}: ${count} ${uiText.knownConsumers} ${uiText.migration}`
+                : `${label}: ${uiText.hiddenDependency} ${count} ${uiText.graphIncomplete}`;
+        };
+        range.addEventListener('input', render);
+        scenario.addEventListener('change', render);
+        render();
+      }
+      if (mode === 'architecture-explorer') {
+        const buttons = [...widget.querySelectorAll('.arch-node')];
+        const panel = widget.querySelector('.panel');
+        buttons.forEach((button, index) =>
+          button.addEventListener('click', () => {
+            const name = data.nodes[index];
+            const related = data.edges.filter((pair) => pair.includes(name));
+            const indices = related
+              .flat()
+              .filter((item) => item !== name)
+              .map((item) => data.nodes.indexOf(item));
+            setPressed(buttons, index, indices);
+            const outgoing = related.filter((pair) => pair[0] === name).map((pair) => pair[1]);
+            const incoming = related.filter((pair) => pair[1] === name).map((pair) => pair[0]);
+            panel.textContent = `${name}. ${uiText.incoming}: ${incoming.join(', ') || uiText.noConsumers}. ${uiText.outgoing}: ${outgoing.join(', ') || uiText.noOutgoing}. ${uiText.contract}`;
+          }),
+        );
+      }
+      if (mode === 'decision-matrix') {
+        const inputs = [...widget.querySelectorAll('[data-weight]')];
+        const bars = widget.querySelector('.bars');
+        const result = widget.querySelector('.result');
+        const options = data.matrix.options;
+        const labels = widget.querySelectorAll('.weights label');
+        labels.forEach((label, index) => {
+          label.firstChild.nodeValue = `${data.matrix.criteria[index]} `;
+        });
+        const note = [...widget.querySelectorAll('p')].find((p) =>
+          /Hipótesis de puntuación|Hypothetical scoring/.test(p.textContent),
+        );
+        if (note)
+          note.textContent = `${uiText.hypotheticalScores}${options.map((option) => `${option.name} (${Object.values(option.s).join(', ')})`).join('; ')}${uiText.adjust}`;
+        const render = () => {
+          const weights = Object.fromEntries(
+            inputs.map((input) => [input.dataset.weight, Number(input.value)]),
+          );
+          inputs.forEach((input) => {
+            input.nextElementSibling.textContent = input.value;
+          });
+          const sum = Object.values(weights).reduce((total, weight) => total + weight, 0);
+          bars.replaceChildren();
+          if (sum === 0) {
+            result.textContent = uiText.allZero;
+            return;
+          }
+          const scored = options
+            .map((option) => ({
+              name: option.name,
+              score:
+                Object.keys(weights).reduce(
+                  (total, key) => total + weights[key] * option.s[key],
+                  0,
+                ) / sum,
+            }))
+            .sort((first, second) => second.score - first.score);
+          scored.forEach((option) => {
+            const row = document.createElement('div');
+            const label = document.createElement('p');
+            const progress = document.createElement('progress');
+            const controls = document.createElement('div');
+            const toggle = document.createElement('button');
+            const editor = document.createElement('input');
+            const note = document.createElement('p');
+            row.className = 'decision-matrix-progress-control';
+            label.textContent = `${option.name} ${option.score.toFixed(2)} / 5`;
+            progress.max = 5;
+            progress.value = option.score;
+            progress.setAttribute('aria-label', `${option.name}: ${option.score.toFixed(2)} / 5`);
+            toggle.type = 'button';
+            toggle.className = 'decision-matrix-progress-toggle';
+            toggle.textContent = uiText.editValue;
+            toggle.setAttribute('aria-expanded', 'false');
+            editor.type = 'number';
+            editor.min = '0';
+            editor.max = '5';
+            editor.step = '0.01';
+            editor.value = option.score.toFixed(2);
+            editor.hidden = true;
+            editor.setAttribute('aria-label', `${uiText.displayedValue}: ${option.name}`);
+            note.className = 'decision-matrix-manual-note';
+            note.textContent = uiText.visualOnly;
+            note.hidden = true;
+            toggle.addEventListener('click', () => {
+              editor.hidden = !editor.hidden;
+              note.hidden = editor.hidden;
+              toggle.setAttribute('aria-expanded', String(!editor.hidden));
+              if (!editor.hidden) editor.focus();
+            });
+            editor.addEventListener('input', () => {
+              const manual = Math.min(5, Math.max(0, Number(editor.value) || 0));
+              progress.value = manual;
+              progress.setAttribute(
+                'aria-valuetext',
+                `${manual.toFixed(2)} / 5. ${uiText.visualOnly}`,
+              );
+            });
+            controls.append(toggle, editor, note);
+            row.append(label, progress, controls);
+            bars.append(row);
+          });
+          const tied = Math.abs(scored[0].score - scored[1].score) < 1e-9;
+          result.textContent = tied
+            ? uiText.tied
+            : `${uiText.first}${scored[0].name}${uiText.difference}${(scored[0].score - scored[1].score).toFixed(2)}${uiText.noProductionEvidence}`;
+        };
+        inputs.forEach((input) => input.addEventListener('input', render));
+        render();
+      }
+    }
+  }
 })();
