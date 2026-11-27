@@ -34,6 +34,8 @@ Una baraja y un mapa cuentan como un recurso cada uno. Agregar más cuando mejor
 - Al seleccionar otro nodo, actualizar resaltado y panel de forma observable.
 - Finalidad: explorar jerarquías, dependencias y conexiones conceptuales.
 
+**Presentación UI aprobada para sesiones creadas desde contenido suministrado (texto, Markdown, HTML u otro formato):** representar cada mapa mental como un diagrama interactivo premium, coherente con el tema oscuro/cyan y la tipografía de PA-S001. Usar grupos funcionales con color, nodos redondeados legibles, conectores punteados dirigidos y una leyenda localizada que explique el color de nodos y relaciones. Los controles de nodo son accesibles con puntero, toque y teclado; su selección se sincroniza con los selectores de categoría/concepto y con el panel de detalle `aria-live="polite"`. Resaltar el nodo activo y sus relaciones pertinentes. Preservar conceptos y relaciones de la fuente sin inventar conexiones. Para más de tres conceptos, preferir selectores nativos compactos de categoría (con conteo cuando haya varias) y concepto en vez de un grid denso; cambiar de categoría conserva el concepto mostrado hasta que se seleccione otro. El SVG de escritorio permanece compacto (altura máxima `min(55vh, 30rem)`); en móvil se oculta el gráfico general, pero se conservan leyenda y selectores. Aplicar mediante `site/shared/assets/session-ui.css` y `site/shared/assets/session-ui.js`, sin estilos o scripts específicos de sesión.
+
 **Prueba de aceptación:** seleccionar dos nodos distintos y comprobar que gráfico y panel corresponden al nodo activo, incluida navegación accesible.
 
 ### 3.2. Flashcards interactivas

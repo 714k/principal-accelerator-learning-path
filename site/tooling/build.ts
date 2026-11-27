@@ -21,7 +21,7 @@ import {
 import { basePath, renderPage, home, sessionsIndex, projectsIndex } from './render.ts';
 import { searchIndex } from './search.ts';
 import { renderPortfolio } from '../../apps/portfolio/src/portfolio.ts';
-import { assertS002, renderS002 } from './pa-s002.ts';
+import { renderS002Html, assertS002HtmlPair } from './pa-s002-html.ts';
 import { renderS003 } from './pa-s003.ts';
 import { renderS004 } from './pa-s004.ts';
 import { renderS005 } from './pa-s005.ts';
@@ -43,9 +43,9 @@ const sourceSession = {
   en: readFileSync(resolve(root, 'site/content/canonical/PA-S001-session-en.html'), 'utf8'),
 };
 assertSessionHtmlPair(sourceSession.es, sourceSession.en);
-const s002 = {
-  es: readFileSync(resolve(root, 'site/content/canonical/PA-S002-theory-es.md'), 'utf8'),
-  en: readFileSync(resolve(root, 'site/content/canonical/PA-S002-theory-en.md'), 'utf8'),
+const s002Html = {
+  es: readFileSync(resolve(root, 'site/content/canonical/PA-S002-session-es.html'), 'utf8'),
+  en: readFileSync(resolve(root, 'site/content/canonical/PA-S002-session-en.html'), 'utf8'),
 };
 const s003 = {
   es: readFileSync(resolve(root, 'site/content/canonical/PA-S003-theory-es.md'), 'utf8'),
@@ -59,7 +59,7 @@ const s005 = {
   es: readFileSync(resolve(root, 'site/content/canonical/PA-S005-theory-es.md'), 'utf8'),
   en: readFileSync(resolve(root, 'site/content/canonical/PA-S005-theory-en.md'), 'utf8'),
 };
-for (const lang of ['es', 'en'] as const) assertS002(s002[lang], lang);
+assertS002HtmlPair(s002Html.es, s002Html.en);
 const pages = pairs.flatMap((pair) => [pair.es, pair.en]);
 const progress = readFileSync(resolve(root, 'project-sources/07-PROGRESS.md'), 'utf8');
 const status = progress.match(
@@ -166,7 +166,7 @@ try {
       home(lang, base, sessionPair[lang], status, mastery.status, systemsStatus),
     );
     emit(`${lang}/sessions/index.html`, sessionsIndex(lang, base));
-    emit(`${lang}/sessions/PA-S002/index.html`, renderS002(s002[lang], lang, base));
+    emit(`${lang}/sessions/PA-S002/index.html`, renderS002Html(s002Html[lang], lang, base));
     emit(`${lang}/sessions/PA-S003/index.html`, renderS003(s003[lang], lang, base));
     emit(`${lang}/sessions/PA-S004/index.html`, renderS004(s004[lang], lang, base));
     emit(`${lang}/sessions/PA-S005/index.html`, renderS005(s005[lang], lang, base));

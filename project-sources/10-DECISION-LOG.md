@@ -136,6 +136,10 @@ Source 17 es la autoridad específica del Visual Learning Studio: cinco modos in
 - Conservar las 19 secciones académicas, subtemas anidados y Studio 5/3/5, diagramas y pruebas. Plano B B.1–B.11 en archivos separados, con prompt borrador, no handoff ejecutado ni publicación implícita.
 - Mantener currículo, destinos, teoría aprobada y estados; EN a solicitud. Source 19 incorpora el schema completo para el límite de 25 archivos de Sources; JSON sigue en Git.
 
+## UX-013 — Mapa mental como diagrama interactivo premium
+
+**Aceptado por solicitud expresa del estudiante, 2026-11-26.** Cada mapa mental incluido al crear o migrar sesiones desde contenido suministrado (texto, Markdown, HTML u otro formato) se presenta como un diagrama conceptual interactivo con el look and feel premium de PA-S001. Se preservan conceptos y relaciones de la fuente sin inventar conexiones; los nodos se seleccionan con puntero, toque y teclado, y sincronizan el estado visual, selectores nativos y panel de detalle accesible `aria-live="polite"`. La representación usa grupos funcionales de color, conectores punteados dirigidos, leyenda localizada y canvas oscuro. En mapas de más de tres conceptos se usan selectores de categoría/concepto; escritorio conserva SVG compacto y móvil oculta solo la vista general, manteniendo leyenda y selectores. La implementación pertenece a `site/shared/assets/session-ui.css` y `session-ui.js`, no a estilos/scripts locales. Fuente normativa completa: Source 17 §3.1 y `contracts/02-ui-normalization-contract.md`; el agente debe aplicarlo a todas las sesiones derivadas de contenido.
+
 ## v13 — 16 de noviembre de 2026: contratos acumulativos aprobados para actualización (histórico; disparador sustituido por v14)
 
 - Primera respuesta limitada a seis apartados, orden 18; tiempo enseguida del índice, subtemas anidados, integración PA-S003 en 8.

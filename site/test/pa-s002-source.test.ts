@@ -3,10 +3,51 @@ import { strict as assert } from 'node:assert';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import { renderS002 } from '../tooling/pa-s002.ts';
+import { assertS002HtmlPair, renderS002Html } from '../tooling/pa-s002-html.ts';
 import { sessionsIndex } from '../tooling/render.ts';
 
 const chapter = (lang: 'es' | 'en') =>
   readFileSync(`site/content/canonical/PA-S002-theory-${lang}.md`, 'utf8');
+const htmlChapter = (lang: 'es' | 'en') =>
+  readFileSync(`site/content/canonical/PA-S002-session-${lang}.html`, 'utf8');
+
+test('PA-S002 replaces the old route with the bilingual handoff HTML and keeps structural parity', () => {
+  const spanish = htmlChapter('es');
+  const english = htmlChapter('en');
+  assertS002HtmlPair(spanish, english);
+  for (const lang of ['es', 'en'] as const) {
+    const rendered = renderS002Html(htmlChapter(lang), lang, '/');
+    assert.match(rendered, new RegExp(`/${lang}/sessions/PA-S002/`));
+    assert.match(
+      rendered,
+      /<main id="main-content">[\s\S]*<article class="canonical-theory session-source">/,
+    );
+    assert.match(
+      rendered,
+      /<nav aria-labelledby="toc-heading"><h2 class="sr-only" id="toc-heading">/,
+    );
+    assert.match(rendered, /<div class="page-intro"><h1>Monorepo/);
+    assert.match(rendered, /<details class="toc" id="table-of-contents"><summary>/);
+    assert.match(rendered, /<p class="lead">\s*(?:Decidir cuándo conviene|Decide when)/);
+    assert.match(rendered, /<p class="notice">/);
+    assert.equal((rendered.match(/class="toc-fab"/g) ?? []).length, 1);
+    assert.match(rendered, /class="session-intro-component" id="estimated-time"/);
+    assert.match(rendered, /class="session-intro-component" id="objective"/);
+    assert.match(
+      rendered,
+      /<h2[^>]*><span class="sr-only">(?:Sección|Section) 1\. <\/span><span class="section-number" aria-hidden="true">(?:Sección|Section) 1<\/span>/,
+    );
+    assert.match(
+      rendered,
+      /<h2[^>]*class="section-heading"[^>]*><span class="sr-only">(?:Sección|Section) 2\. <\/span><span class="section-number" aria-hidden="true">(?:Sección|Section) 2<\/span><span class="section-title">/,
+    );
+    assert.match(rendered, /data-widget="decision-matrix"/);
+    assert.match(rendered, /data-study-id="PA-S002:success:/);
+    assert.match(rendered, /class="concept-example-disclosure"/);
+    assert.doesNotMatch(rendered, /--accent:#9b1c35/);
+    assert.doesNotMatch(rendered, /<script>\s*const scopes = JSON\.parse/);
+  }
+});
 
 test('PA-S002 Spanish canonical chapter retains the complete learner-supplied source', () => {
   const source = chapter('es');
